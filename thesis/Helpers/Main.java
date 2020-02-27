@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.XYChartMeasurements;
@@ -27,8 +28,8 @@ public class Main {
 
 	public static void main(String[] args) {
 
-//		barCharting();
-		newCharting();
+		barCharting();
+//		newCharting();
 //		dfPlay();
 				
 		System.out.println("\n\nFINISHED EXECUTION");
@@ -48,7 +49,6 @@ public class Main {
 		System.out.println(df);
 		
 	}
-
 	
 	public static DataFrame play() {
 		
@@ -83,7 +83,6 @@ public class Main {
 		return df;
 	}
 	
-	
 	private static DataFrame hashColsConstructor() {
 		HashMap<String,ArrayList<Object>> map = new HashMap<String,ArrayList<Object>>();
 		
@@ -110,8 +109,6 @@ public class Main {
 		return df;
 	}
 	
-	
-	
 	private static DataFrame hashRowsConstructor() {
 		HashMap<String,Object> map1 = new HashMap<String,Object>();
 		map1.put("one",1);
@@ -133,12 +130,10 @@ public class Main {
 		return df;
 	}
 	
-	
 	private static DataFrame existingDataFrame() {
 		DataFrame df = new DataFrame(hashRowsConstructor());
 		return df;
 	}
-	
 	
 	private static DataFrame oneColumn() {
 		ArrayList<Object> arr = new ArrayList<Object>();
@@ -149,7 +144,6 @@ public class Main {
 		DataFrame df = new DataFrame("column", arr, true);
 		return df;
 	}
-	
 	
 	public static DataFrame multipleColumns() {
 		ArrayList<Object> arr1 = new ArrayList<Object>();
@@ -184,7 +178,7 @@ public class Main {
 		
 	}
 	
-public static DataFrame arrays() {
+	public static DataFrame arrays() {
 		Integer[] list = new Integer[] {1,2,3,4,5};
 		
 		DataFrame df = new DataFrame("hello", list, false);
@@ -194,17 +188,22 @@ public static DataFrame arrays() {
 	}
 	
 	
+	
 	private static void barCharting() {
-		DataFrame df = new DataFrame("Datasets/tips.csv", true);
+		DataFrame df = new DataFrame("Datasets/fruit.csv", true);
 		System.out.println(df);
 		
-		BarChart bc = new BarChart(df, "day", "total_bill");
+		BarChart bc = new BarChart(df, "fruit", "price");
+		BarChartAxis axis = (BarChartAxis) bc.getAxis();
+		
+		axis.setIncludeBottomXAxisTicks(true, true);
+		axis.setIncludeTopXAxisTicks(true, true);
+		axis.setIncludeLeftYAxisTicks(true, true);
+		axis.setIncludeRightYAxisTicks(true, true);
 		
 		bc.Create();
-
+		bc.WriteFile("Chart Images/Bar Chart.png");
 	}
-		
-	
 	
 	
 	private static void newCharting() {
@@ -233,22 +232,16 @@ public static DataFrame arrays() {
 		
 	
 		
-//		cm.setChartWidth(800);
-//
-//		
+		cm.setPlotWidth(800);
+
 		axis.setIncludeZeroXAxis(true);
 		axis.setIncludeZeroYAxis(true);
-//		
+		
 		axis.setIncludeExteriorTicks(true, false, true, false);
 		axis.setTickColor(Color.RED);
 				
 		cm.setTickLengths(20);
 		axis.setTickThickness(2);
-		
-//		plot.setChartBackgroundImage("water.jpg");
-		
-		
-		
 		
 		
 		axis.setIncludeBottomXAxisTicks(true, true);

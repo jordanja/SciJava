@@ -30,6 +30,7 @@ import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.AxisFactory;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.LegendPackage.Legend;
+import thesis.Charter.Others.ScatterChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.DataFrame.*;
 import thesis.Helpers.Palette;
@@ -53,7 +54,7 @@ public class ScatterChart extends XYChart {
 		this.plot = (ScatterPlot) PlotFactory.getPlot("Scatter");
 		this.legend = new Legend();
 		
-		cm = new XYChartMeasurements();
+		cm = new ScatterChartMeasurements();
 
 
 	}

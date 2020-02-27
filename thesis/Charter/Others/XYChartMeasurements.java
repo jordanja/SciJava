@@ -18,219 +18,48 @@ import thesis.Charter.PlotFolder.Plot;
 import thesis.Charter.PlotFolder.ScatterPlot;
 import thesis.Charter.StringDrawer.DrawString;
 
-public class XYChartMeasurements {
-	private int imageBottomToBottomAxisLabelHeight = 5;
-	private int bottomAxisLabelHeight;
-	private int bottomAxisLabelToBottomAxisHeight = 5;
-	private int bottomAxisHeight;
-	private int bottomAxisToBottomTicksHeight = 5;
-	private int bottomTicksHeight = 5;
-	private int plotHeight = 400;
-	private int topTicksHeight = 5;
-	private int topTicksToTopAxisHeight = 5;
-	private int topAxisHeight;
-	private int topAxisToTopAxisLabelHeight = 5;
-	private int topAxisLabelHeight;
-	private int topAxisLabelToTitleHeight = 5;
-	private int titleHeight;
-	private int titleToImageTopHeight = 5;
+public abstract class XYChartMeasurements {
+	protected int imageBottomToBottomAxisLabelHeight = 5;
+	protected int bottomAxisLabelHeight;
+	protected int bottomAxisLabelToBottomAxisHeight = 5;
+	protected int bottomAxisHeight;
+	protected int bottomAxisToBottomTicksHeight = 5;
+	protected int bottomTicksHeight = 5;
+	protected int plotHeight = 400;
+	protected int topTicksHeight = 5;
+	protected int topTicksToTopAxisHeight = 5;
+	protected int topAxisHeight;
+	protected int topAxisToTopAxisLabelHeight = 5;
+	protected int topAxisLabelHeight;
+	protected int topAxisLabelToTitleHeight = 5;
+	protected int titleHeight;
+	protected int titleToImageTopHeight = 5;
 
-	private int imageLeftToLeftAxisLabelWidth = 5;
-	private int leftAxisLabelWidth;
-	private int leftAxisLabelToLeftAxisWidth = 5;
-	private int leftAxisWidth;
-	private int leftAxisToLeftTicksWidth = 5;
-	private int leftTicksWidth = 5;
-	private int plotWidth = 400;
-	private int rightTicksWidth = 5;
-	private int rightTicksToRightAxisWidth = 5;
-	private int rightAxisWidth;
-	private int rightAxisToRightAxisLabelWidth = 5;
-	private int rightAxisLabelWidth;
-	private int rightAxisLabelToLegendWidth = 5;
-	private int legendWidth;
-	private int legendToImageRightWidth = 5;
+	protected int imageLeftToLeftAxisLabelWidth = 5;
+	protected int leftAxisLabelWidth;
+	protected int leftAxisLabelToLeftAxisWidth = 5;
+	protected int leftAxisWidth;
+	protected int leftAxisToLeftTicksWidth = 5;
+	protected int leftTicksWidth = 5;
+	protected int plotWidth = 400;
+	protected int rightTicksWidth = 5;
+	protected int rightTicksToRightAxisWidth = 5;
+	protected int rightAxisWidth;
+	protected int rightAxisToRightAxisLabelWidth = 5;
+	protected int rightAxisLabelWidth;
+	protected int rightAxisLabelToLegendWidth = 5;
+	protected int legendWidth;
+	protected int legendToImageRightWidth = 5;
 	
-	public XYChartMeasurements() {
-		
-	}
-	
-	
+//	public XYChartMeasurements() {
+//		
+//	}
 	
 	public void calculateChartImageMetrics(Axis axis, Plot sPlot, Legend legend, String title, Font titleFont) {
-		double[] xTicks = Arrays.stream(axis.getxTicks())
-                .mapToDouble(Double::parseDouble)
-                .toArray();
-		double[] yTicks = Arrays.stream(axis.getyTicks())
-                .mapToDouble(Double::parseDouble)
-                .toArray();
-		
-		DecimalFormat df = new DecimalFormat("#.##");
-		df.setRoundingMode(RoundingMode.HALF_DOWN);
-		
-		//This needs to be bug checked for when not entering a label but setting value to true
-		if ((axis.drawBottomXLabel() == true) && (axis.getxAxisLabel() != null)) {
-			double xAxisLabelHeight = axis.getxAxisLabelFont().createGlyphVector(new FontRenderContext(null, true, false), axis.getxAxisLabel()).getOutline().getBounds2D().getHeight();
-			this.bottomAxisLabelHeight = (int) Math.ceil(xAxisLabelHeight);
-		} else {
-			this.bottomAxisLabelHeight = 0;
-			this.bottomAxisLabelToBottomAxisHeight = 0;
-		}
-		
-		
-		if (axis.drawBottomXAxisValues()) {
-			AffineTransform rotationTransform = AffineTransform.getRotateInstance(Math.toRadians(axis.getxAxisRotation()), 0, 0);
-			
-			double maxHeight = 0;
-			
-			for (int tickCount = 0; tickCount < axis.getxTicks().length; tickCount++) {
-				String stringToDraw = String.valueOf(df.format(xTicks[tickCount]));
-				Shape sot = DrawString.getShapeOfText(axis.getxAxisFont(), stringToDraw);
-				double tickHeight = rotationTransform.createTransformedShape(sot).getBounds2D().getHeight();
-				if (tickHeight > maxHeight) {
-					maxHeight = tickHeight;
-				}
-			}
-			this.bottomAxisHeight = (int) Math.ceil(maxHeight);
-		} else {
-			this.bottomAxisHeight = 0;
-			this.bottomAxisToBottomTicksHeight = 0;
-
-
-		}
-		
-		
-		if (!axis.drawExteriorBottomXAxisTicks()) {
-			this.bottomTicksHeight = 0;
-		}
-				
-		if (!axis.drawExteriorTopXAxisTicks()) {
-			this.topTicksHeight = 0;
-		}
-		
-		
-		
-		if (axis.drawTopXAxisValues()) {
-			
-			AffineTransform rotationTransform = AffineTransform.getRotateInstance(Math.toRadians(axis.getxAxisRotation()), 0, 0);
-			
-			double maxHeight = 0;
-			
-			for (int tickCount = 0; tickCount < axis.getxTicks().length; tickCount++) {
-				String stringToDraw = String.valueOf(df.format(xTicks[tickCount]));
-				Shape sot = DrawString.getShapeOfText(axis.getxAxisFont(), stringToDraw);
-				double tickHeight = rotationTransform.createTransformedShape(sot).getBounds2D().getHeight();
-				if (tickHeight > maxHeight) {
-					maxHeight = tickHeight;
-				}
-			}
-			this.topAxisHeight = (int) Math.ceil(maxHeight);
-		} else {
-			this.topAxisHeight = 0;
-			this.topTicksToTopAxisHeight = 0;
-		}
-		
-		if (axis.drawTopXLabel()) {
-			double xAxisLabelHeight = axis.getxAxisLabelFont().createGlyphVector(new FontRenderContext(null, true, false), axis.getxAxisLabel()).getOutline().getBounds2D().getHeight();
-			this.topAxisLabelHeight = (int) Math.ceil(xAxisLabelHeight);
-
-		} else {
-			this.topAxisLabelHeight = 0;
-			this.topAxisToTopAxisLabelHeight = 0;
-
-		}
-		
-
-
-		if (title != null) {
-			Shape sot = DrawString.getShapeOfText(titleFont, title);
-			this.titleHeight = (int) Math.ceil(sot.getBounds2D().getHeight());
-		} else { 
-			this.titleHeight = 0;
-			this.topAxisLabelToTitleHeight = 0;
-
-		}
-		
-
-		
-		if ((axis.drawLeftYLabel()) && (axis.getyAxisLabel() != null)) {
-			double yAxisLabelHeight = axis.getyAxisLabelFont().createGlyphVector(new FontRenderContext(null, true, false), axis.getyAxisLabel()).getOutline().getBounds2D().getHeight();
-			this.leftAxisLabelWidth = (int) Math.ceil(yAxisLabelHeight);
-
-		} else {
-			this.leftAxisLabelWidth = 0;
-			this.leftAxisLabelToLeftAxisWidth = 0;
-
-		}
-		
-		
-		
-		if (axis.drawLeftYAxisValues()) {
-			
-			AffineTransform rotationTransform = AffineTransform.getRotateInstance(Math.toRadians(axis.getyAxisRotation()), 0, 0);
-			
-			double maxWidth = 0;
-			
-			for (int tickCount = 0; tickCount < axis.getyTicks().length; tickCount++) {
-				String stringToDraw = String.valueOf(df.format(yTicks[tickCount]));
-				Shape sot = DrawString.getShapeOfText(axis.getyAxisFont(), stringToDraw);
-				double tickWidth = rotationTransform.createTransformedShape(sot).getBounds2D().getWidth();
-				if (tickWidth > maxWidth) {
-					maxWidth = tickWidth;
-				}
-			}
-			this.leftAxisWidth = (int) Math.ceil(maxWidth);
-		} else {
-			this.leftAxisWidth = 0;
-			this.leftAxisToLeftTicksWidth = 0;
-		}
-		
-		
-
-		if (!axis.drawExteriorLeftYAxisTicks()) {
-			this.leftTicksWidth = 0;
-		}
-				
-		if (!axis.drawExteriorRightYAxisTicks()) {
-			this.rightTicksWidth = 0;
-		}
-		
-		if (axis.drawRightYAxisValues()) {
-			AffineTransform rotationTransform = AffineTransform.getRotateInstance(Math.toRadians(axis.getyAxisRotation()), 0, 0);
-			
-			double maxWidth = 0;
-			
-			for (int tickCount = 0; tickCount < axis.getyTicks().length; tickCount++) {
-				String stringToDraw = String.valueOf(df.format(yTicks[tickCount]));
-				Shape sot = DrawString.getShapeOfText(axis.getyAxisFont(), stringToDraw);
-				double tickWidth = rotationTransform.createTransformedShape(sot).getBounds2D().getWidth();
-				if (tickWidth > maxWidth) {
-					maxWidth = tickWidth;
-				}
-			}
-			this.rightAxisWidth = (int) Math.ceil(maxWidth);
-		} else {
-			this.rightAxisWidth = 0;
-			this.rightTicksToRightAxisWidth = 0;
-		}
-		
-		if (axis.drawRightYLabel()) {
-			double yAxisLabelHeight = axis.getyAxisLabelFont().createGlyphVector(new FontRenderContext(null, true, false), axis.getyAxisLabel()).getOutline().getBounds2D().getHeight();
-			this.rightAxisLabelWidth = (int) Math.ceil(yAxisLabelHeight);
-		} else {
-			this.rightAxisToRightAxisLabelWidth = 0;
-			this.rightAxisLabelWidth = 0;
-		}
-		
-		if (legend.getIncludeLegend()) {			
-			this.legendWidth = legend.getLegendWidth();
-		} else {
-			this.legendWidth = 0;
-			this.rightAxisLabelToLegendWidth = 0;
-		}
-		
-		
+		System.out.println("in parent");
 	}
+	
+	
 	
 	public int imageBottomToBottomAxisLabelBottomHeight() {
 		return this.imageBottomToBottomAxisLabelHeight;
@@ -613,6 +442,7 @@ public class XYChartMeasurements {
 		this.leftTicksWidth = length;
 		this.rightTicksWidth = length;
 	}
+
 	
 	
 	

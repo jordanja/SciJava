@@ -94,20 +94,6 @@ public class Legend {
 		for (int i = 0; i < this.hueValues.length; i++) {
 			g.setColor(Color.BLACK);
 			DrawString.drawString(g, this.hueValues[i], cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + getBottomLegendToHueValueBottomHeight(i), DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign, 0, cm);
-			
-			
-//			Rectangle2D bounds = this.hueValueFont.createGlyphVector(new FontRenderContext(null, true, false), this.hueValues[i]).getVisualBounds().getBounds2D();
-//			int other =  (int) Math.ceil(bounds.getHeight());
-			
-			
-//			FontRenderContext frc = g.getFontRenderContext();
-//	        GlyphVector gv = g.getFont().createGlyphVector(frc, this.hueValues[i]);
-//	        Rectangle2D bounds = gv.getPixelBounds(null, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + getBottomLegendToHueValueBottomHeight(i));
-//			int height =  (int) Math.ceil(bounds.getHeight());
-			
-
-//			int height = g.getFontMetrics().getAscent();
-//			System.out.println(height + " vs " + other);
 
 			int height = DrawString.getShapeOfText(this.hueValueFont, this.hueValues[i]).getBounds().height;
 			
