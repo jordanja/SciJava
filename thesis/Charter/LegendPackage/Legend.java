@@ -154,7 +154,6 @@ public class Legend {
 		return includeLegend;
 	}
 	public void setIncludeLegend(boolean includeLegend) {
-		System.out.println("setting include legend");
 		this.includeLegend = includeLegend;
 	}
 

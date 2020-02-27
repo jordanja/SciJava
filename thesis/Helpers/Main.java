@@ -212,7 +212,7 @@ public static DataFrame arrays() {
 		
 		
 		DataFrame df = new DataFrame("Datasets/iris.csv", true);
-		System.out.println(df);
+		
 		ScatterChart sc = new ScatterChart(df, "sepal_length", "sepal_width");
 		
 		NumericAxis axis = (NumericAxis) sc.getAxis();
@@ -252,45 +252,38 @@ public static DataFrame arrays() {
 		
 		
 		axis.setIncludeBottomXAxisTicks(true, true);
-//		axis.setIncludeTopXAxisTicks(true, true);
-//		axis.setIncludeLeftYAxisTicks(true, true);
-//		axis.setIncludeRightYAxisTicks(true, true);
-//		
-//		axis.setIncludeTopXLabel(true);
-//		axis.setIncludeRightYLabel(true);
-//
-//		axis.setIncludeTopXAxisValues(true);
-//		axis.setIncludeRightYAxisValues(true);
-//		
-//		plot.includeChartOutline(new boolean[] {true, false, true, false});
-//		plot.includeDataPointOutline(true);
-//		
-//		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 30));
-//		
-//		axis.setXAxisLabel("I am x axis label");
-//		axis.setYAxisLabel("I am y axis label");
-//		
-//		sc.setTitle("I am a title");
-//		
-//		sc.colorCode("species");
-//		
-//		
-//		ChartMeasurements cm = sc.getChartMeasurements();
-//		cm.setLegendToImageRightWidth(20);
-//		cm.setImageBottomToBottomAxisLabelHeight(20);
-//		cm.setImageLeftToLeftAxisLabelWidth(20);
-//		cm.setTopAxisLabelToTitleHeight(20);
-//		
-//		cm.setTitleToImageTopHeight(20);
-//		
-//		cm.setBottomAxisLabelToBottomAxisHeight(15);
-//		cm.setTopAxisToTopAxisLabelHeight(15);
-//		cm.setLeftAxisLabelToLeftAxisWidth(15);
-//		cm.setRightAxisToRightAxisLabelWidth(15);
-//		
-//		cm.setRightAxisLabelToLegendWidth(40);
-//		
-//		sc.setIncludeLegend(true);
+		axis.setIncludeTopXAxisTicks(true, true);
+		axis.setIncludeLeftYAxisTicks(true, true);
+		axis.setIncludeRightYAxisTicks(true, true);
+		
+		axis.setIncludeTopXLabel(true);
+		axis.setIncludeRightYLabel(true);
+
+		axis.setIncludeTopXAxisValues(true);
+		axis.setIncludeRightYAxisValues(true);
+
+		plot.includeChartOutline(new boolean[] {true, false, true, false});
+		plot.includeDataPointOutline(true);
+		
+		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 30));
+
+		axis.setXAxisLabel("I am x axis label");
+		axis.setYAxisLabel("I am y axis label");
+		cm.setLegendToImageRightWidth(20);
+		cm.setImageBottomToBottomAxisLabelHeight(20);
+		cm.setImageLeftToLeftAxisLabelWidth(20);
+		cm.setTopAxisLabelToTitleHeight(20);
+		
+		cm.setTitleToImageTopHeight(20);
+		
+		cm.setBottomAxisLabelToBottomAxisHeight(15);
+		cm.setTopAxisToTopAxisLabelHeight(15);
+		cm.setLeftAxisLabelToLeftAxisWidth(15);
+		cm.setRightAxisToRightAxisLabelWidth(15);
+		
+		cm.setRightAxisLabelToLegendWidth(40);
+		
+		sc.setIncludeLegend(false);
 		
 		
 		

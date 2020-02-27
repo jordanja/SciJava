@@ -79,11 +79,9 @@ public class XYChartMeasurements {
 		
 		
 		if (axis.drawBottomXAxisValues()) {
-			
 			AffineTransform rotationTransform = AffineTransform.getRotateInstance(Math.toRadians(axis.getxAxisRotation()), 0, 0);
 			
 			double maxHeight = 0;
-			
 			
 			for (int tickCount = 0; tickCount < axis.getxTicks().length; tickCount++) {
 				String stringToDraw = String.valueOf(df.format(xTicks[tickCount]));
@@ -119,7 +117,7 @@ public class XYChartMeasurements {
 			double maxHeight = 0;
 			
 			for (int tickCount = 0; tickCount < axis.getxTicks().length; tickCount++) {
-				String stringToDraw = String.valueOf(df.format(axis.getxTicks()[tickCount]));
+				String stringToDraw = String.valueOf(df.format(xTicks[tickCount]));
 				Shape sot = DrawString.getShapeOfText(axis.getxAxisFont(), stringToDraw);
 				double tickHeight = rotationTransform.createTransformedShape(sot).getBounds2D().getHeight();
 				if (tickHeight > maxHeight) {
@@ -203,7 +201,7 @@ public class XYChartMeasurements {
 			double maxWidth = 0;
 			
 			for (int tickCount = 0; tickCount < axis.getyTicks().length; tickCount++) {
-				String stringToDraw = String.valueOf(df.format(axis.getyTicks()[tickCount]));
+				String stringToDraw = String.valueOf(df.format(yTicks[tickCount]));
 				Shape sot = DrawString.getShapeOfText(axis.getyAxisFont(), stringToDraw);
 				double tickWidth = rotationTransform.createTransformedShape(sot).getBounds2D().getWidth();
 				if (tickWidth > maxWidth) {
