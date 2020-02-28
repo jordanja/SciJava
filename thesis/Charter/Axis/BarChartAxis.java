@@ -18,6 +18,8 @@ import thesis.DataFrame.DataItem;
 
 public class BarChartAxis extends XYAxis {
 	
+	private NiceScale yNS;
+	
 	public void setXAxis(DataItem[] xData) {
 		ArrayList<String> uniqueXValues = new ArrayList<String>();
 		for (DataItem value: xData) {
@@ -26,14 +28,14 @@ public class BarChartAxis extends XYAxis {
 				uniqueXValues.add(strValue);
 			}
 		}
-//		this.xTicks = new String[uniqueXValues.size()];
+
 		this.xTicks = uniqueXValues.toArray(new String[uniqueXValues.size()]);
 	}
 
 	public void setYAxis(DataItem[] xData, DataItem[] yData) {		
 
 		
-		NiceScale yNS = new NiceScale(0, 10);
+		yNS = new NiceScale(0, 10);
 		
 		this.yTicks = new String[1 + (int)(Math.ceil(yNS.getNiceMax()/yNS.getTickSpacing()))];
 		
@@ -43,6 +45,10 @@ public class BarChartAxis extends XYAxis {
 		}
 	}
 	
+
+	public NiceScale getyNS() {
+		return yNS;
+	}
 
 	@Override
 	public void drawAxis(Graphics2D g, XYChartMeasurements cm) {

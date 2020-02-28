@@ -55,6 +55,8 @@ public class BarChart extends XYChart{
 		this.plot.drawPlotOutline(g, cm);
 		
 		this.axis.drawAxisTicks(g, cm);
+		
+		this.plot.drawPlot(g, this.axis, xData, yData, cm);
 	}
 	
 	public Axis getAxis() {
