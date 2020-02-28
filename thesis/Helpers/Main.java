@@ -29,7 +29,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		barCharting();
-//		newCharting();
+//		scatterCharting();
 //		dfPlay();
 				
 		System.out.println("\n\nFINISHED EXECUTION");
@@ -201,12 +201,18 @@ public class Main {
 		axis.setIncludeLeftYAxisTicks(true, true);
 		axis.setIncludeRightYAxisTicks(true, true);
 		
+		bc.setTitle("sepal_length vs sepal_width");
+		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+	
+		axis.setXAxisLabel("sepal_length");
+		axis.setYAxisLabel("sepal_width");
+		
 		bc.Create();
 		bc.WriteFile("Chart Images/Bar Chart.png");
 	}
 	
 	
-	private static void newCharting() {
+	private static void scatterCharting() {
 		
 		
 		

@@ -136,7 +136,7 @@ public class ScatterChart extends XYChart {
 		
 		this.plot.drawPlot(g, this.axis, xData, yData, colorCodeValues, cm);
 		
-		this.axis.drawXAxisLabel(g,cm);
+		this.axis.drawXAxisLabel(g, cm);
 		this.axis.drawYAxisLabel(g, cm);
 		
 		if (this.legend.getIncludeLegend()) {

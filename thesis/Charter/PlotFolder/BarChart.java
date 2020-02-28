@@ -57,6 +57,15 @@ public class BarChart extends XYChart{
 		this.axis.drawAxisTicks(g, cm);
 		
 		this.plot.drawPlot(g, this.axis, xData, yData, cm);
+		
+		this.axis.drawXAxisLabel(g, cm);
+		this.axis.drawYAxisLabel(g, cm);
+		
+//		if (this.legend.getIncludeLegend()) {
+//			this.legend.drawLegend(g, cm, this.plot.getColorPalette());
+//		}
+		
+		this.drawTitle(g, cm);
 	}
 	
 	public Axis getAxis() {

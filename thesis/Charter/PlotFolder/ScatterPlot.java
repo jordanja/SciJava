@@ -9,6 +9,7 @@ import java.util.List;
 
 import thesis.Auxiliary.MathHelpers;
 import thesis.Auxiliary.NiceScale;
+import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.DataFrame.DataItem;
@@ -135,6 +136,7 @@ public class ScatterPlot extends Plot {
 		
 	}
 	
+
 	public void drawPlot(Graphics2D g, NumericAxis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues, XYChartMeasurements cm) {
 		double[] xTicks = Arrays.stream(axis.getxTicks())
                 .mapToDouble(Double::parseDouble)
@@ -185,4 +187,12 @@ public class ScatterPlot extends Plot {
 	private double worldYPosToPlotYPos(double yPos, NiceScale yNS, double[] yTicks, XYChartMeasurements cm) {
 		return (int) MathHelpers.map(yPos, yNS.getNiceMin(), yTicks[yTicks.length - 1 ], cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 	}
+
+	@Override
+	public void drawPlot(Graphics2D g, Axis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues,
+			XYChartMeasurements cm) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

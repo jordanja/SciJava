@@ -209,6 +209,10 @@ public class DataItem {
 		}
 	}
 	
+	public Double getValueConvertedToDouble() {
+		return Double.parseDouble(String.valueOf(getObjectValue()));
+	}
+	
 	
 	@Override
 	public String toString() {

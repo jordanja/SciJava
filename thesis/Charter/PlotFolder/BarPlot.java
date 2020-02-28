@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import thesis.Auxiliary.MathHelpers;
 import thesis.Auxiliary.NiceScale;
+import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.Others.XYChartMeasurements;
@@ -14,24 +15,8 @@ import thesis.Helpers.Palette;
 
 public class BarPlot extends Plot {
 	
-	
 	private Color[] colorPalette = Palette.Default;
 
-//	private String[] convertXDataToStrings(DataItem[] xData) {
-//		String[] convertedXData = new String[xData.length];
-//		for (int i = 0; i < xData.length; i++) {
-//			convertedXData[i] = xData[i].getStringValue();
-//		}
-//		return convertedXData;
-//	}
-	
-//	private double[] convertYDataToStrings(DataItem[] xData) {
-//		String[] convertedXData = new String[xData.length];
-//		for (int i = 0; i < xData.length; i++) {
-//			convertedXData[i] = xData[i].getStringValue();
-//		}
-//		return convertedXData;
-//	}
 	
 	public void drawPlot(Graphics2D g, BarChartAxis axis, DataItem[] xData, DataItem[] yData, XYChartMeasurements cm) {
 		String[] xTicks = axis.getxTicks();
@@ -50,7 +35,7 @@ public class BarPlot extends Plot {
 				worldXNumToPlotXPos(barCount, xData.length, cm) - quaterWidthOfXUnit, 
 				worldYPosToPlotYPos(0, yNS, yTicks, cm), 
 				2 * quaterWidthOfXUnit, 
-				worldYPosToPlotYPos(Double.parseDouble(yData[barCount].getValueConvertedToString()), yNS, yTicks, cm) - worldYPosToPlotYPos(0, yNS, yTicks, cm)
+				worldYPosToPlotYPos(yData[barCount].getValueConvertedToDouble(), yNS, yTicks, cm) - worldYPosToPlotYPos(0, yNS, yTicks, cm)
 			);
 		}
 		
@@ -59,12 +44,7 @@ public class BarPlot extends Plot {
 	
 
 
-	@Override
-	public void drawPlot(Graphics2D g, NumericAxis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues,
-			XYChartMeasurements cm) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	private int worldXNumToPlotXPos(int xTickNum, int totalxTicks, XYChartMeasurements cm) {
 		int halfWidthOfXUnit = (cm.getPlotWidth()/(2 * totalxTicks));
@@ -73,6 +53,18 @@ public class BarPlot extends Plot {
 	
 	private int worldYPosToPlotYPos(double yPos, NiceScale yNS, double[] yTicks, XYChartMeasurements cm) {
 		return (int) MathHelpers.map(yPos, yNS.getNiceMin(), yTicks[yTicks.length - 1 ], cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
+	}
+
+
+
+
+
+
+	@Override
+	public void drawPlot(Graphics2D g, Axis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues,
+			XYChartMeasurements cm) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

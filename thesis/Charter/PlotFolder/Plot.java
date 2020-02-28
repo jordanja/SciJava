@@ -12,6 +12,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import thesis.Auxiliary.NiceScale;
+import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.DataFrame.DataFrame;
@@ -153,5 +154,5 @@ public abstract class Plot {
 		}
 	}
 	
-	public abstract void drawPlot(Graphics2D g, NumericAxis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues, XYChartMeasurements cm);
+	public abstract void drawPlot(Graphics2D g, Axis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues, XYChartMeasurements cm);
 }
