@@ -34,8 +34,16 @@ public class BarChartAxis extends XYAxis {
 
 	public void setYAxis(DataItem[] xData, DataItem[] yData) {		
 
+		double maxY = 0;
+		for (int i = 0; i < yData.length; i++) {
+			if (yData[i].getValueConvertedToDouble() > maxY) {
+				maxY = yData[i].getValueConvertedToDouble();
+			}
+			
+		}
 		
-		yNS = new NiceScale(0, 10);
+		yNS = new NiceScale(0, maxY);
+		
 		
 		this.yTicks = new String[1 + (int)(Math.ceil(yNS.getNiceMax()/yNS.getTickSpacing()))];
 		
