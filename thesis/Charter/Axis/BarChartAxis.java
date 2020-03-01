@@ -23,7 +23,7 @@ public class BarChartAxis extends XYAxis {
 	public void setXAxis(DataItem[] xData) {
 		ArrayList<String> uniqueXValues = new ArrayList<String>();
 		for (DataItem value: xData) {
-			String strValue = (String) value.getStringValue();
+			String strValue = value.getStringValue();
 			if (!uniqueXValues.contains(strValue)) {
 				uniqueXValues.add(strValue);
 			}

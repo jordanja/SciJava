@@ -17,6 +17,7 @@ import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.PlotFolder.BarChart;
+import thesis.Charter.PlotFolder.BarPlot;
 import thesis.Charter.PlotFolder.ScatterChart;
 import thesis.Charter.PlotFolder.ScatterPlot;
 import thesis.DataFrame.*;
@@ -190,11 +191,13 @@ public class Main {
 	
 	
 	private static void barCharting() {
-		DataFrame df = new DataFrame("Datasets/fruit.csv", true);
+		DataFrame df = new DataFrame("Datasets/scores.csv", true);
 		System.out.println(df);
 		
-		BarChart bc = new BarChart(df, "fruit", "price");
+		BarChart bc = new BarChart(df, "Name", "Math");
+//		BarChart bc = new BarChart(df, "Name", new String[] {"Math", "Science"});
 		BarChartAxis axis = (BarChartAxis) bc.getAxis();
+		BarPlot plot = bc.getPlot();
 		
 		axis.setIncludeBottomXAxisTicks(true, true);
 		axis.setIncludeTopXAxisTicks(true, true);
@@ -206,6 +209,12 @@ public class Main {
 	
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
+		
+		plot.setDrawBarOutline(true);
+		plot.setBarOutlineColour(Color.BLUE);
+		plot.setBarOutlineWidth(2);
+		plot.setBarWidthPercentage(0.2f);
+		plot.setOrder(new String[] {"Dorris"});
 		
 		bc.Create();
 		bc.WriteFile("Chart Images/Bar Chart.png");

@@ -29,6 +29,8 @@ public class BarChart extends XYChart{
 
 	}
 
+	
+
 	@Override
 	public void Create() {
 		
@@ -73,7 +75,7 @@ public class BarChart extends XYChart{
 	}
 	
 	
-	public Plot getPlot() {
+	public BarPlot getPlot() {
 		return this.plot;
 	}
 	
