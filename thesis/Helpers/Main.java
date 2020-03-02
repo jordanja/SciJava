@@ -189,12 +189,15 @@ public class Main {
 	}
 	
 	
-	
 	private static void barCharting() {
 		DataFrame df = new DataFrame("Datasets/scores.csv", true);
+//		DataFrame df = new DataFrame("Datasets/tips.csv", true);
 		System.out.println(df);
 		
 		BarChart bc = new BarChart(df, "Name", "Math");
+//		BarChart bc = new BarChart(df, "day", "total_bill");
+		
+
 //		BarChart bc = new BarChart(df, "Name", new String[] {"Math", "Science"});
 		BarChartAxis axis = (BarChartAxis) bc.getAxis();
 		BarPlot plot = bc.getPlot();
@@ -213,7 +216,7 @@ public class Main {
 		plot.setDrawBarOutline(true);
 		plot.setBarOutlineColour(Color.BLUE);
 		plot.setBarOutlineWidth(2);
-		plot.setBarWidthPercentage(0.2f);
+		plot.setBarWidthPercentage(0.5f);
 		plot.setOrder(new String[] {"Dorris"});
 		
 		bc.Create();

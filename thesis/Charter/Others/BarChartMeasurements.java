@@ -22,6 +22,7 @@ public class BarChartMeasurements extends XYChartMeasurements {
 		
 	@Override
 	public void calculateChartImageMetrics(Axis axis, Plot sPlot, Legend legend, String title, Font titleFont) {
+		
 		String[] xTicks = Arrays.stream(axis.getxTicks()).toArray(String[]::new);
 		double[] yTicks = Arrays.stream(axis.getyTicks())
                 .mapToDouble(Double::parseDouble)

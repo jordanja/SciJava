@@ -31,7 +31,7 @@ public class BarPlot extends Plot {
 	
 	
 	
-	public void drawPlot(Graphics2D g, BarChartAxis axis, DataItem[] xData, DataItem[] yData, XYChartMeasurements cm) {
+	public void drawPlot(Graphics2D g, BarChartAxis axis, String[] xData, double[] yData, XYChartMeasurements cm) {
 		String[] xTicks = axis.getxTicks();
 		double[] yTicks = Arrays.stream(axis.getyTicks())
                 .mapToDouble(Double::parseDouble)
@@ -48,7 +48,7 @@ public class BarPlot extends Plot {
 			int xBoxStart = worldXNumToPlotXPos(barCount, xData.length, cm) - quaterWidthOfXUnit;
 			int yBoxStart = worldYPosToPlotYPos(0, yNS, yTicks, cm);
 			int boxWidth = 2 * quaterWidthOfXUnit;
-			int boxHeight = worldYPosToPlotYPos(yData[barCount].getValueConvertedToDouble(), yNS, yTicks, cm) - worldYPosToPlotYPos(0, yNS, yTicks, cm);
+			int boxHeight = worldYPosToPlotYPos(yData[barCount], yNS, yTicks, cm) - worldYPosToPlotYPos(0, yNS, yTicks, cm);
 			g.fillRect(xBoxStart, yBoxStart, boxWidth, boxHeight);
 			
 			if (this.drawBarOutline) {

@@ -20,24 +20,23 @@ public class BarChartAxis extends XYAxis {
 	
 	private NiceScale yNS;
 	
-	public void setXAxis(DataItem[] xData) {
+	public void setXAxis(String[] xData) {
 		ArrayList<String> uniqueXValues = new ArrayList<String>();
-		for (DataItem value: xData) {
-			String strValue = value.getStringValue();
-			if (!uniqueXValues.contains(strValue)) {
-				uniqueXValues.add(strValue);
+		for (String value: xData) {
+			if (!uniqueXValues.contains(value)) {
+				uniqueXValues.add(value);
 			}
 		}
 
 		this.xTicks = uniqueXValues.toArray(new String[uniqueXValues.size()]);
 	}
 
-	public void setYAxis(DataItem[] xData, DataItem[] yData) {		
+	public void setYAxis(double[] yData) {		
 
 		double maxY = 0;
 		for (int i = 0; i < yData.length; i++) {
-			if (yData[i].getValueConvertedToDouble() > maxY) {
-				maxY = yData[i].getValueConvertedToDouble();
+			if (yData[i] > maxY) {
+				maxY = yData[i];
 			}
 			
 		}

@@ -1,6 +1,9 @@
 package thesis.Charter.PlotFolder;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.BarChartAxis;
@@ -34,8 +37,12 @@ public class BarChart extends XYChart{
 	@Override
 	public void Create() {
 		
-		this.axis.setXAxis(this.xData);
-		this.axis.setYAxis(this.xData, this.yData);
+		String[] xDataFormatted = getXDataFormatted();
+		double[] yDataFormatted = getYDataFormatted(xDataFormatted);
+		
+		
+		this.axis.setXAxis(xDataFormatted);
+		this.axis.setYAxis(yDataFormatted);
 		
 		
 		if (this.legend.getIncludeLegend()) {
@@ -58,7 +65,7 @@ public class BarChart extends XYChart{
 		
 		this.axis.drawAxisTicks(g, cm);
 		
-		this.plot.drawPlot(g, this.axis, xData, yData, cm);
+		this.plot.drawPlot(g, this.axis, xDataFormatted, yDataFormatted, cm);
 		
 		this.axis.drawXAxisLabel(g, cm);
 		this.axis.drawYAxisLabel(g, cm);
@@ -68,6 +75,44 @@ public class BarChart extends XYChart{
 //		}
 		
 		this.drawTitle(g, cm);
+	}
+
+
+
+	private double[] getYDataFormatted(String[] xDataFormatted) {
+		HashMap<String, Double> runningTotals = new HashMap<String, Double>();
+		HashMap<String, Integer> runningCount = new HashMap<String, Integer>();
+		for (String xCatagory: xDataFormatted) {
+			runningTotals.put(xCatagory, (double) 0);
+			runningCount.put(xCatagory, 0);
+		}
+		
+		for (int i = 0; i < this.xData.length; i++) {
+			String xValue = this.xData[i].getValueConvertedToString();
+			double yValue = this.yData[i].getValueConvertedToDouble();
+			runningTotals.put(xValue, runningTotals.get(xValue) + yValue);
+			runningCount.put(xValue, runningCount.get(xValue) + 1);
+		}
+		
+		double[] yDataFormatted = new double[this.yData.length];
+		for (String i: runningTotals.keySet()) {
+			yDataFormatted[new ArrayList<String>(Arrays.asList(xDataFormatted)).indexOf(i)] = runningTotals.get(i)/runningCount.get(i);
+		}
+		return yDataFormatted;
+	}
+
+
+
+	private String[] getXDataFormatted() {
+		ArrayList<String> foundXCatagories = new ArrayList<String>();
+		for (DataItem xValue: this.xData) {
+			if (!foundXCatagories.contains(xValue.getValueConvertedToString()) ) {
+				foundXCatagories.add(xValue.getValueConvertedToString());
+			}
+		}
+		String[] xDataFormatted = new String[foundXCatagories.size()];
+		xDataFormatted = foundXCatagories.toArray(xDataFormatted);
+		return xDataFormatted;
 	}
 	
 	public Axis getAxis() {
