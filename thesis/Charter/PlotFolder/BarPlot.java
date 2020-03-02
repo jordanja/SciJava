@@ -16,18 +16,19 @@ import thesis.Helpers.Palette;
 
 public class BarPlot extends Plot {
 	
-	private Color[] colorPalette = Palette.Fire;
+	private Color[] barColorPalette = Palette.Fire;
 	private boolean drawBarOutline = false;
 	private Color barOutlineColour = Color.black;
 	private int barOutlineWidth = 1;
 	
 	private double barWidthPercentage = 0.5f;
 	
-	private Color barColor = colorPalette[0];
+	private Color barColor = barColorPalette[0];
 	
 	private String[] order = {};
 
 	
+	boolean singleColor = true;
 	
 	
 	
@@ -44,7 +45,11 @@ public class BarPlot extends Plot {
 		int quaterWidthOfXUnit = (int)(this.barWidthPercentage * cm.getPlotWidth()/(2 * xData.length));
 		
 		for (int barCount = 0; barCount < xTicks.length; barCount++) {
-			g.setColor(this.barColor);
+			if (this.singleColor) {				
+				g.setColor(this.barColor);
+			} else {
+				g.setColor(this.barColorPalette[barCount % this.barColorPalette.length]);
+			}
 			int xBoxStart = worldXNumToPlotXPos(barCount, xData.length, cm) - quaterWidthOfXUnit;
 			int yBoxStart = worldYPosToPlotYPos(0, yNS, yTicks, cm);
 			int boxWidth = 2 * quaterWidthOfXUnit;
@@ -130,4 +135,21 @@ public class BarPlot extends Plot {
 		this.order = order;
 	}
 	
+	public Color getBarColor() {
+		return this.barColor;
+	}
+	
+	public void setBarColor(Color color) {
+		this.barColor = color;
+		this.singleColor = true;
+	}
+	
+	public Color[] getBarColorPalette() {
+		return this.barColorPalette;
+	}
+	
+	public void setBarColorPalette(Color[] palette) {
+		this.barColorPalette = palette;
+		this.singleColor = false;
+	}
 }

@@ -219,6 +219,8 @@ public class Main {
 		plot.setBarWidthPercentage(0.5f);
 		plot.setOrder(new String[] {"Dorris"});
 		
+		plot.setBarColorPalette(Palette.Contrast );
+		
 		bc.Create();
 		bc.WriteFile("Chart Images/Bar Chart.png");
 	}
