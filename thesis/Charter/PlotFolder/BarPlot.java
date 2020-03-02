@@ -66,37 +66,7 @@ public class BarPlot extends Plot {
                 .mapToDouble(Double::parseDouble)
                 .toArray();
 		
-		if (order.length != 0) {
-			String[] newXTicks = new String[xTicks.length];
-			double[] newYTicks = new double[yTicks.length];
-			for (int i = 0; i < order.length; i++) {
-				int index = indexOf(xTicks, order[i]);
-				newXTicks[i] = xTicks[index];
-				newYTicks[i] = yTicks[index];
-				xTicks = removeIndexFromStringArray(xTicks, index);
-				yTicks = removeIndexFromDoubleArray(yTicks, index);
-			}
-			
-			for (int i = 0; i < xTicks.length; i++) {
-				newXTicks[i + order.length] = xTicks[i];
-				newYTicks[i + order.length] = yTicks[i];
-			}
-			
-			xTicks = newXTicks;
-			yTicks = newYTicks;
-			
-			System.out.println("X ticks:");
-			for (int i = 0; i < xTicks.length; i++) {
-				System.out.println(xTicks[i]);
-			}
-			
-			System.out.println("\nY ticks:");
-			for (int i = 0; i < yTicks.length; i++) {
-				System.out.println(yTicks[i]);
-			}
-			
-			
-		}
+		
 		
 		NiceScale yNS = axis.getyNS();
 		
