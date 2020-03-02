@@ -27,36 +27,7 @@ public class BarPlot extends Plot {
 	
 	private String[] order = {};
 
-	private int indexOf(String[] arr, String element) {
-		for (int i = 0; i < arr.length; i++) {
-			if (arr[i].equals(element)) return i;
-		}
-		return -1;
-	}
 	
-	private String[] removeIndexFromStringArray(String[] origArray, int index) {
-		String[] newArray = new String[origArray.length - 1];
-		int elementsAdded = 0;
-		for (int i = 0; i < origArray.length; i++) {
-			if (index != i) {
-				newArray[elementsAdded] = origArray[i];
-				elementsAdded++;
-			}
-		}
-		return newArray;
-	}
-	
-	private double[] removeIndexFromDoubleArray(double[] origArray, int index) {
-		double[] newArray = new double[origArray.length - 1];
-		int elementsAdded = 0;
-		for (int i = 0; i < origArray.length; i++) {
-			if (index != i) {
-				newArray[elementsAdded] = origArray[i];
-				elementsAdded++;
-			}
-		}
-		return newArray;
-	}
 	
 	
 	
