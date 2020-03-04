@@ -1,6 +1,7 @@
 package thesis.Charter.Axis;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -19,6 +20,9 @@ import thesis.DataFrame.DataItem;
 public class BarChartAxis extends XYAxis {
 	
 	private NiceScale yNS;
+	private boolean includeAxisLinesOnPlot = true;
+	private Color axisLinesOnPlotColor = Color.WHITE;
+	
 	
 	public void setXAxis(String[] xData) {
 		ArrayList<String> uniqueXValues = new ArrayList<String>();
@@ -99,8 +103,14 @@ public class BarChartAxis extends XYAxis {
 				DrawString.drawString(g, stringToDisplay, cm.imageLeftToRightAxisMidWidth(), position, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.yAxisRotation, cm);
 			}
 
+			if (this.includeAxisLinesOnPlot) {				
+				g.setColor(this.axisLinesOnPlotColor);
+				g.drawLine(cm.imageLeftToPlotLeftWidth(),position,cm.imageLeftToPlotRightWidth(),position);
+			}
 
 		}
+		
+		
 		
 	}
 	
