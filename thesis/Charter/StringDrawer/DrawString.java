@@ -21,8 +21,7 @@ public class DrawString {
 		
 		g.scale(1.0, -1.0);
 		g.translate(0, -cm.imageHeight());
-		
-		
+	
 		int xPosition = x;
 		int yPosition = cm.imageHeight() - y;
 		Rectangle bounds = getShapeOfText(g.getFont(), string).getBounds();

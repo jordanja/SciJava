@@ -98,16 +98,12 @@ public class ScatterPlot extends Plot {
 		NiceScale yNS = axis.getyNS();
 		
 		double meanX = MathHelpers.average(xData);
-//		System.out.println("meanX = " + meanX);
 		
 		double meanY = MathHelpers.average(yData);
-//		System.out.println("meanY = " + meanY);
 		
 		double varianceX = MathHelpers.variance(xData);
-//		System.out.println("varianceX = " + varianceX);
 		
 		double covarianceXY = MathHelpers.covariance(xData, yData, meanX, meanY);
-//		System.out.println("covarianceXY = " + covarianceXY);
 		
 		double w1 = covarianceXY/varianceX;
 		
@@ -119,17 +115,13 @@ public class ScatterPlot extends Plot {
 		
 		double x1 = xTicks[xTicks.length - 1];
 		double y1 = w0 + w1 * xTicks[xTicks.length - 1];
-//		System.out.println("[" + x0 + ", " + y0 + "] -> [" + x1 + ", " + y1 + "]");
-		
 		
 		int xPos0 = (int)worldXPosToPlotXPos(x0, xNS, xTicks, cm);
 		int yPos0 = (int)worldYPosToPlotYPos(y0, yNS, yTicks, cm);
 		
 		int xPos1 = (int)worldXPosToPlotXPos(x1, xNS, xTicks, cm);
 		int yPos1 = (int)worldYPosToPlotYPos(y1, yNS, yTicks, cm);
-//		System.out.println("[" + xPos0 + ", " + yPos0 + "] -> [" + xPos1 + ", " + yPos1 + "]");
 
-		
 		
 		g.setColor(this.linearRegLineColor);
 		g.drawLine(Math.max(xPos0, cm.imageLeftToPlotLeftWidth()), Math.max(yPos0, cm.imageBottomToPlotBottomHeight()), xPos1, yPos1);
