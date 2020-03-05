@@ -45,7 +45,7 @@ public class BarPlot extends Plot {
 
 	boolean drawBarValue = true;
 
-	public void drawPlot(Graphics2D g, BarChartAxis axis, HashMap<String, Object> data, XYChartMeasurements cm) {
+	public void drawPlot(Graphics2D g, BarChartAxis axis, HashMap<String, Object> data, String[] xDataOrdered, XYChartMeasurements cm) {
 		// Are there color code values
 		boolean haveColorCodeValues = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 		
@@ -58,7 +58,7 @@ public class BarPlot extends Plot {
 		
 		if (haveColorCodeValues) {
 		
-			for (String xCatagory : data.keySet()) {
+			for (String xCatagory : xDataOrdered) {
 
 				HashMap<String, Double> colorCodeValues = (HashMap<String, Double>) data.get(xCatagory);
 
@@ -91,7 +91,7 @@ public class BarPlot extends Plot {
 		} else {
 			int halfWidthOfSingularBar = (int) (this.singlularBarWidthPercentage * cm.getPlotWidth()
 					/ (2 * numXCatagories));
-			for (String xCatagory : data.keySet()) {
+			for (String xCatagory : xDataOrdered) {
 				Color boxColor;
 				if (this.singleColor) {
 					boxColor = this.barColor;

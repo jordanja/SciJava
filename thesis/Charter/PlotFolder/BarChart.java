@@ -24,6 +24,8 @@ public class BarChart extends XYChart{
 	private String colorCodeLabel;
 	private String[] colorCodeValues; 
 	
+	private String[] order = new String[0];
+	
 	public BarChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.GetColumnAsArray(xAxis), dataFrame.GetColumnAsArray(yAxis), "Bar");
 		
@@ -41,10 +43,11 @@ public class BarChart extends XYChart{
 	public void Create() {
 		
 		String[] uniqueColorCodeValues = getUniqueColorCodeValues();
-		String[] xDataFormatted = getXDataFormatted();
-		HashMap<String, Object> data = getYDataFormatted(xDataFormatted, uniqueColorCodeValues);
+		String[] xDataOrdered = getXDataOrdered();
 		
-		this.axis.setXAxis(xDataFormatted);
+		HashMap<String, Object> data = getFormattedData(xDataOrdered, uniqueColorCodeValues);
+		
+		this.axis.setXAxis(xDataOrdered);
 		this.axis.setYAxis(data);
 
 		if (this.legend.getIncludeLegend()) {
@@ -61,13 +64,13 @@ public class BarChart extends XYChart{
 
 		this.plot.drawChartBackground(g, cm);
 
-		this.axis.drawAxis(g, data, cm);
+		this.axis.drawAxis(g, data, xDataOrdered, cm);
 
 		this.plot.drawPlotOutline(g, cm);
 
 		this.axis.drawAxisTicks(g, cm);
 
-		this.plot.drawPlot(g, this.axis, data, cm);
+		this.plot.drawPlot(g, this.axis, data, xDataOrdered, cm);
 
 		this.axis.drawXAxisLabel(g, cm);
 		this.axis.drawYAxisLabel(g, cm);
@@ -79,7 +82,29 @@ public class BarChart extends XYChart{
 		this.drawTitle(g, cm);
 	}
 
-	private HashMap<String, Object> getYDataFormatted(String[] xCatagories, String[] uniqueColorCodeValues) {
+	/*
+	 * This method returns the data structure that will be used for creating a bar chart.
+	 * If no color code attribute is specified, then the returned object will be structured:
+	 * 		{
+	 * 			"X Category 1": Y Value 1,
+	 * 			"X Category 2": Y Value 2,
+	 * 			... 
+	 * 		} 
+	 * 
+	 * If a color code attribute is specified, then the returned object will be structured:
+	 * 		{
+	 * 			"X Category 1": {
+	 * 								"Color code attribute 1": color code value 1,
+	 * 								"Color code attribute 2": color code value 2,
+	 * 								...
+	 * 							}
+	 * 			"X Category 2": {
+	 * 								"Color code attribute 1": color code value 1,
+	 * 								...
+	 * 							}
+	 * 		},
+	 */
+	private HashMap<String, Object> getFormattedData(String[] xCatagories, String[] uniqueColorCodeValues) {
 		
 		
 		HashMap<String, Object> data = new HashMap<String, Object>();
@@ -155,7 +180,6 @@ public class BarChart extends XYChart{
 				double averageValue = runningTotals.get(xValue)/runningCount.get(xValue);
 				
 				data.put(xValue, averageValue);
-				System.out.println(xValue + ": " + averageValue);
 			}
 			
 		}
@@ -164,13 +188,28 @@ public class BarChart extends XYChart{
 		return data;
 	}
 
-	private String[] getXDataFormatted() {
+	private String[] getXDataOrdered() {
 		ArrayList<String> foundXCatagories = new ArrayList<String>();
 		for (DataItem xValue : this.xData) {
 			if (!foundXCatagories.contains(xValue.getValueConvertedToString())) {
 				foundXCatagories.add(xValue.getValueConvertedToString());
 			}
 		}
+
+		
+		int nextIndex = 0;
+		for (int i = 0; i < this.order.length; i++) {
+			String catagoryToBeOrdered = this.order[i];
+			int indexOfNextToOrder = foundXCatagories.indexOf(catagoryToBeOrdered);
+			if (indexOfNextToOrder != -1) {				
+				for (int reorderIndex = indexOfNextToOrder; reorderIndex > nextIndex; reorderIndex--) {
+					foundXCatagories.set(reorderIndex, foundXCatagories.get(reorderIndex-1));
+				}
+				foundXCatagories.set(nextIndex, catagoryToBeOrdered);
+				nextIndex++;
+			}
+		}
+		
 		String[] xDataFormatted = new String[foundXCatagories.size()];
 		xDataFormatted = foundXCatagories.toArray(xDataFormatted);
 		return xDataFormatted;
@@ -216,5 +255,12 @@ public class BarChart extends XYChart{
 		this.colorCodeValues = this.dataFrame.GetColumnAsStringArray(this.colorCodeLabel);
 		this.legend.setIncludeLegend(true);
 	}
+	
+	public String[] getOrder() {
+		return order;
+	}
 
+	public void setOrder(String[] order) {
+		this.order = order;
+	}
 }

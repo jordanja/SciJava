@@ -37,14 +37,7 @@ public class BarChartAxis extends XYAxis {
 	}
 	
 	public void setXAxis(String[] xData) {
-		ArrayList<String> uniqueXValues = new ArrayList<String>();
-		for (String value: xData) {
-			if (!uniqueXValues.contains(value)) {
-				uniqueXValues.add(value);
-			}
-		}
-
-		this.xTicks = uniqueXValues.toArray(new String[uniqueXValues.size()]);
+		this.xTicks = xData;
 	}
 
 	public void setYAxis(HashMap<String, Object> data) {		
@@ -80,10 +73,10 @@ public class BarChartAxis extends XYAxis {
 	}
 
 	
-	public void drawAxis(Graphics2D g, HashMap<String, Object> data, XYChartMeasurements cm) {
+	public void drawAxis(Graphics2D g, HashMap<String, Object> data, String[] xDataOrdered, XYChartMeasurements cm) {
 		int halfWidthOfXUnit = (cm.getPlotWidth()/(2 * this.xTicks.length));
 		int count = 0;
-		for (String xCatagory : data.keySet()) {
+		for (String xCatagory : xDataOrdered) {
 			int xPosition = (int) MathHelpers.map(
 				count, 
 				0, 
