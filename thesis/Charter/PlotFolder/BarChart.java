@@ -44,8 +44,6 @@ public class BarChart extends XYChart{
 		String[] xDataFormatted = getXDataFormatted();
 		HashMap<String, Object> data = getYDataFormatted(xDataFormatted, uniqueColorCodeValues);
 		
-		
-//		this.axis.setXAxis(data.keySet().toArray(new String[0]));
 		this.axis.setXAxis(xDataFormatted);
 		this.axis.setYAxis(data);
 
@@ -63,7 +61,7 @@ public class BarChart extends XYChart{
 
 		this.plot.drawChartBackground(g, cm);
 
-		this.axis.drawAxis(g, cm);
+		this.axis.drawAxis(g, data, cm);
 
 		this.plot.drawPlotOutline(g, cm);
 

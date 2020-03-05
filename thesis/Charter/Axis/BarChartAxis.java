@@ -79,27 +79,29 @@ public class BarChartAxis extends XYAxis {
 		return yNS;
 	}
 
-	@Override
-	public void drawAxis(Graphics2D g, XYChartMeasurements cm) {
+	
+	public void drawAxis(Graphics2D g, HashMap<String, Object> data, XYChartMeasurements cm) {
 		int halfWidthOfXUnit = (cm.getPlotWidth()/(2 * this.xTicks.length));
-		for (int count = 0; count < this.xTicks.length; count++) {
+		int count = 0;
+		for (String xCatagory : data.keySet()) {
 			int xPosition = (int) MathHelpers.map(
 				count, 
 				0, 
-				xTicks.length - 1, 
+				data.keySet().size() - 1, 
 				cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit, 
 				cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit
 			);
 			g.setColor(this.xAxisColor);
 			g.setFont(this.xAxisFont);
 			if (this.drawBottomXAxisValues) {				
-				DrawString.drawString(g, this.xTicks[count], xPosition, cm.imageBottomToBottomAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
+				DrawString.drawString(g, xCatagory, xPosition, cm.imageBottomToBottomAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
 			}
 			if (this.drawTopXAxisValues) {
-				DrawString.drawString(g, xTicks[count], xPosition, cm.imageBottomToTopAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
+				DrawString.drawString(g, xCatagory, xPosition, cm.imageBottomToTopAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
 			}
-			
+			count++;
 		}
+		
 
 		double[] doubleYTicks = Arrays.stream(yTicks)
                 .mapToDouble(Double::parseDouble)
@@ -107,7 +109,7 @@ public class BarChartAxis extends XYAxis {
 		DecimalFormat df = new DecimalFormat("#.##");
 		df.setRoundingMode(RoundingMode.HALF_DOWN);
 
-		for (int count = 1; count < this.yTicks.length - 1; count++) {
+		for (count = 1; count < this.yTicks.length - 1; count++) {
 			int position = (int) MathHelpers.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 			String stringToDisplay = String.valueOf(df.format(doubleYTicks[count]));
 			
@@ -213,6 +215,12 @@ public class BarChartAxis extends XYAxis {
 				DrawString.drawString(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(), cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, -90, cm);
 			}
 		}
+	}
+
+	@Override
+	public void drawAxis(Graphics2D g, XYChartMeasurements cm) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
