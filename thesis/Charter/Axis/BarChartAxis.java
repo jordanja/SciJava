@@ -217,10 +217,5 @@ public class BarChartAxis extends XYAxis {
 		}
 	}
 
-	@Override
-	public void drawAxis(Graphics2D g, XYChartMeasurements cm) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

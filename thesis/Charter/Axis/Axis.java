@@ -453,7 +453,7 @@ public abstract class Axis {
 	
 	
 	
-	public abstract void drawAxis(Graphics2D g, XYChartMeasurements cm);
+	
 	
 	
 	
