@@ -201,6 +201,7 @@ public class Main {
 //		BarChart bc = new BarChart(df, "Name", new String[] {"Math", "Science"});
 		BarChartAxis axis = (BarChartAxis) bc.getAxis();
 		BarPlot plot = bc.getPlot();
+		XYChartMeasurements cm = bc.getChartMeadurements();
 		
 		axis.setIncludeBottomXAxisTicks(true, true);
 		axis.setIncludeTopXAxisTicks(true, true);
@@ -222,6 +223,8 @@ public class Main {
 		plot.setOrder(new String[] {"Dorris"});
 		
 		plot.setBarColorPalette(Palette.Contrast );
+		
+		cm.setPlotWidth(1200);
 		
 		bc.Create();
 		bc.WriteFile("Chart Images/Bar Chart.png");

@@ -24,6 +24,18 @@ public class BarChartAxis extends XYAxis {
 	private Color axisLinesOnPlotColor = Color.WHITE;
 	
 	
+	private double maxValueInHashMap(HashMap<String, Object> map) {
+		double max = 0;
+		Double[] values = map.values().toArray(new Double[0]);
+		for (int i = 0; i < map.values().size(); i++) {
+			if (values[i] > max) {
+				max = values[i];
+			}
+			
+		}
+		return max;
+	}
+	
 	public void setXAxis(String[] xData) {
 		ArrayList<String> uniqueXValues = new ArrayList<String>();
 		for (String value: xData) {
@@ -35,14 +47,20 @@ public class BarChartAxis extends XYAxis {
 		this.xTicks = uniqueXValues.toArray(new String[uniqueXValues.size()]);
 	}
 
-	public void setYAxis(double[] yData) {		
-
-		double maxY = 0;
-		for (int i = 0; i < yData.length; i++) {
-			if (yData[i] > maxY) {
-				maxY = yData[i];
-			}
+	public void setYAxis(HashMap<String, Object> data) {		
+		boolean haveColorCodeValues = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 			
+		double maxY = 0;
+		if (haveColorCodeValues) {
+			for (String xCatagory: data.keySet()) {
+				HashMap<String, Object> map = (HashMap<String, Object>) data.get(xCatagory);
+				double maxValue = maxValueInHashMap(map);
+				if (maxValue > maxY) {
+					maxY = maxValue;
+				}
+			}
+		} else {
+			maxY = maxValueInHashMap(data);
 		}
 		
 		yNS = new NiceScale(0, maxY);
