@@ -17,6 +17,7 @@ import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.PlotFolder.BarChart;
+import thesis.Charter.PlotFolder.BarPlot;
 import thesis.Charter.PlotFolder.ScatterChart;
 import thesis.Charter.PlotFolder.ScatterPlot;
 import thesis.DataFrame.*;
@@ -188,13 +189,19 @@ public class Main {
 	}
 	
 	
-	
 	private static void barCharting() {
-		DataFrame df = new DataFrame("Datasets/fruit.csv", true);
+//		DataFrame df = new DataFrame("Datasets/scores.csv", true);
+		DataFrame df = new DataFrame("Datasets/tips.csv", true);
 		System.out.println(df);
 		
-		BarChart bc = new BarChart(df, "fruit", "price");
+//		BarChart bc = new BarChart(df, "Name", "Math");
+		BarChart bc = new BarChart(df, "day", "total_bill");
+		
+
+//		BarChart bc = new BarChart(df, "Name", new String[] {"Math", "Science"});
 		BarChartAxis axis = (BarChartAxis) bc.getAxis();
+		BarPlot plot = bc.getPlot();
+		XYChartMeasurements cm = bc.getChartMeadurements();
 		
 		axis.setIncludeBottomXAxisTicks(true, true);
 		axis.setIncludeTopXAxisTicks(true, true);
@@ -203,9 +210,21 @@ public class Main {
 		
 		bc.setTitle("sepal_length vs sepal_width");
 		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-	
+		
+		bc.colorCode("sex");
+		
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
+		
+		plot.setDrawBarOutline(true);
+		plot.setBarOutlineColour(Color.BLUE);
+		plot.setBarOutlineWidth(2);
+		plot.setBarWidthPercentage(0.8f);
+		plot.setOrder(new String[] {"Dorris"});
+		
+		plot.setBarColorPalette(Palette.Contrast );
+		
+		cm.setPlotWidth(1200);
 		
 		bc.Create();
 		bc.WriteFile("Chart Images/Bar Chart.png");
