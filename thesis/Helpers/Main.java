@@ -191,8 +191,8 @@ public class Main {
 	
 	private static void barCharting() {
 //		DataFrame df = new DataFrame("Datasets/scores.csv", true);
-		DataFrame df = new DataFrame("Datasets/tips.csv", true);
-		System.out.println(df);
+		DataFrame df = new DataFrame("Datasets/tips_mod.csv", true);
+//		System.out.println(df);
 		
 //		BarChart bc = new BarChart(df, "Name", "Math");
 		BarChart bc = new BarChart(df, "day", "total_bill");
@@ -211,7 +211,8 @@ public class Main {
 		bc.setTitle("sepal_length vs sepal_width");
 		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 		
-		bc.colorCode("sex");
+		bc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
+//		bc.colorCode("sex");
 		
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
@@ -220,7 +221,6 @@ public class Main {
 		plot.setBarOutlineColour(Color.BLUE);
 		plot.setBarOutlineWidth(2);
 		plot.setBarWidthPercentage(0.8f);
-		plot.setOrder(new String[] {"Dorris"});
 		
 		plot.setBarColorPalette(Palette.Contrast );
 		

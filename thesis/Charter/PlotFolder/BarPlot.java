@@ -39,8 +39,6 @@ public class BarPlot extends Plot {
 
 	private Color barColor = barColorPalette[0];
 
-	private String[] order = {};
-
 	boolean singleColor = true;
 
 	boolean drawBarValue = true;
@@ -179,14 +177,6 @@ public class BarPlot extends Plot {
 
 	public void setBarWidthPercentage(double barWidthPercentage) {
 		this.singlularBarWidthPercentage = barWidthPercentage;
-	}
-
-	public String[] getOrder() {
-		return this.order;
-	}
-
-	public void setOrder(String[] order) {
-		this.order = order;
 	}
 
 	public Color getBarColor() {
