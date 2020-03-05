@@ -47,10 +47,10 @@ public class BarChart extends XYChart{
 		this.axis.setXAxis(xDataFormatted);
 		this.axis.setYAxis(data);
 
-//		if (this.legend.getIncludeLegend()) {
-//			Object[] hueValies = { "a", "b" };
-//			this.legend.calculateLegend("Hello", hueValies);
-//		}
+		if (this.legend.getIncludeLegend()) {
+			Object[] hueValies = uniqueColorCodeValues;
+			this.legend.calculateLegend(this.colorCodeLabel, hueValies);
+		}
 
 		cm.calculateChartImageMetrics(this.axis, this.plot, this.legend, getTitle(), getTitleFont());
 
@@ -72,9 +72,9 @@ public class BarChart extends XYChart{
 		this.axis.drawXAxisLabel(g, cm);
 		this.axis.drawYAxisLabel(g, cm);
 
-////		if (this.legend.getIncludeLegend()) {
-////			this.legend.drawLegend(g, cm, this.plot.getColorPalette());
-////		}
+		if (this.legend.getIncludeLegend()) {
+			this.legend.drawLegend(g, cm, this.plot.getBarColorPalette());
+		}
 
 		this.drawTitle(g, cm);
 	}
