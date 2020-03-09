@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
@@ -17,6 +18,9 @@ public class LineChart extends XYChart {
 	NumericAxis axis;
 	LinePlot plot;
 	Legend legend;
+	
+	private String colorCodeLabel;
+	private String[] colorCodeValues; 
 
 	public LineChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.GetColumnAsArray(xAxis), dataFrame.GetColumnAsArray(yAxis), "Bar");
@@ -33,6 +37,10 @@ public class LineChart extends XYChart {
 	public void Create() {
 		Number[] xValues = convertDataItemListIntoNumberList(this.xData);
 		Number[] yValues = convertDataItemListIntoNumberList(this.yData);
+		String[] uniqueColorCodeValues = getUniqueColorCodeValues();
+		for (int i = 0; i < uniqueColorCodeValues.length; i++) {
+			System.out.println(uniqueColorCodeValues[i]);
+		}
 
 		HashMap<Number, Number> data = calculateLineData(xValues, yValues);
 
@@ -68,6 +76,25 @@ public class LineChart extends XYChart {
 		this.plot.drawPlot(g, this.axis, data, cm);
 	}
 
+	private String[] getUniqueColorCodeValues() {
+		Set<String> uniqueList = new HashSet<String>();
+
+		if (this.colorCodeValues != null) {
+			
+			for (String nextElem : this.colorCodeValues) {
+				uniqueList.add(nextElem);
+			}
+			
+			if (uniqueList.size() == 1) {
+				return new String[0];
+			}
+			
+			return uniqueList.stream().toArray(String[]::new);
+		} else {
+			return new String[0];
+		}
+	}
+	
 	private Number minimumXValue(HashMap<Number, Number> data) {
 		Number min = null;
 
@@ -178,6 +205,12 @@ public class LineChart extends XYChart {
 
 	public Legend getLegend() {
 		return this.legend;
+	}
+	
+	public void colorCode(String colorCodeLabel) {
+		this.colorCodeLabel = colorCodeLabel;
+		this.colorCodeValues = this.dataFrame.GetColumnAsStringArray(this.colorCodeLabel);
+		this.legend.setIncludeLegend(true);
 	}
 
 }

@@ -49,6 +49,11 @@ public class Main {
 		NumericAxis axis = (NumericAxis) lc.getAxis();
 		LinePlot plot = lc.getPlot();
 		
+		plot.setLineColor(Color.RED);
+		plot.setLineThickness(2);
+//		plot.setMarkerDotColor(Color.WHITE);
+		
+		lc.colorCode("event");
 		
 		lc.Create();
 		lc.WriteFile("Chart Images/Line Chart.png");
