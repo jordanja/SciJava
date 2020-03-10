@@ -215,7 +215,7 @@ public class LineChart extends XYChart {
 			Number[] uniqueXValues = removeDuplicates(xValues);
 			
 			HashMap<Number, Number> runningTotals = new HashMap<Number, Number>();
-			HashMap<Number, Number> runningCount = new HashMap<Number, Number>();
+			HashMap<Number, Integer> runningCount = new HashMap<Number, Integer>();
 			
 			for (Number xValue : uniqueXValues) {
 				runningTotals.put(xValue, 0);
@@ -224,7 +224,7 @@ public class LineChart extends XYChart {
 			
 			for (int i = 0; i < xValues.length; i++) {
 				runningTotals.put(xValues[i], runningTotals.get(xValues[i]).doubleValue() + yValues[i].doubleValue());
-				runningCount.put(xValues[i], runningCount.get(xValues[i]).intValue() + 1);
+				runningCount.put(xValues[i], runningCount.get(xValues[i]) + 1);
 			}
 			
 			for (Number xValue : uniqueXValues) {
@@ -233,11 +233,11 @@ public class LineChart extends XYChart {
 		} else {
 			
 			HashMap<String, HashMap<Number, Number>> runningTotals = new HashMap<String, HashMap<Number, Number>>(); 
-			HashMap<String, HashMap<Number, Number>> runningCounts = new HashMap<String, HashMap<Number, Number>>(); 
+			HashMap<String, HashMap<Number, Integer>> runningCounts = new HashMap<String, HashMap<Number, Integer>>(); 
 			
 			for (String uniqueColorCodeValue: uniqueColorCodeValues) {
 				HashMap<Number, Number> runningTotal = new HashMap<Number, Number>();
-				HashMap<Number, Number> runningCount = new HashMap<Number, Number>();
+				HashMap<Number, Integer> runningCount = new HashMap<Number, Integer>();
 				runningTotals.put(uniqueColorCodeValue, runningTotal);
 				runningCounts.put(uniqueColorCodeValue, runningCount);
 			}
@@ -248,7 +248,7 @@ public class LineChart extends XYChart {
 					runningCounts.get(this.colorCodeValues[i]).put(xValues[i], 1);
 				} else {
 					runningTotals.get(this.colorCodeValues[i]).put(xValues[i], yValues[i].doubleValue() + runningTotals.get(this.colorCodeValues[i]).get(xValues[i]).doubleValue());
-					runningCounts.get(this.colorCodeValues[i]).put(xValues[i], 1 + runningCounts.get(this.colorCodeValues[i]).get(xValues[i]).intValue());
+					runningCounts.get(this.colorCodeValues[i]).put(xValues[i], 1 + runningCounts.get(this.colorCodeValues[i]).get(xValues[i]));
 				}
 			}
 			
