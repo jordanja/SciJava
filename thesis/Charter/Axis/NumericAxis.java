@@ -242,7 +242,10 @@ public class NumericAxis extends XYAxis {
 				.ceil((((largestY - yNS.getNiceMin()) + yNS.getTickSpacing()) / yNS.getTickSpacing()) + 1)];
 		int count = 0;
 		for (double yTickNum = yNS.getNiceMin(); count < this.yTicks.length; yTickNum += yNS.getTickSpacing()) {
-			this.yTicks[count] = String.valueOf(yTickNum);
+			DecimalFormat df = new DecimalFormat("#.##");
+			df.setRoundingMode(RoundingMode.HALF_DOWN);
+			
+			this.yTicks[count] = df.format(yTickNum);
 			count++;
 
 		}

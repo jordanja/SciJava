@@ -13,11 +13,14 @@ import java.time.LocalDateTime;
 
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.BarChartAxis;
+import thesis.Charter.Axis.LineChartAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.PlotFolder.BarChart;
 import thesis.Charter.PlotFolder.BarPlot;
+import thesis.Charter.PlotFolder.LineChart;
+import thesis.Charter.PlotFolder.LinePlot;
 import thesis.Charter.PlotFolder.ScatterChart;
 import thesis.Charter.PlotFolder.ScatterPlot;
 import thesis.DataFrame.*;
@@ -28,13 +31,164 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
-
-		barCharting();
+		lineCharting();
+//		barCharting();
 //		scatterCharting();
 //		dfPlay();
 				
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
+	
+	
+	public static void lineCharting() {
+		DataFrame df = new DataFrame("Datasets/fmri.csv", true);
+		System.out.println(df);
+		
+		LineChart lc = new LineChart(df, "timepoint", "signal");
+		
+		NumericAxis axis = (NumericAxis) lc.getAxis();
+		LinePlot plot = lc.getPlot();
+		
+		plot.setLineColor(Color.RED);
+		plot.setLineThickness(2);
+		plot.setMarkerDotColor(Color.WHITE);
+		plot.setMarkerDotOutlineColor(Color.BLACK);
+		
+		lc.colorCode("event");
+		
+		axis.setXAxisLabel("sepal_length");
+		axis.setYAxisLabel("sepal_width");
+		
+		lc.setTitle("sepal_length vs sepal_width");
+		lc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+		
+		
+		lc.Create();
+		lc.WriteFile("Chart Images/Line Chart.png");
+		
+	}
+	
+	
+	private static void barCharting() {
+		DataFrame df = new DataFrame("Datasets/tips_mod.csv", true);
+	
+		BarChart bc = new BarChart(df, "day", "total_bill");
+		
+		BarChartAxis axis = (BarChartAxis) bc.getAxis();
+		BarPlot plot = bc.getPlot();
+		XYChartMeasurements cm = bc.getChartMeadurements();
+		
+		axis.setIncludeBottomXAxisTicks(true, true);
+		axis.setIncludeTopXAxisTicks(true, true);
+		axis.setIncludeLeftYAxisTicks(true, true);
+		axis.setIncludeRightYAxisTicks(true, true);
+		
+		bc.setTitle("sepal_length vs sepal_width");
+		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+		
+		bc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
+//		bc.colorCode("sex");
+		
+		axis.setXAxisLabel("sepal_length");
+		axis.setYAxisLabel("sepal_width");
+		
+		plot.setDrawBarOutline(true);
+		plot.setBarOutlineColour(Color.BLUE);
+		plot.setBarOutlineWidth(2);
+		plot.setBarWidthPercentage(0.8f);
+		
+		plot.setBarColorPalette(Palette.Contrast );
+		
+		cm.setPlotWidth(1200);
+		
+		bc.Create();
+		bc.WriteFile("Chart Images/Bar Chart.png");
+	}
+	
+	
+	private static void scatterCharting() {
+		
+		
+		
+		DataFrame df = new DataFrame("Datasets/iris.csv", true);
+		
+		ScatterChart sc = new ScatterChart(df, "sepal_length", "sepal_width");
+		
+		NumericAxis axis = (NumericAxis) sc.getAxis();
+		ScatterPlot plot = (ScatterPlot) sc.getPlot();
+		Legend legend = sc.getLegend();
+		
+		sc.setTitle("sepal_length vs sepal_width");
+		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+		sc.colorCode("species");
+		axis.setXAxisLabel("sepal_length");
+		axis.setYAxisLabel("sepal_width");
+		
+		plot.includeDataPointOutline(true);
+		
+		XYChartMeasurements cm = sc.getChartMeasurements();
+		cm.setLeftAxisLabelToLeftAxisWidth(15);
+		cm.setTopAxisLabelToTitleHeight(15);
+		
+	
+		
+		cm.setPlotWidth(800);
+
+		axis.setIncludeZeroXAxis(true);
+		axis.setIncludeZeroYAxis(true);
+		
+		axis.setIncludeExteriorTicks(true, false, true, false);
+		axis.setTickColor(Color.RED);
+				
+		cm.setTickLengths(20);
+		axis.setTickThickness(2);
+		
+		
+		axis.setIncludeBottomXAxisTicks(true, true);
+		axis.setIncludeTopXAxisTicks(true, true);
+		axis.setIncludeLeftYAxisTicks(true, true);
+		axis.setIncludeRightYAxisTicks(true, true);
+		
+		axis.setIncludeTopXLabel(true);
+		axis.setIncludeRightYLabel(true);
+
+		axis.setIncludeTopXAxisValues(true);
+		axis.setIncludeRightYAxisValues(true);
+
+		plot.includeChartOutline(new boolean[] {true, false, true, false});
+		plot.includeDataPointOutline(true);
+		
+		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 30));
+
+		axis.setXAxisLabel("I am x axis label");
+		axis.setYAxisLabel("I am y axis label");
+		cm.setLegendToImageRightWidth(20);
+		cm.setImageBottomToBottomAxisLabelHeight(20);
+		cm.setImageLeftToLeftAxisLabelWidth(20);
+		cm.setTopAxisLabelToTitleHeight(20);
+		
+		cm.setTitleToImageTopHeight(20);
+		
+		cm.setBottomAxisLabelToBottomAxisHeight(15);
+		cm.setTopAxisToTopAxisLabelHeight(15);
+		cm.setLeftAxisLabelToLeftAxisWidth(15);
+		cm.setRightAxisToRightAxisLabelWidth(15);
+		
+		cm.setRightAxisLabelToLegendWidth(40);
+		
+		sc.setIncludeLegend(false);
+		
+		
+		
+		sc.Create();
+		sc.WriteFile("Chart Images/New Format.png");
+		
+	}
+	
+	
+	
+	
+	
 
 	private static void dfPlay() {
 //		DataFrame df = play();
@@ -189,126 +343,7 @@ public class Main {
 	}
 	
 	
-	private static void barCharting() {
-//		DataFrame df = new DataFrame("Datasets/scores.csv", true);
-		DataFrame df = new DataFrame("Datasets/tips_mod.csv", true);
-//		System.out.println(df);
-		
-//		BarChart bc = new BarChart(df, "Name", "Math");
-		BarChart bc = new BarChart(df, "day", "total_bill");
-		
-
-//		BarChart bc = new BarChart(df, "Name", new String[] {"Math", "Science"});
-		BarChartAxis axis = (BarChartAxis) bc.getAxis();
-		BarPlot plot = bc.getPlot();
-		XYChartMeasurements cm = bc.getChartMeadurements();
-		
-		axis.setIncludeBottomXAxisTicks(true, true);
-		axis.setIncludeTopXAxisTicks(true, true);
-		axis.setIncludeLeftYAxisTicks(true, true);
-		axis.setIncludeRightYAxisTicks(true, true);
-		
-		bc.setTitle("sepal_length vs sepal_width");
-		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-		
-		bc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
-//		bc.colorCode("sex");
-		
-		axis.setXAxisLabel("sepal_length");
-		axis.setYAxisLabel("sepal_width");
-		
-		plot.setDrawBarOutline(true);
-		plot.setBarOutlineColour(Color.BLUE);
-		plot.setBarOutlineWidth(2);
-		plot.setBarWidthPercentage(0.8f);
-		
-		plot.setBarColorPalette(Palette.Contrast );
-		
-		cm.setPlotWidth(1200);
-		
-		bc.Create();
-		bc.WriteFile("Chart Images/Bar Chart.png");
-	}
 	
-	
-	private static void scatterCharting() {
-		
-		
-		
-		DataFrame df = new DataFrame("Datasets/iris.csv", true);
-		
-		ScatterChart sc = new ScatterChart(df, "sepal_length", "sepal_width");
-		
-		NumericAxis axis = (NumericAxis) sc.getAxis();
-		ScatterPlot plot = (ScatterPlot) sc.getPlot();
-		Legend legend = sc.getLegend();
-		
-		sc.setTitle("sepal_length vs sepal_width");
-		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-		sc.colorCode("species");
-		axis.setXAxisLabel("sepal_length");
-		axis.setYAxisLabel("sepal_width");
-		
-		plot.includeDataPointOutline(true);
-		
-		XYChartMeasurements cm = sc.getChartMeasurements();
-		cm.setLeftAxisLabelToLeftAxisWidth(15);
-		cm.setTopAxisLabelToTitleHeight(15);
-		
-	
-		
-		cm.setPlotWidth(800);
-
-		axis.setIncludeZeroXAxis(true);
-		axis.setIncludeZeroYAxis(true);
-		
-		axis.setIncludeExteriorTicks(true, false, true, false);
-		axis.setTickColor(Color.RED);
-				
-		cm.setTickLengths(20);
-		axis.setTickThickness(2);
-		
-		
-		axis.setIncludeBottomXAxisTicks(true, true);
-		axis.setIncludeTopXAxisTicks(true, true);
-		axis.setIncludeLeftYAxisTicks(true, true);
-		axis.setIncludeRightYAxisTicks(true, true);
-		
-		axis.setIncludeTopXLabel(true);
-		axis.setIncludeRightYLabel(true);
-
-		axis.setIncludeTopXAxisValues(true);
-		axis.setIncludeRightYAxisValues(true);
-
-		plot.includeChartOutline(new boolean[] {true, false, true, false});
-		plot.includeDataPointOutline(true);
-		
-		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 30));
-
-		axis.setXAxisLabel("I am x axis label");
-		axis.setYAxisLabel("I am y axis label");
-		cm.setLegendToImageRightWidth(20);
-		cm.setImageBottomToBottomAxisLabelHeight(20);
-		cm.setImageLeftToLeftAxisLabelWidth(20);
-		cm.setTopAxisLabelToTitleHeight(20);
-		
-		cm.setTitleToImageTopHeight(20);
-		
-		cm.setBottomAxisLabelToBottomAxisHeight(15);
-		cm.setTopAxisToTopAxisLabelHeight(15);
-		cm.setLeftAxisLabelToLeftAxisWidth(15);
-		cm.setRightAxisToRightAxisLabelWidth(15);
-		
-		cm.setRightAxisLabelToLegendWidth(40);
-		
-		sc.setIncludeLegend(false);
-		
-		
-		
-		sc.Create();
-		sc.WriteFile("Chart Images/New Format.png");
-		
-	}
 	
 	
 	

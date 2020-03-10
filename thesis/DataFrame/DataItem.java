@@ -65,20 +65,30 @@ public class DataItem {
 		initialize(StorageType.String, value);
 	}
 	
-	// Boolean Value
-	public DataItem(Boolean value) {
-//		initialize(StorageType.Boolean, value);
-	}
-	public DataItem(boolean value) {
-//		initialize(StorageType.Boolean, value);
-	}
-	
 	// Integer Value
 	public DataItem(Integer value) {
 //		initialize(StorageType.Integer, value);
 	}
 	public DataItem(int value) {
 //		initialize(StorageType.Integer, value);
+	}
+	
+	// Double Value
+	public DataItem(Double value) {
+//		initialize(StorageType.Double, value);
+	}
+	public DataItem(double value) {
+//		initialize(StorageType.Double, value);
+	}
+	
+	
+	
+	// Boolean Value
+	public DataItem(Boolean value) {
+//		initialize(StorageType.Boolean, value);
+	}
+	public DataItem(boolean value) {
+//		initialize(StorageType.Boolean, value);
 	}
 	
 	// Long Value
@@ -95,14 +105,6 @@ public class DataItem {
 	}
 	public DataItem(float value) {
 //		initialize(StorageType.Float, value);
-	}
-	
-	// Double Value
-	public DataItem(Double value) {
-//		initialize(StorageType.Double, value);
-	}
-	public DataItem(double value) {
-//		initialize(StorageType.Double, value);
 	}
 	
 	public DataItem(Date value) {
@@ -213,6 +215,13 @@ public class DataItem {
 		return Double.parseDouble(String.valueOf(getObjectValue()));
 	}
 	
+	public Number getValueConvertedToNumber() {
+		if (this.type == StorageType.Integer) {
+			return this.intValue;
+		} else if (this.type == StorageType.Double) {
+			return this.doubleValue;
+		} else return null;
+	}
 	
 	@Override
 	public String toString() {
