@@ -13,8 +13,11 @@ import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.DataFrame.DataItem;
+import thesis.Helpers.Palette;
 
 public class LinePlot extends Plot{
+
+	private Color[] lineColorPalette = Palette.Contrast;
 
 	private Color lineColor = Color.black;
 	private int lineThickness = 2;
@@ -24,7 +27,8 @@ public class LinePlot extends Plot{
 	private int markerDotRadius = 5;
 	
 	
-	public void drawPlot(Graphics2D g, NumericAxis axis, HashMap<Number, Number> data, XYChartMeasurements cm) {
+	public void drawPlot(Graphics2D g, NumericAxis axis, HashMap<Object, Object> data, XYChartMeasurements cm) {
+		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 
 		double[] xTicks = Arrays.stream(axis.getxTicks())
                 .mapToDouble(Double::parseDouble)
@@ -33,18 +37,38 @@ public class LinePlot extends Plot{
                 .mapToDouble(Double::parseDouble)
                 .toArray();
 		
-		g.setColor(this.lineColor);
+		
 		g.setStroke(new BasicStroke(this.lineThickness));
 		
-		Number[] xValues = data.keySet().toArray(new Number[0]);
+		if (hasMultipleLines) {
+			String[] colorCodeValues = data.keySet().toArray(new String[0]);
+			
+			for (int lineCount = 0; lineCount < colorCodeValues.length; lineCount++) {
+				HashMap<Object, Object> lineData = (HashMap<Object, Object>) data.get(colorCodeValues[lineCount]);
+				g.setColor(this.lineColorPalette[lineCount % this.lineColorPalette.length]);
+				drawLine(g, axis, lineData, cm, xTicks, yTicks);
+			}
+			
+		} else {
+			g.setColor(this.lineColor);
+			drawLine(g, axis, data, cm, xTicks, yTicks);
+		}
+	}
+
+
+
+
+
+	private void drawLine(Graphics2D g, NumericAxis axis, HashMap<Object, Object> lineData, XYChartMeasurements cm, double[] xTicks, double[] yTicks) {
+		Number[] xValues = lineData.keySet().toArray(new Number[0]);
 		for (int i = 0; i < xValues.length - 1; i++) {
 			Number xValue1 = xValues[i];
 			double xPos1 = xPlotValueToXPixelValue(xValue1.doubleValue(), axis.getxNS(), xTicks, cm);
-			double yPos1 = yPlotValueToYPixelValue(data.get(xValue1).doubleValue(), axis.getyNS(), yTicks, cm);
+			double yPos1 = yPlotValueToYPixelValue(((Number)lineData.get(xValue1)).doubleValue(), axis.getyNS(), yTicks, cm);
 			
 			Number xValue2 = xValues[i + 1];
 			double xPos2 = xPlotValueToXPixelValue(xValue2.doubleValue(), axis.getxNS(), xTicks, cm);
-			double yPos2 = yPlotValueToYPixelValue(data.get(xValue2).doubleValue(), axis.getyNS(), yTicks, cm);
+			double yPos2 = yPlotValueToYPixelValue(((Number)lineData.get(xValue2)).doubleValue(), axis.getyNS(), yTicks, cm);
 			
 			g.drawLine((int)xPos1, (int)yPos1, (int)xPos2, (int)yPos2);
 		}
@@ -53,15 +77,18 @@ public class LinePlot extends Plot{
 			
 			for (int i = 0; i < xValues.length; i++) {
 				Number xValue = xValues[i];
-				Number yValue = data.get(xValue);
+				Number yValue = (Number)lineData.get(xValue);
 				
 				double xPos = xPlotValueToXPixelValue(xValue.doubleValue(), axis.getxNS(), xTicks, cm);
 				double yPos = yPlotValueToYPixelValue(yValue.doubleValue(), axis.getyNS(), yTicks, cm);
-	
+				
 				drawMarkerDot(g, (int)xPos, (int)yPos);
 			}
 		}
 	}
+
+
+	
 
 
 	private void drawMarkerDot(Graphics2D g, int xCenter, int yCenter) {
@@ -114,6 +141,12 @@ public class LinePlot extends Plot{
 		return this.markerDotRadius;
 	}
 	
+	public Color[] getLineColorPalette() {
+		return lineColorPalette;
+	}
+	public void setLineColorPalette(Color[] lineColorPalette) {
+		this.lineColorPalette = lineColorPalette;
+	}
 
 	@Override
 	public void drawPlot(Graphics2D g, Axis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues,
