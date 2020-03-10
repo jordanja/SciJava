@@ -103,6 +103,28 @@ public class LineChart extends XYChart {
 		}
 	}
 	
+	private Number minValueInList(Number[] arr) {
+		Number min = null;
+		
+		for (Number value : arr) {
+			if ((min == null) || (value.doubleValue() < min.doubleValue())) {
+				min = value;
+			}
+		}
+		return min;
+	}
+	
+	private Number maxValueInList(Number[] arr) {
+		Number max = null;
+		
+		for (Number value : arr) {
+			if ((max == null) || (value.doubleValue() > max.doubleValue())) {
+				max = value;
+			}
+		}
+		return max;
+	}
+	
 	private Number minimumXValue(HashMap<Object, Object> data) {
 		Number min = null;
 		
@@ -111,18 +133,14 @@ public class LineChart extends XYChart {
 		if (hasMultipleLines) {
 			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
 				HashMap<Number, Number> lineData = (HashMap<Number, Number>) data.get(colorCodeCatagory);
-				for (Number xValue : lineData.keySet()) {
-					if ((min == null) || (xValue.doubleValue() < min.doubleValue())) {
-						min = xValue;
-					}
+				Number minValueInLine = minValueInList(lineData.keySet().toArray(new Number[0]));
+				
+				if ((min == null) || (minValueInLine.doubleValue() < min.doubleValue())){
+					min = minValueInLine;
 				}
 			}
 		} else {
-			for (Number xValue : data.keySet().toArray(new Number[0])) {
-				if ((min == null) || (xValue.doubleValue() < min.doubleValue())) {
-					min = xValue;
-				}
-			}
+			min = minValueInList(data.keySet().toArray(new Number[0]));
 		}
 
 		return min;
@@ -137,19 +155,14 @@ public class LineChart extends XYChart {
 		if (hasMultipleLines) {
 			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
 				HashMap<Number, Number> lineData = (HashMap<Number, Number>) data.get(colorCodeCatagory);
-				for (Number xValue : lineData.keySet()) {
-					if ((max == null) || (xValue.doubleValue() > max.doubleValue())) {
-						max = xValue;
-					}
+				Number maxValueInLine = maxValueInList(lineData.keySet().toArray(new Number[0]));
+				
+				if ((max == null) || (maxValueInLine.doubleValue() > max.doubleValue())){
+					max = maxValueInLine;
 				}
 			}
 		} else {
-			
-			for (Number xValue : data.keySet().toArray(new Number[0])) {
-				if ((max == null) || (xValue.doubleValue() > max.doubleValue())) {
-					max = xValue;
-				}
-			}
+			max = maxValueInList(data.keySet().toArray(new Number[0]));
 		}
 
 		return max;
@@ -164,18 +177,13 @@ public class LineChart extends XYChart {
 		if (hasMultipleLines) {
 			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
 				HashMap<Number, Number> lineData = (HashMap<Number, Number>) data.get(colorCodeCatagory);
-				for (Number xValue: lineData.keySet()) {
-					if ((min == null) || (lineData.get(xValue).doubleValue() < min.doubleValue())) {
-						min = lineData.get(xValue);
-					}
+				Number minValueInLine = minValueInList(lineData.values().toArray(new Number[0]));
+				if ((min == null) || (minValueInLine.doubleValue() < min.doubleValue())) {
+					min = minValueInLine;
 				}
 			}
-		} else {			
-			for (Number xValue: data.keySet().toArray(new Number[0])) {
-				if ((min == null) || (((Number)data.get(xValue)).doubleValue() < min.doubleValue())) {
-					min = (Number)data.get(xValue);
-				}
-			}
+		} else {
+			min = minValueInList(data.values().toArray(new Number[0]));
 		}
 		
 		
@@ -190,19 +198,13 @@ public class LineChart extends XYChart {
 		if (hasMultipleLines) {
 			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
 				HashMap<Number, Number> lineData = (HashMap<Number, Number>) data.get(colorCodeCatagory);
-				for (Number xValue: lineData.keySet()) {
-					if ((max == null) || (lineData.get(xValue).doubleValue() > max.doubleValue())) {
-						max = lineData.get(xValue);
-					}
+				Number maxValueInLine = maxValueInList(lineData.values().toArray(new Number[0]));
+				if ((max == null) || (maxValueInLine.doubleValue() > max.doubleValue())) {
+					max = maxValueInLine;
 				}
 			}
 		} else {
-			
-			for (Number xValue: data.keySet().toArray(new Number[0])) {
-				if ((max == null) || (((Number)data.get(xValue)).doubleValue() > max.doubleValue())) {
-					max = (Number)data.get(xValue);
-				}
-			}
+			max = maxValueInList(data.values().toArray(new Number[0]));
 		}
 		
 		return max;
