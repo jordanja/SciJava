@@ -47,15 +47,15 @@ public class LineChart extends XYChart {
 		Double maxX = maximumXValue(data).doubleValue();
 		Double minY = minimumYValue(data).doubleValue();
 		Double maxY = maximumYValue(data).doubleValue();
-//		
+		
 		this.axis.calculateXAxis(minX, maxX);
 		this.axis.calculateYAxis(minY, maxY);
 
 
-////		if (this.legend.getIncludeLegend()) {
-////			Object[] hueValies = uniqueColorCodeValues;
-////			this.legend.calculateLegend(this.colorCodeLabel, hueValies);
-////		}
+		if (this.legend.getIncludeLegend()) {
+			Object[] hueValies = uniqueColorCodeValues;
+			this.legend.calculateLegend(this.colorCodeLabel, hueValies);
+		}
 
 		cm.calculateChartImageMetrics(this.axis, this.plot, this.legend, getTitle(), getTitleFont());
 
@@ -73,6 +73,15 @@ public class LineChart extends XYChart {
 		this.axis.drawAxisTicks(g, cm);
 		
 		this.plot.drawPlot(g, this.axis, data, cm);
+	
+		this.axis.drawXAxisLabel(g, cm);
+		this.axis.drawYAxisLabel(g, cm);
+		
+		if (this.legend.getIncludeLegend()) {
+			this.legend.drawLegend(g, cm, this.plot.getLineColorPalette());
+		}
+		
+		this.drawTitle(g, cm);
 	}
 
 	private String[] getUniqueColorCodeValues() {

@@ -51,9 +51,17 @@ public class Main {
 		
 		plot.setLineColor(Color.RED);
 		plot.setLineThickness(2);
-//		plot.setMarkerDotColor(Color.WHITE);
+		plot.setMarkerDotColor(Color.WHITE);
+		plot.setMarkerDotOutlineColor(Color.BLACK);
 		
 		lc.colorCode("event");
+		
+		axis.setXAxisLabel("sepal_length");
+		axis.setYAxisLabel("sepal_width");
+		
+		lc.setTitle("sepal_length vs sepal_width");
+		lc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+		
 		
 		lc.Create();
 		lc.WriteFile("Chart Images/Line Chart.png");

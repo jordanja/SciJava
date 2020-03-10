@@ -25,6 +25,9 @@ public class LinePlot extends Plot{
 	private boolean drawMarkerDots = false;
 	private Color markerDotColor = Color.black;
 	private int markerDotRadius = 5;
+	private boolean drawMarkerDotOutline = false;
+	private Color markerDotOutlineColor = Color.white;
+	private int markerDotOutlineWidth = 2;
 	
 	
 	public void drawPlot(Graphics2D g, NumericAxis axis, HashMap<Object, Object> data, XYChartMeasurements cm) {
@@ -94,6 +97,13 @@ public class LinePlot extends Plot{
 	private void drawMarkerDot(Graphics2D g, int xCenter, int yCenter) {
 		g.setColor(this.markerDotColor);
 		g.fillOval(xCenter - this.markerDotRadius/2, yCenter - this.markerDotRadius/2, this.markerDotRadius, this.markerDotRadius);
+		
+		if (this.drawMarkerDotOutline) {
+			g.setStroke(new BasicStroke(this.markerDotOutlineWidth));
+			g.setColor(this.markerDotOutlineColor);
+			g.drawOval(xCenter - this.markerDotRadius/2, yCenter - this.markerDotRadius/2, this.markerDotRadius, this.markerDotRadius);
+		}
+		
 	}
 	
 	private double xPlotValueToXPixelValue(double xPos, NiceScale xNS, double[] xTicks, XYChartMeasurements cm) {
@@ -147,7 +157,31 @@ public class LinePlot extends Plot{
 	public void setLineColorPalette(Color[] lineColorPalette) {
 		this.lineColorPalette = lineColorPalette;
 	}
+	
+	public boolean getDrawMarkerDotOutline() {
+		return drawMarkerDotOutline;
+	}
+	public void setDrawMarkerDotOutline(boolean drawMarkerDotOutline) {
+		this.drawMarkerDotOutline = drawMarkerDotOutline;
+	}
 
+	public Color getMarkerDotOutlineColor() {
+		return markerDotOutlineColor;
+	}
+	public void setMarkerDotOutlineColor(Color markerDotOutlineColor) {
+		this.markerDotOutlineColor = markerDotOutlineColor;
+		this.drawMarkerDotOutline = true;
+	}
+
+	public int getMarkerDotOutlineWidth() {
+		return markerDotOutlineWidth;
+	}
+	public void setMarkerDotOutlineWidth(int markerDotOutlineWidth) {
+		this.markerDotOutlineWidth = markerDotOutlineWidth;
+		this.drawMarkerDotOutline = true;
+	}
+	
+	
 	@Override
 	public void drawPlot(Graphics2D g, Axis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues,
 			XYChartMeasurements cm) {
