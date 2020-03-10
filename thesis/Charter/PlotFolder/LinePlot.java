@@ -3,6 +3,7 @@ package thesis.Charter.PlotFolder;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,7 +30,9 @@ public class LinePlot extends Plot{
 	private Color markerDotOutlineColor = Color.white;
 	private int markerDotOutlineWidth = 2;
 	
-	
+	private boolean dashedLine = false;
+
+
 	public void drawPlot(Graphics2D g, NumericAxis axis, HashMap<Object, Object> data, XYChartMeasurements cm) {
 		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 
@@ -40,8 +43,11 @@ public class LinePlot extends Plot{
                 .mapToDouble(Double::parseDouble)
                 .toArray();
 		
-		
-		g.setStroke(new BasicStroke(this.lineThickness));
+		if (this.dashedLine) {
+	        g.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, new float[]{9}, 0));
+		} else {			
+			g.setStroke(new BasicStroke(this.lineThickness));
+		}
 		
 		if (hasMultipleLines) {
 			String[] colorCodeValues = data.keySet().toArray(new String[0]);
@@ -64,18 +70,19 @@ public class LinePlot extends Plot{
 
 	private void drawLine(Graphics2D g, NumericAxis axis, HashMap<Object, Object> lineData, XYChartMeasurements cm, double[] xTicks, double[] yTicks) {
 		Number[] xValues = lineData.keySet().toArray(new Number[0]);
-		for (int i = 0; i < xValues.length - 1; i++) {
+		int[] xPoints = new int[xValues.length];
+		int[] yPoints = new int[xValues.length];
+		for (int i = 0; i < xValues.length; i++) {
 			Number xValue1 = xValues[i];
-			double xPos1 = xPlotValueToXPixelValue(xValue1.doubleValue(), axis.getxNS(), xTicks, cm);
-			double yPos1 = yPlotValueToYPixelValue(((Number)lineData.get(xValue1)).doubleValue(), axis.getyNS(), yTicks, cm);
+			int xPos = (int)xPlotValueToXPixelValue(xValue1.doubleValue(), axis.getxNS(), xTicks, cm);
+			int yPos = (int)yPlotValueToYPixelValue(((Number)lineData.get(xValue1)).doubleValue(), axis.getyNS(), yTicks, cm);
 			
-			Number xValue2 = xValues[i + 1];
-			double xPos2 = xPlotValueToXPixelValue(xValue2.doubleValue(), axis.getxNS(), xTicks, cm);
-			double yPos2 = yPlotValueToYPixelValue(((Number)lineData.get(xValue2)).doubleValue(), axis.getyNS(), yTicks, cm);
+			xPoints[i] = xPos;
+			yPoints[i] = yPos;
 			
-			g.drawLine((int)xPos1, (int)yPos1, (int)xPos2, (int)yPos2);
 		}
 		
+		g.drawPolyline(xPoints, yPoints, xPoints.length);
 		if (this.drawMarkerDots) {
 			
 			for (int i = 0; i < xValues.length; i++) {
@@ -181,6 +188,12 @@ public class LinePlot extends Plot{
 		this.drawMarkerDotOutline = true;
 	}
 	
+	public boolean getDashedLine() {
+		return this.dashedLine;
+	}
+	public void setDashedLine(boolean dashedLine) {
+		this.dashedLine = dashedLine;
+	}
 	
 	@Override
 	public void drawPlot(Graphics2D g, Axis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues,
