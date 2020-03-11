@@ -31,12 +31,18 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
-		lineCharting();
+		boxCharting();
+//		lineCharting();
 //		barCharting();
 //		scatterCharting();
 //		dfPlay();
 				
 		System.out.println("\n\nFINISHED EXECUTION");
+	}
+	
+	public static void boxCharting() {
+		DataFrame df = new DataFrame("Datasets/tips.csv", true);
+		System.out.println(df);
 	}
 	
 	
