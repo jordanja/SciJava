@@ -17,7 +17,7 @@ public abstract class XYChart extends Chart {
 	
 	
 	public XYChart(DataFrame dataFrame, DataItem[] xData, DataItem[] yData, String chartType) {
-		super(dataFrame, xData, yData, chartType);	
+		super(dataFrame, chartType);	
 		this.xData = xData;
 		this.yData = yData;
 	}
@@ -25,6 +25,14 @@ public abstract class XYChart extends Chart {
 	
 	
 	
+	public XYChart(DataFrame dataFrame, DataItem[] xData, String chartType) {
+		super(dataFrame, chartType);
+		this.xData = xData;
+	}
+
+
+
+
 	protected void drawXDebugLines(Graphics2D g, XYChartMeasurements cm) {
 		g.setStroke(new BasicStroke(1));
 		g.setColor(Color.GRAY);

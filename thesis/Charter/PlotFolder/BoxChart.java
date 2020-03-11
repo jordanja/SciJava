@@ -12,6 +12,10 @@ public class BoxChart extends XYChart{
 	BoxPlot plot;
 	Legend legend;
 	
+	public BoxChart(DataFrame dataFrame, String xAxis) {
+		super(dataFrame,dataFrame.GetColumnAsArray(xAxis), "Box");
+	}
+	
 	public BoxChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.GetColumnAsArray(xAxis), dataFrame.GetColumnAsArray(yAxis), "Box");
 		
