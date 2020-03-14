@@ -64,7 +64,7 @@ public class BarChart extends XYChart{
 
 		this.plot.drawChartBackground(g, cm);
 
-		this.axis.drawAxis(g, data, xDataOrdered, cm);
+		this.axis.drawAxis(g, cm);
 
 		this.plot.drawPlotOutline(g, cm);
 

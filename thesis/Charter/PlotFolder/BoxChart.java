@@ -1,5 +1,6 @@
 package thesis.Charter.PlotFolder;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,22 +8,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 import thesis.Charter.Axis.BarChartAxis;
+import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.BarChartMeasurements;
+import thesis.Charter.Others.XYChartMeasurements;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
 
 public class BoxChart extends XYChart{
 
-	BarChartAxis axis;
+	BoxChartAxis axis;
 	BoxPlot plot;
 	Legend legend;
 	
 	private String colorCodeLabel;
 	private String[] colorCodeValues;
 	
-	public BoxChart(DataFrame dataFrame, String xAxis) {
-		super(dataFrame,dataFrame.GetColumnAsArray(xAxis), "Box");
+	private String[] order = new String[0];
+	
+	public BoxChart(DataFrame dataFrame, String yAxis) {
+		super(dataFrame,dataFrame.GetColumnAsArray(yAxis), "Box");
 		initialize();
 	}
 	
@@ -32,7 +37,7 @@ public class BoxChart extends XYChart{
 	}
 	
 	private void initialize() {
-		this.axis = new BarChartAxis();
+		this.axis = new BoxChartAxis();
 		this.plot = new BoxPlot();
 		this.legend = new Legend();
 		
@@ -41,10 +46,85 @@ public class BoxChart extends XYChart{
 
 	@Override
 	public void Create() {
-		HashMap<Object, Object> data;
-		if ((this.yData == null) && (this.colorCodeValues == null)) {
+		HashMap<Object, Object> data = calculateData();
+		String typeOfData = getTypeOfPlot(data);
+		String[] xDataOrdered = getXDataOrdered(typeOfData);
+		String[] uniqueColorCodeValues = getUniqueColorCodeValues();
+		
+		
+		this.axis.setXAxis(xDataOrdered);
+		this.axis.setYAxis(data, typeOfData);
+		
+		if (this.legend.getIncludeLegend()) {
+			Object[] hueValies = uniqueColorCodeValues;
+			this.legend.calculateLegend(this.colorCodeLabel, hueValies);
+		}
+
+		cm.calculateChartImageMetrics(this.axis, this.plot, this.legend, getTitle(), getTitleFont());
+
+		instantiateChart(cm);
+
+		Graphics2D g = initializaGraphicsObject(cm);
+		drawBackground(g, cm);
+
+		this.plot.drawChartBackground(g, cm);
+
+		this.axis.drawAxis(g, cm);
+		
+		this.plot.drawPlotOutline(g, cm);
+
+		this.axis.drawAxisTicks(g, cm);
+		
+		this.plot.drawPlot(g, this.axis, data, xDataOrdered, typeOfData, cm);
+
+		this.axis.drawXAxisLabel(g, cm);
+		this.axis.drawYAxisLabel(g, cm);
+
+		if (this.legend.getIncludeLegend()) {
+			this.legend.drawLegend(g, cm, this.plot.getBoxColorPalette());
+		}
+
+		this.drawTitle(g, cm);
+	}
+
+	private String[] getXDataOrdered(String typeOfData) {
+		if (typeOfData != "singleCatagory") {
+			
+			ArrayList<String> foundXCatagories = new ArrayList<String>();
+			for (DataItem xValue : this.xData) {
+				if (!foundXCatagories.contains(xValue.getValueConvertedToString())) {
+					foundXCatagories.add(xValue.getValueConvertedToString());
+				}
+			}
+			
+			
+			int nextIndex = 0;
+			for (int i = 0; i < this.order.length; i++) {
+				String catagoryToBeOrdered = this.order[i];
+				int indexOfNextToOrder = foundXCatagories.indexOf(catagoryToBeOrdered);
+				if (indexOfNextToOrder != -1) {				
+					for (int reorderIndex = indexOfNextToOrder; reorderIndex > nextIndex; reorderIndex--) {
+						foundXCatagories.set(reorderIndex, foundXCatagories.get(reorderIndex-1));
+					}
+					foundXCatagories.set(nextIndex, catagoryToBeOrdered);
+					nextIndex++;
+				}
+			}
+			
+			String[] xDataFormatted = new String[foundXCatagories.size()];
+			xDataFormatted = foundXCatagories.toArray(xDataFormatted);
+			return xDataFormatted;
+		} else {
+			return new String[0];
+		}
+	}
+
+	private HashMap<Object, Object> calculateData() {
+		HashMap<Object, Object> data = null;
+		if ((this.xData == null) && (this.colorCodeValues == null)) {
+			
 			// Single axis, no hue
-			data = calculateSingleBoxPlotData(DataItem.convertToDoubleList(this.xData));
+			data = calculateSingleBoxPlotData(DataItem.convertToDoubleList(this.yData));
 		} else if ((this.yData == null) && (this.colorCodeValues != null)) {
 			// Single axis, hue
 			System.out.println("Single axis, hue. Error!!!");
@@ -55,7 +135,7 @@ public class BoxChart extends XYChart{
 			// 2 axis, hue
 			data = calculateXYHueBoxPlotData(DataItem.convertToStringList(this.xData), DataItem.convertToDoubleList(this.yData),this.colorCodeValues);
 		}
-		
+		return data;
 	}
 	
 	/*
@@ -158,10 +238,47 @@ public class BoxChart extends XYChart{
 	    data.put("Q2", Q2);
 	    data.put("Q3", Q3);
 	    data.put("Max", values[values.length - 1]);
-
 	    return data;
 	}
+	
+	private String[] getUniqueColorCodeValues() {
+		Set<String> uniqueList = new HashSet<String>();
 
+		if (this.colorCodeValues != null) {
+			
+			for (String nextElem : this.colorCodeValues) {
+				uniqueList.add(nextElem);
+			}
+			
+			if (uniqueList.size() == 1) {
+				return new String[0];
+			}
+			
+			return uniqueList.stream().toArray(String[]::new);
+		} else {
+			return new String[0];
+		}
+	}
+
+	public String getTypeOfPlot(HashMap<Object, Object> data) {
+		boolean singleValue = (data.get(data.keySet().iterator().next()) instanceof Double);
+		
+		if (singleValue) {
+			return "singleCatagory";
+		} else {
+			HashMap<Object, Object> catagory = (HashMap<Object, Object>) (data.get(data.keySet().iterator().next()));
+			
+			boolean noHueValue = (catagory.get(catagory.keySet().iterator().next()) instanceof Double);
+			if (noHueValue) {
+				return "multipleCatagoriesAndNoHueValue";
+			} else {
+				return "multipleCatagoriesAndHueValue";
+			}
+		}
+		
+	}
+	
+	
 	private int indexOfMedian(int leftIndex, int rightIndex){ 
 		int gapSize = rightIndex - leftIndex + 1; 
 		int halfGapSize = (gapSize + 1) / 2 - 1; 
@@ -195,10 +312,10 @@ public class BoxChart extends XYChart{
 		return doubleList;
 	}
 	
-	public BarChartAxis getAxis() {
+	public BoxChartAxis getAxis() {
 		return axis;
 	}
-	public void setAxis(BarChartAxis axis) {
+	public void setAxis(BoxChartAxis axis) {
 		this.axis = axis;
 	}
 
@@ -220,6 +337,18 @@ public class BoxChart extends XYChart{
 		this.colorCodeLabel = colorCodeLabel;
 		this.colorCodeValues = this.dataFrame.GetColumnAsStringArray(this.colorCodeLabel);
 		this.legend.setIncludeLegend(true);
+	}
+	
+	public XYChartMeasurements getChartMeadurements() {
+		return this.cm;
+	}
+	
+	public String[] getOrder() {
+		return order;
+	}
+
+	public void setOrder(String[] order) {
+		this.order = order;
 	}
 
 }
