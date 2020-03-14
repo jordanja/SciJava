@@ -36,7 +36,7 @@ public abstract class Chart {
 	}
 	
 	
-	public Chart(DataFrame dataFrame, DataItem[] xData, DataItem[] yData, String chartType) {	
+	public Chart(DataFrame dataFrame, String chartType) {	
 		this.dataFrame = dataFrame;
 	}
 	

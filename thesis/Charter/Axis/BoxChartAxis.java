@@ -17,46 +17,54 @@ import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.DataFrame.DataItem;
 
-public class BarChartAxis extends XYAxis {
+public class BoxChartAxis extends XYAxis {
 	
 	private NiceScale yNS;
 	private boolean includeAxisLinesOnPlot = true;
 	private Color axisLinesOnPlotColor = Color.WHITE;
 	
 	
-	private double maxValueInHashMap(HashMap<String, Object> map) {
-		double max = 0;
-		Double[] values = map.values().toArray(new Double[0]);
-		for (int i = 0; i < map.values().size(); i++) {
-			if (values[i] > max) {
-				max = values[i];
-			}
-			
-		}
-		return max;
+	private double maxValueInHashMap(HashMap<Object, Object> map) {
+		return (double) map.get("Max");
+	}
+	
+	private double minValueInHashMap(HashMap<Object, Object> map) {
+		return (double) map.get("Min");
 	}
 	
 	public void setXAxis(String[] xData) {
 		this.xTicks = xData;
 	}
 
-	public void setYAxis(HashMap<String, Object> data) {		
-		boolean haveColorCodeValues = (data.get(data.keySet().iterator().next()) instanceof HashMap);
+	public void setYAxis(HashMap<Object, Object> data, String typeOfData) {		
+		
+		double maxValue = Double.NEGATIVE_INFINITY;
+		double minValue = Double.POSITIVE_INFINITY;
+		
+		if (typeOfData == "singleCatagory") {
+			maxValue = maxValueInHashMap(data);
+			minValue = minValueInHashMap(data);
+
+		} else if (typeOfData == "multipleCatagoriesAndNoHueValue") {
+			for (Object catagory: data.keySet()) {
+				HashMap<Object, Object> catagoryMap = (HashMap<Object, Object>) data.get(catagory);
+				maxValue = Double.max(maxValue, maxValueInHashMap(catagoryMap));
+				minValue = Double.min(minValue, minValueInHashMap(catagoryMap));
+			}
 			
-		double maxY = 0;
-		if (haveColorCodeValues) {
-			for (String xCatagory: data.keySet()) {
-				HashMap<String, Object> map = (HashMap<String, Object>) data.get(xCatagory);
-				double maxValue = maxValueInHashMap(map);
-				if (maxValue > maxY) {
-					maxY = maxValue;
+		} else if (typeOfData == "multipleCatagoriesAndHueValue") {
+			for (Object catagory: data.keySet()) {
+				HashMap<Object, Object> catagoryMap = (HashMap<Object, Object>) data.get(catagory);
+				for (Object hue: catagoryMap.keySet()) {
+					HashMap<Object, Object> hueMap = (HashMap<Object, Object>) catagoryMap.get(hue);
+					maxValue = Double.max(maxValue, maxValueInHashMap(hueMap));
+					minValue = Double.min(minValue, minValueInHashMap(hueMap));
 				}
 			}
-		} else {
-			maxY = maxValueInHashMap(data);
 		}
 		
-		yNS = new NiceScale(0, maxY);
+		
+		yNS = new NiceScale(minValue, maxValue);
 		
 		
 		this.yTicks = new String[1 + (int)(Math.ceil(yNS.getNiceMax()/yNS.getTickSpacing()))];
@@ -67,6 +75,7 @@ public class BarChartAxis extends XYAxis {
 		}
 	}
 	
+	
 
 	public NiceScale getyNS() {
 		return yNS;
@@ -74,26 +83,28 @@ public class BarChartAxis extends XYAxis {
 
 	
 	public void drawAxis(Graphics2D g, XYChartMeasurements cm) {
-		int halfWidthOfXUnit = (cm.getPlotWidth()/(2 * this.xTicks.length));
-		int count = 0;
-		for (String xCatagory : this.xTicks) {
-			int xPosition = (int) MathHelpers.map(
-				count, 
-				0, 
-				this.xTicks.length - 1, 
-				cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit, 
-				cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit
-			);
-			
-			g.setColor(this.xAxisColor);
-			g.setFont(this.xAxisFont);
-			if (this.drawBottomXAxisValues) {				
-				DrawString.drawString(g, xCatagory, xPosition, cm.imageBottomToBottomAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
+		if (this.xTicks.length > 0) {			
+			int halfWidthOfXUnit = (cm.getPlotWidth()/(2 * this.xTicks.length));
+			int count = 0;
+			for (String xCatagory : this.xTicks) {
+				int xPosition = (int) MathHelpers.map(
+						count, 
+						0, 
+						this.xTicks.length - 1, 
+						cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit, 
+						cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit
+						);
+				
+				g.setColor(this.xAxisColor);
+				g.setFont(this.xAxisFont);
+				if (this.drawBottomXAxisValues) {				
+					DrawString.drawString(g, xCatagory, xPosition, cm.imageBottomToBottomAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
+				}
+				if (this.drawTopXAxisValues) {
+					DrawString.drawString(g, xCatagory, xPosition, cm.imageBottomToTopAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
+				}
+				count++;
 			}
-			if (this.drawTopXAxisValues) {
-				DrawString.drawString(g, xCatagory, xPosition, cm.imageBottomToTopAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
-			}
-			count++;
 		}
 		
 
@@ -103,7 +114,7 @@ public class BarChartAxis extends XYAxis {
 		DecimalFormat df = new DecimalFormat("#.##");
 		df.setRoundingMode(RoundingMode.HALF_DOWN);
 
-		for (count = 1; count < this.yTicks.length - 1; count++) {
+		for (int count = 1; count < this.yTicks.length - 1; count++) {
 			int position = (int) MathHelpers.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 			String stringToDisplay = String.valueOf(df.format(doubleYTicks[count]));
 			
@@ -131,29 +142,31 @@ public class BarChartAxis extends XYAxis {
 	public void drawAxisTicks(Graphics2D g, XYChartMeasurements cm) {
 		
 //		g.setStroke(new BasicStroke(1));
-		int halfWidthOfXUnit = (cm.getPlotWidth()/(2 * this.xTicks.length));
-		for (int count = 0; count < this.xTicks.length; count++) {
-			int xPosition = (int) MathHelpers.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit, cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
-			
-			g.setColor(this.bottomTickColor);
-			if (this.drawExteriorBottomXAxisTicks) {
-				g.setStroke(new BasicStroke(this.exteriorBottomTickThickness));
-				g.drawLine(xPosition, cm.imageBottomToPlotBottomHeight(), xPosition, cm.imageBottomToBottomTicksEndHeight());
+		if (this.xTicks.length > 0) {			
+			int halfWidthOfXUnit = (cm.getPlotWidth()/(2 * this.xTicks.length));
+			for (int count = 0; count < this.xTicks.length; count++) {
+				int xPosition = (int) MathHelpers.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit, cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
+				
+				g.setColor(this.bottomTickColor);
+				if (this.drawExteriorBottomXAxisTicks) {
+					g.setStroke(new BasicStroke(this.exteriorBottomTickThickness));
+					g.drawLine(xPosition, cm.imageBottomToPlotBottomHeight(), xPosition, cm.imageBottomToBottomTicksEndHeight());
+				}
+				if (this.drawInteriorBottomXAxisTicks) {	
+					g.setStroke(new BasicStroke(this.interiorBottomTickThickness));
+					g.drawLine(xPosition, cm.imageBottomToPlotBottomHeight(), xPosition, cm.imageBottomToPlotBottomHeight() + cm.getBottomTicksHeight());
+				}
+				g.setColor(this.topTickColor);
+				if (this.drawExteriorTopXAxisTicks) {
+					g.setStroke(new BasicStroke(this.exteriorTopTickThickness));
+					g.drawLine(xPosition, cm.imageBottomToPlotTopHeight(), xPosition, cm.imageBottomToTopTicksEndHeight());
+				}
+				if (this.drawInteriorTopXAxisTicks) {
+					g.setStroke(new BasicStroke(this.interiorTopTickThickness));
+					g.drawLine(xPosition, cm.imageBottomToPlotTopHeight(), xPosition, cm.imageBottomToPlotTopHeight() - cm.getTopTicksHeight());
+				}
+				
 			}
-			if (this.drawInteriorBottomXAxisTicks) {	
-				g.setStroke(new BasicStroke(this.interiorBottomTickThickness));
-				g.drawLine(xPosition, cm.imageBottomToPlotBottomHeight(), xPosition, cm.imageBottomToPlotBottomHeight() + cm.getBottomTicksHeight());
-			}
-			g.setColor(this.topTickColor);
-			if (this.drawExteriorTopXAxisTicks) {
-				g.setStroke(new BasicStroke(this.exteriorTopTickThickness));
-				g.drawLine(xPosition, cm.imageBottomToPlotTopHeight(), xPosition, cm.imageBottomToTopTicksEndHeight());
-			}
-			if (this.drawInteriorTopXAxisTicks) {
-				g.setStroke(new BasicStroke(this.interiorTopTickThickness));
-				g.drawLine(xPosition, cm.imageBottomToPlotTopHeight(), xPosition, cm.imageBottomToPlotTopHeight() - cm.getTopTicksHeight());
-			}
-			
 		}
 		
 		for (int count = 0; count < this.yTicks.length; count++) {

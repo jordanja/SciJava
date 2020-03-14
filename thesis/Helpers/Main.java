@@ -19,6 +19,8 @@ import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.PlotFolder.BarChart;
 import thesis.Charter.PlotFolder.BarPlot;
+import thesis.Charter.PlotFolder.BoxChart;
+import thesis.Charter.PlotFolder.BoxPlot;
 import thesis.Charter.PlotFolder.LineChart;
 import thesis.Charter.PlotFolder.LinePlot;
 import thesis.Charter.PlotFolder.ScatterChart;
@@ -42,7 +44,20 @@ public class Main {
 	
 	public static void boxCharting() {
 		DataFrame df = new DataFrame("Datasets/tips.csv", true);
-		System.out.println(df);
+		
+//		BoxChart bc = new BoxChart(df,  "total_bill");
+		BoxChart bc = new BoxChart(df, "day", "total_bill");
+		BoxPlot plot = bc.getPlot();
+		bc.colorCode("smoker");
+		
+		bc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
+		
+		XYChartMeasurements cm = bc.getChartMeadurements();
+		
+		cm.setPlotWidth(800);
+		
+		bc.Create();
+		bc.WriteFile("Chart Images/Box Chart.png");
 	}
 	
 	
@@ -93,7 +108,7 @@ public class Main {
 		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 		
 		bc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
-//		bc.colorCode("sex");
+		bc.colorCode("sex");
 		
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");

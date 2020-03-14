@@ -10,7 +10,7 @@ public class Palette {
 	public final static Color[] Fire = new Color[] {Color.decode("#BC3908"), Color.decode("#941B0C"), Color.decode("#F6AA1C"), Color.decode("#220901"), Color.decode("#621708")};
 	public final static Color[] Contrast = new Color[] {Color.decode("#c80003"), Color.decode("#a6c64c"), Color.decode("#ff955f"), Color.decode("#405d3a"), Color.decode("#86c6be")};
 
-	public final static Color[] Default = new Color[] {Color.BLACK, Color.BLUE, Color.CYAN, Color.RED, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.PINK};
+	public final static Color[] Default = new Color[] {Color.BLUE, Color.CYAN, Color.RED, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.BLACK};
 	
 	
 //	public final static Color[] a = new Color[] {Color.decode("#"), Color.decode("#"), Color.decode("#"), Color.decode("#"), Color.decode("#")};

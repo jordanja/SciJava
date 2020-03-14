@@ -30,11 +30,9 @@ public class BarPlot extends Plot {
 	// When there are no color code bars, this is the width of a bar
 	private double singlularBarWidthPercentage = 0.5f;
 
-	// When there are colorCode bars, this is the total width of all bars in a
-	// cluster
+	// When there are colorCode bars, this is the total width of all bars in a cluster
 	private double multipleBarWidthPercentage = 0.8f;
-	// When there are colorCode bars, this is the number of pixels between bars in a
-	// cluster
+	// When there are colorCode bars, this is the number of pixels between bars in a cluster
 	private int multipleBarPixelSpacing = 10;
 
 	private Color barColor = barColorPalette[0];

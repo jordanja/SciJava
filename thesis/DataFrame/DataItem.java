@@ -151,6 +151,22 @@ public class DataItem {
 		return dataItems;
 	}
 	
+	public static double[] convertToDoubleList(DataItem[] dataItemList) {
+		double[] doubleList = new double[dataItemList.length];
+		for (int i = 0; i < dataItemList.length; i++) {
+			doubleList[i] = dataItemList[i].getValueConvertedToDouble();
+		}
+		return doubleList;
+	}
+	
+	public static String[] convertToStringList(DataItem[] dataItemList) {
+		String[] stringList = new String[dataItemList.length];
+		for (int i = 0; i < dataItemList.length; i++) {
+			stringList[i] = dataItemList[i].getValueConvertedToString();
+		}
+		return stringList;
+	}
+	
 	public void setType(StorageType typeToUse) {
 		this.type = typeToUse;
 	}
