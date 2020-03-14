@@ -192,7 +192,9 @@ public class BoxPlot extends Plot{
 	public Color[] getBoxColorPalette() {
 		return this.boxColorPalette;
 	}
-	
+	public void setBoxColorPalette(Color[] boxColorPalette) {
+		this.boxColorPalette = boxColorPalette;
+	}
 	
 	
 	@Override
@@ -201,6 +203,57 @@ public class BoxPlot extends Plot{
 		// TODO Auto-generated method stub
 		
 	}
+
+	public Color getOutlineColor() {
+		return outlineColor;
+	}
+	public void setOutlineColor(Color outlineColor) {
+		this.outlineColor = outlineColor;
+	}
+
+	public int getBarOutlineWidth() {
+		return barOutlineWidth;
+	}
+	public void setBarOutlineWidth(int barOutlineWidth) {
+		this.barOutlineWidth = barOutlineWidth;
+	}
+
+	public Color getBarColor() {
+		return barColor;
+	}
+	public void setBarColor(Color barColor) {
+		this.barColor = barColor;
+	}
+
+	public double getSingluarBarWidthPercentage() {
+		return singluarBarWidthPercentage;
+	}
+	public void setSingluarBarWidthPercentage(double singluarBarWidthPercentage) {
+		this.singluarBarWidthPercentage = singluarBarWidthPercentage;
+	}
+
+	public double getSinglularClusterBarWidthPercentage() {
+		return singlularClusterBarWidthPercentage;
+	}
+	public void setSinglularClusterBarWidthPercentage(double singlularClusterBarWidthPercentage) {
+		this.singlularClusterBarWidthPercentage = singlularClusterBarWidthPercentage;
+	}
+
+	public double getMultipleBarWidthPercentage() {
+		return multipleBarWidthPercentage;
+	}
+	public void setMultipleBarWidthPercentage(double multipleBarWidthPercentage) {
+		this.multipleBarWidthPercentage = multipleBarWidthPercentage;
+	}
+
+	public int getMultipleBarPixelSpacing() {
+		return multipleBarPixelSpacing;
+	}
+	public void setMultipleBarPixelSpacing(int multipleBarPixelSpacing) {
+		this.multipleBarPixelSpacing = multipleBarPixelSpacing;
+	}
+
+	
 
 
 }
