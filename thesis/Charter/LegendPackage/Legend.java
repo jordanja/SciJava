@@ -97,7 +97,7 @@ public class Legend {
 
 			int height = DrawString.getShapeOfText(this.hueValueFont, this.hueValues[i]).getBounds().height;
 			
-			g.setColor(colors[i]);
+			g.setColor(colors[i % colors.length]);
 			g.fillOval(cm.imageLeftToLegendLeftWidth() + legendLeftToDataPointWidth, legendBottom + getBottomLegendToHueValueBottomHeight(i) + height/2 - dataPointDiameter/2, dataPointDiameter, dataPointDiameter);
 		}
 //		drawDebugLines(g,cm);
