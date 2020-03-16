@@ -48,6 +48,7 @@ public class Main {
 //		BoxChart bc = new BoxChart(df,  "total_bill");
 		BoxChart bc = new BoxChart(df, "day", "total_bill");
 		BoxPlot plot = bc.getPlot();
+
 		bc.colorCode("smoker");
 		
 		bc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
@@ -55,6 +56,9 @@ public class Main {
 		XYChartMeasurements cm = bc.getChartMeadurements();
 		
 		cm.setPlotWidth(800);
+		
+		plot.setBoxColorPalette(Palette.generateUniqueColors(10));
+		
 		
 		bc.Create();
 		bc.WriteFile("Chart Images/Box Chart.png");
@@ -70,12 +74,14 @@ public class Main {
 		NumericAxis axis = (NumericAxis) lc.getAxis();
 		LinePlot plot = lc.getPlot();
 		
-		plot.setLineColor(Color.RED);
+//		plot.setLineColor(Color.RED);
 		plot.setLineThickness(2);
-		plot.setMarkerDotColor(Color.WHITE);
-		plot.setMarkerDotOutlineColor(Color.BLACK);
+//		plot.setMarkerDotColor(Color.WHITE);
+//		plot.setMarkerDotOutlineColor(Color.BLACK);
 		
-		lc.colorCode("event");
+		plot.setLineColorPalette(Palette.generateUniqueColors(14));
+		
+		lc.colorCode("subject");
 		
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");

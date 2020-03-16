@@ -18,7 +18,7 @@ import thesis.Helpers.Palette;
 
 public class LinePlot extends Plot{
 
-	private Color[] lineColorPalette = Palette.Contrast;
+	private Color[] lineColorPalette = Palette.Default;
 
 	private Color lineColor = Color.black;
 	private int lineThickness = 2;
@@ -194,11 +194,5 @@ public class LinePlot extends Plot{
 	public void setDashedLine(boolean dashedLine) {
 		this.dashedLine = dashedLine;
 	}
-	
-	@Override
-	public void drawPlot(Graphics2D g, Axis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues,
-			XYChartMeasurements cm) {
-		// TODO Auto-generated method stub
-		
-	}
+
 }

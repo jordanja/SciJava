@@ -154,5 +154,5 @@ public abstract class Plot {
 		}
 	}
 	
-	public abstract void drawPlot(Graphics2D g, Axis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues, XYChartMeasurements cm);
+	
 }

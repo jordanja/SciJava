@@ -72,10 +72,10 @@ public class BarPlot extends Plot {
 					
 					int xBoxStart = positionAtBarsStart
 							+ ((widthOfColorCodeBar + multipleBarPixelSpacing) * colorCodeCount);
-					int yBoxStart = yTickNumToPlotY(0, yNS, yTicks, cm);
+					int yBoxStart = yTickNumToPlotY(0, yTicks, cm);
 					int boxWidth = widthOfColorCodeBar;
-					int boxHeight = yTickNumToPlotY((double) colorCodeValues.get(colorCode), yNS, yTicks, cm)
-							- yTickNumToPlotY(0, yNS, yTicks, cm);
+					int boxHeight = yTickNumToPlotY(colorCodeValues.get(colorCode), yTicks, cm)
+							- yTickNumToPlotY(0, yTicks, cm);
 					
 					drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, (double) colorCodeValues.get(colorCode), cm);
 
@@ -95,10 +95,10 @@ public class BarPlot extends Plot {
 					boxColor = this.barColorPalette[xCatagoryCount % this.barColorPalette.length];
 				}
 				int xBoxStart = xTickNumToPlotX(xCatagoryCount, data.keySet().size(), cm) - halfWidthOfSingularBar;
-				int yBoxStart = yTickNumToPlotY(0, yNS, yTicks, cm);
+				int yBoxStart = yTickNumToPlotY(0, yTicks, cm);
 				int boxWidth = 2 * halfWidthOfSingularBar;
-				int boxHeight = yTickNumToPlotY((double) data.get(xCatagory), yNS, yTicks, cm)
-						- yTickNumToPlotY(0, yNS, yTicks, cm);
+				int boxHeight = yTickNumToPlotY((double) data.get(xCatagory), yTicks, cm)
+						- yTickNumToPlotY(0, yTicks, cm);
 
 				drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, (double) data.get(xCatagory), cm);
 				xCatagoryCount++;
@@ -113,8 +113,8 @@ public class BarPlot extends Plot {
 				cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
 	}
 
-	private int yTickNumToPlotY(double yPos, NiceScale yNS, double[] yTicks, XYChartMeasurements cm) {
-		return (int) MathHelpers.map(yPos, yNS.getNiceMin(), yTicks[yTicks.length - 1],
+	private int yTickNumToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
+		return (int) MathHelpers.map(yPos, yTicks[0], yTicks[yTicks.length - 1],
 				cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 	}
 
@@ -138,12 +138,7 @@ public class BarPlot extends Plot {
 		}
 	}
 	
-	@Override
-	public void drawPlot(Graphics2D g, Axis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues,
-			XYChartMeasurements cm) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	public boolean isDrawBarOutline() {
 		return drawBarOutline;
