@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import thesis.Auxiliary.MathHelpers;
-import thesis.Auxiliary.NiceScale;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Common.MathHelpers;
+import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;
 
 public class BarChartAxis extends XYAxis {

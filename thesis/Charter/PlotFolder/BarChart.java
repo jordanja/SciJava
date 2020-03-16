@@ -12,9 +12,9 @@ import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.BarChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
-import thesis.Helpers.CommonArray;
 
 public class BarChart extends XYChart{
 

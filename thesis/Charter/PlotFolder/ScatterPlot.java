@@ -7,11 +7,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import thesis.Auxiliary.MathHelpers;
-import thesis.Auxiliary.NiceScale;
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Common.MathHelpers;
+import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;
 import thesis.Helpers.Palette;
 

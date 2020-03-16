@@ -10,9 +10,9 @@ import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.LineChartMeasurements;
+import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
-import thesis.Helpers.CommonArray;
 
 public class LineChart extends XYChart {
 

@@ -5,8 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.Arrays;
 
-import thesis.Auxiliary.NiceScale;
 import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Common.NiceScale;
 
 public abstract class Axis {
 

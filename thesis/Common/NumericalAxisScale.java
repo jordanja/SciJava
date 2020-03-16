@@ -1,4 +1,4 @@
-package thesis.Auxiliary;
+package thesis.Common;
 
 public class NumericalAxisScale {
 

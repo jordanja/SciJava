@@ -12,10 +12,10 @@ import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.BarChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Common.CommonArray;
+import thesis.Common.CommonMath;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
-import thesis.Helpers.CommonArray;
-import thesis.Helpers.CommonMath;
 
 public class BoxChart extends XYChart{
 

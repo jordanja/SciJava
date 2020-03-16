@@ -8,10 +8,10 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-import thesis.Auxiliary.MathHelpers;
-import thesis.Auxiliary.NiceScale;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Common.MathHelpers;
+import thesis.Common.NiceScale;
 
 public class NumericAxis extends XYAxis {
 

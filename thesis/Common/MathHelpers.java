@@ -1,4 +1,4 @@
-package thesis.Auxiliary;
+package thesis.Common;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -1,4 +1,4 @@
-package thesis.Helpers;
+package thesis.Common;
 
 public class CommonMath {
 	

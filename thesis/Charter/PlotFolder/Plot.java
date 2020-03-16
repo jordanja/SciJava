@@ -11,10 +11,10 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import thesis.Auxiliary.NiceScale;
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Common.NiceScale;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
 

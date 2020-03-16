@@ -21,9 +21,6 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import thesis.Auxiliary.MathHelpers;
-import thesis.Auxiliary.NiceScale;
-
 import java.awt.Font;
 
 import thesis.Charter.Axis.Axis;
@@ -32,6 +29,8 @@ import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.ScatterChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Common.MathHelpers;
+import thesis.Common.NiceScale;
 import thesis.DataFrame.*;
 import thesis.Helpers.Palette;
 

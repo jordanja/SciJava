@@ -5,11 +5,11 @@ import java.awt.Graphics2D;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import thesis.Auxiliary.MathHelpers;
-import thesis.Auxiliary.NiceScale;
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Common.MathHelpers;
+import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;
 import thesis.Helpers.Palette;
 
