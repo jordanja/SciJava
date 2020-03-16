@@ -12,6 +12,7 @@ import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.LineChartMeasurements;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
+import thesis.Helpers.CommonArray;
 
 public class LineChart extends XYChart {
 
@@ -20,7 +21,7 @@ public class LineChart extends XYChart {
 	Legend legend;
 	
 	private String colorCodeLabel;
-	private String[] colorCodeValues; 
+	private String[] colorCodeValues = new String[0]; 
 
 	public LineChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.GetColumnAsArray(xAxis), dataFrame.GetColumnAsArray(yAxis), "Bar");
@@ -37,16 +38,16 @@ public class LineChart extends XYChart {
 	public void Create() {
 		Double[] xValues = DataItem.convertToDoubleList(this.xData);
 		Double[] yValues = DataItem.convertToDoubleList(this.yData);
-		String[] uniqueColorCodeValues = getUniqueColorCodeValues();
+		String[] uniqueColorCodeValues = CommonArray.removeDuplicates(this.colorCodeValues); //getUniqueColorCodeValues(this.colorCodeValues);
 		
 
 		HashMap<Object, Object> data = calculateLineData(xValues, yValues, uniqueColorCodeValues);
 
 		
-		Double minX = minimumXValue(data).doubleValue();
-		Double maxX = maximumXValue(data).doubleValue();
-		Double minY = minimumYValue(data).doubleValue();
-		Double maxY = maximumYValue(data).doubleValue();
+		Double minX = CommonArray.minValue(xValues);
+		Double maxX = CommonArray.maxValue(xValues);
+		Double minY = minimumYValue(data);
+		Double maxY = maximumYValue(data);
 		
 		this.axis.calculateXAxis(minX, maxX);
 		this.axis.calculateYAxis(minY, maxY);
@@ -83,107 +84,22 @@ public class LineChart extends XYChart {
 		
 		this.drawTitle(g, cm);
 	}
-
-	private String[] getUniqueColorCodeValues() {
-		Set<String> uniqueList = new HashSet<String>();
-
-		if (this.colorCodeValues != null) {
-			
-			for (String nextElem : this.colorCodeValues) {
-				uniqueList.add(nextElem);
-			}
-			
-			if (uniqueList.size() == 1) {
-				return new String[0];
-			}
-			
-			return uniqueList.stream().toArray(String[]::new);
-		} else {
-			return new String[0];
-		}
-	}
-	
-	private Double minValueInList(Double[] arr) {
-		Double min = null;
-		
-		for (Double value : arr) {
-			if ((min == null) || (value < min)) {
-				min = value;
-			}
-		}
-		return min;
-	}
-	
-	private Double maxValueInList(Double[] arr) {
-		Double max = null;
-		
-		for (Double value : arr) {
-			if ((max == null) || (value > max)) {
-				max = value;
-			}
-		}
-		return max;
-	}
-	
-	private Double minimumXValue(HashMap<Object, Object> data) {
-		Double min = null;
-		
-		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
-
-		if (hasMultipleLines) {
-			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
-				HashMap<Double, Double> lineData = (HashMap<Double, Double>) data.get(colorCodeCatagory);
-				Double minValueInLine = minValueInList(lineData.keySet().toArray(new Double[0]));
-				
-				if ((min == null) || (minValueInLine.doubleValue() < min.doubleValue())){
-					min = minValueInLine;
-				}
-			}
-		} else {
-			min = minValueInList(data.keySet().toArray(new Double[0]));
-		}
-
-		return min;
-
-	}
-
-	private Double maximumXValue(HashMap<Object, Object> data) {
-		Double max = null;
-		
-		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
-		
-		if (hasMultipleLines) {
-			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
-				HashMap<Double, Double> lineData = (HashMap<Double, Double>) data.get(colorCodeCatagory);
-				Double maxValueInLine = maxValueInList(lineData.keySet().toArray(new Double[0]));
-				
-				if ((max == null) || (maxValueInLine.doubleValue() > max.doubleValue())){
-					max = maxValueInLine;
-				}
-			}
-		} else {
-			max = maxValueInList(data.keySet().toArray(new Double[0]));
-		}
-
-		return max;
-
-	}
 	
 	private Double minimumYValue(HashMap<Object, Object> data) { 
-		Double min = null;
+		Double min = Double.MAX_VALUE;
 		
 		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 		
 		if (hasMultipleLines) {
 			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
 				HashMap<Double, Double> lineData = (HashMap<Double, Double>) data.get(colorCodeCatagory);
-				Double minValueInLine = minValueInList(lineData.values().toArray(new Double[0]));
-				if ((min == null) || (minValueInLine.doubleValue() < min.doubleValue())) {
+				Double minValueInLine = CommonArray.minValue(lineData.values().toArray(new Double[0]));
+				if (minValueInLine < min) {
 					min = minValueInLine;
 				}
 			}
 		} else {
-			min = minValueInList(data.values().toArray(new Double[0]));
+			min = CommonArray.minValue(data.values().toArray(new Double[0]));
 		}
 		
 		
@@ -191,20 +107,20 @@ public class LineChart extends XYChart {
 	}
 
 	private Double maximumYValue(HashMap<Object, Object> data) { 
-		Double max = null;
+		Double max = Double.MIN_VALUE;
 		
 		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 		
 		if (hasMultipleLines) {
 			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
 				HashMap<Double, Double> lineData = (HashMap<Double, Double>) data.get(colorCodeCatagory);
-				Double maxValueInLine = maxValueInList(lineData.values().toArray(new Double[0]));
-				if ((max == null) || (maxValueInLine.doubleValue() > max.doubleValue())) {
+				Double maxValueInLine = CommonArray.maxValue(lineData.values().toArray(new Double[0]));
+				if (maxValueInLine > max) {
 					max = maxValueInLine;
 				}
 			}
 		} else {
-			max = maxValueInList(data.values().toArray(new Double[0]));
+			max = CommonArray.maxValue(data.values().toArray(new Double[0]));
 		}
 		
 		return max;
@@ -214,7 +130,7 @@ public class LineChart extends XYChart {
 		HashMap<Object, Object> data = new HashMap<Object, Object>();
 
 		if (uniqueColorCodeValues.length == 0) {
-			Double[] uniqueXValues = removeDuplicates(xValues);
+			Double[] uniqueXValues = CommonArray.removeDuplicates(xValues);
 			
 			HashMap<Double, Double> runningTotals = new HashMap<Double, Double>();
 			HashMap<Double, Integer> runningCount = new HashMap<Double, Integer>();
@@ -230,7 +146,7 @@ public class LineChart extends XYChart {
 			}
 			
 			for (Double xValue : uniqueXValues) {
-				data.put(xValue, runningTotals.get(xValue).doubleValue() / runningCount.get(xValue).doubleValue());
+				data.put(xValue, runningTotals.get(xValue) / runningCount.get(xValue));
 			}
 		} else {
 			
@@ -238,10 +154,8 @@ public class LineChart extends XYChart {
 			HashMap<String, HashMap<Double, Integer>> runningCounts = new HashMap<String, HashMap<Double, Integer>>(); 
 			
 			for (String uniqueColorCodeValue: uniqueColorCodeValues) {
-				HashMap<Double, Double> runningTotal = new HashMap<Double, Double>();
-				HashMap<Double, Integer> runningCount = new HashMap<Double, Integer>();
-				runningTotals.put(uniqueColorCodeValue, runningTotal);
-				runningCounts.put(uniqueColorCodeValue, runningCount);
+				runningTotals.put(uniqueColorCodeValue, new HashMap<Double, Double>());
+				runningCounts.put(uniqueColorCodeValue, new HashMap<Double, Integer>());
 			}
 			
 			for (int i = 0; i < xValues.length; i++) {
@@ -249,7 +163,7 @@ public class LineChart extends XYChart {
 					runningTotals.get(this.colorCodeValues[i]).put(xValues[i], yValues[i]);
 					runningCounts.get(this.colorCodeValues[i]).put(xValues[i], 1);
 				} else {
-					runningTotals.get(this.colorCodeValues[i]).put(xValues[i], yValues[i].doubleValue() + runningTotals.get(this.colorCodeValues[i]).get(xValues[i]).doubleValue());
+					runningTotals.get(this.colorCodeValues[i]).put(xValues[i], yValues[i] + runningTotals.get(this.colorCodeValues[i]).get(xValues[i]));
 					runningCounts.get(this.colorCodeValues[i]).put(xValues[i], 1 + runningCounts.get(this.colorCodeValues[i]).get(xValues[i]));
 				}
 			}
@@ -272,16 +186,7 @@ public class LineChart extends XYChart {
 		return data;
 	}
 
-	private Double[] removeDuplicates(Double[] list) {
-		ArrayList<Double> newList = new ArrayList<Double>();
-		for (int i = 0; i < list.length; i++) {
-			if (!newList.contains(list[i])) {
-				newList.add(list[i]);
-			}
-		}
-		return newList.toArray(new Double[0]);
-
-	}
+	
 
 	public Axis getAxis() {
 		return this.axis;

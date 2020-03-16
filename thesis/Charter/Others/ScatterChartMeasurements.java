@@ -22,10 +22,10 @@ public class ScatterChartMeasurements extends XYChartMeasurements{
 	@Override
 	public void calculateChartImageMetrics(Axis axis, Plot sPlot, Legend legend, String title, Font titleFont) {
 		System.out.println("in");
-		double[] xTicks = Arrays.stream(axis.getxTicks())
+		double[] xTicks = Arrays.stream(axis.getXTicks())
                 .mapToDouble(Double::parseDouble)
                 .toArray();
-		double[] yTicks = Arrays.stream(axis.getyTicks())
+		double[] yTicks = Arrays.stream(axis.getYTicks())
                 .mapToDouble(Double::parseDouble)
                 .toArray();
 		
@@ -47,7 +47,7 @@ public class ScatterChartMeasurements extends XYChartMeasurements{
 			
 			double maxHeight = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getxTicks().length; tickCount++) {
+			for (int tickCount = 0; tickCount < axis.getXTicks().length; tickCount++) {
 				String stringToDraw = String.valueOf(df.format(xTicks[tickCount]));
 				Shape sot = DrawString.getShapeOfText(axis.getxAxisFont(), stringToDraw);
 				double tickHeight = rotationTransform.createTransformedShape(sot).getBounds2D().getHeight();
@@ -80,7 +80,7 @@ public class ScatterChartMeasurements extends XYChartMeasurements{
 			
 			double maxHeight = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getxTicks().length; tickCount++) {
+			for (int tickCount = 0; tickCount < axis.getXTicks().length; tickCount++) {
 				String stringToDraw = String.valueOf(df.format(xTicks[tickCount]));
 				Shape sot = DrawString.getShapeOfText(axis.getxAxisFont(), stringToDraw);
 				double tickHeight = rotationTransform.createTransformedShape(sot).getBounds2D().getHeight();
@@ -135,7 +135,7 @@ public class ScatterChartMeasurements extends XYChartMeasurements{
 			
 			double maxWidth = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getyTicks().length; tickCount++) {
+			for (int tickCount = 0; tickCount < axis.getYTicks().length; tickCount++) {
 				String stringToDraw = String.valueOf(df.format(yTicks[tickCount]));
 				Shape sot = DrawString.getShapeOfText(axis.getyAxisFont(), stringToDraw);
 				double tickWidth = rotationTransform.createTransformedShape(sot).getBounds2D().getWidth();
@@ -164,7 +164,7 @@ public class ScatterChartMeasurements extends XYChartMeasurements{
 			
 			double maxWidth = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getyTicks().length; tickCount++) {
+			for (int tickCount = 0; tickCount < axis.getYTicks().length; tickCount++) {
 				String stringToDraw = String.valueOf(df.format(yTicks[tickCount]));
 				Shape sot = DrawString.getShapeOfText(axis.getyAxisFont(), stringToDraw);
 				double tickWidth = rotationTransform.createTransformedShape(sot).getBounds2D().getWidth();

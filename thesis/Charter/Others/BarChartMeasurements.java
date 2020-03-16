@@ -23,8 +23,8 @@ public class BarChartMeasurements extends XYChartMeasurements {
 	@Override
 	public void calculateChartImageMetrics(Axis axis, Plot sPlot, Legend legend, String title, Font titleFont) {
 		
-		String[] xTicks = Arrays.stream(axis.getxTicks()).toArray(String[]::new);
-		double[] yTicks = Arrays.stream(axis.getyTicks())
+		String[] xTicks = Arrays.stream(axis.getXTicks()).toArray(String[]::new);
+		double[] yTicks = Arrays.stream(axis.getYTicks())
                 .mapToDouble(Double::parseDouble)
                 .toArray();
 		
@@ -46,7 +46,7 @@ public class BarChartMeasurements extends XYChartMeasurements {
 			
 			double maxHeight = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getxTicks().length; tickCount++) {
+			for (int tickCount = 0; tickCount < axis.getXTicks().length; tickCount++) {
 				String stringToDraw;
 				if (xTicks[0] instanceof String) {
 					stringToDraw = xTicks[tickCount];
@@ -85,7 +85,7 @@ public class BarChartMeasurements extends XYChartMeasurements {
 			
 			double maxHeight = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getxTicks().length; tickCount++) {
+			for (int tickCount = 0; tickCount < axis.getXTicks().length; tickCount++) {
 				String stringToDraw = String.valueOf(df.format(xTicks[tickCount]));
 				Shape sot = DrawString.getShapeOfText(axis.getxAxisFont(), stringToDraw);
 				double tickHeight = rotationTransform.createTransformedShape(sot).getBounds2D().getHeight();
@@ -140,7 +140,7 @@ public class BarChartMeasurements extends XYChartMeasurements {
 			
 			double maxWidth = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getyTicks().length; tickCount++) {
+			for (int tickCount = 0; tickCount < axis.getYTicks().length; tickCount++) {
 				
 				String stringToDraw = String.valueOf(df.format(yTicks[tickCount]));
 				Shape sot = DrawString.getShapeOfText(axis.getyAxisFont(), stringToDraw);
@@ -170,7 +170,7 @@ public class BarChartMeasurements extends XYChartMeasurements {
 			
 			double maxWidth = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getyTicks().length; tickCount++) {
+			for (int tickCount = 0; tickCount < axis.getYTicks().length; tickCount++) {
 				String stringToDraw = String.valueOf(df.format(yTicks[tickCount]));
 				Shape sot = DrawString.getShapeOfText(axis.getyAxisFont(), stringToDraw);
 				double tickWidth = rotationTransform.createTransformedShape(sot).getBounds2D().getWidth();

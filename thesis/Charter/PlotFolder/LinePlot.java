@@ -36,12 +36,8 @@ public class LinePlot extends Plot{
 	public void drawPlot(Graphics2D g, NumericAxis axis, HashMap<Object, Object> data, XYChartMeasurements cm) {
 		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 
-		double[] xTicks = Arrays.stream(axis.getxTicks())
-                .mapToDouble(Double::parseDouble)
-                .toArray();
-		double[] yTicks = Arrays.stream(axis.getyTicks())
-                .mapToDouble(Double::parseDouble)
-                .toArray();
+		double[] xTicks = axis.getXTicksValues();
+		double[] yTicks = axis.getYTicksValues();
 		
 		if (this.dashedLine) {
 	        g.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, new float[]{9}, 0));
@@ -53,14 +49,14 @@ public class LinePlot extends Plot{
 			String[] colorCodeValues = data.keySet().toArray(new String[0]);
 			
 			for (int lineCount = 0; lineCount < colorCodeValues.length; lineCount++) {
-				HashMap<Object, Object> lineData = (HashMap<Object, Object>) data.get(colorCodeValues[lineCount]);
+				HashMap<Double, Double> lineData = (HashMap<Double, Double>) data.get(colorCodeValues[lineCount]);
 				g.setColor(this.lineColorPalette[lineCount % this.lineColorPalette.length]);
 				drawLine(g, axis, lineData, cm, xTicks, yTicks);
 			}
 			
 		} else {
 			g.setColor(this.lineColor);
-			drawLine(g, axis, data, cm, xTicks, yTicks);
+			drawLine(g, axis, (HashMap<Double, Double>)((Object)data), cm, xTicks, yTicks);
 		}
 	}
 
@@ -68,7 +64,7 @@ public class LinePlot extends Plot{
 
 
 
-	private void drawLine(Graphics2D g, NumericAxis axis, HashMap<Object, Object> lineData, XYChartMeasurements cm, double[] xTicks, double[] yTicks) {
+	private void drawLine(Graphics2D g, NumericAxis axis, HashMap<Double, Double> lineData, XYChartMeasurements cm, double[] xTicks, double[] yTicks) {
 		Double[] xValues = lineData.keySet().toArray(new Double[0]);
 		Arrays.sort(xValues);
 		int[] xPoints = new int[xValues.length];
@@ -76,8 +72,8 @@ public class LinePlot extends Plot{
 		for (int i = 0; i < xValues.length; i++) {
 			Double xValue = xValues[i];
 			
-			int xPos = (int)xPlotValueToXPixelValue(xValue.doubleValue(), axis.getxNS(), xTicks, cm);
-			int yPos = (int)yPlotValueToYPixelValue((double) (lineData.get(xValue)), axis.getyNS(), yTicks, cm);
+			int xPos = (int)xPlotValueToXPixelValue(xValue, xTicks, cm);
+			int yPos = (int)yPlotValueToYPixelValue((lineData.get(xValue)), yTicks, cm);
 			
 			xPoints[i] = xPos;
 			yPoints[i] = yPos;
@@ -88,11 +84,11 @@ public class LinePlot extends Plot{
 		if (this.drawMarkerDots) {
 			
 			for (int i = 0; i < xValues.length; i++) {
-				Number xValue = xValues[i];
-				Number yValue = (Number)lineData.get(xValue);
+				Double xValue = xValues[i];
+				Double yValue = lineData.get(xValue);
 				
-				double xPos = xPlotValueToXPixelValue(xValue.doubleValue(), axis.getxNS(), xTicks, cm);
-				double yPos = yPlotValueToYPixelValue(yValue.doubleValue(), axis.getyNS(), yTicks, cm);
+				double xPos = xPlotValueToXPixelValue(xValue, xTicks, cm);
+				double yPos = yPlotValueToYPixelValue(yValue, yTicks, cm);
 				
 				drawMarkerDot(g, (int)xPos, (int)yPos);
 			}
@@ -115,12 +111,12 @@ public class LinePlot extends Plot{
 		
 	}
 	
-	private double xPlotValueToXPixelValue(double xPos, NiceScale xNS, double[] xTicks, XYChartMeasurements cm) {
-		return (int) MathHelpers.map(xPos, xNS.getNiceMin(), xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(), cm.imageLeftToPlotRightWidth());
+	private double xPlotValueToXPixelValue(double xPos, double[] xTicks, XYChartMeasurements cm) {
+		return (int) MathHelpers.map(xPos, xTicks[0], xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(), cm.imageLeftToPlotRightWidth());
 	}
 	
-	private double yPlotValueToYPixelValue(double yPos, NiceScale yNS, double[] yTicks, XYChartMeasurements cm) {
-		return (int) MathHelpers.map(yPos, yNS.getNiceMin(), yTicks[yTicks.length - 1 ], cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
+	private double yPlotValueToYPixelValue(double yPos, double[] yTicks, XYChartMeasurements cm) {
+		return (int) MathHelpers.map(yPos, yTicks[0], yTicks[yTicks.length - 1 ], cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 	}
 	
 	public void setLineColor(Color lineColor) {

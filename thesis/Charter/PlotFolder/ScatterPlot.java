@@ -87,10 +87,10 @@ public class ScatterPlot extends Plot {
 		if (this.includeLinearRegression != true) {
 			return;
 		}
-		double[] xTicks = Arrays.stream(axis.getxTicks())
+		double[] xTicks = Arrays.stream(axis.getXTicks())
                 .mapToDouble(Double::parseDouble)
                 .toArray();
-		double[] yTicks = Arrays.stream(axis.getyTicks())
+		double[] yTicks = Arrays.stream(axis.getYTicks())
                 .mapToDouble(Double::parseDouble)
                 .toArray();
 		
@@ -130,10 +130,10 @@ public class ScatterPlot extends Plot {
 	
 
 	public void drawPlot(Graphics2D g, NumericAxis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues, XYChartMeasurements cm) {
-		double[] xTicks = Arrays.stream(axis.getxTicks())
+		double[] xTicks = Arrays.stream(axis.getXTicks())
                 .mapToDouble(Double::parseDouble)
                 .toArray();
-		double[] yTicks = Arrays.stream(axis.getyTicks())
+		double[] yTicks = Arrays.stream(axis.getYTicks())
                 .mapToDouble(Double::parseDouble)
                 .toArray();
 		

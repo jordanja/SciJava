@@ -40,8 +40,8 @@ public class LineChartMeasurements extends XYChartMeasurements {
 			
 			double maxHeight = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getxTicks().length; tickCount++) {
-				String stringToDraw = axis.getxTicks()[tickCount];
+			for (int tickCount = 0; tickCount < axis.getXTicks().length; tickCount++) {
+				String stringToDraw = axis.getXTicks()[tickCount];
 				Shape sot = DrawString.getShapeOfText(axis.getxAxisFont(), stringToDraw);
 				double tickHeight = rotationTransform.createTransformedShape(sot).getBounds2D().getHeight();
 				if (tickHeight > maxHeight) {
@@ -73,8 +73,8 @@ public class LineChartMeasurements extends XYChartMeasurements {
 			
 			double maxHeight = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getxTicks().length; tickCount++) {
-				String stringToDraw = axis.getxTicks()[tickCount]; 
+			for (int tickCount = 0; tickCount < axis.getXTicks().length; tickCount++) {
+				String stringToDraw = axis.getXTicks()[tickCount]; 
 				Shape sot = DrawString.getShapeOfText(axis.getxAxisFont(), stringToDraw);
 				double tickHeight = rotationTransform.createTransformedShape(sot).getBounds2D().getHeight();
 				if (tickHeight > maxHeight) {
@@ -128,8 +128,8 @@ public class LineChartMeasurements extends XYChartMeasurements {
 			
 			double maxWidth = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getyTicks().length; tickCount++) {
-				String stringToDraw = axis.getyTicks()[tickCount];
+			for (int tickCount = 0; tickCount < axis.getYTicks().length; tickCount++) {
+				String stringToDraw = axis.getYTicks()[tickCount];
 				Shape sot = DrawString.getShapeOfText(axis.getyAxisFont(), stringToDraw);
 				double tickWidth = rotationTransform.createTransformedShape(sot).getBounds2D().getWidth();
 				if (tickWidth > maxWidth) {
@@ -157,8 +157,8 @@ public class LineChartMeasurements extends XYChartMeasurements {
 			
 			double maxWidth = 0;
 			
-			for (int tickCount = 0; tickCount < axis.getyTicks().length; tickCount++) {
-				String stringToDraw = axis.getyTicks()[tickCount];
+			for (int tickCount = 0; tickCount < axis.getYTicks().length; tickCount++) {
+				String stringToDraw = axis.getYTicks()[tickCount];
 				Shape sot = DrawString.getShapeOfText(axis.getyAxisFont(), stringToDraw);
 				double tickWidth = rotationTransform.createTransformedShape(sot).getBounds2D().getWidth();
 				if (tickWidth > maxWidth) {

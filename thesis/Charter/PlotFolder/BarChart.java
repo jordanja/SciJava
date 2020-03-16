@@ -14,6 +14,7 @@ import thesis.Charter.Others.BarChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
+import thesis.Helpers.CommonArray;
 
 public class BarChart extends XYChart{
 
@@ -189,30 +190,9 @@ public class BarChart extends XYChart{
 	}
 
 	private String[] getXDataOrdered() {
-		ArrayList<String> foundXCatagories = new ArrayList<String>();
-		for (DataItem xValue : this.xData) {
-			if (!foundXCatagories.contains(xValue.getValueConvertedToString())) {
-				foundXCatagories.add(xValue.getValueConvertedToString());
-			}
-		}
-
+		String[] uniqueXCatagories = CommonArray.removeDuplicates(DataItem.convertToStringList(this.xData));
 		
-		int nextIndex = 0;
-		for (int i = 0; i < this.order.length; i++) {
-			String catagoryToBeOrdered = this.order[i];
-			int indexOfNextToOrder = foundXCatagories.indexOf(catagoryToBeOrdered);
-			if (indexOfNextToOrder != -1) {				
-				for (int reorderIndex = indexOfNextToOrder; reorderIndex > nextIndex; reorderIndex--) {
-					foundXCatagories.set(reorderIndex, foundXCatagories.get(reorderIndex-1));
-				}
-				foundXCatagories.set(nextIndex, catagoryToBeOrdered);
-				nextIndex++;
-			}
-		}
-		
-		String[] xDataFormatted = new String[foundXCatagories.size()];
-		xDataFormatted = foundXCatagories.toArray(xDataFormatted);
-		return xDataFormatted;
+		return CommonArray.orderArrayByOtherArray(uniqueXCatagories, this.order);
 	}
 
 	private String[] getUniqueColorCodeValues() {

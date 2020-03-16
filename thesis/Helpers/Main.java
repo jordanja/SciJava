@@ -48,7 +48,7 @@ public class Main {
 //		BoxChart bc = new BoxChart(df,  "total_bill");
 		BoxChart bc = new BoxChart(df, "day", "total_bill");
 
-		bc.colorCode("smoker");
+//		bc.colorCode("smoker"); 
 		
 		bc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
 		

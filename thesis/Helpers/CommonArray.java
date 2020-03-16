@@ -47,4 +47,37 @@ public class CommonArray {
 		}
 		return max;
 	}
+	
+	public static int indexOf(String[] arr, String element) {
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i].equals(element)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	public static String[] orderArrayByOtherArray(String[] arrToOrder, String[] order) {
+		int nextIndex = 0;
+		for (int i = 0; i < order.length; i++) {
+			String catagoryToBeOrdered = order[i];
+			int indexOfNextToOrder = CommonArray.indexOf(arrToOrder, catagoryToBeOrdered);
+			if (indexOfNextToOrder != -1) {				
+				for (int reorderIndex = indexOfNextToOrder; reorderIndex > nextIndex; reorderIndex--) {
+					arrToOrder[reorderIndex] = arrToOrder[reorderIndex-1];
+				}
+				arrToOrder[nextIndex] = catagoryToBeOrdered;
+				nextIndex++;
+			}
+		}
+		return arrToOrder;
+	}
+	
+	public static Double[] arrayListToArray(ArrayList<Double> origList) {
+		Double[] doubleList = new Double[origList.size()];
+		for (int i = 0; i < doubleList.length; i++) {
+			doubleList[i] = origList.get(i);
+		}
+		return doubleList;
+	}
 }

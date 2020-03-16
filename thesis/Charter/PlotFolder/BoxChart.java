@@ -14,6 +14,8 @@ import thesis.Charter.Others.BarChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
+import thesis.Helpers.CommonArray;
+import thesis.Helpers.CommonMath;
 
 public class BoxChart extends XYChart{
 
@@ -22,7 +24,7 @@ public class BoxChart extends XYChart{
 	Legend legend;
 	
 	private String colorCodeLabel;
-	private String[] colorCodeValues;
+	private String[] colorCodeValues = new String[0];
 	
 	private String[] order = new String[0];
 	
@@ -49,15 +51,14 @@ public class BoxChart extends XYChart{
 		HashMap<Object, Object> data = calculateData();
 		String typeOfData = getTypeOfPlot(data);
 		String[] xDataOrdered = getXDataOrdered(typeOfData);
-		String[] uniqueColorCodeValues = getUniqueColorCodeValues();
+		Object[] hueValues = CommonArray.removeDuplicates(this.colorCodeValues);
 		
 		
 		this.axis.setXAxis(xDataOrdered);
 		this.axis.setYAxis(data, typeOfData);
 		
 		if (this.legend.getIncludeLegend()) {
-			Object[] hueValies = uniqueColorCodeValues;
-			this.legend.calculateLegend(this.colorCodeLabel, hueValies);
+			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
 		}
 
 		cm.calculateChartImageMetrics(this.axis, this.plot, this.legend, getTitle(), getTitleFont());
@@ -90,30 +91,9 @@ public class BoxChart extends XYChart{
 	private String[] getXDataOrdered(String typeOfData) {
 		if (typeOfData != "singleCatagory") {
 			
-			ArrayList<String> foundXCatagories = new ArrayList<String>();
-			for (DataItem xValue : this.xData) {
-				if (!foundXCatagories.contains(xValue.getValueConvertedToString())) {
-					foundXCatagories.add(xValue.getValueConvertedToString());
-				}
-			}
-			
-			
-			int nextIndex = 0;
-			for (int i = 0; i < this.order.length; i++) {
-				String catagoryToBeOrdered = this.order[i];
-				int indexOfNextToOrder = foundXCatagories.indexOf(catagoryToBeOrdered);
-				if (indexOfNextToOrder != -1) {				
-					for (int reorderIndex = indexOfNextToOrder; reorderIndex > nextIndex; reorderIndex--) {
-						foundXCatagories.set(reorderIndex, foundXCatagories.get(reorderIndex-1));
-					}
-					foundXCatagories.set(nextIndex, catagoryToBeOrdered);
-					nextIndex++;
-				}
-			}
-			
-			String[] xDataFormatted = new String[foundXCatagories.size()];
-			xDataFormatted = foundXCatagories.toArray(xDataFormatted);
-			return xDataFormatted;
+			String[] uniqueXCatagories = CommonArray.removeDuplicates(DataItem.convertToStringList(this.xData));
+		
+			return CommonArray.orderArrayByOtherArray(uniqueXCatagories, this.order);
 		} else {
 			return new String[0];
 		}
@@ -121,17 +101,17 @@ public class BoxChart extends XYChart{
 
 	private HashMap<Object, Object> calculateData() {
 		HashMap<Object, Object> data = null;
-		if ((this.xData == null) && (this.colorCodeValues == null)) {
+		if ((this.xData == null) && (this.colorCodeValues.length == 0)) {
 			
 			// Single axis, no hue
 			data = calculateSingleBoxPlotData(DataItem.convertToDoubleList(this.yData));
-		} else if ((this.yData == null) && (this.colorCodeValues != null)) {
+		} else if ((this.yData == null) && (this.colorCodeValues.length != 0)) {
 			// Single axis, hue
 			System.out.println("Single axis, hue. Error!!!");
-		} else if ((this.yData != null) && (this.colorCodeValues == null)) {
+		} else if ((this.yData != null) && (this.colorCodeValues.length == 0)) {
 			// 2 axis, no hue
 			data = calculateXYBoxPlotData(DataItem.convertToStringList(this.xData), DataItem.convertToDoubleList(this.yData));
-		} else if ((this.yData != null) && (this.colorCodeValues != null)) {
+		} else if ((this.yData != null) && (this.colorCodeValues.length != 0)) {
 			// 2 axis, hue
 			data = calculateXYHueBoxPlotData(DataItem.convertToStringList(this.xData), DataItem.convertToDoubleList(this.yData),this.colorCodeValues);
 		}
@@ -159,8 +139,8 @@ public class BoxChart extends XYChart{
 	 */
 	private HashMap<Object, Object> calculateXYHueBoxPlotData(String[] catagoricalData, Double[] values, String[] hueValues) {
 		HashMap<String, HashMap<String, ArrayList<Double>>> origFormattedValues = new HashMap<String, HashMap<String, ArrayList<Double>>>();
-		String[] uniqueCatagories = getUniqueList(catagoricalData);
-		String[] uniqueHues = getUniqueList(hueValues);
+		String[] uniqueCatagories = CommonArray.removeDuplicates(catagoricalData);
+		String[] uniqueHues = CommonArray.removeDuplicates(hueValues); 
 		for (String catagory: uniqueCatagories) {
 			origFormattedValues.put(catagory, new HashMap<String, ArrayList<Double>>());
 			for (String hue: uniqueHues) {
@@ -175,7 +155,7 @@ public class BoxChart extends XYChart{
 		for (String catagory: origFormattedValues.keySet()) {
 			data.put(catagory, new HashMap<String, HashMap<String, Double>>());
 			for (String hue: origFormattedValues.get(catagory).keySet()) {
-				Double[] doubleList = arrayListToArray(origFormattedValues.get(catagory).get(hue));
+				Double[] doubleList = CommonArray.arrayListToArray(origFormattedValues.get(catagory).get(hue));
 				((HashMap<Object, Object>) data.get(catagory)).put(hue, calculateSingleBoxPlotData(doubleList));
 			}
 		}
@@ -195,7 +175,7 @@ public class BoxChart extends XYChart{
 	 *		} 
 	 */
 	private HashMap<Object, Object> calculateXYBoxPlotData(String[] catagoricalData, Double[] values) {
-		String[] uniqueCatagories = getUniqueList(catagoricalData);
+		String[] uniqueCatagories = CommonArray.removeDuplicates(catagoricalData);
 		HashMap<String, ArrayList<Double>> origSortedValues = new HashMap<String, ArrayList<Double>>();
 		for (int i = 0; i < catagoricalData.length; i++) {
 			if (!origSortedValues.containsKey(catagoricalData[i])) {
@@ -206,7 +186,7 @@ public class BoxChart extends XYChart{
 		}
 		HashMap<Object, Object> data = new HashMap<Object, Object>();
 		for (String catagory: origSortedValues.keySet()) {
-			Double[] doubleList = arrayListToArray(origSortedValues.get(catagory));
+			Double[] doubleList = CommonArray.arrayListToArray(origSortedValues.get(catagory));
 			
 			HashMap<Object, Object> singlePlotData = calculateSingleBoxPlotData(doubleList);
 			data.put(catagory, singlePlotData);
@@ -227,11 +207,11 @@ public class BoxChart extends XYChart{
 		HashMap<Object, Object> data = new HashMap<Object, Object>();
 		Arrays.sort(values);
 		
-		int middleIndex = indexOfMedian(0, values.length); 
+		int middleIndex = CommonMath.indexOfMedian(0, values.length); 
 		 
-	    double Q1 = values[indexOfMedian(0, middleIndex)]; 
+	    double Q1 = values[CommonMath.indexOfMedian(0, middleIndex)]; 
 	    double Q2 = values[middleIndex];
-	    double Q3 = values[indexOfMedian(middleIndex + 1, values.length)]; 
+	    double Q3 = values[CommonMath.indexOfMedian(middleIndex + 1, values.length)]; 
 	    
 	    data.put("Min", values[0]);
 	    data.put("Q1", Q1);
@@ -241,24 +221,6 @@ public class BoxChart extends XYChart{
 	    return data;
 	}
 	
-	private String[] getUniqueColorCodeValues() {
-		Set<String> uniqueList = new HashSet<String>();
-
-		if (this.colorCodeValues != null) {
-			
-			for (String nextElem : this.colorCodeValues) {
-				uniqueList.add(nextElem);
-			}
-			
-			if (uniqueList.size() == 1) {
-				return new String[0];
-			}
-			
-			return uniqueList.stream().toArray(String[]::new);
-		} else {
-			return new String[0];
-		}
-	}
 
 	public String getTypeOfPlot(HashMap<Object, Object> data) {
 		boolean singleValue = (data.get(data.keySet().iterator().next()) instanceof Double);
@@ -276,41 +238,8 @@ public class BoxChart extends XYChart{
 			}
 		}
 		
-	}
-	
-	
-	private int indexOfMedian(int leftIndex, int rightIndex){ 
-		int gapSize = rightIndex - leftIndex + 1; 
-		int halfGapSize = (gapSize + 1) / 2 - 1; 
-		return leftIndex + halfGapSize; 
 	} 
-	
-	private String[] getUniqueList(String[] origList) {
-		Set<String> uniqueList = new HashSet<String>();
 
-		if (origList != null) {
-			
-			for (String nextElem : origList) {
-				uniqueList.add(nextElem);
-			}
-			
-			if (uniqueList.size() == 1) {
-				return new String[0];
-			}
-			
-			return uniqueList.stream().toArray(String[]::new);
-		} else {
-			return new String[0];
-		}
-	}
-	
-	private Double[] arrayListToArray(ArrayList<Double> origList) {
-		Double[] doubleList = new Double[origList.size()];
-		for (int i = 0; i < doubleList.length; i++) {
-			doubleList[i] = origList.get(i);
-		}
-		return doubleList;
-	}
 	
 	public BoxChartAxis getAxis() {
 		return axis;
