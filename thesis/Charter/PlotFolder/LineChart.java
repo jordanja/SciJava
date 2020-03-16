@@ -38,10 +38,10 @@ public class LineChart extends XYChart {
 	public void Create() {
 		Double[] xValues = DataItem.convertToDoubleList(this.xData);
 		Double[] yValues = DataItem.convertToDoubleList(this.yData);
-		String[] uniqueColorCodeValues = CommonArray.removeDuplicates(this.colorCodeValues); //getUniqueColorCodeValues(this.colorCodeValues);
+		String[] hueValues = CommonArray.removeDuplicates(this.colorCodeValues); //getUniqueColorCodeValues(this.colorCodeValues);
 		
 
-		HashMap<Object, Object> data = calculateLineData(xValues, yValues, uniqueColorCodeValues);
+		HashMap<Object, Object> data = calculateLineData(xValues, yValues, hueValues);
 
 		
 		Double minX = CommonArray.minValue(xValues);
@@ -54,8 +54,7 @@ public class LineChart extends XYChart {
 
 
 		if (this.legend.getIncludeLegend()) {
-			Object[] hueValies = uniqueColorCodeValues;
-			this.legend.calculateLegend(this.colorCodeLabel, hueValies);
+			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
 		}
 
 		cm.calculateChartImageMetrics(this.axis, this.plot, this.legend, getTitle(), getTitleFont());
