@@ -157,7 +157,7 @@ public class BoxChart extends XYChart{
 	 *			...,
 	 *		} 
 	 */
-	private HashMap<Object, Object> calculateXYHueBoxPlotData(String[] catagoricalData, double[] values, String[] hueValues) {
+	private HashMap<Object, Object> calculateXYHueBoxPlotData(String[] catagoricalData, Double[] values, String[] hueValues) {
 		HashMap<String, HashMap<String, ArrayList<Double>>> origFormattedValues = new HashMap<String, HashMap<String, ArrayList<Double>>>();
 		String[] uniqueCatagories = getUniqueList(catagoricalData);
 		String[] uniqueHues = getUniqueList(hueValues);
@@ -175,7 +175,7 @@ public class BoxChart extends XYChart{
 		for (String catagory: origFormattedValues.keySet()) {
 			data.put(catagory, new HashMap<String, HashMap<String, Double>>());
 			for (String hue: origFormattedValues.get(catagory).keySet()) {
-				double[] doubleList = arrayListToArray(origFormattedValues.get(catagory).get(hue));
+				Double[] doubleList = arrayListToArray(origFormattedValues.get(catagory).get(hue));
 				((HashMap<Object, Object>) data.get(catagory)).put(hue, calculateSingleBoxPlotData(doubleList));
 			}
 		}
@@ -194,7 +194,7 @@ public class BoxChart extends XYChart{
 	 *			...,
 	 *		} 
 	 */
-	private HashMap<Object, Object> calculateXYBoxPlotData(String[] catagoricalData, double[] values) {
+	private HashMap<Object, Object> calculateXYBoxPlotData(String[] catagoricalData, Double[] values) {
 		String[] uniqueCatagories = getUniqueList(catagoricalData);
 		HashMap<String, ArrayList<Double>> origSortedValues = new HashMap<String, ArrayList<Double>>();
 		for (int i = 0; i < catagoricalData.length; i++) {
@@ -206,7 +206,7 @@ public class BoxChart extends XYChart{
 		}
 		HashMap<Object, Object> data = new HashMap<Object, Object>();
 		for (String catagory: origSortedValues.keySet()) {
-			double[] doubleList = arrayListToArray(origSortedValues.get(catagory));
+			Double[] doubleList = arrayListToArray(origSortedValues.get(catagory));
 			
 			HashMap<Object, Object> singlePlotData = calculateSingleBoxPlotData(doubleList);
 			data.put(catagory, singlePlotData);
@@ -223,7 +223,7 @@ public class BoxChart extends XYChart{
 	 * 			"Max": 100,
 	 * 		}
 	 */
-	private HashMap<Object, Object> calculateSingleBoxPlotData(double[] values) {
+	private HashMap<Object, Object> calculateSingleBoxPlotData(Double[] values) {
 		HashMap<Object, Object> data = new HashMap<Object, Object>();
 		Arrays.sort(values);
 		
@@ -304,8 +304,8 @@ public class BoxChart extends XYChart{
 		}
 	}
 	
-	private double[] arrayListToArray(ArrayList<Double> origList) {
-		double[] doubleList = new double[origList.size()];
+	private Double[] arrayListToArray(ArrayList<Double> origList) {
+		Double[] doubleList = new Double[origList.size()];
 		for (int i = 0; i < doubleList.length; i++) {
 			doubleList[i] = origList.get(i);
 		}

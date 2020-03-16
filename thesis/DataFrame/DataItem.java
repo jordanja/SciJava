@@ -151,8 +151,8 @@ public class DataItem {
 		return dataItems;
 	}
 	
-	public static double[] convertToDoubleList(DataItem[] dataItemList) {
-		double[] doubleList = new double[dataItemList.length];
+	public static Double[] convertToDoubleList(DataItem[] dataItemList) {
+		Double[] doubleList = new Double[dataItemList.length];
 		for (int i = 0; i < dataItemList.length; i++) {
 			doubleList[i] = dataItemList[i].getValueConvertedToDouble();
 		}

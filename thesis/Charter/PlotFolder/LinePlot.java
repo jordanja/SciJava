@@ -69,13 +69,15 @@ public class LinePlot extends Plot{
 
 
 	private void drawLine(Graphics2D g, NumericAxis axis, HashMap<Object, Object> lineData, XYChartMeasurements cm, double[] xTicks, double[] yTicks) {
-		Number[] xValues = lineData.keySet().toArray(new Number[0]);
+		Double[] xValues = lineData.keySet().toArray(new Double[0]);
+		Arrays.sort(xValues);
 		int[] xPoints = new int[xValues.length];
 		int[] yPoints = new int[xValues.length];
 		for (int i = 0; i < xValues.length; i++) {
-			Number xValue1 = xValues[i];
-			int xPos = (int)xPlotValueToXPixelValue(xValue1.doubleValue(), axis.getxNS(), xTicks, cm);
-			int yPos = (int)yPlotValueToYPixelValue(((Number)lineData.get(xValue1)).doubleValue(), axis.getyNS(), yTicks, cm);
+			Double xValue = xValues[i];
+			
+			int xPos = (int)xPlotValueToXPixelValue(xValue.doubleValue(), axis.getxNS(), xTicks, cm);
+			int yPos = (int)yPlotValueToYPixelValue((double) (lineData.get(xValue)), axis.getyNS(), yTicks, cm);
 			
 			xPoints[i] = xPos;
 			yPoints[i] = yPos;

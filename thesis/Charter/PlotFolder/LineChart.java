@@ -35,8 +35,8 @@ public class LineChart extends XYChart {
 
 	@Override
 	public void Create() {
-		Number[] xValues = convertDataItemListIntoNumberList(this.xData);
-		Number[] yValues = convertDataItemListIntoNumberList(this.yData);
+		Double[] xValues = DataItem.convertToDoubleList(this.xData);
+		Double[] yValues = DataItem.convertToDoubleList(this.yData);
 		String[] uniqueColorCodeValues = getUniqueColorCodeValues();
 		
 
@@ -103,143 +103,143 @@ public class LineChart extends XYChart {
 		}
 	}
 	
-	private Number minValueInList(Number[] arr) {
-		Number min = null;
+	private Double minValueInList(Double[] arr) {
+		Double min = null;
 		
-		for (Number value : arr) {
-			if ((min == null) || (value.doubleValue() < min.doubleValue())) {
+		for (Double value : arr) {
+			if ((min == null) || (value < min)) {
 				min = value;
 			}
 		}
 		return min;
 	}
 	
-	private Number maxValueInList(Number[] arr) {
-		Number max = null;
+	private Double maxValueInList(Double[] arr) {
+		Double max = null;
 		
-		for (Number value : arr) {
-			if ((max == null) || (value.doubleValue() > max.doubleValue())) {
+		for (Double value : arr) {
+			if ((max == null) || (value > max)) {
 				max = value;
 			}
 		}
 		return max;
 	}
 	
-	private Number minimumXValue(HashMap<Object, Object> data) {
-		Number min = null;
+	private Double minimumXValue(HashMap<Object, Object> data) {
+		Double min = null;
 		
 		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 
 		if (hasMultipleLines) {
 			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
-				HashMap<Number, Number> lineData = (HashMap<Number, Number>) data.get(colorCodeCatagory);
-				Number minValueInLine = minValueInList(lineData.keySet().toArray(new Number[0]));
+				HashMap<Double, Double> lineData = (HashMap<Double, Double>) data.get(colorCodeCatagory);
+				Double minValueInLine = minValueInList(lineData.keySet().toArray(new Double[0]));
 				
 				if ((min == null) || (minValueInLine.doubleValue() < min.doubleValue())){
 					min = minValueInLine;
 				}
 			}
 		} else {
-			min = minValueInList(data.keySet().toArray(new Number[0]));
+			min = minValueInList(data.keySet().toArray(new Double[0]));
 		}
 
 		return min;
 
 	}
 
-	private Number maximumXValue(HashMap<Object, Object> data) {
-		Number max = null;
+	private Double maximumXValue(HashMap<Object, Object> data) {
+		Double max = null;
 		
 		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 		
 		if (hasMultipleLines) {
 			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
-				HashMap<Number, Number> lineData = (HashMap<Number, Number>) data.get(colorCodeCatagory);
-				Number maxValueInLine = maxValueInList(lineData.keySet().toArray(new Number[0]));
+				HashMap<Double, Double> lineData = (HashMap<Double, Double>) data.get(colorCodeCatagory);
+				Double maxValueInLine = maxValueInList(lineData.keySet().toArray(new Double[0]));
 				
 				if ((max == null) || (maxValueInLine.doubleValue() > max.doubleValue())){
 					max = maxValueInLine;
 				}
 			}
 		} else {
-			max = maxValueInList(data.keySet().toArray(new Number[0]));
+			max = maxValueInList(data.keySet().toArray(new Double[0]));
 		}
 
 		return max;
 
 	}
 	
-	private Number minimumYValue(HashMap<Object, Object> data) { 
-		Number min = null;
+	private Double minimumYValue(HashMap<Object, Object> data) { 
+		Double min = null;
 		
 		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 		
 		if (hasMultipleLines) {
 			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
-				HashMap<Number, Number> lineData = (HashMap<Number, Number>) data.get(colorCodeCatagory);
-				Number minValueInLine = minValueInList(lineData.values().toArray(new Number[0]));
+				HashMap<Double, Double> lineData = (HashMap<Double, Double>) data.get(colorCodeCatagory);
+				Double minValueInLine = minValueInList(lineData.values().toArray(new Double[0]));
 				if ((min == null) || (minValueInLine.doubleValue() < min.doubleValue())) {
 					min = minValueInLine;
 				}
 			}
 		} else {
-			min = minValueInList(data.values().toArray(new Number[0]));
+			min = minValueInList(data.values().toArray(new Double[0]));
 		}
 		
 		
 		return min;
 	}
 
-	private Number maximumYValue(HashMap<Object, Object> data) { 
-		Number max = null;
+	private Double maximumYValue(HashMap<Object, Object> data) { 
+		Double max = null;
 		
 		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 		
 		if (hasMultipleLines) {
 			for (String colorCodeCatagory: data.keySet().toArray(new String[0])) {
-				HashMap<Number, Number> lineData = (HashMap<Number, Number>) data.get(colorCodeCatagory);
-				Number maxValueInLine = maxValueInList(lineData.values().toArray(new Number[0]));
+				HashMap<Double, Double> lineData = (HashMap<Double, Double>) data.get(colorCodeCatagory);
+				Double maxValueInLine = maxValueInList(lineData.values().toArray(new Double[0]));
 				if ((max == null) || (maxValueInLine.doubleValue() > max.doubleValue())) {
 					max = maxValueInLine;
 				}
 			}
 		} else {
-			max = maxValueInList(data.values().toArray(new Number[0]));
+			max = maxValueInList(data.values().toArray(new Double[0]));
 		}
 		
 		return max;
 	}
 	
-	private HashMap<Object, Object> calculateLineData(Number[] xValues, Number[] yValues, String[] uniqueColorCodeValues) {
+	private HashMap<Object, Object> calculateLineData(Double[] xValues, Double[] yValues, String[] uniqueColorCodeValues) {
 		HashMap<Object, Object> data = new HashMap<Object, Object>();
 
 		if (uniqueColorCodeValues.length == 0) {
-			Number[] uniqueXValues = removeDuplicates(xValues);
+			Double[] uniqueXValues = removeDuplicates(xValues);
 			
-			HashMap<Number, Number> runningTotals = new HashMap<Number, Number>();
-			HashMap<Number, Integer> runningCount = new HashMap<Number, Integer>();
+			HashMap<Double, Double> runningTotals = new HashMap<Double, Double>();
+			HashMap<Double, Integer> runningCount = new HashMap<Double, Integer>();
 			
-			for (Number xValue : uniqueXValues) {
-				runningTotals.put(xValue, 0);
+			for (Double xValue : uniqueXValues) {
+				runningTotals.put(xValue, Double.valueOf(0));
 				runningCount.put(xValue, 0);
 			}
 			
 			for (int i = 0; i < xValues.length; i++) {
-				runningTotals.put(xValues[i], runningTotals.get(xValues[i]).doubleValue() + yValues[i].doubleValue());
+				runningTotals.put(xValues[i], runningTotals.get(xValues[i]) + yValues[i]);
 				runningCount.put(xValues[i], runningCount.get(xValues[i]) + 1);
 			}
 			
-			for (Number xValue : uniqueXValues) {
+			for (Double xValue : uniqueXValues) {
 				data.put(xValue, runningTotals.get(xValue).doubleValue() / runningCount.get(xValue).doubleValue());
 			}
 		} else {
 			
-			HashMap<String, HashMap<Number, Number>> runningTotals = new HashMap<String, HashMap<Number, Number>>(); 
-			HashMap<String, HashMap<Number, Integer>> runningCounts = new HashMap<String, HashMap<Number, Integer>>(); 
+			HashMap<String, HashMap<Double, Double>> runningTotals = new HashMap<String, HashMap<Double, Double>>(); 
+			HashMap<String, HashMap<Double, Integer>> runningCounts = new HashMap<String, HashMap<Double, Integer>>(); 
 			
 			for (String uniqueColorCodeValue: uniqueColorCodeValues) {
-				HashMap<Number, Number> runningTotal = new HashMap<Number, Number>();
-				HashMap<Number, Integer> runningCount = new HashMap<Number, Integer>();
+				HashMap<Double, Double> runningTotal = new HashMap<Double, Double>();
+				HashMap<Double, Integer> runningCount = new HashMap<Double, Integer>();
 				runningTotals.put(uniqueColorCodeValue, runningTotal);
 				runningCounts.put(uniqueColorCodeValue, runningCount);
 			}
@@ -256,10 +256,10 @@ public class LineChart extends XYChart {
 			
 			for (int colorCodeCounter = 0; colorCodeCounter < uniqueColorCodeValues.length; colorCodeCounter++) {
 				String colorCodeValue = uniqueColorCodeValues[colorCodeCounter];
-				HashMap<Number, Number> colorCodeLine = new HashMap<Number, Number>();
+				HashMap<Double, Double> colorCodeLine = new HashMap<Double, Double>();
 				
-				for (Number xValue: runningTotals.get(colorCodeValue).keySet()) {
-					colorCodeLine.put(xValue, runningTotals.get(colorCodeValue).get(xValue).doubleValue()/runningCounts.get(colorCodeValue).get(xValue).doubleValue());	
+				for (Double xValue: runningTotals.get(colorCodeValue).keySet()) {
+					colorCodeLine.put(xValue, runningTotals.get(colorCodeValue).get(xValue)/runningCounts.get(colorCodeValue).get(xValue));	
 				}
 				data.put(colorCodeValue, colorCodeLine);
 				
@@ -272,32 +272,14 @@ public class LineChart extends XYChart {
 		return data;
 	}
 
-	private Number[] convertDataItemListIntoNumberList(DataItem[] list) {
-		Number[] numberList = new Number[list.length];
-		for (int i = 0; i < list.length; i++) {
-			numberList[i] = list[i].getValueConvertedToNumber();
-		}
-
-		return numberList;
-	}
-
-	private String[] convertDataItemListToStringList(DataItem[] list) {
-		String[] stringList = new String[list.length];
-		for (int i = 0; i < list.length; i++) {
-			stringList[i] = list[i].getValueConvertedToString();
-		}
-
-		return stringList;
-	}
-
-	private Number[] removeDuplicates(Number[] list) {
-		ArrayList<Number> newList = new ArrayList<Number>();
+	private Double[] removeDuplicates(Double[] list) {
+		ArrayList<Double> newList = new ArrayList<Double>();
 		for (int i = 0; i < list.length; i++) {
 			if (!newList.contains(list[i])) {
 				newList.add(list[i]);
 			}
 		}
-		return newList.toArray(new Number[0]);
+		return newList.toArray(new Double[0]);
 
 	}
 

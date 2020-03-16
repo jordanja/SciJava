@@ -47,7 +47,6 @@ public class Main {
 		
 //		BoxChart bc = new BoxChart(df,  "total_bill");
 		BoxChart bc = new BoxChart(df, "day", "total_bill");
-		BoxPlot plot = bc.getPlot();
 
 		bc.colorCode("smoker");
 		
@@ -57,6 +56,7 @@ public class Main {
 		
 		cm.setPlotWidth(800);
 		
+		BoxPlot plot = bc.getPlot();
 		plot.setBoxColorPalette(Palette.generateUniqueColors(10));
 		
 		
@@ -74,14 +74,14 @@ public class Main {
 		NumericAxis axis = (NumericAxis) lc.getAxis();
 		LinePlot plot = lc.getPlot();
 		
-//		plot.setLineColor(Color.RED);
+		plot.setLineColor(Color.RED);
 		plot.setLineThickness(2);
 //		plot.setMarkerDotColor(Color.WHITE);
 //		plot.setMarkerDotOutlineColor(Color.BLACK);
 		
 		plot.setLineColorPalette(Palette.generateUniqueColors(14));
 		
-		lc.colorCode("subject");
+//		lc.colorCode("subject");
 		
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
