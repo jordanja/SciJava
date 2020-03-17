@@ -23,7 +23,7 @@ public class BarChart extends XYChart{
 	Legend legend;
 	
 	private String colorCodeLabel;
-	private String[] colorCodeValues; 
+	private String[] colorCodeValues = new String[0]; 
 	
 	private String[] order = new String[0];
 	
@@ -43,17 +43,16 @@ public class BarChart extends XYChart{
 	@Override
 	public void Create() {
 		
-		String[] uniqueColorCodeValues = getUniqueColorCodeValues();
+		String[] hueValues = CommonArray.removeDuplicates(this.colorCodeValues);
 		String[] xDataOrdered = getXDataOrdered();
 		
-		HashMap<String, Object> data = getFormattedData(xDataOrdered, uniqueColorCodeValues);
+		HashMap<String, Object> data = getFormattedData(xDataOrdered, hueValues);
 		
 		this.axis.setXAxis(xDataOrdered);
 		this.axis.setYAxis(data);
 
 		if (this.legend.getIncludeLegend()) {
-			Object[] hueValies = uniqueColorCodeValues;
-			this.legend.calculateLegend(this.colorCodeLabel, hueValies);
+			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
 		}
 
 		cm.calculateChartImageMetrics(this.axis, this.plot, this.legend, getTitle(), getTitleFont());
@@ -195,24 +194,6 @@ public class BarChart extends XYChart{
 		return CommonArray.orderArrayByOtherArray(uniqueXCatagories, this.order);
 	}
 
-	private String[] getUniqueColorCodeValues() {
-		Set<String> uniqueList = new HashSet<String>();
-
-		if (this.colorCodeValues != null) {
-			
-			for (String nextElem : this.colorCodeValues) {
-				uniqueList.add(nextElem);
-			}
-			
-			if (uniqueList.size() == 1) {
-				return new String[0];
-			}
-			
-			return uniqueList.stream().toArray(String[]::new);
-		} else {
-			return new String[0];
-		}
-	}
 
 	public Axis getAxis() {
 		return this.axis;

@@ -45,9 +45,8 @@ public class BarPlot extends Plot {
 		// Are there color code values
 		boolean haveColorCodeValues = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 		
-		double[] yTicks = Arrays.stream(axis.getYTicks()).mapToDouble(Double::parseDouble).toArray();
+		double[] yTicks = axis.getYTicksValues();
 
-		NiceScale yNS = axis.getyNS();
 		
 		int numXCatagories = data.keySet().size();
 		int xCatagoryCount = 0;

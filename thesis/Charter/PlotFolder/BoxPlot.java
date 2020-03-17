@@ -42,7 +42,7 @@ public class BoxPlot extends Plot {
 		if (typeOfData == "singleCatagory") {
 			int widthOfbar = (int) (singluarBarWidthPercentage * cm.getPlotWidth());
 
-			double[] yTicks = Arrays.stream(axis.getYTicks()).mapToDouble(Double::parseDouble).toArray();
+			double[] yTicks = axis.getYTicksValues();
 
 			double min = (Double) data.get("Min");
 			double Q1 = (Double) data.get("Q1");

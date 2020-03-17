@@ -25,6 +25,7 @@ import thesis.Charter.PlotFolder.LineChart;
 import thesis.Charter.PlotFolder.LinePlot;
 import thesis.Charter.PlotFolder.ScatterChart;
 import thesis.Charter.PlotFolder.ScatterPlot;
+import thesis.Charter.PlotFolder.StripChart;
 import thesis.DataFrame.*;
 import thesis.NumJa.NumJa;
 
@@ -33,7 +34,8 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
-		boxCharting();
+		stripCharting();
+//		boxCharting();
 //		lineCharting();
 //		barCharting();
 //		scatterCharting();
@@ -41,6 +43,19 @@ public class Main {
 				
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
+	
+	public static void stripCharting() {
+		DataFrame df = new DataFrame("Datasets/tips.csv", true);
+		
+//		StripChart sc = new StripChart(df,  "total_bill");
+		StripChart sc = new StripChart(df, "day", "total_bill");
+//		sc.colorCode("smoker");
+		
+		
+		sc.Create();
+		sc.WriteFile("Chart Images/Strip Chart.png");
+	}
+	
 	
 	public static void boxCharting() {
 		DataFrame df = new DataFrame("Datasets/tips.csv", true);
@@ -114,7 +129,7 @@ public class Main {
 		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 		
 		bc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
-		bc.colorCode("sex");
+//		bc.colorCode("sex");
 		
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
