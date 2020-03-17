@@ -26,6 +26,7 @@ import thesis.Charter.PlotFolder.LinePlot;
 import thesis.Charter.PlotFolder.ScatterChart;
 import thesis.Charter.PlotFolder.ScatterPlot;
 import thesis.Charter.PlotFolder.StripChart;
+import thesis.Charter.PlotFolder.StripPlot;
 import thesis.DataFrame.*;
 import thesis.NumJa.NumJa;
 
@@ -49,8 +50,12 @@ public class Main {
 		
 //		StripChart sc = new StripChart(df,  "total_bill");
 		StripChart sc = new StripChart(df, "day", "total_bill");
-//		sc.colorCode("smoker");
+		sc.colorCode("smoker");
 		
+		sc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
+		
+		StripPlot plot = sc.getPlot();
+		plot.setDodge(true);
 		
 		sc.Create();
 		sc.WriteFile("Chart Images/Strip Chart.png");

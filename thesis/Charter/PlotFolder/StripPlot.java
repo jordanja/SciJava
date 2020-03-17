@@ -3,13 +3,18 @@ package thesis.Charter.PlotFolder;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.StripChartAxis;
 import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Common.CommonArray;
 import thesis.Common.MathHelpers;
 import thesis.Helpers.Palette;
 
@@ -31,9 +36,9 @@ public class StripPlot extends Plot{
 	// cluster
 	private int multipleBarPixelSpacing = 0;
 
-	private double jitter = 0.5;
+	private double jitter = 0.2;
 	
-	private boolean dodge = false;
+	private boolean dodge = true;
 
 
 	public void drawPlot(Graphics2D g, StripChartAxis axis, Object data, String[] xDataOrdered, String typeOfData, XYChartMeasurements cm) {
@@ -95,30 +100,68 @@ public class StripPlot extends Plot{
 				int maxJitter = (int) (this.jitter * widthOfColorCodeBar/2);
 				int minJitter = (int) (-this.jitter * widthOfColorCodeBar/2);
 				
-				for (Object colorCode : hueMap.keySet()) {
-					Color fillColor = this.colorPalette[colorCodeCount % this.colorPalette.length];
+				
+				
+				int dataPointCount = 0;
+				if (this.dodge) {
+					colorCodeCount = 0;
+					for (Object colorCode : hueMap.keySet()) {
+						Color fillColor = this.colorPalette[colorCodeCount % this.colorPalette.length];
 
-					Double[] values = hueMap.get(colorCode);
+						Double[] values = hueMap.get(colorCode);
+						
+						for (int valueCount = 0; valueCount < values.length; valueCount++) {
+							int jitterAmount = r.nextInt((maxJitter - minJitter) + 1) + minJitter;
+							int x = positionAtBarsStart + ((widthOfColorCodeBar + multipleBarPixelSpacing) * colorCodeCount);
+							int y = yTickNumToPlotY(values[valueCount], axis.getYTicksValues(), cm);
+							drawDataPoint(g, x + jitterAmount, y, fillColor);
+						}
+						colorCodeCount++;
+					}
+				} else {
+					
+					int numDataPointsInCategory = numDataPointsInCategory(hueMap);
+					Color[] fillColor = new Color[numDataPointsInCategory];
+					Double[] values = new Double[numDataPointsInCategory];
+					
+					for (Object colorCode: hueMap.keySet()) {
+						Double[] valuesToAdd = hueMap.get(colorCode);
+						for (Double value: valuesToAdd) {
+							fillColor[dataPointCount] = this.colorPalette[colorCodeCount % this.colorPalette.length];
+							values[dataPointCount] = value;
+							dataPointCount++;
+						}
+						colorCodeCount++;
+					}
+					
+					List<Integer> indexArray = IntStream.rangeClosed(0, values.length - 1)
+						    .boxed().collect(Collectors.toList());
+					Collections.shuffle(indexArray);
+
 					
 					for (int valueCount = 0; valueCount < values.length; valueCount++) {
 						int jitterAmount = r.nextInt((maxJitter - minJitter) + 1) + minJitter;
-						int x;
-						if (dodge) {							
-							x = positionAtBarsStart + ((widthOfColorCodeBar + multipleBarPixelSpacing) * colorCodeCount);
-						} else {
-							x = xCategoryNumToPlotX(xCatagoryCount, xDataOrdered.length, cm);
-						}
-						int y = yTickNumToPlotY(values[valueCount], axis.getYTicksValues(), cm);
-						drawDataPoint(g, x + jitterAmount, y, fillColor);
+						int x = xCategoryNumToPlotX(xCatagoryCount, xDataOrdered.length, cm);
+						int y = yTickNumToPlotY(values[indexArray.get(valueCount)], axis.getYTicksValues(), cm);
+						drawDataPoint(g, x + jitterAmount, y, fillColor[indexArray.get(valueCount)]);
 					}
-					colorCodeCount++;
 				}
+				
+				
 				xCatagoryCount++;
 			}
 		}
 		
 	}
 	
+	private int numDataPointsInCategory(HashMap<Object, Double[]> hueMap) {
+		int countDataPoints = 0;
+		for (Object key: hueMap.keySet()) {
+			countDataPoints += hueMap.get(key).length;
+		}
+		return countDataPoints;
+	}
+
 	private void drawDataPoint(Graphics2D g, int xCenter, int yCenter, Color dataPointColor) {
 		
 		g.setColor(dataPointColor);

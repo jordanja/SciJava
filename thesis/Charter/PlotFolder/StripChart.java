@@ -61,9 +61,9 @@ public class StripChart extends XYChart{
 		this.axis.setYAxis(data, typeOfData);
 		
 		
-//		if (this.legend.getIncludeLegend()) {
-//			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
-//		}
+		if (this.legend.getIncludeLegend()) {
+			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
+		}
 
 		cm.calculateChartImageMetrics(this.axis, this.plot, this.legend, getTitle(), getTitleFont());
 
@@ -85,9 +85,9 @@ public class StripChart extends XYChart{
 		this.axis.drawXAxisLabel(g, cm);
 		this.axis.drawYAxisLabel(g, cm);
 
-//		if (this.legend.getIncludeLegend()) {
-//			this.legend.drawLegend(g, cm, this.plot.getBoxColorPalette());
-//		}
+		if (this.legend.getIncludeLegend()) {
+			this.legend.drawLegend(g, cm, this.plot.getColorPalette());
+		}
 
 		this.drawTitle(g, cm);
 		
