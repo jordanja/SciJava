@@ -35,10 +35,10 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
-		stripCharting();
+//		stripCharting();
 //		boxCharting();
 //		lineCharting();
-//		barCharting();
+		barCharting();
 //		scatterCharting();
 //		dfPlay();
 				
@@ -49,13 +49,18 @@ public class Main {
 		DataFrame df = new DataFrame("Datasets/tips.csv", true);
 		
 //		StripChart sc = new StripChart(df,  "total_bill");
-		StripChart sc = new StripChart(df, "day", "total_bill");
-		sc.colorCode("smoker");
+//		StripChart sc = new StripChart(df, "day", "total_bill");
+//		sc.colorCode("smoker");
 		
-		sc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
+		
+		StripChart sc = new StripChart(df, "sex", "total_bill");
+		sc.colorCode("day");
+		
+		
+//		sc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
 		
 		StripPlot plot = sc.getPlot();
-		plot.setDodge(true);
+		plot.setDodge(false);
 		
 		sc.Create();
 		sc.WriteFile("Chart Images/Strip Chart.png");
@@ -138,6 +143,9 @@ public class Main {
 		
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
+		
+		axis.setXAxisFont(new Font("Dialog", Font.PLAIN, 80));
+		axis.setYAxisFont(new Font("Dialog", Font.PLAIN, 80));
 		
 		plot.setDrawBarOutline(true);
 		plot.setBarOutlineColour(Color.BLUE);

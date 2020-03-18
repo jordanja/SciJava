@@ -36,7 +36,7 @@ public class StripPlot extends Plot{
 	// cluster
 	private int multipleBarPixelSpacing = 0;
 
-	private double jitter = 0.2;
+	private double jitter = 0.8;
 	
 	private boolean dodge = true;
 

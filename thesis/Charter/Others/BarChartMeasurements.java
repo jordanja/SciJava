@@ -23,10 +23,8 @@ public class BarChartMeasurements extends XYChartMeasurements {
 	@Override
 	public void calculateChartImageMetrics(Axis axis, Plot sPlot, Legend legend, String title, Font titleFont) {
 		
-		String[] xTicks = Arrays.stream(axis.getXTicks()).toArray(String[]::new);
-		double[] yTicks = Arrays.stream(axis.getYTicks())
-                .mapToDouble(Double::parseDouble)
-                .toArray();
+		String[] xTicks = axis.getXTicks();
+		double[] yTicks = axis.getYTicksValues();
 		
 		DecimalFormat df = new DecimalFormat("#.##");
 		df.setRoundingMode(RoundingMode.HALF_DOWN);

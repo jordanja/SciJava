@@ -2,6 +2,7 @@ package thesis.Charter.PlotFolder;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -27,6 +28,9 @@ public class BarPlot extends Plot {
 	private Color barOutlineColour = Color.black;
 	private int barOutlineWidth = 1;
 
+	private Font valuesFont = new Font("Dialog", Font.PLAIN, 12);
+
+	
 	// When there are no color code bars, this is the width of a bar
 	private double singlularBarWidthPercentage = 0.5f;
 
@@ -132,6 +136,7 @@ public class BarPlot extends Plot {
 
 		if (this.drawBarValue) {
 			g.setColor(Color.black);
+			g.setFont(this.valuesFont);
 			DrawString.drawString(g, df.format(heightValue), xBoxStart + boxWidth / 2,
 					yBoxStart + boxHeight - 10, xAlignment.CenterAlign, yAlignment.TopAlign, 0, cm);
 		}

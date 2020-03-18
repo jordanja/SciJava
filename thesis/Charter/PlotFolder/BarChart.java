@@ -27,6 +27,8 @@ public class BarChart extends XYChart{
 	
 	private String[] order = new String[0];
 	
+	private String orient = "v";
+
 	public BarChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.GetColumnAsArray(xAxis), dataFrame.GetColumnAsArray(yAxis), "Bar");
 		
@@ -224,4 +226,12 @@ public class BarChart extends XYChart{
 	public void setOrder(String[] order) {
 		this.order = order;
 	}
+	
+	public String getOrient() {
+		return orient;
+	}
+	public void setOrient(String orient) {
+		this.orient = orient;
+	}
+
 }

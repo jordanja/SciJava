@@ -97,9 +97,7 @@ public class BarChartAxis extends XYAxis {
 		}
 		
 
-		double[] doubleYTicks = Arrays.stream(yTicks)
-                .mapToDouble(Double::parseDouble)
-                .toArray();
+		double[] doubleYTicks = getYTicksValues();
 		DecimalFormat df = new DecimalFormat("#.##");
 		df.setRoundingMode(RoundingMode.HALF_DOWN);
 
