@@ -37,7 +37,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>>{
 	/*
 	 * Create an empty DF with rows and columns and null values
 	 */
-	
 	public DataFrame(ArrayList<String> colNames, ArrayList<String> rowNames) {
 		this();
 		
@@ -53,7 +52,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>>{
 	}
 	
 	/*
-	 * Create a DF object from a Hashmap (cols)
+	 * Create a DF object from a HashMap (cols)
+	 * For example:
+	 * 	    map = {
+	 * 	    	"one": [1, 2, 3],
+	 * 	    	"two": [3, 4, 5]
+	 * 	    }
+	 * 
+	 * Becomes: 
+	 *     	  | one| two
+	 * 	    --+----+----
+ 	 * 	     0|   1|   3
+ 	 * 	     1|   2|   4
+ 	 * 	     2|   3|   5
 	 */
 	public DataFrame(HashMap<String,ArrayList<Object>> map) {
 		this();
@@ -64,6 +75,25 @@ public class DataFrame implements Iterable<ArrayList<DataItem>>{
 	
 	/*
 	 * Create a DF from list of hashmaps (rows)
+	 * For example:
+	 * 	    maps = [
+	 * 	    	map1: {
+	 * 	    		"one": 1,
+	 * 	    		"two": 2,
+	 * 	    		"three": 3
+	 * 	    	},
+	 * 	    	map1: {
+	 * 	    		"one": 10,
+	 * 	    		"two": 20,
+	 * 	    		"three": 30
+	 * 	    	},
+	 * 	    ]
+	 * 
+	 * Becomes:
+	 *       | one| two| three
+	 *     --+----+----+------
+	 *      0|   1|   2|     3
+	 *      1|  10|  20|    30
 	 */
 	public DataFrame(ArrayList<HashMap<String, Object>> maps) {
 		this();
@@ -84,6 +114,27 @@ public class DataFrame implements Iterable<ArrayList<DataItem>>{
 	
 	/*
 	 * Create a DF object with one list
+	 * For example if:
+	 * 	    name = "hello",
+	 * 	    list = Arrays.asList(1, 2, 3);
+	 *      isRow = false
+	 *  
+	 * Result is:
+	 * 	      | hello
+	 *      --+------
+ 	 *       0|     1
+ 	 *       1|     2
+ 	 *       2|     3
+ 	 *       
+ 	 * For example if:
+	 * 	    name = "hello",
+	 * 	    list = Arrays.asList(1, 2, 3);
+	 *      isRow = true
+	 *      
+	 * Result is:
+	 *           | 0| 1| 2
+     *     ------+--+--+--
+     *      hello| 1| 2| 3
 	 */
 	public DataFrame(String name, ArrayList<Object> list, boolean isRow) {
 		this();
@@ -97,6 +148,27 @@ public class DataFrame implements Iterable<ArrayList<DataItem>>{
 
 	}
 	
+	/*
+	 * Create a DF object from an array
+	 * For example if:
+	 *     name = "hello"
+	 *     array = [1, 2, 3, 4, 5]
+	 *     isRow = false
+	 * 
+	 * Result is:
+	 *		  | hello
+	 *		--+------
+	 *		 0|     1
+	 *		 1|     2
+	 *		 2|     3
+	 *		 3|     4
+	 *		 4|     5 
+	 * 
+	 * If isRow = true. Result is:
+	 *          | 0| 1| 2| 3| 4
+	 *    ------+--+--+--+--+--
+	 *     hello| 1| 2| 3| 4| 5
+	 */
 	public DataFrame(String name, Object[] array, boolean isRow) {
 		this(name, new ArrayList<Object>(Arrays.asList(array)),isRow);
 	}
@@ -104,6 +176,28 @@ public class DataFrame implements Iterable<ArrayList<DataItem>>{
 	
 	/*
 	 * Create a DF object form multiple columns
+	 * For example if:
+	 *     names = ["one", "two", "three"]
+	 *     lists = Arrays.asList(
+	 *         Arrays.asList(1, 2, 3),
+	 *         Arrays.asList(4, 5, 6),
+	 *         Arrays.asList(7, 8, 9),
+	 *     ),
+	 *     isRow = false
+	 * 
+	 * Result is:
+	 *       | one| two| three
+     *     --+----+----+------
+     *      0|   1|   4|     7
+     *      1|   2|   5|     8
+     *      2|   3|   6|     9
+     *      
+     * If isRow = true. Result is:
+     *           | 0| 1| 2
+     *     ------+--+--+--
+     *        one| 1| 2| 3
+     *        two| 4| 5| 6
+     *      three| 7| 8| 9
 	 */
 	public DataFrame(ArrayList<String> names, ArrayList<ArrayList<Object>> lists, boolean isRow) {
 		this();
