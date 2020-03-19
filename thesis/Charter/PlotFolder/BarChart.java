@@ -47,7 +47,7 @@ public class BarChart extends XYChart{
 		String[] hueValues = CommonArray.removeDuplicates(this.colorCodeValues);
 		String[] xDataOrdered = getXDataOrdered();
 		
-		HashMap<String, Object> data = getFormattedData(xDataOrdered, hueValues);
+		HashMap<Object, Object> data = getFormattedData(xDataOrdered, hueValues);
 		
 		this.axis.setXAxis(xDataOrdered);
 		this.axis.setYAxis(data);
@@ -105,10 +105,10 @@ public class BarChart extends XYChart{
 	 * 							}
 	 * 		},
 	 */
-	private HashMap<String, Object> getFormattedData(String[] xCatagories, String[] uniqueColorCodeValues) {
+	private HashMap<Object, Object> getFormattedData(String[] xCatagories, String[] uniqueColorCodeValues) {
 		
 		
-		HashMap<String, Object> data = new HashMap<String, Object>();
+		HashMap<Object, Object> data = new HashMap<Object, Object>();
 		
 		if (uniqueColorCodeValues.length > 0) {
 			HashMap<String, HashMap<String, Double>> runningTotals = new HashMap<String, HashMap<String, Double>>();

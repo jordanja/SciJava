@@ -1,38 +1,16 @@
 package thesis.Charter.PlotFolder;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.geom.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
-import java.awt.Font;
 
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.AxisFactory;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.LegendPackage.Legend;
-import thesis.Charter.Others.ScatterChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Common.CommonMath;
-import thesis.Common.NiceScale;
 import thesis.DataFrame.*;
-import thesis.Helpers.Palette;
 
 public class ScatterChart extends XYChart {
 

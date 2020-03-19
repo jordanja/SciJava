@@ -103,23 +103,30 @@ public class DrawString {
 	}
 
 	public static int maxHeightOfStringInList(String[] arr, Font font, float rotation) {
-		double maxHeight = Double.MIN_VALUE;
-
-		for (String str: arr) {
-			double strHeight = DrawString.getStringHeight(str, font, rotation);
-			maxHeight = Double.max(strHeight, maxHeight);
-		}
-		return (int) Math.ceil(maxHeight);
+		if (arr != null) {			
+			double maxHeight = Double.MIN_VALUE;
+			
+			for (String str: arr) {
+				double strHeight = DrawString.getStringHeight(str, font, rotation);
+				maxHeight = Double.max(strHeight, maxHeight);
+			}
+			return (int) Math.ceil(maxHeight);
+		} 
+		return 0;
 	}
 	
 	public static int maxWidthOfStringInList(String[] arr, Font font, float rotation) {
-		double maxWidth = Double.MIN_VALUE;
-
-		for (String str: arr) {
-			double strWidth = DrawString.getStringWidth(str, font, rotation);
-			maxWidth = Double.max(strWidth, maxWidth);
+		if (arr != null ) {
+			
+			double maxWidth = Double.MIN_VALUE;
+			
+			for (String str: arr) {
+				double strWidth = DrawString.getStringWidth(str, font, rotation);
+				maxWidth = Double.max(strWidth, maxWidth);
+			}
+			return (int) Math.ceil(maxWidth);
 		}
-		return (int) Math.ceil(maxWidth);
+		return 0;
 	}
 
 }

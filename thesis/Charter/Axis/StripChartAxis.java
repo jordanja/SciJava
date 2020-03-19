@@ -35,19 +35,19 @@ public class StripChartAxis extends XYAxis {
 
 		} else if (typeOfData == "multipleCatagoriesAndNoHueValue") {
 
-			HashMap<Object, Object> catagoryMap = (HashMap<Object, Object>) data;
+			HashMap<Object, Double[]> catagoryMap = (HashMap<Object, Double[]>) data;
 			for (Object catagory : catagoryMap.keySet()) {
-				Double[] dataList = (Double[]) catagoryMap.get(catagory);
+				Double[] dataList = catagoryMap.get(catagory);
 				maxValue = Double.max(maxValue, CommonArray.maxValue(dataList));
 				minValue = Double.min(minValue, CommonArray.minValue(dataList));
 			}
 
 		} else if (typeOfData == "multipleCatagoriesAndHueValue") {
-			HashMap<Object, HashMap<Object, Object>> catagoryMap = (HashMap<Object, HashMap<Object, Object>>) data;
+			HashMap<Object, HashMap<Object, Double[]>> catagoryMap = (HashMap<Object, HashMap<Object, Double[]>>) data;
 			for (Object catagory : catagoryMap.keySet()) {
-				HashMap<Object, Object> hueMap = catagoryMap.get(catagory);
+				HashMap<Object, Double[]> hueMap = catagoryMap.get(catagory);
 				for (Object hue : hueMap.keySet()) {
-					Double[] dataList = (Double[]) hueMap.get(hue);
+					Double[] dataList = hueMap.get(hue);
 					maxValue = Double.max(maxValue, CommonArray.maxValue(dataList));
 					minValue = Double.min(minValue, CommonArray.minValue(dataList));
 				}

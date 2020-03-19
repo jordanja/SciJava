@@ -342,20 +342,22 @@ public abstract class Axis {
 	public String[] getXTicksFormattedForDisplay() {
 		String[] formattedXTicks = new String[this.xTicks.length];
 		
-		if (TypeCheckers.isNumeric(this.xTicks[0])) {
-			double[] xTicksValues = this.getXTicksValues();
-			
-			DecimalFormat df = new DecimalFormat("#.##");
-			df.setRoundingMode(RoundingMode.HALF_DOWN);
-			
-			for (int i = 0; i < formattedXTicks.length; i++) {
-				formattedXTicks[i] = df.format(xTicksValues[i]);
+		if (this.xTicks.length > 0) {			
+			if (TypeCheckers.isNumeric(this.xTicks[0])) {
+				double[] xTicksValues = this.getXTicksValues();
+				
+				DecimalFormat df = new DecimalFormat("#.##");
+				df.setRoundingMode(RoundingMode.HALF_DOWN);
+				
+				for (int i = 0; i < formattedXTicks.length; i++) {
+					formattedXTicks[i] = df.format(xTicksValues[i]);
+				}
+				return formattedXTicks;
+			} else {
+				return this.xTicks; 
 			}
-			return formattedXTicks;
-		} else {
-			return this.xTicks; 
 		}
-		
+		return null;
 	}
 	
 	public String[] getYTicksFormattedForDisplay() {

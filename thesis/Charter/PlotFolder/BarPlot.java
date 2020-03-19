@@ -45,7 +45,7 @@ public class BarPlot extends Plot {
 
 	boolean drawBarValue = true;
 
-	public void drawPlot(Graphics2D g, BarChartAxis axis, HashMap<String, Object> data, String[] xDataOrdered, XYChartMeasurements cm) {
+	public void drawPlot(Graphics2D g, BarChartAxis axis, HashMap<Object, Object> data, String[] xDataOrdered, XYChartMeasurements cm) {
 		// Are there color code values
 		boolean haveColorCodeValues = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 		

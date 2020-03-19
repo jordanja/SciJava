@@ -108,15 +108,9 @@ public class BoxChartAxis extends XYAxis {
 		}
 		
 
-		double[] doubleYTicks = Arrays.stream(yTicks)
-                .mapToDouble(Double::parseDouble)
-                .toArray();
-		DecimalFormat df = new DecimalFormat("#.##");
-		df.setRoundingMode(RoundingMode.HALF_DOWN);
-
 		for (int count = 1; count < this.yTicks.length - 1; count++) {
 			int position = CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
-			String stringToDisplay = String.valueOf(df.format(doubleYTicks[count]));
+			String stringToDisplay = this.getYTicksFormattedForDisplay()[count];
 			
 			g.setColor(this.yAxisColor);
 			g.setFont(this.yAxisFont);
@@ -141,7 +135,6 @@ public class BoxChartAxis extends XYAxis {
 	
 	public void drawAxisTicks(Graphics2D g, XYChartMeasurements cm) {
 		
-//		g.setStroke(new BasicStroke(1));
 		if (this.xTicks.length > 0) {			
 			int halfWidthOfXUnit = (cm.getPlotWidth()/(2 * this.xTicks.length));
 			for (int count = 0; count < this.xTicks.length; count++) {
