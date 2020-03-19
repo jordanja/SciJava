@@ -50,232 +50,183 @@ public class XYChartMeasurements {
 	protected int rightAxisLabelToLegendWidth = 5;
 	protected int legendWidth;
 	protected int legendToImageRightWidth = 5;
-	
+
 //	public XYChartMeasurements() {
 //		
 //	}
-	
+
 //	public void calculateChartImageMetrics(Axis axis, Legend legend, String title, Font titleFont) {
 //		System.out.println("in parent");
 //	}
-	
-	
-	
+
 	public int imageBottomToBottomAxisLabelBottomHeight() {
 		return this.imageBottomToBottomAxisLabelHeight;
 	}
-	
+
 	public int imageBottomToBottomAxisLabelMidHeight() {
-		return imageBottomToBottomAxisLabelBottomHeight() + 
-			   this.bottomAxisLabelHeight/2;
+		return imageBottomToBottomAxisLabelBottomHeight() + this.bottomAxisLabelHeight / 2;
 	}
-	
+
 	public int imageBottomToBottomAxisLabelTopHeight() {
-		return imageBottomToBottomAxisLabelBottomHeight() + 
-			   this.bottomAxisLabelHeight;
+		return imageBottomToBottomAxisLabelBottomHeight() + this.bottomAxisLabelHeight;
 	}
-	
+
 	public int imageBottomToBottomAxisBottomHeight() {
-		return imageBottomToBottomAxisLabelTopHeight() + 
-			   this.bottomAxisLabelToBottomAxisHeight;
+		return imageBottomToBottomAxisLabelTopHeight() + this.bottomAxisLabelToBottomAxisHeight;
 	}
-	
+
 	public int imageBottomToBottomAxisMidHeight() {
-		return imageBottomToBottomAxisBottomHeight() + 
-			   this.bottomAxisHeight/2;
+		return imageBottomToBottomAxisBottomHeight() + this.bottomAxisHeight / 2;
 	}
-	
+
 	public int imageBottomToBottomAxisTopHeight() {
-		return imageBottomToBottomAxisBottomHeight() + 
-			   this.bottomAxisHeight;
+		return imageBottomToBottomAxisBottomHeight() + this.bottomAxisHeight;
 	}
-	
+
 	public int imageBottomToBottomTicksEndHeight() {
-		return imageBottomToBottomAxisTopHeight() + 
-			   this.bottomAxisToBottomTicksHeight;
+		return imageBottomToBottomAxisTopHeight() + this.bottomAxisToBottomTicksHeight;
 	}
-	
-	
+
 	public int imageBottomToPlotBottomHeight() {
-		return imageBottomToBottomTicksEndHeight() + 
-			   this.bottomTicksHeight;
+		return imageBottomToBottomTicksEndHeight() + this.bottomTicksHeight;
 	}
-	
+
 	public int imageBottomToPlotMidHeight() {
-		return imageBottomToPlotBottomHeight() + 
-			   this.plotHeight/2;
+		return imageBottomToPlotBottomHeight() + this.plotHeight / 2;
 	}
-	
-	
+
 	public int imageBottomToPlotTopHeight() {
-		return imageBottomToPlotBottomHeight() + 
-			   this.plotHeight;
+		return imageBottomToPlotBottomHeight() + this.plotHeight;
 	}
-	
+
 	public int imageBottomToTopTicksEndHeight() {
-		return imageBottomToPlotTopHeight() + 
-			   this.topTicksHeight;
+		return imageBottomToPlotTopHeight() + this.topTicksHeight;
 	}
-	
+
 	public int imageBottomToTopAxisBottomHeight() {
-		return imageBottomToTopTicksEndHeight() +
-			   this.topTicksToTopAxisHeight;
+		return imageBottomToTopTicksEndHeight() + this.topTicksToTopAxisHeight;
 	}
-	
+
 	public int imageBottomToTopAxisMidHeight() {
-		return imageBottomToTopAxisBottomHeight() + 
-			   this.topAxisHeight/2;
+		return imageBottomToTopAxisBottomHeight() + this.topAxisHeight / 2;
 	}
-	
+
 	public int imageBottomToTopAxisTopHeight() {
-		return imageBottomToTopAxisBottomHeight() + 
-			   this.topAxisHeight;
+		return imageBottomToTopAxisBottomHeight() + this.topAxisHeight;
 	}
-	
+
 	public int imageBottomToTopAxisLabelBottomHeight() {
-		return imageBottomToTopAxisTopHeight() + 
-			   topAxisToTopAxisLabelHeight;
+		return imageBottomToTopAxisTopHeight() + topAxisToTopAxisLabelHeight;
 	}
-	
+
 	public int imageBottomToTopAxisLabelMidHeight() {
-		return imageBottomToTopAxisLabelBottomHeight() + 
-			   this.topAxisLabelHeight/2;
+		return imageBottomToTopAxisLabelBottomHeight() + this.topAxisLabelHeight / 2;
 	}
-	
+
 	public int imageBottomToTopAxisLabelTopHeight() {
-		return imageBottomToTopAxisLabelBottomHeight() + 
-			   this.topAxisLabelHeight;
+		return imageBottomToTopAxisLabelBottomHeight() + this.topAxisLabelHeight;
 	}
-	
+
 	public int imageBottomToTitleBottomHeight() {
-		return imageBottomToTopAxisLabelTopHeight() + 
-			   this.topAxisLabelToTitleHeight;
+		return imageBottomToTopAxisLabelTopHeight() + this.topAxisLabelToTitleHeight;
 	}
-	
+
 	public int imageBottomToTitleMidHeight() {
-		return imageBottomToTitleBottomHeight() +  
-			   this.titleHeight/2;
+		return imageBottomToTitleBottomHeight() + this.titleHeight / 2;
 	}
-	
+
 	public int imageBottomToTitleTopHeight() {
-		return imageBottomToTitleBottomHeight() +  
-				   this.titleHeight;
+		return imageBottomToTitleBottomHeight() + this.titleHeight;
 	}
-	
+
 	public int imageHeight() {
-		return imageBottomToTitleTopHeight() + 
-			   this.titleToImageTopHeight;
+		return imageBottomToTitleTopHeight() + this.titleToImageTopHeight;
 	}
-	
+
 	public int imageLeftToAxisLabelLeftWidth() {
 		return this.imageLeftToLeftAxisLabelWidth;
 	}
-	
+
 	public int imageLeftToLeftAxisLabelMidWidth() {
-		return imageLeftToAxisLabelLeftWidth() + 
-			   this.leftAxisLabelWidth/2;
+		return imageLeftToAxisLabelLeftWidth() + this.leftAxisLabelWidth / 2;
 	}
-	
+
 	public int imageLeftToLeftAxisLabelRightWidth() {
-		return imageLeftToAxisLabelLeftWidth() + 
-			   this.leftAxisLabelWidth;
+		return imageLeftToAxisLabelLeftWidth() + this.leftAxisLabelWidth;
 	}
-	
+
 	public int imageLeftToLeftAxisLeftWidth() {
-		return imageLeftToLeftAxisLabelRightWidth() + 
-			   leftAxisLabelToLeftAxisWidth;
+		return imageLeftToLeftAxisLabelRightWidth() + leftAxisLabelToLeftAxisWidth;
 	}
-	
+
 	public int imageLeftToLeftAxisMidWidth() {
-		return imageLeftToLeftAxisLeftWidth() + 
-			   this.leftAxisWidth/2;
+		return imageLeftToLeftAxisLeftWidth() + this.leftAxisWidth / 2;
 	}
-	
+
 	public int imageLeftToLeftAxisRightWidth() {
-		return imageLeftToLeftAxisLeftWidth() + 
-			   this.leftAxisWidth;
+		return imageLeftToLeftAxisLeftWidth() + this.leftAxisWidth;
 	}
-	
+
 	public int imageLeftToLeftTicksEndWidth() {
-		return imageLeftToLeftAxisRightWidth() + 
-			   this.leftAxisToLeftTicksWidth;
+		return imageLeftToLeftAxisRightWidth() + this.leftAxisToLeftTicksWidth;
 	}
-	
+
 	public int imageLeftToPlotLeftWidth() {
-		return imageLeftToLeftTicksEndWidth() + 
-			   this.leftTicksWidth;
+		return imageLeftToLeftTicksEndWidth() + this.leftTicksWidth;
 	}
-	
+
 	public int imageLeftToPlotMidWidth() {
-		return imageLeftToPlotLeftWidth() + 
-			   this.plotWidth/2;
+		return imageLeftToPlotLeftWidth() + this.plotWidth / 2;
 	}
-	
+
 	public int imageLeftToPlotRightWidth() {
-		return imageLeftToPlotLeftWidth() + 
-			   this.plotWidth;
+		return imageLeftToPlotLeftWidth() + this.plotWidth;
 	}
-	
+
 	public int imageLeftToRightTicksEndWidth() {
-		return imageLeftToPlotRightWidth() + 
-			   this.rightTicksWidth;
+		return imageLeftToPlotRightWidth() + this.rightTicksWidth;
 	}
-	
+
 	public int imageLeftToRightAxisLeftWidth() {
-		return imageLeftToRightTicksEndWidth() + 
-			   rightTicksToRightAxisWidth;
+		return imageLeftToRightTicksEndWidth() + rightTicksToRightAxisWidth;
 	}
-	
+
 	public int imageLeftToRightAxisMidWidth() {
-		return imageLeftToRightAxisLeftWidth() + 
-			   this.rightAxisWidth/2;
+		return imageLeftToRightAxisLeftWidth() + this.rightAxisWidth / 2;
 	}
-	
+
 	public int imageLeftToRightAxisRightWidth() {
-		return imageLeftToRightAxisLeftWidth() + 
-			   this.rightAxisWidth;
+		return imageLeftToRightAxisLeftWidth() + this.rightAxisWidth;
 	}
-	
+
 	public int imageLeftToRightAxisLabelLeftWidth() {
-		return imageLeftToRightAxisRightWidth() + 
-			   rightAxisToRightAxisLabelWidth;
+		return imageLeftToRightAxisRightWidth() + rightAxisToRightAxisLabelWidth;
 	}
-	
+
 	public int imageLeftToRightAxisLabelMidWidth() {
-		return imageLeftToRightAxisLabelLeftWidth() + 
-				this.rightAxisLabelWidth/2;
+		return imageLeftToRightAxisLabelLeftWidth() + this.rightAxisLabelWidth / 2;
 	}
-	
+
 	public int imageLeftToRightAxisLabelRightWidth() {
-		return imageLeftToRightAxisLabelLeftWidth() + 
-			   this.rightAxisLabelWidth;
+		return imageLeftToRightAxisLabelLeftWidth() + this.rightAxisLabelWidth;
 	}
-	
+
 	public int imageLeftToLegendLeftWidth() {
-		return imageLeftToRightAxisLabelRightWidth() +
-			   this.rightAxisLabelToLegendWidth;
+		return imageLeftToRightAxisLabelRightWidth() + this.rightAxisLabelToLegendWidth;
 	}
-	
+
 	public int imageLeftToLegendMidWidth() {
-		return imageLeftToLegendLeftWidth() + 
-			   this.legendWidth/2;
+		return imageLeftToLegendLeftWidth() + this.legendWidth / 2;
 	}
-	
+
 	public int imageLeftToLegendRightWidth() {
-		return imageLeftToLegendLeftWidth() + 
-			   this.legendWidth;
+		return imageLeftToLegendLeftWidth() + this.legendWidth;
 	}
-	
+
 	public int imageWidth() {
-		return imageLeftToLegendRightWidth() +
-			   this.legendToImageRightWidth;
+		return imageLeftToLegendRightWidth() + this.legendToImageRightWidth;
 	}
-	
-	
-	
-	
-	
-	
+
 	public int getImageBottomToBottomAxisLabelHeight() {
 		return imageBottomToBottomAxisLabelHeight;
 	}
@@ -299,27 +250,27 @@ public class XYChartMeasurements {
 	public void setBottomAxisToBottomTicksHeight(int bottomAxisToBottomTicksHeight) {
 		this.bottomAxisToBottomTicksHeight = bottomAxisToBottomTicksHeight;
 	}
-	
+
 	public int getBottomTicksHeight() {
 		return this.bottomTicksHeight;
 	}
-	
+
 	public void setBottomTicksHeight(int bottomTicksHeight) {
 		this.bottomTicksHeight = bottomTicksHeight;
 	}
-	
+
 	public int getPlotHeight() {
 		return this.plotHeight;
 	}
-	
+
 	public void setPlotHeight(int plotHeight) {
 		this.plotHeight = plotHeight;
 	}
-	
+
 	public int getTopTicksHeight() {
 		return this.topTicksHeight;
 	}
-	
+
 	public void setTopTicksHeight(int topTicksHeight) {
 		this.topTicksHeight = topTicksHeight;
 	}
@@ -327,7 +278,7 @@ public class XYChartMeasurements {
 	public int getTopTicksToTopAxisHeight() {
 		return topTicksToTopAxisHeight;
 	}
-	
+
 	public void setTopTicksToTopAxisHeight(int topTicksToTopAxisHeight) {
 		this.topTicksToTopAxisHeight = topTicksToTopAxisHeight;
 	}
@@ -379,19 +330,19 @@ public class XYChartMeasurements {
 	public void setLeftAxisToLeftTicksWidth(int leftAxisToLeftTicksWidth) {
 		this.leftAxisToLeftTicksWidth = leftAxisToLeftTicksWidth;
 	}
-	
+
 	public int getLeftTicksWidth() {
 		return this.leftTicksWidth;
 	}
-	
+
 	public void setLeftTicksWidth(int leftTicksWidth) {
 		this.leftTicksWidth = leftTicksWidth;
 	}
-	
+
 	public int getPlotWidth() {
 		return this.plotWidth;
 	}
-	
+
 	public void setPlotWidth(int plotWidth) {
 		this.plotWidth = plotWidth;
 	}
@@ -399,7 +350,7 @@ public class XYChartMeasurements {
 	public int getRightTicksWidth() {
 		return rightTicksWidth;
 	}
-	
+
 	public void setRightTicksWidth(int rightTicksWidth) {
 		this.rightTicksWidth = rightTicksWidth;
 	}
@@ -427,11 +378,11 @@ public class XYChartMeasurements {
 	public void setRightAxisLabelToLegendWidth(int rightAxisLabelToImageRightWidth) {
 		this.rightAxisLabelToLegendWidth = rightAxisLabelToImageRightWidth;
 	}
-	
+
 	public int getLegendToImageRightWidth() {
 		return this.legendToImageRightWidth;
 	}
-	
+
 	public void setLegendToImageRightWidth(int legendToImageRight) {
 		this.legendToImageRightWidth = legendToImageRight;
 	}
@@ -444,14 +395,13 @@ public class XYChartMeasurements {
 	}
 
 	public void calculateChartImageMetrics(Axis axis, Legend legend, String title, Font titleFont) {
-		System.out.println("here");
+		
 		String[] xTicks = axis.getXTicksFormattedForDisplay();
 		String[] yTicks = axis.getYTicksFormattedForDisplay();
 
-		
 		double heightOfXAxis = DrawString.maxHeightOfStringInList(xTicks, axis.getXAxisFont(), axis.getXAxisRotation());
 		double widthOfYAxis = DrawString.maxWidthOfStringInList(yTicks, axis.getYAxisFont(), axis.getYAxisRotation());
-		
+
 		if ((axis.drawBottomXLabel())) {
 			this.bottomAxisLabelHeight = DrawString.getStringHeight(axis.getXAxisLabel(), axis.getXAxisLabelFont());
 		} else {
@@ -546,7 +496,4 @@ public class XYChartMeasurements {
 
 	}
 
-	
-	
-	
 }

@@ -37,10 +37,10 @@ public class Main {
 
 	public static void main(String[] args) {
 //		stripCharting();
-		boxCharting();
+//		boxCharting();
 //		lineCharting();
 //		barCharting();
-//		scatterCharting();
+		scatterCharting();
 //		dfPlay();
 
 		System.out.println("\n\nFINISHED EXECUTION");
@@ -161,9 +161,9 @@ public class Main {
 
 	private static void scatterCharting() {
 
-		DataFrame df = new DataFrame("Datasets/big.csv", true);
+		DataFrame df = new DataFrame("Datasets/tips.csv", true);
 
-		ScatterChart sc = new ScatterChart(df, "a", "b");
+		ScatterChart sc = new ScatterChart(df, "total_bill", "tip");
 
 		NumericAxis axis = (NumericAxis) sc.getAxis();
 		ScatterPlot plot = (ScatterPlot) sc.getPlot();
@@ -172,7 +172,7 @@ public class Main {
 		sc.setTitle("sepal_length vs sepal_width");
 		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 //		sc.colorCode("species");
-//		axis.setXAxisLabel("sepal_length");
+		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
 
 		axis.setXAxisFont(new Font("Dialog", Font.BOLD, 30));
@@ -181,7 +181,8 @@ public class Main {
 		axis.setYAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
 		
 		plot.includeDataPointOutline(true);
-
+		plot.includeLinearRegression(true);
+		
 		XYChartMeasurements cm = sc.getChartMeasurements();
 		cm.setLeftAxisLabelToLeftAxisWidth(15);
 		cm.setTopAxisLabelToTitleHeight(15);

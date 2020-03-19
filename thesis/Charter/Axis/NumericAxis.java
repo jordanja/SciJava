@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
-import thesis.Common.MathHelpers;
+import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 
 public class NumericAxis extends XYAxis {
@@ -60,7 +60,7 @@ public class NumericAxis extends XYAxis {
 
 		for (int count = 1; count < this.xTicks.length - 1; count++) {
 
-			int position = (int) MathHelpers.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth(),
+			int position = (int) CommonMath.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth(),
 					cm.imageLeftToPlotRightWidth());
 			String stringToDisplay = String.valueOf(df.format(doubleXTicks[count]));
 			g.setColor(this.xAxisColor);
@@ -82,7 +82,7 @@ public class NumericAxis extends XYAxis {
 		}
 
 		for (int count = 1; count < this.yTicks.length - 1; count++) {
-			int position = (int) MathHelpers.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(),
+			int position = (int) CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(),
 					cm.imageBottomToPlotTopHeight());
 			String stringToDisplay = String.valueOf(df.format(doubleYTicks[count]));
 
@@ -111,7 +111,7 @@ public class NumericAxis extends XYAxis {
 
 //		g.setStroke(new BasicStroke(1));
 		for (int count = 0; count < this.xTicks.length; count++) {
-			int position = (int) MathHelpers.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth(),
+			int position = (int) CommonMath.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth(),
 					cm.imageLeftToPlotRightWidth());
 
 			g.setColor(this.bottomTickColor);
@@ -139,7 +139,7 @@ public class NumericAxis extends XYAxis {
 		}
 
 		for (int count = 0; count < this.yTicks.length; count++) {
-			int position = (int) MathHelpers.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(),
+			int position = (int) CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(),
 					cm.imageBottomToPlotTopHeight());
 
 			g.setColor(this.leftTickColor);

@@ -13,7 +13,7 @@ import java.util.Map;
 
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
-import thesis.Common.MathHelpers;
+import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;
 
@@ -77,7 +77,7 @@ public class BarChartAxis extends XYAxis {
 		int halfWidthOfXUnit = (cm.getPlotWidth()/(2 * this.xTicks.length));
 		int count = 0;
 		for (String xCatagory : this.xTicks) {
-			int xPosition = (int) MathHelpers.map(
+			int xPosition = (int) CommonMath.map(
 				count, 
 				0, 
 				this.xTicks.length - 1, 
@@ -102,7 +102,7 @@ public class BarChartAxis extends XYAxis {
 		df.setRoundingMode(RoundingMode.HALF_DOWN);
 
 		for (count = 1; count < this.yTicks.length - 1; count++) {
-			int position = (int) MathHelpers.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
+			int position = (int) CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 			String stringToDisplay = String.valueOf(df.format(doubleYTicks[count]));
 			
 			g.setColor(this.yAxisColor);
@@ -131,7 +131,7 @@ public class BarChartAxis extends XYAxis {
 //		g.setStroke(new BasicStroke(1));
 		int halfWidthOfXUnit = (cm.getPlotWidth()/(2 * this.xTicks.length));
 		for (int count = 0; count < this.xTicks.length; count++) {
-			int xPosition = (int) MathHelpers.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit, cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
+			int xPosition = (int) CommonMath.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit, cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
 			
 			g.setColor(this.bottomTickColor);
 			if (this.drawExteriorBottomXAxisTicks) {
@@ -155,7 +155,7 @@ public class BarChartAxis extends XYAxis {
 		}
 		
 		for (int count = 0; count < this.yTicks.length; count++) {
-			int position = (int) MathHelpers.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
+			int position = (int) CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 			
 			g.setColor(this.leftTickColor);
 			if (this.drawExteriorLeftYAxisTicks) {

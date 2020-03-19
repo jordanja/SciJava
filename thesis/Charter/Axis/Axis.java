@@ -359,15 +359,20 @@ public abstract class Axis {
 	
 	public String[] getYTicksFormattedForDisplay() {
 		String[] formattedYTicks = new String[this.yTicks.length];
-		double[] yTicksValues = this.getYTicksValues();
 		
-		DecimalFormat df = new DecimalFormat("#.##");
-		df.setRoundingMode(RoundingMode.HALF_DOWN);
-		
-		for (int i = 0; i < formattedYTicks.length; i++) {
-			formattedYTicks[i] = df.format(yTicksValues[i]);
+		if (TypeCheckers.isNumeric(this.yTicks[0])) {			
+			double[] yTicksValues = this.getYTicksValues();
+			
+			DecimalFormat df = new DecimalFormat("#.##");
+			df.setRoundingMode(RoundingMode.HALF_DOWN);
+			
+			for (int i = 0; i < formattedYTicks.length; i++) {
+				formattedYTicks[i] = df.format(yTicksValues[i]);
+			}
+			return formattedYTicks;
+		} else {
+			return this.yTicks;
 		}
-		return formattedYTicks;
 	}
 
 	public float getXAxisRotation() {

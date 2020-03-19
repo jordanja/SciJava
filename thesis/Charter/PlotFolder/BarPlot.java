@@ -16,7 +16,7 @@ import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
-import thesis.Common.MathHelpers;
+import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;
 import thesis.Helpers.Palette;
@@ -112,12 +112,12 @@ public class BarPlot extends Plot {
 
 	private int xTickNumToPlotX(double xTickNum, int totalxTicks, XYChartMeasurements cm) {
 		int halfWidthOfXUnit = (cm.getPlotWidth() / (2 * totalxTicks));
-		return (int) MathHelpers.map(xTickNum, 0, totalxTicks - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit,
+		return (int) CommonMath.map(xTickNum, 0, totalxTicks - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit,
 				cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
 	}
 
 	private int yTickNumToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
-		return (int) MathHelpers.map(yPos, yTicks[0], yTicks[yTicks.length - 1],
+		return (int) CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1],
 				cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 	}
 

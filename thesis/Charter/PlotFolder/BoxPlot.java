@@ -8,7 +8,7 @@ import java.util.HashMap;
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.Others.XYChartMeasurements;
-import thesis.Common.MathHelpers;
+import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;
 import thesis.Helpers.Palette;
@@ -175,7 +175,7 @@ public class BoxPlot extends Plot {
 	}
 
 	private int yTickNumToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
-		return (int) MathHelpers.map(yPos, yTicks[0], yTicks[yTicks.length - 1], cm.imageBottomToPlotBottomHeight(),
+		return (int) CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1], cm.imageBottomToPlotBottomHeight(),
 				cm.imageBottomToPlotTopHeight());
 	}
 

@@ -15,7 +15,7 @@ import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.StripChartAxis;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Common.CommonArray;
-import thesis.Common.MathHelpers;
+import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;
 
 public class StripPlot extends Plot{
@@ -180,7 +180,7 @@ public class StripPlot extends Plot{
 	}
 
 	private int yTickNumToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
-		return (int) MathHelpers.map(yPos, yTicks[0], yTicks[yTicks.length - 1], cm.imageBottomToPlotBottomHeight(),
+		return (int) CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1], cm.imageBottomToPlotBottomHeight(),
 				cm.imageBottomToPlotTopHeight());
 	}
 

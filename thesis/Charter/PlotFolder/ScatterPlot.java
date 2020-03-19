@@ -10,7 +10,7 @@ import java.util.List;
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.Others.XYChartMeasurements;
-import thesis.Common.MathHelpers;
+import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;
 import thesis.Helpers.Palette;
@@ -97,13 +97,13 @@ public class ScatterPlot extends Plot {
 		NiceScale xNS = axis.getxNS();
 		NiceScale yNS = axis.getyNS();
 		
-		double meanX = MathHelpers.average(xData);
+		double meanX = CommonMath.average(xData);
 		
-		double meanY = MathHelpers.average(yData);
+		double meanY = CommonMath.average(yData);
 		
-		double varianceX = MathHelpers.variance(xData);
+		double varianceX = CommonMath.variance(xData);
 		
-		double covarianceXY = MathHelpers.covariance(xData, yData, meanX, meanY);
+		double covarianceXY = CommonMath.covariance(xData, yData, meanX, meanY);
 		
 		double w1 = covarianceXY/varianceX;
 		
@@ -158,7 +158,7 @@ public class ScatterPlot extends Plot {
 			String[] uniquecolorCodeValues = new HashSet<>(Arrays.asList(colorCodeValues)).toArray(new String[0]);
 
 			
-			int colorCodeValue = MathHelpers.elementNumInArray(uniquecolorCodeValues, colorCodeValues[dataPointNumber]) % (this.colorPalette.length - 1);
+			int colorCodeValue = CommonMath.elementNumInArray(uniquecolorCodeValues, colorCodeValues[dataPointNumber]) % (this.colorPalette.length - 1);
 			g.setColor(this.colorPalette[colorCodeValue]);
 			
 		}
@@ -173,11 +173,11 @@ public class ScatterPlot extends Plot {
 	}
 	
 	private double worldXPosToPlotXPos(double xPos, NiceScale xNS, double[] xTicks, XYChartMeasurements cm) {
-		return (int) MathHelpers.map(xPos, xNS.getNiceMin(), xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(), cm.imageLeftToPlotRightWidth());
+		return (int) CommonMath.map(xPos, xNS.getNiceMin(), xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(), cm.imageLeftToPlotRightWidth());
 	}
 	
 	private double worldYPosToPlotYPos(double yPos, NiceScale yNS, double[] yTicks, XYChartMeasurements cm) {
-		return (int) MathHelpers.map(yPos, yNS.getNiceMin(), yTicks[yTicks.length - 1 ], cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
+		return (int) CommonMath.map(yPos, yNS.getNiceMin(), yTicks[yTicks.length - 1 ], cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 	}
 
 

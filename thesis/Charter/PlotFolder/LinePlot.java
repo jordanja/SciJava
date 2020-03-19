@@ -11,7 +11,7 @@ import java.util.HashSet;
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.Others.XYChartMeasurements;
-import thesis.Common.MathHelpers;
+import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;
 import thesis.Helpers.Palette;
@@ -112,11 +112,11 @@ public class LinePlot extends Plot{
 	}
 	
 	private double xPlotValueToXPixelValue(double xPos, double[] xTicks, XYChartMeasurements cm) {
-		return (int) MathHelpers.map(xPos, xTicks[0], xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(), cm.imageLeftToPlotRightWidth());
+		return (int) CommonMath.map(xPos, xTicks[0], xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(), cm.imageLeftToPlotRightWidth());
 	}
 	
 	private double yPlotValueToYPixelValue(double yPos, double[] yTicks, XYChartMeasurements cm) {
-		return (int) MathHelpers.map(yPos, yTicks[0], yTicks[yTicks.length - 1 ], cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
+		return (int) CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1 ], cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 	}
 	
 	public void setLineColor(Color lineColor) {
