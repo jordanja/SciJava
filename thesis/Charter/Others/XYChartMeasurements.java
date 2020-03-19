@@ -18,7 +18,7 @@ import thesis.Charter.PlotFolder.Plot;
 import thesis.Charter.PlotFolder.ScatterPlot;
 import thesis.Charter.StringDrawer.DrawString;
 
-public abstract class XYChartMeasurements {
+public class XYChartMeasurements {
 	protected int imageBottomToBottomAxisLabelHeight = 5;
 	protected int bottomAxisLabelHeight;
 	protected int bottomAxisLabelToBottomAxisHeight = 5;
@@ -55,9 +55,9 @@ public abstract class XYChartMeasurements {
 //		
 //	}
 	
-	public void calculateChartImageMetrics(Axis axis, Plot sPlot, Legend legend, String title, Font titleFont) {
-		System.out.println("in parent");
-	}
+//	public void calculateChartImageMetrics(Axis axis, Legend legend, String title, Font titleFont) {
+//		System.out.println("in parent");
+//	}
 	
 	
 	
@@ -441,6 +441,109 @@ public abstract class XYChartMeasurements {
 		this.topTicksHeight = length;
 		this.leftTicksWidth = length;
 		this.rightTicksWidth = length;
+	}
+
+	public void calculateChartImageMetrics(Axis axis, Legend legend, String title, Font titleFont) {
+		System.out.println("here");
+		String[] xTicks = axis.getXTicksFormattedForDisplay();
+		String[] yTicks = axis.getYTicksFormattedForDisplay();
+
+		
+		double heightOfXAxis = DrawString.maxHeightOfStringInList(xTicks, axis.getXAxisFont(), axis.getXAxisRotation());
+		double widthOfYAxis = DrawString.maxWidthOfStringInList(yTicks, axis.getYAxisFont(), axis.getYAxisRotation());
+		
+		if ((axis.drawBottomXLabel())) {
+			this.bottomAxisLabelHeight = DrawString.getStringHeight(axis.getXAxisLabel(), axis.getXAxisLabelFont());
+		} else {
+			this.bottomAxisLabelHeight = 0;
+			this.bottomAxisLabelToBottomAxisHeight = 0;
+		}
+
+		if (axis.drawBottomXAxisValues()) {
+			this.bottomAxisHeight = (int) Math.ceil(heightOfXAxis);
+		} else {
+			this.bottomAxisHeight = 0;
+			this.bottomAxisToBottomTicksHeight = 0;
+
+		}
+
+		if (!axis.drawExteriorBottomXAxisTicks()) {
+			this.bottomTicksHeight = 0;
+		}
+
+		if (!axis.drawExteriorTopXAxisTicks()) {
+			this.topTicksHeight = 0;
+		}
+
+		if (axis.drawTopXAxisValues()) {
+			this.topAxisHeight = (int) Math.ceil(heightOfXAxis);
+		} else {
+			this.topAxisHeight = 0;
+			this.topTicksToTopAxisHeight = 0;
+		}
+
+		if (axis.drawTopXLabel()) {
+			this.topAxisLabelHeight = DrawString.getStringHeight(axis.getXAxisLabel(), axis.getXAxisLabelFont());
+
+		} else {
+			this.topAxisLabelHeight = 0;
+			this.topAxisToTopAxisLabelHeight = 0;
+
+		}
+
+		if (title != null) {
+			this.titleHeight = DrawString.getStringHeight(title, titleFont);
+		} else {
+			this.titleHeight = 0;
+			this.topAxisLabelToTitleHeight = 0;
+
+		}
+
+		if ((axis.drawLeftYLabel())) {
+			this.leftAxisLabelWidth = DrawString.getStringHeight(axis.getYAxisLabel(), axis.getYAxisLabelFont());
+
+		} else {
+			this.leftAxisLabelWidth = 0;
+			this.leftAxisLabelToLeftAxisWidth = 0;
+
+		}
+
+		if (axis.drawLeftYAxisValues()) {
+			this.leftAxisWidth = (int) Math.ceil(widthOfYAxis);
+		} else {
+			this.leftAxisWidth = 0;
+			this.leftAxisToLeftTicksWidth = 0;
+		}
+
+		if (!axis.drawExteriorLeftYAxisTicks()) {
+			this.leftTicksWidth = 0;
+		}
+
+		if (!axis.drawExteriorRightYAxisTicks()) {
+			this.rightTicksWidth = 0;
+		}
+
+		if (axis.drawRightYAxisValues()) {
+			this.rightAxisWidth = (int) Math.ceil(widthOfYAxis);
+		} else {
+			this.rightAxisWidth = 0;
+			this.rightTicksToRightAxisWidth = 0;
+		}
+
+		if (axis.drawRightYLabel()) {
+			this.rightAxisLabelWidth = DrawString.getStringHeight(axis.getYAxisLabel(), axis.getYAxisLabelFont());
+		} else {
+			this.rightAxisToRightAxisLabelWidth = 0;
+			this.rightAxisLabelWidth = 0;
+		}
+
+		if (legend.getIncludeLegend()) {
+			this.legendWidth = legend.getLegendWidth();
+		} else {
+			this.legendWidth = 0;
+			this.rightAxisLabelToLegendWidth = 0;
+		}
+
 	}
 
 	

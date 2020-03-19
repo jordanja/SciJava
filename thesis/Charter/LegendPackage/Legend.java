@@ -95,7 +95,7 @@ public class Legend {
 			g.setColor(Color.BLACK);
 			DrawString.drawString(g, this.hueValues[i], cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + getBottomLegendToHueValueBottomHeight(i), DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign, 0, cm);
 
-			int height = DrawString.getShapeOfText(this.hueValueFont, this.hueValues[i]).getBounds().height;
+			int height = DrawString.getStringHeight(this.hueValues[i], this.hueValueFont);//DrawString.getShapeOfText(this.hueValueFont, this.hueValues[i]).getBounds().height;
 			
 			g.setColor(colors[i % colors.length]);
 			g.fillOval(cm.imageLeftToLegendLeftWidth() + legendLeftToDataPointWidth, legendBottom + getBottomLegendToHueValueBottomHeight(i) + height/2 - dataPointDiameter/2, dataPointDiameter, dataPointDiameter);

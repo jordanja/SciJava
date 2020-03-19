@@ -20,7 +20,7 @@ public class MathHelpers {
 	public static double average(DataItem[] dataPoints) {
 		double sum = 0;
 		for (int i = 0; i < dataPoints.length; i++) {
-			sum +=  dataPoints[i].getDoubleValue();
+			sum +=  dataPoints[i].getValueConvertedToDouble();
 		}
 		
 		return sum/dataPoints.length;
@@ -49,7 +49,7 @@ public class MathHelpers {
 		
 		double sum = 0;
 		for (int i = 0; i < dataPoints1.length; i++) {
-			sum += dataPoints1[i].getDoubleValue() * dataPoints2[i].getDoubleValue();
+			sum += dataPoints1[i].getValueConvertedToDouble() * dataPoints2[i].getValueConvertedToDouble();
 		}
 		
 		double result = (sum/dataPoints1.length) - (average1 * average2);
@@ -58,11 +58,11 @@ public class MathHelpers {
 	}
 	
 	public static Double minimumValue(DataItem[] column) {
-		Double minValue = (Double) column[0].getDoubleValue();
+		Double minValue = (Double) column[0].getValueConvertedToDouble();
 
 		for (int i = 0; i < column.length; i++){
-			if ((Double) (column[i].getDoubleValue()) < minValue) {
-				minValue = (Double) (column[i].getDoubleValue());
+			if ((Double) (column[i].getValueConvertedToDouble()) < minValue) {
+				minValue = (Double) (column[i].getValueConvertedToDouble());
 			}
 		}
 
@@ -70,11 +70,11 @@ public class MathHelpers {
 		return minValue;
 	}
 	public static Double maximumValue(DataItem[] column) {
-		Double maxValue = (Double) column[0].getDoubleValue();
+		Double maxValue = (Double) column[0].getValueConvertedToDouble();
 
 		for (int i = 0; i < column.length; i++){
-			if ((Double) (column[i].getDoubleValue()) > maxValue) {
-				maxValue = (Double) (column[i].getDoubleValue());
+			if ((Double) (column[i].getValueConvertedToDouble()) > maxValue) {
+				maxValue = (Double) (column[i].getValueConvertedToDouble());
 			}
 		}
 

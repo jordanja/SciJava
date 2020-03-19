@@ -10,7 +10,6 @@ import java.util.Set;
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.LegendPackage.Legend;
-import thesis.Charter.Others.BarChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
@@ -36,7 +35,7 @@ public class BarChart extends XYChart{
 		this.plot = new BarPlot();
 		this.legend = new Legend();
 		
-		cm = new BarChartMeasurements();
+		cm = new XYChartMeasurements();
 
 	}
 
@@ -57,7 +56,7 @@ public class BarChart extends XYChart{
 			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
 		}
 
-		cm.calculateChartImageMetrics(this.axis, this.plot, this.legend, getTitle(), getTitleFont());
+		cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
 
 		instantiateChart(cm);
 

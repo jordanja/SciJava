@@ -141,8 +141,8 @@ public class ScatterPlot extends Plot {
 
 		for (int dataPointNumber = 0; dataPointNumber < xData.length; dataPointNumber++) {
 			
-			int xPos = (int)worldXPosToPlotXPos(xData[dataPointNumber].getDoubleValue(), axis.getxNS(), xTicks,cm);
-			int yPos = (int)worldYPosToPlotYPos(yData[dataPointNumber].getDoubleValue(), axis.getyNS(), yTicks,cm);
+			int xPos = (int)worldXPosToPlotXPos(xData[dataPointNumber].getValueConvertedToDouble(), axis.getxNS(), xTicks,cm);
+			int yPos = (int)worldYPosToPlotYPos(yData[dataPointNumber].getValueConvertedToDouble(), axis.getyNS(), yTicks,cm);
 //			System.out.println(xPos + " " + yPos);
 			drawDataPoint(g, xPos, yPos, dataPointNumber, colorCodeValues);
 			

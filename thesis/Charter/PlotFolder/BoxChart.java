@@ -10,7 +10,6 @@ import java.util.Set;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.LegendPackage.Legend;
-import thesis.Charter.Others.BarChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
@@ -43,7 +42,7 @@ public class BoxChart extends XYChart{
 		this.plot = new BoxPlot();
 		this.legend = new Legend();
 		
-		cm = new BarChartMeasurements();
+		cm = new XYChartMeasurements();
 	}
 
 	@Override
@@ -61,7 +60,7 @@ public class BoxChart extends XYChart{
 			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
 		}
 
-		cm.calculateChartImageMetrics(this.axis, this.plot, this.legend, getTitle(), getTitleFont());
+		cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
 
 		instantiateChart(cm);
 

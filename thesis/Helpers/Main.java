@@ -37,11 +37,11 @@ public class Main {
 
 	public static void main(String[] args) {
 //		stripCharting();
-//		boxCharting();
+		boxCharting();
 //		lineCharting();
 //		barCharting();
 //		scatterCharting();
-		dfPlay();
+//		dfPlay();
 
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
@@ -50,17 +50,22 @@ public class Main {
 		DataFrame df = new DataFrame("Datasets/tips.csv", true);
 
 //		StripChart sc = new StripChart(df,  "total_bill");
-//		StripChart sc = new StripChart(df, "day", "total_bill");
-//		sc.colorCode("smoker");
+		StripChart sc = new StripChart(df, "day", "total_bill");
+		sc.colorCode("smoker");
 
-		StripChart sc = new StripChart(df, "sex", "total_bill");
-		sc.colorCode("day");
+//		StripChart sc = new StripChart(df, "sex", "total_bill");
+//		sc.colorCode("day");
 
-//		sc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
+		sc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
+		
+		Axis axis = sc.getAxis();
+		axis.setXAxisFont(new Font("Dialog", Font.PLAIN, 80));
 
 		StripPlot plot = sc.getPlot();
-		plot.setDodge(false);
-
+		
+		XYChartMeasurements cm = sc.getChartMeadurements();
+		cm.setPlotWidth(900);
+		
 		sc.Create();
 		sc.WriteFile("Chart Images/Strip Chart.png");
 	}
@@ -133,7 +138,7 @@ public class Main {
 		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 
 		bc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
-//		bc.colorCode("sex");
+		bc.colorCode("sex");
 
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
@@ -156,9 +161,9 @@ public class Main {
 
 	private static void scatterCharting() {
 
-		DataFrame df = new DataFrame("Datasets/iris.csv", true);
+		DataFrame df = new DataFrame("Datasets/big.csv", true);
 
-		ScatterChart sc = new ScatterChart(df, "sepal_length", "sepal_width");
+		ScatterChart sc = new ScatterChart(df, "a", "b");
 
 		NumericAxis axis = (NumericAxis) sc.getAxis();
 		ScatterPlot plot = (ScatterPlot) sc.getPlot();
@@ -166,10 +171,15 @@ public class Main {
 
 		sc.setTitle("sepal_length vs sepal_width");
 		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-		sc.colorCode("species");
-		axis.setXAxisLabel("sepal_length");
+//		sc.colorCode("species");
+//		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
 
+		axis.setXAxisFont(new Font("Dialog", Font.BOLD, 30));
+		axis.setYAxisFont(new Font("Dialog", Font.BOLD, 30));
+		axis.setXAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
+		axis.setYAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
+		
 		plot.includeDataPointOutline(true);
 
 		XYChartMeasurements cm = sc.getChartMeasurements();
@@ -201,10 +211,9 @@ public class Main {
 		plot.includeChartOutline(new boolean[] { true, false, true, false });
 		plot.includeDataPointOutline(true);
 
-		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 30));
-
-		axis.setXAxisLabel("I am x axis label");
-		axis.setYAxisLabel("I am y axis label");
+		axis.xAxisRotation(30);
+		axis.yAxisRotation(45);
+		
 		cm.setLegendToImageRightWidth(20);
 		cm.setImageBottomToBottomAxisLabelHeight(20);
 		cm.setImageLeftToLeftAxisLabelWidth(20);
@@ -222,7 +231,7 @@ public class Main {
 		sc.setIncludeLegend(false);
 
 		sc.Create();
-		sc.WriteFile("Chart Images/New Format.png");
+		sc.WriteFile("Chart Images/Scatter Chart.png");
 
 	}
 

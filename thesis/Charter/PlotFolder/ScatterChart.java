@@ -55,7 +55,6 @@ public class ScatterChart extends XYChart {
 		
 		cm = new ScatterChartMeasurements();
 
-
 	}
 	
 	public void setXAxis(String xAxis) {
@@ -113,7 +112,7 @@ public class ScatterChart extends XYChart {
 			this.legend.calculateLegend(this.colorCodeLabel, this.colorCodeValues);
 		}
 		
-		cm.calculateChartImageMetrics(this.axis, this.plot, this.legend, getTitle(), getTitleFont());
+		cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
 		
 		
 		instantiateChart(cm);
@@ -144,8 +143,8 @@ public class ScatterChart extends XYChart {
 		
 		this.drawTitle(g, cm);
 		
-//		this.drawXDebugLines(g, cm);
-//		this.drawYDebugLines(g, cm);
+		this.drawXDebugLines(g, cm);
+		this.drawYDebugLines(g, cm);
 		
 		
 		

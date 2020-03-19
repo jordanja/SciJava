@@ -9,7 +9,7 @@ import java.util.Set;
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.LegendPackage.Legend;
-import thesis.Charter.Others.LineChartMeasurements;
+import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
@@ -30,7 +30,7 @@ public class LineChart extends XYChart {
 		this.plot = new LinePlot();
 		this.legend = new Legend();
 
-		cm = new LineChartMeasurements();
+		cm = new XYChartMeasurements();
 
 	}
 
@@ -57,7 +57,7 @@ public class LineChart extends XYChart {
 			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
 		}
 
-		cm.calculateChartImageMetrics(this.axis, this.plot, this.legend, getTitle(), getTitleFont());
+		cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
 
 		instantiateChart(cm);
 
