@@ -112,12 +112,12 @@ public class BarPlot extends Plot {
 
 	private int xTickNumToPlotX(double xTickNum, int totalxTicks, XYChartMeasurements cm) {
 		int halfWidthOfXUnit = (cm.getPlotWidth() / (2 * totalxTicks));
-		return (int) CommonMath.map(xTickNum, 0, totalxTicks - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit,
+		return CommonMath.map(xTickNum, 0, totalxTicks - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit,
 				cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
 	}
 
 	private int yTickNumToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
-		return (int) CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1],
+		return CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1],
 				cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 	}
 

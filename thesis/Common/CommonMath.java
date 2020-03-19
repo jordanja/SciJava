@@ -87,8 +87,8 @@ public class CommonMath {
 		return maxValue;
 	}
 	
-	public static double map (double value, double origLow, double origHigh, double newLow, double newHigh) {
-	    return (value - origLow) / (origHigh - origLow) * (newHigh - newLow) + newLow;
+	public static int map (double value, double origLow, double origHigh, double newLow, double newHigh) {
+	    return (int)((value - origLow) / (origHigh - origLow) * (newHigh - newLow) + newLow);
 
 	}
 	

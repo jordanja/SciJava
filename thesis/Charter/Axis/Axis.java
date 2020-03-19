@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.StringDrawer.DrawString;
 import thesis.Common.NiceScale;
 import thesis.Helpers.TypeCheckers;
 
@@ -503,4 +504,43 @@ public abstract class Axis {
 		return this.yAxisLabelColor;
 	}
 
+	
+	public void drawXAxisLabel(Graphics2D g, XYChartMeasurements cm) {
+
+		g.setColor(this.xAxisLabelColor);
+		g.setFont(this.xAxisLabelFont);
+
+		if (this.xAxisLabel != null) {
+			if (this.drawBottomXLabel) {
+				DrawString.drawString(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
+						cm.imageBottomToBottomAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign,
+						DrawString.yAlignment.MiddleAlign, 0, cm);
+			}
+			if (this.drawTopXLabel) {
+				DrawString.drawString(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
+						cm.imageBottomToTopAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign,
+						DrawString.yAlignment.MiddleAlign, 0, cm);
+			}
+		}
+
+	}
+
+	public void drawYAxisLabel(Graphics2D g, XYChartMeasurements cm) {
+		g.setColor(this.yAxisLabelColor);
+		g.setFont(this.yAxisLabelFont);
+
+		if (this.yAxisLabel != null) {
+			if (this.drawLeftYLabel) {
+				DrawString.drawString(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(),
+						cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign,
+						DrawString.yAlignment.MiddleAlign, -90, cm);
+			}
+			if (this.drawRightYLabel) {
+				DrawString.drawString(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(),
+						cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign,
+						DrawString.yAlignment.MiddleAlign, -90, cm);
+			}
+		}
+	}
+	
 }

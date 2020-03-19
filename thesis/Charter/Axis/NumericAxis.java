@@ -52,17 +52,11 @@ public class NumericAxis extends XYAxis {
 
 	public void drawAxis(Graphics2D g, XYChartMeasurements cm) {
 
-		double[] doubleXTicks = Arrays.stream(xTicks).mapToDouble(Double::parseDouble).toArray();
-		double[] doubleYTicks = Arrays.stream(yTicks).mapToDouble(Double::parseDouble).toArray();
-
-		DecimalFormat df = new DecimalFormat("#.##");
-		df.setRoundingMode(RoundingMode.HALF_DOWN);
-
 		for (int count = 1; count < this.xTicks.length - 1; count++) {
 
-			int position = (int) CommonMath.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth(),
+			int position = CommonMath.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth(),
 					cm.imageLeftToPlotRightWidth());
-			String stringToDisplay = String.valueOf(df.format(doubleXTicks[count]));
+			String stringToDisplay = this.getXTicksFormattedForDisplay()[count];
 			g.setColor(this.xAxisColor);
 			g.setFont(this.xAxisFont);
 			if (this.drawBottomXAxisValues) {
@@ -82,9 +76,9 @@ public class NumericAxis extends XYAxis {
 		}
 
 		for (int count = 1; count < this.yTicks.length - 1; count++) {
-			int position = (int) CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(),
+			int position = CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(),
 					cm.imageBottomToPlotTopHeight());
-			String stringToDisplay = String.valueOf(df.format(doubleYTicks[count]));
+			String stringToDisplay = this.getYTicksFormattedForDisplay()[count];
 
 			g.setColor(this.yAxisColor);
 			g.setFont(this.yAxisFont);
@@ -109,9 +103,8 @@ public class NumericAxis extends XYAxis {
 
 	public void drawAxisTicks(Graphics2D g, XYChartMeasurements cm) {
 
-//		g.setStroke(new BasicStroke(1));
 		for (int count = 0; count < this.xTicks.length; count++) {
-			int position = (int) CommonMath.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth(),
+			int position = CommonMath.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth(),
 					cm.imageLeftToPlotRightWidth());
 
 			g.setColor(this.bottomTickColor);
@@ -139,7 +132,7 @@ public class NumericAxis extends XYAxis {
 		}
 
 		for (int count = 0; count < this.yTicks.length; count++) {
-			int position = (int) CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(),
+			int position = CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(),
 					cm.imageBottomToPlotTopHeight());
 
 			g.setColor(this.leftTickColor);
@@ -163,44 +156,6 @@ public class NumericAxis extends XYAxis {
 						cm.imageLeftToPlotRightWidth() - cm.getRightTicksWidth(), position);
 			}
 
-		}
-	}
-
-	public void drawXAxisLabel(Graphics2D g, XYChartMeasurements cm) {
-
-		g.setColor(this.xAxisLabelColor);
-		g.setFont(this.xAxisLabelFont);
-
-		if (this.xAxisLabel != null) {
-			if (this.drawBottomXLabel) {
-				DrawString.drawString(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
-						cm.imageBottomToBottomAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign,
-						DrawString.yAlignment.MiddleAlign, 0, cm);
-			}
-			if (this.drawTopXLabel) {
-				DrawString.drawString(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
-						cm.imageBottomToTopAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign,
-						DrawString.yAlignment.MiddleAlign, 0, cm);
-			}
-		}
-
-	}
-
-	public void drawYAxisLabel(Graphics2D g, XYChartMeasurements cm) {
-		g.setColor(this.yAxisLabelColor);
-		g.setFont(this.yAxisLabelFont);
-
-		if (this.yAxisLabel != null) {
-			if (this.drawLeftYLabel) {
-				DrawString.drawString(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(),
-						cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign,
-						DrawString.yAlignment.MiddleAlign, -90, cm);
-			}
-			if (this.drawRightYLabel) {
-				DrawString.drawString(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(),
-						cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign,
-						DrawString.yAlignment.MiddleAlign, -90, cm);
-			}
 		}
 	}
 

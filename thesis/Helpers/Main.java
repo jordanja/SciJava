@@ -36,11 +36,11 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
-//		stripCharting();
+		stripCharting();
 //		boxCharting();
 //		lineCharting();
 //		barCharting();
-		scatterCharting();
+//		scatterCharting();
 //		dfPlay();
 
 		System.out.println("\n\nFINISHED EXECUTION");
@@ -175,10 +175,10 @@ public class Main {
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
 
-		axis.setXAxisFont(new Font("Dialog", Font.BOLD, 30));
-		axis.setYAxisFont(new Font("Dialog", Font.BOLD, 30));
-		axis.setXAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
-		axis.setYAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
+//		axis.setXAxisFont(new Font("Dialog", Font.BOLD, 30));
+//		axis.setYAxisFont(new Font("Dialog", Font.BOLD, 30));
+//		axis.setXAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
+//		axis.setYAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
 		
 		plot.includeDataPointOutline(true);
 		plot.includeLinearRegression(true);
@@ -212,8 +212,8 @@ public class Main {
 		plot.includeChartOutline(new boolean[] { true, false, true, false });
 		plot.includeDataPointOutline(true);
 
-		axis.xAxisRotation(30);
-		axis.yAxisRotation(45);
+//		axis.xAxisRotation(30);
+//		axis.yAxisRotation(45);
 		
 		cm.setLegendToImageRightWidth(20);
 		cm.setImageBottomToBottomAxisLabelHeight(20);
