@@ -30,7 +30,7 @@ public class BarChart extends XYChart{
 	private String orient = "v";
 
 	public BarChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.GetColumnAsArray(xAxis), dataFrame.GetColumnAsArray(yAxis), "Bar");
+		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis), "Bar");
 		
 		this.axis = new BarChartAxis();
 		this.plot = new BarPlot();
@@ -215,7 +215,7 @@ public class BarChart extends XYChart{
 
 	public void colorCode(String colorCodeLabel) {
 		this.colorCodeLabel = colorCodeLabel;
-		this.colorCodeValues = this.dataFrame.GetColumnAsStringArray(this.colorCodeLabel);
+		this.colorCodeValues = this.dataFrame.getColumnAsStringArray(this.colorCodeLabel);
 		this.legend.setIncludeLegend(true);
 	}
 	

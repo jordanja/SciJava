@@ -24,7 +24,7 @@ public class LineChart extends XYChart {
 	private String[] colorCodeValues = new String[0]; 
 
 	public LineChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.GetColumnAsArray(xAxis), dataFrame.GetColumnAsArray(yAxis), "Bar");
+		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis), "Bar");
 
 		this.axis = new NumericAxis();
 		this.plot = new LinePlot();
@@ -201,7 +201,7 @@ public class LineChart extends XYChart {
 	
 	public void colorCode(String colorCodeLabel) {
 		this.colorCodeLabel = colorCodeLabel;
-		this.colorCodeValues = this.dataFrame.GetColumnAsStringArray(this.colorCodeLabel);
+		this.colorCodeValues = this.dataFrame.getColumnAsStringArray(this.colorCodeLabel);
 		this.legend.setIncludeLegend(true);
 	}
 

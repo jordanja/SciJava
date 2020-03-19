@@ -45,7 +45,7 @@ public class ScatterChart extends XYChart {
 	private Object[] colorCodeValues; 
 		
 	public ScatterChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.GetColumnAsArray(xAxis), dataFrame.GetColumnAsArray(yAxis),"Scatter");
+		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis),"Scatter");
 		
 		
 		
@@ -59,11 +59,11 @@ public class ScatterChart extends XYChart {
 	}
 	
 	public void setXAxis(String xAxis) {
-		this.xData = this.dataFrame.GetColumnAsArray(xAxis);
+		this.xData = this.dataFrame.getColumnAsArray(xAxis);
 	}
 	
 	public void setYAxis(String yAxis) {
-		this.yData = this.dataFrame.GetColumnAsArray(yAxis);
+		this.yData = this.dataFrame.getColumnAsArray(yAxis);
 	}
 	
 	
@@ -90,7 +90,7 @@ public class ScatterChart extends XYChart {
 	
 	public void colorCode(String colorCodeLabel) {
 		this.colorCodeLabel = colorCodeLabel;
-		this.colorCodeValues = this.dataFrame.GetColumnAsStringArray(this.colorCodeLabel);	
+		this.colorCodeValues = this.dataFrame.getColumnAsStringArray(this.colorCodeLabel);	
 		this.legend.setIncludeLegend(true);
 	}
 	public void colorCode(Object[] colorCodeData) {

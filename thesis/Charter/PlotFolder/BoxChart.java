@@ -29,12 +29,12 @@ public class BoxChart extends XYChart{
 	private String[] order = new String[0];
 	
 	public BoxChart(DataFrame dataFrame, String yAxis) {
-		super(dataFrame,dataFrame.GetColumnAsArray(yAxis), "Box");
+		super(dataFrame,dataFrame.getColumnAsArray(yAxis), "Box");
 		initialize();
 	}
 	
 	public BoxChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.GetColumnAsArray(xAxis), dataFrame.GetColumnAsArray(yAxis), "Box");
+		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis), "Box");
 		initialize();
 	}
 	
@@ -264,7 +264,7 @@ public class BoxChart extends XYChart{
 	
 	public void colorCode(String colorCodeLabel) {
 		this.colorCodeLabel = colorCodeLabel;
-		this.colorCodeValues = this.dataFrame.GetColumnAsStringArray(this.colorCodeLabel);
+		this.colorCodeValues = this.dataFrame.getColumnAsStringArray(this.colorCodeLabel);
 		this.legend.setIncludeLegend(true);
 	}
 	

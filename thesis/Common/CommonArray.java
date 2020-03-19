@@ -1,6 +1,8 @@
 package thesis.Common;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CommonArray {
 	
@@ -79,5 +81,31 @@ public class CommonArray {
 			doubleList[i] = origList.get(i);
 		}
 		return doubleList;
+	}
+	
+	public static boolean valuesUnique(ArrayList<String> values) {
+		Set<String> set = new HashSet<String>(values);
+		
+		if(set.size() < values.size()){
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean anyNullValues(ArrayList<String> rowNamesToAdd) {
+		for (int i = 0; i < rowNamesToAdd.size(); i++) {
+			if (rowNamesToAdd.get(i) == null) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static ArrayList<String> generateIncreasingSequence(int size) {
+		ArrayList<String> rowNames = new ArrayList<String>();
+		for (int i = 0; i < size; i++) {
+			rowNames.add(String.valueOf(i));
+		}
+		return rowNames;
 	}
 }

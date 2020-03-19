@@ -29,14 +29,14 @@ public class StripChart extends XYChart{
 	private String[] order = new String[0];
 	
 	public StripChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.GetColumnAsArray(xAxis), dataFrame.GetColumnAsArray(yAxis), "Strip");
+		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis), "Strip");
 		
 		initialize();
 
 	}
 	
 	public StripChart(DataFrame dataFrame, String yAxis) {
-		super(dataFrame, dataFrame.GetColumnAsArray(yAxis), "Strip");
+		super(dataFrame, dataFrame.getColumnAsArray(yAxis), "Strip");
 		initialize();
 	}
 	
@@ -255,7 +255,7 @@ public class StripChart extends XYChart{
 
 	public void colorCode(String colorCodeLabel) {
 		this.colorCodeLabel = colorCodeLabel;
-		this.colorCodeValues = this.dataFrame.GetColumnAsStringArray(this.colorCodeLabel);
+		this.colorCodeValues = this.dataFrame.getColumnAsStringArray(this.colorCodeLabel);
 		this.legend.setIncludeLegend(true);
 	}
 	
