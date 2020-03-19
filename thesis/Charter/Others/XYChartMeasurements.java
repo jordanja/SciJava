@@ -51,13 +51,6 @@ public class XYChartMeasurements {
 	protected int legendWidth;
 	protected int legendToImageRightWidth = 5;
 
-//	public XYChartMeasurements() {
-//		
-//	}
-
-//	public void calculateChartImageMetrics(Axis axis, Legend legend, String title, Font titleFont) {
-//		System.out.println("in parent");
-//	}
 
 	public int imageBottomToBottomAxisLabelBottomHeight() {
 		return this.imageBottomToBottomAxisLabelHeight;
