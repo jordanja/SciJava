@@ -117,5 +117,10 @@ public class CommonMath {
 	    bd = bd.setScale(places, RoundingMode.HALF_UP);
 	    return bd.doubleValue();
 	}
+	
+	// http://www.java2s.com/example/android/java.lang/normalize-an-angle-so-that-it-is-between-0-and-360.html
+	public static double normalizeAngle(final double angle) {
+        return (angle >= 0 ? angle : (360 - ((-angle) % 360))) % 360;
+    }
 
 }

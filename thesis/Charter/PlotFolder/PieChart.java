@@ -57,4 +57,34 @@ public class PieChart extends Chart {
 		this.drawTitle(g, cm);
 	}
 
+
+	public PieChartMeasurements getCm() {
+		return cm;
+	}
+
+
+	public void setCm(PieChartMeasurements cm) {
+		this.cm = cm;
+	}
+
+
+	public PiePlot getPlot() {
+		return plot;
+	}
+
+
+	public void setPlot(PiePlot plot) {
+		this.plot = plot;
+	}
+
+
+	public Legend getLegend() {
+		return legend;
+	}
+
+
+	public void setLegend(Legend legend) {
+		this.legend = legend;
+	}
+
 }

@@ -26,6 +26,7 @@ import thesis.Charter.PlotFolder.BoxPlot;
 import thesis.Charter.PlotFolder.LineChart;
 import thesis.Charter.PlotFolder.LinePlot;
 import thesis.Charter.PlotFolder.PieChart;
+import thesis.Charter.PlotFolder.PiePlot;
 import thesis.Charter.PlotFolder.ScatterChart;
 import thesis.Charter.PlotFolder.ScatterPlot;
 import thesis.Charter.PlotFolder.StripChart;
@@ -54,6 +55,10 @@ public class Main {
 		
 		pc.setTitleFont(new Font("Dialog", Font.PLAIN, 80));
 		pc.setTitle("This is a title");
+		
+		PiePlot plot = pc.getPlot();
+		plot.setShatter(new double[] {0.1, 0, 0, 0.3, 0});
+		plot.setIncludeProportionsOnPie(true);
 		
 		pc.Create();
 		pc.WriteFile("Chart Images/Pie Chart.png");
