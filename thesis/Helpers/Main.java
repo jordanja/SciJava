@@ -52,6 +52,9 @@ public class Main {
 		DataFrame df = new DataFrame("Datasets/own.csv", true);
 		PieChart pc = new PieChart(df, "Fruit", "Quantity");
 		
+		pc.setTitleFont(new Font("Dialog", Font.PLAIN, 80));
+		pc.setTitle("This is a title");
+		
 		pc.Create();
 		pc.WriteFile("Chart Images/Pie Chart.png");
 	}

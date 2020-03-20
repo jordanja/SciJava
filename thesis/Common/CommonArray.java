@@ -32,9 +32,7 @@ public class CommonArray {
 		Double min = Double.MAX_VALUE;
 		
 		for (Double value : arr) {
-			if (value < min) {
-				min = value;
-			}
+			min = Double.min(min, value);
 		}
 		return min;
 	}
@@ -43,9 +41,16 @@ public class CommonArray {
 		Double max = Double.MIN_VALUE;
 		
 		for (Double value : arr) {
-			if (value > max) {
-				max = value;
-			}
+			max = Double.max(max, value);
+		}
+		return max;
+	}
+	
+	public static double maxValue(double[] arr) {
+		double max = Double.MIN_VALUE;
+		
+		for (double value : arr) {
+			max = Double.max(max, value);
 		}
 		return max;
 	}
@@ -116,4 +121,13 @@ public class CommonArray {
 		}
 		return objArr;
 	}
+
+	public static double[] initializeArrayWithValues(int length, int value) {
+		double[] arr = new double[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+
 }
