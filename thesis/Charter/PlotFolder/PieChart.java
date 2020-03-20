@@ -45,7 +45,7 @@ public class PieChart extends Chart {
 		
 		drawBackground(g, cm);
 		
-		this.plot.setChartBackgroundColor(Color.white);
+		this.plot.setPlotBackgroundColor(Color.white);
 		
 		this.plot.drawPlotBackground(g, cm);
 		this.plot.drawPlotOutline(g, cm);

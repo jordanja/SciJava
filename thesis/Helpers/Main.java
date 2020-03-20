@@ -220,7 +220,7 @@ public class Main {
 		axis.setIncludeTopXAxisValues(true);
 		axis.setIncludeRightYAxisValues(true);
 
-		plot.includeChartOutline(new boolean[] { true, false, true, false });
+		plot.includePlotOutline(new boolean[] { true, false, true, false });
 		plot.includeDataPointOutline(true);
 
 //		axis.xAxisRotation(30);
