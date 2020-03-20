@@ -32,6 +32,14 @@ public class CommonMath {
 		return sum/dataPoints.length;
 		
 	}
+	
+	public static double total(Double[] arr) {
+		double total = 0;
+		for (Double value: arr) {
+			total += value;
+		}
+		return total;
+	}
 
 	public static double variance(DataItem[] dataPoints, double average) {	
 		return covariance(dataPoints, dataPoints, average, average);

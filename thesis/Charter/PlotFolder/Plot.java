@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
+import thesis.Charter.Others.ChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataFrame;
@@ -112,7 +113,7 @@ public abstract class Plot {
 		
 	}
 	
-	public void drawChartBackground(Graphics2D g, XYChartMeasurements cm) {
+	public void drawPlotBackground(Graphics2D g, ChartMeasurements cm) {
 
 		if (this.backgroundImage == null) {
 			
@@ -127,7 +128,7 @@ public abstract class Plot {
 		
 	}
 	
-	public void drawPlotOutline(Graphics2D g, XYChartMeasurements cm) {
+	public void drawPlotOutline(Graphics2D g, ChartMeasurements cm) {
 		
 		if (this.bottomChartOutline) {
 			g.setStroke(new BasicStroke(this.bottomChartOutlineWidth));

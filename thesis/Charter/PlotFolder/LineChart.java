@@ -64,7 +64,7 @@ public class LineChart extends XYChart {
 		Graphics2D g = initializaGraphicsObject(cm);
 		drawBackground(g, cm);
 
-		this.plot.drawChartBackground(g, cm);
+		this.plot.drawPlotBackground(g, cm);
 		
 		this.axis.drawAxis(g, cm);
 		

@@ -1,5 +1,6 @@
 package thesis.Charter.PlotFolder;
 
+import thesis.Charter.Others.ChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.DataFrame.DataFrame;
@@ -72,11 +73,11 @@ public abstract class Chart {
 	
 	public abstract void Create();
 	
-	protected void instantiateChart(XYChartMeasurements cm) {	
+	protected void instantiateChart(ChartMeasurements cm) {	
 		this.chartImage = new BufferedImage(cm.imageWidth(), cm.imageHeight(), BufferedImage.TYPE_INT_RGB);
 	}
 	
-	protected Graphics2D initializaGraphicsObject(XYChartMeasurements cm) {
+	protected Graphics2D initializaGraphicsObject(ChartMeasurements cm) {
 		Graphics2D g = this.chartImage.createGraphics();	
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);		
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -86,18 +87,18 @@ public abstract class Chart {
 		return g;
 	}
 
-	private void changeCoordFrame(Graphics2D g, XYChartMeasurements cm) {
+	private void changeCoordFrame(Graphics2D g, ChartMeasurements cm) {
 		g.translate(0.0, cm.imageHeight());
 		g.scale(1.0, -1.0);
 	}
 	
-	protected void drawBackground(Graphics2D g, XYChartMeasurements cm) {
+	protected void drawBackground(Graphics2D g, ChartMeasurements cm) {
 		g.setBackground(this.imageBackgroundColor);
 		g.clearRect(0, 0, cm.imageWidth(), cm.imageHeight());
 	}
 	
 	
-	protected void drawTitle(Graphics2D g, XYChartMeasurements cm) {
+	protected void drawTitle(Graphics2D g, ChartMeasurements cm) {
 		if (this.title != null) {			
 			g.setColor(this.titleColor);
 			g.setFont(this.titleFont);

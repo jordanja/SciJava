@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import thesis.Charter.Others.ChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 
@@ -43,6 +44,7 @@ public class Legend {
 	
 
 	public void calculateLegend(String hueLabel, Object[] hueValues) {
+		this.includeLegend = true;
 		this.hueLabel = hueLabel;
 		this.hueValues = new HashSet<>(Arrays.asList(hueValues)).toArray(new String[0]);
 		
@@ -72,7 +74,7 @@ public class Legend {
 		
 	}
 	
-	public void drawLegend(Graphics2D g, XYChartMeasurements cm, Color[] colors) {
+	public void drawLegend(Graphics2D g, ChartMeasurements cm, Color[] colors) {
 		
 		int legendBottom = cm.imageBottomToPlotMidHeight() - this.getLegendHeight()/2;
 

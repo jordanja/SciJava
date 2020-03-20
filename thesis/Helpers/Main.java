@@ -25,6 +25,7 @@ import thesis.Charter.PlotFolder.BoxChart;
 import thesis.Charter.PlotFolder.BoxPlot;
 import thesis.Charter.PlotFolder.LineChart;
 import thesis.Charter.PlotFolder.LinePlot;
+import thesis.Charter.PlotFolder.PieChart;
 import thesis.Charter.PlotFolder.ScatterChart;
 import thesis.Charter.PlotFolder.ScatterPlot;
 import thesis.Charter.PlotFolder.StripChart;
@@ -36,8 +37,9 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
+		pieChart();
 //		stripCharting();
-		boxCharting();
+//		boxCharting();
 //		lineCharting();
 //		barCharting();
 //		scatterCharting();
@@ -46,6 +48,15 @@ public class Main {
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 
+	public static void pieChart() {
+		DataFrame df = new DataFrame("Datasets/own.csv", true);
+		PieChart pc = new PieChart(df, "Fruit", "Quantity");
+		
+		pc.Create();
+		pc.WriteFile("Chart Images/Pie Chart.png");
+	}
+	
+	
 	public static void stripCharting() {
 		DataFrame df = new DataFrame("Datasets/tips.csv", true);
 

@@ -108,4 +108,12 @@ public class CommonArray {
 		}
 		return rowNames;
 	}
+	
+	public static Object[] convertStringArrayToObjectArray(String[] arr) {
+		Object[] objArr = new Object[arr.length];
+		for (int i = 0; i < arr.length; i++) {
+			objArr[i] = (Object) arr[i];
+		}
+		return objArr;
+	}
 }

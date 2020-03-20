@@ -10,6 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import thesis.Charter.Others.ChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
 
 public class DrawString {
@@ -22,7 +23,7 @@ public class DrawString {
 	};
 
 	public static void drawString(Graphics2D g, String string, int x, int y, xAlignment xAlign, yAlignment yAlign,
-			float rotation, XYChartMeasurements cm) {
+			float rotation, ChartMeasurements cm) {
 		AffineTransform orig = g.getTransform();
 
 		g.scale(1.0, -1.0);

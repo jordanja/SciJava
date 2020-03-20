@@ -18,7 +18,7 @@ import thesis.Charter.PlotFolder.Plot;
 import thesis.Charter.PlotFolder.ScatterPlot;
 import thesis.Charter.StringDrawer.DrawString;
 
-public class XYChartMeasurements {
+public class XYChartMeasurements extends ChartMeasurements {
 	protected int imageBottomToBottomAxisLabelHeight = 5;
 	protected int bottomAxisLabelHeight;
 	protected int bottomAxisLabelToBottomAxisHeight = 5;

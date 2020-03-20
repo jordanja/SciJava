@@ -167,6 +167,14 @@ public class DataItem {
 		return stringList;
 	}
 	
+	public static Object[] convertToObjectList(DataItem[] dataItemList) {
+		Object[] stringList = new String[dataItemList.length];
+		for (int i = 0; i < dataItemList.length; i++) {
+			stringList[i] = dataItemList[i].getObjectValue();
+		}
+		return stringList;
+	}
+	
 	public void setType(StorageType typeToUse) {
 		this.type = typeToUse;
 	}
@@ -239,10 +247,13 @@ public class DataItem {
 		} else return null;
 	}
 	
+	
 	@Override
 	public String toString() {
 		return getValueConvertedToString();
 	}
+
+	
 	
 	
 
