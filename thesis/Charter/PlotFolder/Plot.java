@@ -23,31 +23,31 @@ public abstract class Plot {
 	
 	
 	
-	private boolean bottomChartOutline;
-	private boolean leftChartOutline;
-	private boolean topChartOutline;
-	private boolean rightChartOutline;
+	private boolean bottomPlotOutline;
+	private boolean leftPlotOutline;
+	private boolean topPlotOutline;
+	private boolean rightPlotOutline;
 	
 	
-	private Color defaultChartOutlineColor = Color.BLACK;
-	private Color bottomChartOutlineColor = this.defaultChartOutlineColor;
-	private Color leftChartOutlineColor = this.defaultChartOutlineColor;
-	private Color topChartOutlineColor = this.defaultChartOutlineColor;
-	private Color rightChartOutlineColor = this.defaultChartOutlineColor;
-	private float defaultChartOutlineWidth = 2f;
-	private float bottomChartOutlineWidth = this.defaultChartOutlineWidth;
-	private float leftChartOutlineWidth = this.defaultChartOutlineWidth;
-	private float topChartOutlineWidth = this.defaultChartOutlineWidth;
-	private float rightChartOutlineWidth = this.defaultChartOutlineWidth;
+	private Color defaultPlotOutlineColor = Color.BLACK;
+	private Color bottomPlotOutlineColor = this.defaultPlotOutlineColor;
+	private Color leftPlotOutlineColor = this.defaultPlotOutlineColor;
+	private Color topPlotOutlineColor = this.defaultPlotOutlineColor;
+	private Color rightPlotOutlineColor = this.defaultPlotOutlineColor;
+	private float defaultPlotOutlineWidth = 2f;
+	private float bottomPlotOutlineWidth = this.defaultPlotOutlineWidth;
+	private float leftPlotOutlineWidth = this.defaultPlotOutlineWidth;
+	private float topPlotOutlineWidth = this.defaultPlotOutlineWidth;
+	private float rightPlotOutlineWidth = this.defaultPlotOutlineWidth;
 	
 	
-	private Color chartBackgroundColor = new Color(229,229,239);;
+	private Color plotBackgroundColor = new Color(229,229,239);;
 	private Image backgroundImage = null;
 	
-	public void setChartBackgroundImage(Image image) {
+	public void setPlotBackgroundImage(Image image) {
 		this.backgroundImage = image;
 	}
-	public void setChartBackgroundImage(String imagePath) {
+	public void setPlotBackgroundImage(String imagePath) {
 		try {
 			this.backgroundImage = ImageIO.read(new File(imagePath));
 		} catch (IOException e) {
@@ -56,43 +56,43 @@ public abstract class Plot {
 		}
 	}
 	
-	public void setChartBackgroundColor(Color chartBackgroundColor) {
-		this.chartBackgroundColor = chartBackgroundColor;
+	public void setPlotBackgroundColor(Color plotBackgroundColor) {
+		this.plotBackgroundColor = plotBackgroundColor;
 	}
 	
-	public void setChartOutlineColors(Color[] chartOutlineColors) {
-		if (chartOutlineColors.length != 4) {
-			System.out.println("Error: Must have four values for chart outline colors");
+	public void setPlotOutlineColors(Color[] plotOutlineColors) {
+		if (plotOutlineColors.length != 4) {
+			System.out.println("Error: Must have four values for plot outline colors");
 			return;
 		}
-		this.bottomChartOutlineColor = chartOutlineColors[0];
-		this.leftChartOutlineColor = chartOutlineColors[1];
-		this.topChartOutlineColor = chartOutlineColors[2];
-		this.rightChartOutlineColor = chartOutlineColors[3];
+		this.bottomPlotOutlineColor = plotOutlineColors[0];
+		this.leftPlotOutlineColor = plotOutlineColors[1];
+		this.topPlotOutlineColor = plotOutlineColors[2];
+		this.rightPlotOutlineColor = plotOutlineColors[3];
 	}
 	
-	public void setChartOutlineColor(Color outlineColor) {
-		this.bottomChartOutlineColor = outlineColor;
-		this.leftChartOutlineColor = outlineColor;
-		this.topChartOutlineColor = outlineColor;
-		this.rightChartOutlineColor = outlineColor;
+	public void setPlotOutlineColor(Color outlineColor) {
+		this.bottomPlotOutlineColor = outlineColor;
+		this.leftPlotOutlineColor = outlineColor;
+		this.topPlotOutlineColor = outlineColor;
+		this.rightPlotOutlineColor = outlineColor;
 	}
 	
-	public void setChartOutlineWidth(float[] chartOutlineWidths) {
-		if (chartOutlineWidths.length != 4) {
-			System.out.println("Error: Must have four values for chart outline widths");
+	public void setPlotOutlineWidth(float[] plotOutlineWidths) {
+		if (plotOutlineWidths.length != 4) {
+			System.out.println("Error: Must have four values for plot outline widths");
 			return;
 		}
-		this.bottomChartOutlineWidth = chartOutlineWidths[0];
-		this.leftChartOutlineWidth = chartOutlineWidths[1];
-		this.topChartOutlineWidth = chartOutlineWidths[2];
-		this.rightChartOutlineWidth = chartOutlineWidths[3];
+		this.bottomPlotOutlineWidth = plotOutlineWidths[0];
+		this.leftPlotOutlineWidth = plotOutlineWidths[1];
+		this.topPlotOutlineWidth = plotOutlineWidths[2];
+		this.rightPlotOutlineWidth = plotOutlineWidths[3];
 	}
-	public void setChartOutlineWidth(float outlineWidth) {
-		this.bottomChartOutlineWidth = outlineWidth;
-		this.leftChartOutlineWidth = outlineWidth;
-		this.topChartOutlineWidth = outlineWidth;
-		this.rightChartOutlineWidth = outlineWidth;
+	public void setPlotOutlineWidth(float outlineWidth) {
+		this.bottomPlotOutlineWidth = outlineWidth;
+		this.leftPlotOutlineWidth = outlineWidth;
+		this.topPlotOutlineWidth = outlineWidth;
+		this.rightPlotOutlineWidth = outlineWidth;
 	}
 	
 	/*
@@ -101,15 +101,15 @@ public abstract class Plot {
 	 *  2: Top
 	 *  3: Right
 	 */
-	public void includeChartOutline(boolean[] chartOutlines) {
-		if (chartOutlines.length != 4) {
-			System.out.println("Error: Must have four values for chart outlines");
+	public void includePlotOutline(boolean[] plotOutlines) {
+		if (plotOutlines.length != 4) {
+			System.out.println("Error: Must have four values for plot outlines");
 			return;
 		}
-		this.bottomChartOutline = chartOutlines[0];
-		this.leftChartOutline = chartOutlines[1];
-		this.topChartOutline = chartOutlines[2];
-		this.rightChartOutline = chartOutlines[3];
+		this.bottomPlotOutline = plotOutlines[0];
+		this.leftPlotOutline = plotOutlines[1];
+		this.topPlotOutline = plotOutlines[2];
+		this.rightPlotOutline = plotOutlines[3];
 		
 	}
 	
@@ -117,7 +117,7 @@ public abstract class Plot {
 
 		if (this.backgroundImage == null) {
 			
-			g.setColor(this.chartBackgroundColor);
+			g.setColor(this.plotBackgroundColor);
 			
 			g.fillRect(cm.imageLeftToPlotLeftWidth(), cm.imageBottomToPlotBottomHeight(), cm.getPlotWidth(), cm.getPlotHeight());
 		} else {
@@ -130,27 +130,27 @@ public abstract class Plot {
 	
 	public void drawPlotOutline(Graphics2D g, ChartMeasurements cm) {
 		
-		if (this.bottomChartOutline) {
-			g.setStroke(new BasicStroke(this.bottomChartOutlineWidth));
-			g.setColor(this.bottomChartOutlineColor);
+		if (this.bottomPlotOutline) {
+			g.setStroke(new BasicStroke(this.bottomPlotOutlineWidth));
+			g.setColor(this.bottomPlotOutlineColor);
 			g.drawLine(cm.imageLeftToPlotLeftWidth(), cm.imageBottomToPlotBottomHeight(), cm.imageLeftToPlotRightWidth(), cm.imageBottomToPlotBottomHeight());
 		}
 		
-		if (this.leftChartOutline) {
-			g.setStroke(new BasicStroke(this.leftChartOutlineWidth));
-			g.setColor(this.leftChartOutlineColor);
+		if (this.leftPlotOutline) {
+			g.setStroke(new BasicStroke(this.leftPlotOutlineWidth));
+			g.setColor(this.leftPlotOutlineColor);
 			g.drawLine(cm.imageLeftToPlotLeftWidth(), cm.imageBottomToPlotBottomHeight(), cm.imageLeftToPlotLeftWidth(), cm.imageBottomToPlotTopHeight());
 		}
 		
-		if (this.topChartOutline) {
-			g.setStroke(new BasicStroke(this.topChartOutlineWidth));
-			g.setColor(this.topChartOutlineColor);
+		if (this.topPlotOutline) {
+			g.setStroke(new BasicStroke(this.topPlotOutlineWidth));
+			g.setColor(this.topPlotOutlineColor);
 			g.drawLine(cm.imageLeftToPlotLeftWidth(), cm.imageBottomToPlotTopHeight(), cm.imageLeftToPlotRightWidth(), cm.imageBottomToPlotTopHeight());
 		}
 		
-		if (this.rightChartOutline) {
-			g.setStroke(new BasicStroke(this.rightChartOutlineWidth));
-			g.setColor(this.rightChartOutlineColor);
+		if (this.rightPlotOutline) {
+			g.setStroke(new BasicStroke(this.rightPlotOutlineWidth));
+			g.setColor(this.rightPlotOutlineColor);
 			g.drawLine(cm.imageLeftToPlotRightWidth(), cm.imageBottomToPlotBottomHeight(), cm.imageLeftToPlotRightWidth(), cm.imageBottomToPlotTopHeight());
 		}
 	}
