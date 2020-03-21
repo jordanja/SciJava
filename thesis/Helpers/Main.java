@@ -57,8 +57,11 @@ public class Main {
 		pc.setTitle("This is a title");
 		
 		PiePlot plot = pc.getPlot();
+		plot.setDonutAmount(0.4f);
 		plot.setShatter(new double[] {0.1, 0, 0, 0.3, 0});
-		plot.setIncludeProportionsOnPie(true);
+		plot.setUseSemiCircle(true);
+//		plot.setIncludeProportionsOnPie(true);
+//		plot.setProportionsColor(Color.RED);
 		
 		pc.Create();
 		pc.WriteFile("Chart Images/Pie Chart.png");

@@ -57,15 +57,8 @@ public class PiePlot extends Plot{
 			drawSlice(g, sliceDegrees[sliceCount], radius, cumulativeAngle, sliceColor, xCenter, yCenter);
 			
 			if (this.includeProportionsOnPie) {
-				g.setColor(this.proportionsColor);
-
-				int xPos = (int)(cm.imageLeftToPlotMidWidth() + (radius * Math.cos(angleToShatterTowards)) * (this.shatter[sliceCount] + 0.5));
-				int yPos = (int)(cm.imageBottomToPlotMidHeight() + (radius * Math.sin(angleToShatterTowards)) * (this.shatter[sliceCount] + 0.5));
-	
-				String strToDisplay = formatStrForPlot(100 * values[sliceCount]/total) + "%";
-				
-				g.setFont(this.proportionsFont);
-				DrawString.write(g, strToDisplay, xPos, yPos, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
+				double value = 100 * values[sliceCount]/total;
+				writeProportions(g, value, cm, radius, sliceCount, angleToShatterTowards);
 				
 				
 			}
@@ -73,6 +66,19 @@ public class PiePlot extends Plot{
 			cumulativeAngle += sliceDegrees[sliceCount];
 		}
 		
+	}
+
+
+	private void writeProportions(Graphics2D g, double value, PieChartMeasurements cm, double radius, int sliceCount, double angleToShatterTowards) {
+
+		int xPos = (int)(cm.imageLeftToPlotMidWidth() + (radius * Math.cos(angleToShatterTowards)) * (this.shatter[sliceCount] + 0.5));
+		int yPos = (int)(cm.imageBottomToPlotMidHeight() + (radius * Math.sin(angleToShatterTowards)) * (this.shatter[sliceCount] + 0.5));
+
+		String strToDisplay = formatStrForPlot(value) + "%";
+		
+		g.setColor(this.proportionsColor);
+		g.setFont(this.proportionsFont);
+		DrawString.write(g, strToDisplay, xPos, yPos, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
 	}
 
 
