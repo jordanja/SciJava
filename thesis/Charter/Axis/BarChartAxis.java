@@ -72,10 +72,10 @@ public class BarChartAxis extends XYAxis {
 			g.setColor(this.xAxisColor);
 			g.setFont(this.xAxisFont);
 			if (this.drawBottomXAxisValues) {				
-				DrawString.drawString(g, xCatagory, xPosition, cm.imageBottomToBottomAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
+				DrawString.write(g, xCatagory, xPosition, cm.imageBottomToBottomAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
 			}
 			if (this.drawTopXAxisValues) {
-				DrawString.drawString(g, xCatagory, xPosition, cm.imageBottomToTopAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
+				DrawString.write(g, xCatagory, xPosition, cm.imageBottomToTopAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
 			}
 			count++;
 		}
@@ -93,10 +93,10 @@ public class BarChartAxis extends XYAxis {
 			g.setFont(this.yAxisFont);
 			
 			if (this.drawLeftYAxisValues) {				
-				DrawString.drawString(g, stringToDisplay, cm.imageLeftToLeftAxisMidWidth(), position, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.yAxisRotation, cm);
+				DrawString.write(g, stringToDisplay, cm.imageLeftToLeftAxisMidWidth(), position, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.yAxisRotation, cm);
 			}
 			if (this.drawRightYAxisValues) {
-				DrawString.drawString(g, stringToDisplay, cm.imageLeftToRightAxisMidWidth(), position, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.yAxisRotation, cm);
+				DrawString.write(g, stringToDisplay, cm.imageLeftToRightAxisMidWidth(), position, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.yAxisRotation, cm);
 			}
 
 			if (this.includeAxisLinesOnPlot) {				
@@ -170,10 +170,10 @@ public class BarChartAxis extends XYAxis {
 		
 		if (this.xAxisLabel != null ) {			
 			if (this.drawBottomXLabel ) {			
-				DrawString.drawString(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(), cm.imageBottomToBottomAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
+				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(), cm.imageBottomToBottomAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
 			}
 			if (this.drawTopXLabel) {
-				DrawString.drawString(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(), cm.imageBottomToTopAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
+				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(), cm.imageBottomToTopAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
 			}
 		}
 		
@@ -185,10 +185,10 @@ public class BarChartAxis extends XYAxis {
 		
 		if (this.yAxisLabel != null) {
 			if (this.drawLeftYLabel) {
-				DrawString.drawString(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(), cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, -90, cm);
+				DrawString.write(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(), cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, -90, cm);
 			}
 			if (this.drawRightYLabel) {
-				DrawString.drawString(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(), cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, -90, cm);
+				DrawString.write(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(), cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, -90, cm);
 			}
 		}
 	}

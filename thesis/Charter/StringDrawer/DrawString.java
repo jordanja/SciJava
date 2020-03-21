@@ -22,7 +22,7 @@ public class DrawString {
 		TopAlign, MiddleAlign, BottomAlign
 	};
 
-	public static void drawString(Graphics2D g, String string, int x, int y, xAlignment xAlign, yAlignment yAlign,
+	public static void write(Graphics2D g, String string, int x, int y, xAlignment xAlign, yAlignment yAlign,
 			float rotation, ChartMeasurements cm) {
 		AffineTransform orig = g.getTransform();
 
@@ -66,9 +66,6 @@ public class DrawString {
 
 	}
 
-//	public static Rectangle get2DBounds(String str, Font font) {
-//		return font.createGlyphVector(new FontRenderContext(null, true, false), str).getOutline().getBounds();
-//	}
 
 	public static Shape get2DBounds(String msg, Font font, float rotation) {
 		BufferedImage bi = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);

@@ -90,12 +90,12 @@ public class Legend {
 		g.drawRect(cm.imageLeftToLegendLeftWidth(), legendBottom, this.getLegendWidth(), this.getLegendHeight());
 		
 		g.setFont(this.hueLabelFont);
-		DrawString.drawString(g, this.hueLabel, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + this.getBottomlegentToHueLabelBottomHeight(), DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign, 0, cm);
+		DrawString.write(g, this.hueLabel, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + this.getBottomlegentToHueLabelBottomHeight(), DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign, 0, cm);
 
 		g.setFont(this.hueValueFont);
 		for (int i = 0; i < this.hueValues.length; i++) {
 			g.setColor(Color.BLACK);
-			DrawString.drawString(g, this.hueValues[i], cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + getBottomLegendToHueValueBottomHeight(i), DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign, 0, cm);
+			DrawString.write(g, this.hueValues[i], cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + getBottomLegendToHueValueBottomHeight(i), DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign, 0, cm);
 
 			int height = DrawString.getStringHeight(this.hueValues[i], this.hueValueFont);//DrawString.getShapeOfText(this.hueValueFont, this.hueValues[i]).getBounds().height;
 			

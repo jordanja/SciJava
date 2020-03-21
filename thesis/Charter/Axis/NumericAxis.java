@@ -60,11 +60,11 @@ public class NumericAxis extends XYAxis {
 			g.setColor(this.xAxisColor);
 			g.setFont(this.xAxisFont);
 			if (this.drawBottomXAxisValues) {
-				DrawString.drawString(g, stringToDisplay, position, cm.imageBottomToBottomAxisMidHeight(),
+				DrawString.write(g, stringToDisplay, position, cm.imageBottomToBottomAxisMidHeight(),
 						DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
 			}
 			if (this.drawTopXAxisValues) {
-				DrawString.drawString(g, stringToDisplay, position, cm.imageBottomToTopAxisMidHeight(),
+				DrawString.write(g, stringToDisplay, position, cm.imageBottomToTopAxisMidHeight(),
 						DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
 			}
 
@@ -84,11 +84,11 @@ public class NumericAxis extends XYAxis {
 			g.setFont(this.yAxisFont);
 
 			if (this.drawLeftYAxisValues) {
-				DrawString.drawString(g, stringToDisplay, cm.imageLeftToLeftAxisMidWidth(), position,
+				DrawString.write(g, stringToDisplay, cm.imageLeftToLeftAxisMidWidth(), position,
 						DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.yAxisRotation, cm);
 			}
 			if (this.drawRightYAxisValues) {
-				DrawString.drawString(g, stringToDisplay, cm.imageLeftToRightAxisMidWidth(), position,
+				DrawString.write(g, stringToDisplay, cm.imageLeftToRightAxisMidWidth(), position,
 						DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.yAxisRotation, cm);
 			}
 

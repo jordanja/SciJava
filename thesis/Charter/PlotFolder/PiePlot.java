@@ -64,7 +64,7 @@ public class PiePlot extends Plot{
 				String strToDisplay = formatStrForPlot(100 * values[sliceCount]/total) + "%";
 				
 				g.setFont(this.proportionsFont);
-				DrawString.drawString(g, strToDisplay, xPos, yPos, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
+				DrawString.write(g, strToDisplay, xPos, yPos, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
 				
 				
 			}

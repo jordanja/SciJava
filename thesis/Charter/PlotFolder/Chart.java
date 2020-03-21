@@ -102,7 +102,7 @@ public abstract class Chart {
 		if (this.title != null) {			
 			g.setColor(this.titleColor);
 			g.setFont(this.titleFont);
-			DrawString.drawString(g, this.title, cm.imageWidth()/2, cm.imageBottomToTitleBottomHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.BottomAlign, 0, cm);
+			DrawString.write(g, this.title, cm.imageWidth()/2, cm.imageBottomToTitleBottomHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.BottomAlign, 0, cm);
 		}
 	}
 	
