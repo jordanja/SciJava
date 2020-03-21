@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Arc2D;
+import java.awt.geom.GeneralPath;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
@@ -18,9 +19,13 @@ public class PiePlot extends Plot{
 	private Color[] colorPalette = Palette.Default;
 	private double[] shatter;
 	private double startAngle = 0;
+	private double donutAmount = 0;
 
 	private boolean includeProportionsOnPie = false;
 	private Font proportionsFont = new Font("Dialog", Font.PLAIN, 20);
+	private Color proportionsColor = Color.WHITE;
+	
+	private boolean useSemiCircle = false;
 	
 	public void drawPlot(Graphics2D g, String[] labels, Double[] values, PieChartMeasurements cm) {
 		
@@ -30,9 +35,9 @@ public class PiePlot extends Plot{
 		
 		double total = CommonMath.total(values);
 		
-		double[] percentageOfPie = new double[values.length];
+		double[] sliceDegrees = new double[values.length];
 		for (int i = 0; i < values.length; i++) {
-			percentageOfPie[i] = 360 * (values[i]/total);
+			sliceDegrees[i] = 360 * (values[i]/total);
 		}
 		
 		double maxShatter = CommonArray.maxValue(this.shatter);
@@ -40,23 +45,19 @@ public class PiePlot extends Plot{
 		double radius = (cm.getPlotWidth()/2) / (1 + maxShatter);
 		
 		double cumulativeAngle = startAngle;
+		
 		for (int sliceCount = 0; sliceCount < values.length; sliceCount++) {
 			
-			double angleToShatterTowards = Math.toRadians(-(cumulativeAngle + percentageOfPie[sliceCount]/2));
+			double angleToShatterTowards = Math.toRadians(-(cumulativeAngle + sliceDegrees[sliceCount]/2));
 			
-			Arc2D arc = new Arc2D.Float();
 			double xCenter = cm.imageLeftToPlotMidWidth() + radius * Math.cos(angleToShatterTowards) * this.shatter[sliceCount];
 			double yCenter = cm.imageBottomToPlotMidHeight() + radius * Math.sin(angleToShatterTowards) * this.shatter[sliceCount];
+			Color sliceColor = this.colorPalette[sliceCount % this.colorPalette.length];
 			
-			arc.setArcByCenter(xCenter, yCenter, radius, cumulativeAngle, percentageOfPie[sliceCount], Arc2D.PIE);
-			
-			cumulativeAngle += percentageOfPie[sliceCount];
-			
-			g.setColor(this.colorPalette[sliceCount % this.colorPalette.length]);
-			g.fill(arc);
+			drawSlice(g, sliceDegrees[sliceCount], radius, cumulativeAngle, sliceColor, xCenter, yCenter);
 			
 			if (this.includeProportionsOnPie) {
-				g.setColor(Color.white);
+				g.setColor(this.proportionsColor);
 
 				int xPos = (int)(cm.imageLeftToPlotMidWidth() + (radius * Math.cos(angleToShatterTowards)) * (this.shatter[sliceCount] + 0.5));
 				int yPos = (int)(cm.imageBottomToPlotMidHeight() + (radius * Math.sin(angleToShatterTowards)) * (this.shatter[sliceCount] + 0.5));
@@ -68,7 +69,46 @@ public class PiePlot extends Plot{
 				
 				
 			}
+			
+			cumulativeAngle += sliceDegrees[sliceCount];
 		}
+		
+	}
+
+
+	private void drawSlice(Graphics2D g, double degrees, double radius, double cumulativeAngle, Color color, double xCenter, double yCenter) {		
+		int numPoints = 200;
+		
+		GeneralPath slice = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+		
+		double normalized = Math.toRadians(-cumulativeAngle);
+		
+		double incrementAmount = Math.toRadians(degrees / (numPoints - 1));
+		
+		slice.moveTo(
+			Math.cos(normalized - (numPoints + 1) * incrementAmount) * radius * this.donutAmount + xCenter, 
+			Math.sin(normalized - (numPoints + 1) * incrementAmount) * radius * this.donutAmount + yCenter
+		);
+		
+		for (int i = numPoints; i > 0; i--) {
+			double xPoint = Math.cos(normalized  - i * incrementAmount) * radius * this.donutAmount + xCenter;
+			double yPoint = Math.sin(normalized  - i * incrementAmount) * radius * this.donutAmount + yCenter;
+			
+			slice.lineTo(xPoint, yPoint);
+		}
+		
+		for (int i = 0; i < numPoints; i++) {
+			
+			double xPoint = Math.cos(normalized - i * incrementAmount) * radius + xCenter;
+			double yPoint = Math.sin(normalized - i * incrementAmount) * radius + yCenter;
+			
+			slice.lineTo(xPoint, yPoint);
+			
+		}
+		slice.closePath();
+
+		g.setColor(color);
+		g.fill(slice);
 		
 	}
 
@@ -113,6 +153,32 @@ public class PiePlot extends Plot{
 
 	public void setProportionsFont(Font proportionsFont) {
 		this.proportionsFont = proportionsFont;
+	}
+
+
+	public double getDonutAmount() {
+		return donutAmount;
+	}
+	public void setDonutAmount(double donutAmount) {
+		this.donutAmount = donutAmount;
+	}
+
+
+	public Color getProportionsColor() {
+		return proportionsColor;
+	}
+
+
+	public void setProportionsColor(Color proportionsColor) {
+		this.proportionsColor = proportionsColor;
+	}
+
+
+	public boolean getUseSemiCircle() {
+		return useSemiCircle;
+	}
+	public void setUseSemiCircle(boolean useSemiCircle) {
+		this.useSemiCircle = useSemiCircle;
 	}
 
 
