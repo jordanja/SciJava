@@ -71,8 +71,8 @@ public class LinePlot extends Plot{
 		int[] xPoints;
 		int[] yPoints;
 		if (this.stepPlot) {
-			xPoints = new int[xValues.length * 2];
-			yPoints = new int[xValues.length * 2];
+			xPoints = new int[xValues.length * 2 - 1];
+			yPoints = new int[xValues.length * 2 - 1];
 			for (int i = 0; i < xValues.length; i++) {
 				Double currentXValue = xValues[i];
 				
@@ -89,7 +89,8 @@ public class LinePlot extends Plot{
 			}
 			
 			
-		} else {			
+		} else {
+			
 			xPoints = new int[xValues.length];
 			yPoints = new int[xValues.length];
 			

@@ -122,7 +122,7 @@ public class Main {
 		NumericAxis axis = (NumericAxis) lc.getAxis();
 		LinePlot plot = lc.getPlot();
 
-		plot.setStepPlot(true);
+ 		plot.setStepPlot(true);
 		
 		plot.setLineColor(Color.RED);
 		plot.setLineThickness(2);
