@@ -32,6 +32,7 @@ public class LinePlot extends Plot{
 	
 	private boolean dashedLine = false;
 
+	private boolean stepPlot = false;
 
 	public void drawPlot(Graphics2D g, NumericAxis axis, HashMap<Object, Object> data, XYChartMeasurements cm) {
 		boolean hasMultipleLines = (data.get(data.keySet().iterator().next()) instanceof HashMap);
@@ -67,18 +68,44 @@ public class LinePlot extends Plot{
 	private void drawLine(Graphics2D g, NumericAxis axis, HashMap<Double, Double> lineData, XYChartMeasurements cm, double[] xTicks, double[] yTicks) {
 		Double[] xValues = lineData.keySet().toArray(new Double[0]);
 		Arrays.sort(xValues);
-		int[] xPoints = new int[xValues.length];
-		int[] yPoints = new int[xValues.length];
-		for (int i = 0; i < xValues.length; i++) {
-			Double xValue = xValues[i];
+		int[] xPoints;
+		int[] yPoints;
+		if (this.stepPlot) {
+			xPoints = new int[xValues.length * 2];
+			yPoints = new int[xValues.length * 2];
+			for (int i = 0; i < xValues.length; i++) {
+				Double currentXValue = xValues[i];
+				
+				
+				xPoints[i * 2] = (int)xPlotValueToXPixelValue(currentXValue, xTicks, cm);
+				yPoints[i * 2] = (int)yPlotValueToYPixelValue((lineData.get(currentXValue)), yTicks, cm);
+				
+				if (i < xValues.length - 1) {
+					Double nextXValue = xValues[i + 1];
+					
+					xPoints[i * 2 + 1] = (int)xPlotValueToXPixelValue(nextXValue, xTicks, cm);
+					yPoints[i * 2 + 1] = (int)yPlotValueToYPixelValue((lineData.get(currentXValue)), yTicks, cm);
+				}
+			}
 			
-			int xPos = (int)xPlotValueToXPixelValue(xValue, xTicks, cm);
-			int yPos = (int)yPlotValueToYPixelValue((lineData.get(xValue)), yTicks, cm);
 			
-			xPoints[i] = xPos;
-			yPoints[i] = yPos;
+		} else {			
+			xPoints = new int[xValues.length];
+			yPoints = new int[xValues.length];
 			
+			for (int i = 0; i < xValues.length; i++) {
+				Double xValue = xValues[i];
+				
+				int xPos = (int)xPlotValueToXPixelValue(xValue, xTicks, cm);
+				int yPos = (int)yPlotValueToYPixelValue((lineData.get(xValue)), yTicks, cm);
+				
+				xPoints[i] = xPos;
+				yPoints[i] = yPos;
+				
+				
+			}
 		}
+		
 		
 		g.drawPolyline(xPoints, yPoints, xPoints.length);
 		if (this.drawMarkerDots) {
@@ -191,6 +218,14 @@ public class LinePlot extends Plot{
 	}
 	public void setDashedLine(boolean dashedLine) {
 		this.dashedLine = dashedLine;
+	}
+	
+
+	public boolean isStetPlot() {
+		return this.stepPlot;
+	}
+	public void setStepPlot(boolean stepPlot) {
+		this.stepPlot = stepPlot;
 	}
 
 }

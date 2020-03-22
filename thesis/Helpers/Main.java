@@ -38,10 +38,10 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
-		pieChart();
+//		pieChart();
 //		stripCharting();
 //		boxCharting();
-//		lineCharting();
+		lineCharting();
 //		barCharting();
 //		scatterCharting();
 //		dfPlay();
@@ -122,6 +122,8 @@ public class Main {
 		NumericAxis axis = (NumericAxis) lc.getAxis();
 		LinePlot plot = lc.getPlot();
 
+		plot.setStepPlot(true);
+		
 		plot.setLineColor(Color.RED);
 		plot.setLineThickness(2);
 //		plot.setMarkerDotColor(Color.WHITE);
