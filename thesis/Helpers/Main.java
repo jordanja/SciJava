@@ -29,8 +29,10 @@ import thesis.Charter.PlotFolder.PieChart;
 import thesis.Charter.PlotFolder.PiePlot;
 import thesis.Charter.PlotFolder.ScatterChart;
 import thesis.Charter.PlotFolder.ScatterPlot;
+import thesis.Charter.PlotFolder.StackedBarChart;
 import thesis.Charter.PlotFolder.StripChart;
 import thesis.Charter.PlotFolder.StripPlot;
+import thesis.Common.CommonArray;
 import thesis.DataFrame.*;
 import thesis.NumJa.NumJa;
 
@@ -38,15 +40,27 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
+		stackedAreaChart();
 //		pieChart();
 //		stripCharting();
 //		boxCharting();
-		lineCharting();
+//		lineCharting();
 //		barCharting();
 //		scatterCharting();
 //		dfPlay();
 
 		System.out.println("\n\nFINISHED EXECUTION");
+	}
+
+	private static void stackedAreaChart() {
+		DataFrame df = new DataFrame("Datasets/stacked.csv", true);
+		System.out.println(df);
+		
+		
+
+		StackedBarChart sbc = new StackedBarChart(df, "Quarter", "Sales", "Region");
+		
+		sbc.Create();
 	}
 
 	public static void pieChart() {
@@ -122,16 +136,16 @@ public class Main {
 		NumericAxis axis = (NumericAxis) lc.getAxis();
 		LinePlot plot = lc.getPlot();
 
- 		plot.setStepPlot(true);
+ 		plot.setShadeUnderLine(true);
 		
 		plot.setLineColor(Color.RED);
 		plot.setLineThickness(2);
-//		plot.setMarkerDotColor(Color.WHITE);
+		plot.setMarkerDotColor(Color.WHITE);
 //		plot.setMarkerDotOutlineColor(Color.BLACK);
 
 		plot.setLineColorPalette(Palette.generateUniqueColors(14));
 
-//		lc.colorCode("subject");
+		lc.colorCode("subject");
 
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");

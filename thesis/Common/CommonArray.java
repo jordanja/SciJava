@@ -130,4 +130,11 @@ public class CommonArray {
 		return arr;
 	}
 
+	public static void printArray(Object[] colorCodeValues) {
+		for (int i = 0; i < colorCodeValues.length; i++) {
+			System.out.println(i + ": " + colorCodeValues[i]);
+		}
+		
+	}
+
 }
