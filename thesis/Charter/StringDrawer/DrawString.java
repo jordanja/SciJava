@@ -9,6 +9,8 @@ import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 import thesis.Charter.Others.ChartMeasurements;
 import thesis.Charter.Others.XYChartMeasurements;
@@ -66,6 +68,11 @@ public class DrawString {
 
 	}
 
+	public static String formatDoubleForDisplay(Double num) {
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.HALF_DOWN);
+		return df.format(num);
+	}
 
 	public static Shape get2DBounds(String msg, Font font, float rotation) {
 		BufferedImage bi = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);

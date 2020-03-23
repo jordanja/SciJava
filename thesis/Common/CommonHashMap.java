@@ -26,4 +26,26 @@ public class CommonHashMap {
 		}
 		return max;
 	}
+	
+	public static void print3LevelHashMap(HashMap<String, HashMap<String, HashMap<String, Double>>> map) {
+		for (String outerKey: map.keySet()) {
+			System.out.println(outerKey + ": ");
+			for (String midKey: map.get(outerKey).keySet()) {
+				System.out.println("  " + midKey + ": ");
+				for (String innerKey: map.get(outerKey).get(midKey).keySet()) {
+					System.out.println("    " + innerKey + ": " + map.get(outerKey).get(midKey).get(innerKey));
+				}
+			}
+		}
+	}
+	
+	public static void print2LevelHashMap(HashMap<String, HashMap<String, Double>> map) {
+		for (String outerKey: map.keySet()) {
+			System.out.println(outerKey + ":");
+			for (String innerKey: map.get(outerKey).keySet()) {
+				System.out.println("  " + innerKey + ": " + map.get(outerKey).get(innerKey));
+			}
+			
+		}
+	}
 }

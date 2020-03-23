@@ -30,6 +30,7 @@ import thesis.Charter.PlotFolder.PiePlot;
 import thesis.Charter.PlotFolder.ScatterChart;
 import thesis.Charter.PlotFolder.ScatterPlot;
 import thesis.Charter.PlotFolder.StackedBarChart;
+import thesis.Charter.PlotFolder.StackedBarPlot;
 import thesis.Charter.PlotFolder.StripChart;
 import thesis.Charter.PlotFolder.StripPlot;
 import thesis.Common.CommonArray;
@@ -56,11 +57,12 @@ public class Main {
 		DataFrame df = new DataFrame("Datasets/stacked.csv", true);
 		System.out.println(df);
 		
-		
-
 		StackedBarChart sbc = new StackedBarChart(df, "Quarter", "Sales", "Region");
+		StackedBarPlot plot = sbc.getPlot();
+		plot.setDrawValuesOnBar(true);
 		
 		sbc.Create();
+		sbc.WriteFile("Chart Images/Stacked Bar Chart.png");
 	}
 
 	public static void pieChart() {
