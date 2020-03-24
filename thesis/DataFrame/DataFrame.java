@@ -556,7 +556,8 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			return;
 		}
 
-		this.data.get(colNum).set(rowNum, new DataItem(value, type));
+//		this.data.get(colNum).set(rowNum, new DataItem(value, type));
+		this.data.get(colNum).get(rowNum).setType(type);
 
 	}
 

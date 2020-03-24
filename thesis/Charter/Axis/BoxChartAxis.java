@@ -19,7 +19,6 @@ import thesis.DataFrame.DataItem;
 
 public class BoxChartAxis extends XYAxis {
 	
-	private NiceScale yNS;
 	private boolean includeAxisLinesOnPlot = true;
 	private Color axisLinesOnPlotColor = Color.WHITE;
 	
@@ -63,8 +62,7 @@ public class BoxChartAxis extends XYAxis {
 			}
 		}
 		
-		
-		yNS = new NiceScale(minValue, maxValue);
+		NiceScale yNS = new NiceScale(minValue, maxValue);
 		
 		
 		this.yTicks = new String[1 + (int)(Math.ceil(yNS.getNiceMax()/yNS.getTickSpacing()))];
@@ -73,12 +71,6 @@ public class BoxChartAxis extends XYAxis {
 			double tickValue = i * yNS.getTickSpacing();
 			this.yTicks[i] = String.valueOf(tickValue);
 		}
-	}
-	
-	
-
-	public NiceScale getyNS() {
-		return yNS;
 	}
 
 	

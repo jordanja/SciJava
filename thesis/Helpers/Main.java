@@ -11,11 +11,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.BarChartAxis;
-import thesis.Charter.Axis.LineChartAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.LegendPackage.Legend;
 import thesis.Charter.Others.XYChartMeasurements;
@@ -41,12 +41,12 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
-		stackedAreaChart();
+//		stackedAreaChart();
 //		pieChart();
 //		stripCharting();
 //		boxCharting();
 //		lineCharting();
-//		barCharting();
+		barCharting();
 //		scatterCharting();
 //		dfPlay();
 
@@ -118,7 +118,7 @@ public class Main {
 
 		bc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
 
-		XYChartMeasurements cm = bc.getChartMeadurements();
+		XYChartMeasurements cm = bc.getChartMeasurements();
 
 		cm.setPlotWidth(800);
 
@@ -167,7 +167,7 @@ public class Main {
 
 		BarChartAxis axis = (BarChartAxis) bc.getAxis();
 		BarPlot plot = bc.getPlot();
-		XYChartMeasurements cm = bc.getChartMeadurements();
+		XYChartMeasurements cm = bc.getChartMeasurements();
 
 		axis.setIncludeBottomXAxisTicks(true, true);
 		axis.setIncludeTopXAxisTicks(true, true);
@@ -211,7 +211,7 @@ public class Main {
 
 		sc.setTitle("sepal_length vs sepal_width");
 		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-//		sc.colorCode("species");
+		sc.colorCode("sex");
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
 
@@ -269,7 +269,7 @@ public class Main {
 
 		cm.setRightAxisLabelToLegendWidth(40);
 
-		sc.setIncludeLegend(false);
+		sc.setIncludeLegend(true);
 
 		sc.Create();
 		sc.WriteFile("Chart Images/Scatter Chart.png");
@@ -277,7 +277,7 @@ public class Main {
 	}
 
 	private static void dfPlay() {
-		DataFrame df = play();
+//		DataFrame df = play();
 //		DataFrame df = csvConstructor();
 //		DataFrame df = hashColsConstructor();
 //		DataFrame df = hashRowsConstructor();
@@ -286,10 +286,22 @@ public class Main {
 //		DataFrame df = multipleColumns();
 //		DataFrame df = arrays();
 
+		DataFrame df = time();
+		
 		System.out.println(df);
 
 	}
 
+	public static DataFrame time() {
+		DataFrame df = new DataFrame("Datasets/time.csv", true);
+		df.setColumnType(0, DataItem.StorageType.Date);
+		df.setColumnType(1, DataItem.StorageType.Integer);
+		System.out.println(df.getValue(0, 0).getType());
+		System.out.println(df.getValue(1, 0).getType());
+		
+		return df;
+	}
+	
 	public static DataFrame play() {
 
 		HashMap<String, ArrayList<Object>> map = new HashMap<String, ArrayList<Object>>();
@@ -300,9 +312,9 @@ public class Main {
 		arr1.add(3);
 
 		ArrayList<Object> arr2 = new ArrayList<Object>();
-		arr2.add(3);
-		arr2.add(4);
-		arr2.add(5);
+		arr2.add(LocalDate.now());
+		arr2.add(LocalDate.now().plusDays(1));
+		arr2.add(LocalDate.now().plusDays(2));
 
 		map.put("one", arr1);
 		map.put("two", arr2);

@@ -1,12 +1,7 @@
 package thesis.DataFrame;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
-import thesis.Helpers.TypeCheckers;
 
 public class DataItem {
 	private String strValue;
@@ -14,10 +9,7 @@ public class DataItem {
 	private Double doubleValue;
 	private LocalDate dateValue;
 
-	public enum StorageType {
-		String, Integer, Double, Null, Date
-	};
-
+	public enum StorageType {String, Integer, Double, Null, Date};
 	StorageType type;
 
 	public DataItem() {
@@ -25,7 +17,7 @@ public class DataItem {
 	}
 
 	public DataItem(Object value, StorageType type) {
-		initialize(type, String.valueOf(value));
+		initialize(type, value);
 	}
 
 	public DataItem(Object value) {
@@ -91,7 +83,7 @@ public class DataItem {
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue = (Double) value;
 		} else if (this.type == StorageType.Date) {
-			this.dateValue = (LocalDate) value;
+			this.dateValue = LocalDate.parse(value.toString());
 
 		} else {
 			System.out.println("You have entered an incompatible type: " + value.getClass());

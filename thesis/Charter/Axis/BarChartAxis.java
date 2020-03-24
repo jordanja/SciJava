@@ -21,7 +21,6 @@ import thesis.DataFrame.DataItem;
 
 public class BarChartAxis extends XYAxis {
 	
-	private NiceScale yNS;
 	private boolean includeAxisLinesOnPlot = true;
 	private Color axisLinesOnPlotColor = Color.WHITE;
 	
@@ -40,7 +39,7 @@ public class BarChartAxis extends XYAxis {
 			maxY = CommonHashMap.maxValueInHashMap(data);
 		}
 		
-		yNS = new NiceScale(0, maxY);
+		NiceScale yNS = new NiceScale(0, maxY);
 		
 		
 		this.yTicks = new String[1 + (int)(Math.ceil(yNS.getNiceMax()/yNS.getTickSpacing()))];
@@ -49,11 +48,6 @@ public class BarChartAxis extends XYAxis {
 			double tickValue = i * yNS.getTickSpacing();
 			this.yTicks[i] = String.valueOf(tickValue);
 		}
-	}
-	
-
-	public NiceScale getyNS() {
-		return yNS;
 	}
 
 	

@@ -15,7 +15,7 @@ import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 
 public class StripChartAxis extends XYAxis {
-	private NiceScale yNS;
+	
 	private boolean includeAxisLinesOnPlot = true;
 	private Color axisLinesOnPlotColor = Color.WHITE;
 
@@ -53,8 +53,7 @@ public class StripChartAxis extends XYAxis {
 				}
 			}
 		}
-
-		this.yNS = new NiceScale(minValue, maxValue);
+		NiceScale yNS = new NiceScale(minValue, maxValue);
 
 		this.yTicks = new String[1 + (int) (Math.ceil(yNS.getNiceMax() / yNS.getTickSpacing()))];
 
@@ -62,10 +61,6 @@ public class StripChartAxis extends XYAxis {
 			double tickValue = i * yNS.getTickSpacing();
 			this.yTicks[i] = String.valueOf(tickValue);
 		}
-	}
-
-	public NiceScale getyNS() {
-		return yNS;
 	}
 
 	public void drawAxis(Graphics2D g, XYChartMeasurements cm) {

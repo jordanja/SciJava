@@ -23,17 +23,6 @@ public class NumericAxis extends XYAxis {
 	private double smallestY;
 	private double largestY;
 
-	private NiceScale xNS;
-	private NiceScale yNS;
-
-	public NiceScale getxNS() {
-		return xNS;
-	}
-
-	public NiceScale getyNS() {
-		return yNS;
-	}
-
 	private boolean includeAxisLinesOnPlot = true;
 	private Color axisLinesOnPlotColor = Color.WHITE;
 
@@ -160,7 +149,8 @@ public class NumericAxis extends XYAxis {
 	}
 
 	public void calculateXAxis(Double minimum, Double maximum) {
-
+		NiceScale xNS;
+		
 		this.smallestX = minimum;
 		this.largestX = maximum;
 
@@ -170,7 +160,7 @@ public class NumericAxis extends XYAxis {
 			xNS = new NiceScale(smallestX, largestX);
 		}
 
-		super.xTicks = new String[(int) Math
+		this.xTicks = new String[(int) Math
 				.ceil((((largestX - xNS.getNiceMin()) + xNS.getTickSpacing()) / xNS.getTickSpacing()) + 1)];
 		int count = 0;
 
@@ -183,7 +173,9 @@ public class NumericAxis extends XYAxis {
 	}
 
 	public void calculateYAxis(Double minimum, Double maximum) {
-
+		
+		NiceScale yNS;
+		
 		this.smallestY = minimum;
 		this.largestY = maximum;
 
@@ -193,7 +185,7 @@ public class NumericAxis extends XYAxis {
 			yNS = new NiceScale(smallestY, largestY);
 		}
 
-		super.yTicks = new String[(int) Math
+		this.yTicks = new String[(int) Math
 				.ceil((((largestY - yNS.getNiceMin()) + yNS.getTickSpacing()) / yNS.getTickSpacing()) + 1)];
 		int count = 0;
 		for (double yTickNum = yNS.getNiceMin(); count < this.yTicks.length; yTickNum += yNS.getTickSpacing()) {
