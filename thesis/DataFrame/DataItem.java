@@ -3,6 +3,7 @@ package thesis.DataFrame;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import thesis.Helpers.TypeCheckers;
@@ -28,9 +29,6 @@ public class DataItem {
 	}
 
 	public DataItem(Object value) {
-//		System.out.println(value.getClass());
-//		String strValue = String.valueOf(value);
-
 		StorageType typeOfObject = null;
 		if (value == null) {
 			type = StorageType.Null;
@@ -132,8 +130,60 @@ public class DataItem {
 		return stringList;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	public void setType(StorageType typeToUse) {
+
+		if (this.type == StorageType.String) {
+			switch (typeToUse) {
+				case Integer:
+					this.intValue = Integer.parseInt(this.strValue);
+					break;
+				case Double:
+					this.doubleValue = Double.parseDouble(this.strValue);
+					break;
+				case Date:
+					this.dateValue = LocalDate.parse(this.strValue);
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+			this.strValue = null;
+		} else if (this.type == StorageType.Integer) {
+			switch(typeToUse) {
+				case String:
+					this.strValue = this.intValue.toString();
+					break;
+				case Double:
+					this.doubleValue = this.intValue.doubleValue();
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+			this.intValue = null;
+		} else if (this.type == StorageType.Double) {
+			switch(typeToUse) {
+				case String:
+					this.strValue = this.doubleValue.toString();
+					break;
+				case Integer:
+					this.intValue = this.doubleValue.intValue();
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+			this.doubleValue = null;
+		} else if (this.type == StorageType.Date) {
+			switch(typeToUse) {
+				case String:
+					this.strValue = this.dateValue.toString();
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+			this.dateValue = null;
+		}
 		this.type = typeToUse;
+
 	}
 
 	public StorageType getType() {
