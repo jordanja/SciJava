@@ -80,7 +80,7 @@ public class BarPlot extends Plot {
 					int boxHeight = yTickNumToPlotY(colorCodeValues.get(colorCode), yTicks, cm)
 							- yTickNumToPlotY(0, yTicks, cm);
 					
-					drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, (double) colorCodeValues.get(colorCode), cm);
+					drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, colorCodeValues.get(colorCode), cm);
 
 					colorCodeCount++;
 				}

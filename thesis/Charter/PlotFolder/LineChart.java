@@ -32,7 +32,7 @@ public class LineChart extends XYChart {
 		this.plot = new LinePlot();
 		this.legend = new Legend();
 
-		cm = new XYChartMeasurements();
+		this.cm = new XYChartMeasurements();
 
 	}
 
@@ -59,31 +59,31 @@ public class LineChart extends XYChart {
 			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
 		}
 
-		cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
+		this.cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
 
-		instantiateChart(cm);
+		instantiateChart(this.cm);
 
-		Graphics2D g = initializaGraphicsObject(cm);
-		drawBackground(g, cm);
+		Graphics2D g = initializaGraphicsObject(this.cm);
+		drawBackground(g, this.cm);
 
-		this.plot.drawPlotBackground(g, cm);
+		this.plot.drawPlotBackground(g, this.cm);
 		
-		this.axis.drawAxis(g, cm);
+		this.axis.drawAxis(g, this.cm);
 		
-		this.plot.drawPlotOutline(g, cm);
+		this.plot.drawPlotOutline(g, this.cm);
 		
-		this.axis.drawAxisTicks(g, cm);
+		this.axis.drawAxisTicks(g, this.cm);
 		
-		this.plot.drawPlot(g, this.axis, data, cm);
+		this.plot.drawPlot(g, this.axis, data, this.cm);
 	
-		this.axis.drawXAxisLabel(g, cm);
-		this.axis.drawYAxisLabel(g, cm);
+		this.axis.drawXAxisLabel(g, this.cm);
+		this.axis.drawYAxisLabel(g, this.cm);
 		
 		if (this.legend.getIncludeLegend()) {
-			this.legend.drawLegend(g, cm, this.plot.getLineColorPalette());
+			this.legend.drawLegend(g, this.cm, this.plot.getLineColorPalette());
 		}
 		
-		this.drawTitle(g, cm);
+		this.drawTitle(g, this.cm);
 	}
 	
 	private Double minimumYValue(HashMap<Object, Object> data) { 

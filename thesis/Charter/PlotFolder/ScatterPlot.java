@@ -17,44 +17,43 @@ import thesis.Helpers.Palette;
 
 public class ScatterPlot extends Plot {
 
-	
 	private boolean includeLinearRegression;
 	private Color linearRegLineColor = Color.BLACK;
-	
+
 	private int dataPointRadius = 10;
 	private boolean includeDataPointOutline;
 	private int outlineWidth = 2;
 	private Color dataPointOutlineColor = Color.WHITE;
-	
+
 	private Color dataPointColor = Color.BLACK;
 	private float dataPointTransparency = 1;
-	
+
 	private Color[] colorPalette = Palette.Default;
 
 	public ScatterPlot() {
-		
+
 	}
 
 	public void setDataPointColor(Color color) {
 		this.dataPointColor = color;
 	}
-	
+
 	public void setDataPointTransparency(float dataPointTransparency) {
 		this.dataPointTransparency = dataPointTransparency;
 	}
-	
+
 	public void setDataPointRadius(int radius) {
 		this.dataPointRadius = radius;
 	}
-	
+
 	public void includeDataPointOutline(boolean includeDataPointOutline) {
 		this.includeDataPointOutline = includeDataPointOutline;
 	}
-	
+
 	public void setOutlineColor(Color dataPointOutlineColor) {
 		this.dataPointOutlineColor = dataPointOutlineColor;
 	}
-	
+
 	public void setOutlineWidth(int width) {
 		this.outlineWidth = width;
 	}
@@ -62,10 +61,11 @@ public class ScatterPlot extends Plot {
 	public Color[] getColorPalette() {
 		return this.colorPalette;
 	}
+
 	public void setColorPalette(Color[] colorPalette) {
 		this.colorPalette = colorPalette;
 	}
-	
+
 	public void includeLinearRegression(boolean includeLinearRegression) {
 		this.includeLinearRegression = includeLinearRegression;
 	}
@@ -73,112 +73,98 @@ public class ScatterPlot extends Plot {
 	public void setLinearRegressionLineColor(Color linearRegLineColor) {
 		this.linearRegLineColor = linearRegLineColor;
 	}
-	
-	
-	
+
 	public boolean getIncludeLinearRegression() {
 		return this.includeLinearRegression;
 	}
-	
-	
-	
+
 	public void drawLinearRegression(Graphics2D g, NumericAxis axis, DataItem[] xData, DataItem[] yData, XYChartMeasurements cm) {
-		
-		if (this.includeLinearRegression != true) {
+
+		if (!this.includeLinearRegression) {
 			return;
 		}
-		double[] xTicks = Arrays.stream(axis.getXTicks())
-                .mapToDouble(Double::parseDouble)
-                .toArray();
-		double[] yTicks = Arrays.stream(axis.getYTicks())
-                .mapToDouble(Double::parseDouble)
-                .toArray();
-		
-		NiceScale xNS = axis.getxNS();
-		NiceScale yNS = axis.getyNS();
-		
+		double[] xTicks = axis.getXTicksValues();
+		double[] yTicks = axis.getYTicksValues();
+
 		double meanX = CommonMath.average(xData);
-		
+
 		double meanY = CommonMath.average(yData);
-		
+
 		double varianceX = CommonMath.variance(xData);
-		
+
 		double covarianceXY = CommonMath.covariance(xData, yData, meanX, meanY);
-		
-		double w1 = covarianceXY/varianceX;
-		
+
+		double w1 = covarianceXY / varianceX;
+
 		double w0 = meanY - w1 * meanX;
 		// y = w0 + w1 * x
-		
-		double x0 = xNS.getNiceMin();
-		double y0 = w0 + w1 * xNS.getNiceMin();
-		
+
+		double x0 = xTicks[0];
+		double y0 = w0 + w1 * xTicks[0];
+
 		double x1 = xTicks[xTicks.length - 1];
 		double y1 = w0 + w1 * xTicks[xTicks.length - 1];
-		
-		int xPos0 = (int)worldXPosToPlotXPos(x0, xNS, xTicks, cm);
-		int yPos0 = (int)worldYPosToPlotYPos(y0, yNS, yTicks, cm);
-		
-		int xPos1 = (int)worldXPosToPlotXPos(x1, xNS, xTicks, cm);
-		int yPos1 = (int)worldYPosToPlotYPos(y1, yNS, yTicks, cm);
 
-		
+		int xPos0 = worldXPosToPlotXPos(x0, xTicks, cm);
+		int yPos0 = worldYPosToPlotYPos(y0, yTicks, cm);
+
+		int xPos1 = worldXPosToPlotXPos(x1, xTicks, cm);
+		int yPos1 = worldYPosToPlotYPos(y1, yTicks, cm);
+
 		g.setColor(this.linearRegLineColor);
 		g.drawLine(Math.max(xPos0, cm.imageLeftToPlotLeftWidth()), Math.max(yPos0, cm.imageBottomToPlotBottomHeight()), xPos1, yPos1);
-		
+
 	}
-	
 
 	public void drawPlot(Graphics2D g, NumericAxis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues, XYChartMeasurements cm) {
-		double[] xTicks = Arrays.stream(axis.getXTicks())
-                .mapToDouble(Double::parseDouble)
-                .toArray();
-		double[] yTicks = Arrays.stream(axis.getYTicks())
-                .mapToDouble(Double::parseDouble)
-                .toArray();
-		
+		double[] xTicks = axis.getXTicksValues();
+		double[] yTicks = axis.getYTicksValues();
+
 		g.setStroke(new BasicStroke(this.outlineWidth));
 
 		for (int dataPointNumber = 0; dataPointNumber < xData.length; dataPointNumber++) {
-			
-			int xPos = (int)worldXPosToPlotXPos(xData[dataPointNumber].getValueConvertedToDouble(), axis.getxNS(), xTicks,cm);
-			int yPos = (int)worldYPosToPlotYPos(yData[dataPointNumber].getValueConvertedToDouble(), axis.getyNS(), yTicks,cm);
+
+			int xPos = worldXPosToPlotXPos(xData[dataPointNumber].getValueConvertedToDouble(), xTicks, cm);
+			int yPos = worldYPosToPlotYPos(yData[dataPointNumber].getValueConvertedToDouble(), yTicks, cm);
 //			System.out.println(xPos + " " + yPos);
 			drawDataPoint(g, xPos, yPos, dataPointNumber, colorCodeValues);
-			
+
 		}
 	}
-	
+
 	private void drawDataPoint(Graphics2D g, int xCenter, int yCenter, int dataPointNumber, Object[] colorCodeValues) {
-		
-		if (colorCodeValues == null) {		
-			
-			g.setColor(new Color(this.dataPointColor.getRed(), this.dataPointColor.getGreen(), this.dataPointColor.getBlue(), Math.round(this.dataPointTransparency*255)));
+
+		if (colorCodeValues == null) {
+
+			g.setColor(new Color(this.dataPointColor.getRed(), this.dataPointColor.getGreen(),
+					this.dataPointColor.getBlue(), Math.round(this.dataPointTransparency * 255)));
 		} else {
 			String[] uniquecolorCodeValues = new HashSet<>(Arrays.asList(colorCodeValues)).toArray(new String[0]);
 
-			
-			int colorCodeValue = CommonMath.elementNumInArray(uniquecolorCodeValues, colorCodeValues[dataPointNumber]) % (this.colorPalette.length - 1);
+			int colorCodeValue = CommonMath.elementNumInArray(uniquecolorCodeValues, colorCodeValues[dataPointNumber])
+					% (this.colorPalette.length - 1);
 			g.setColor(this.colorPalette[colorCodeValue]);
-			
+
 		}
-		
-		g.fillOval(xCenter - this.dataPointRadius/2, yCenter - this.dataPointRadius/2, this.dataPointRadius, this.dataPointRadius);
-		
-		
-		if (this.includeDataPointOutline) {			
+
+		g.fillOval(xCenter - this.dataPointRadius / 2, yCenter - this.dataPointRadius / 2, this.dataPointRadius,
+				this.dataPointRadius);
+
+		if (this.includeDataPointOutline) {
 			g.setColor(this.dataPointOutlineColor);
-			g.drawOval(xCenter - this.dataPointRadius/2, yCenter - this.dataPointRadius/2, this.dataPointRadius, this.dataPointRadius);
+			g.drawOval(xCenter - this.dataPointRadius / 2, yCenter - this.dataPointRadius / 2, this.dataPointRadius,
+					this.dataPointRadius);
 		}
-	}
-	
-	private double worldXPosToPlotXPos(double xPos, NiceScale xNS, double[] xTicks, XYChartMeasurements cm) {
-		return CommonMath.map(xPos, xNS.getNiceMin(), xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(), cm.imageLeftToPlotRightWidth());
-	}
-	
-	private double worldYPosToPlotYPos(double yPos, NiceScale yNS, double[] yTicks, XYChartMeasurements cm) {
-		return CommonMath.map(yPos, yNS.getNiceMin(), yTicks[yTicks.length - 1 ], cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 	}
 
+	private int worldXPosToPlotXPos(double xPos, double[] xTicks, XYChartMeasurements cm) {
+		return CommonMath.map(xPos, xTicks[0], xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(),
+				cm.imageLeftToPlotRightWidth());
+	}
+
+	private int worldYPosToPlotYPos(double yPos, double[] yTicks, XYChartMeasurements cm) {
+		return CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1], cm.imageBottomToPlotBottomHeight(),
+				cm.imageBottomToPlotTopHeight());
+	}
 
 }

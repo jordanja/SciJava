@@ -28,7 +28,7 @@ public class ScatterChart extends XYChart {
 		this.plot = (ScatterPlot) PlotFactory.getPlot("Scatter");
 		this.legend = new Legend();
 
-		cm = new XYChartMeasurements();
+		this.cm = new XYChartMeasurements();
 
 	}
 
@@ -80,40 +80,40 @@ public class ScatterChart extends XYChart {
 	}
 
 	public void Create() {
-		this.axis.calculateXAxis(CommonMath.minimumValue(xData), CommonMath.maximumValue(xData));
-		this.axis.calculateYAxis(CommonMath.minimumValue(yData), CommonMath.maximumValue(yData));
+		this.axis.calculateXAxis(CommonMath.minimumValue(this.xData), CommonMath.maximumValue(this.xData));
+		this.axis.calculateYAxis(CommonMath.minimumValue(this.yData), CommonMath.maximumValue(this.yData));
 
 		if (this.legend.getIncludeLegend()) {
 			this.legend.calculateLegend(this.colorCodeLabel, this.colorCodeValues);
 		}
 
-		cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
+		this.cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
 
-		instantiateChart(cm);
-		Graphics2D g = initializaGraphicsObject(cm);
+		this.instantiateChart(this.cm);
+		Graphics2D g = initializaGraphicsObject(this.cm);
 
-		drawBackground(g, cm);
+		this.drawBackground(g, this.cm);
 
-		this.plot.drawPlotBackground(g, cm);
+		this.plot.drawPlotBackground(g, this.cm);
 
-		this.axis.drawAxis(g, cm);
+		this.axis.drawAxis(g, this.cm);
 
-		this.plot.drawLinearRegression(g, this.axis, xData, yData, cm);
+		this.plot.drawLinearRegression(g, this.axis, this.xData, this.yData, this.cm);
 
-		this.plot.drawPlotOutline(g, cm);
+		this.plot.drawPlotOutline(g, this.cm);
 
-		this.axis.drawAxisTicks(g, cm);
+		this.axis.drawAxisTicks(g, this.cm);
 
-		this.plot.drawPlot(g, this.axis, xData, yData, colorCodeValues, cm);
+		this.plot.drawPlot(g, this.axis, this.xData, this.yData, this.colorCodeValues, this.cm);
 
-		this.axis.drawXAxisLabel(g, cm);
-		this.axis.drawYAxisLabel(g, cm);
+		this.axis.drawXAxisLabel(g, this.cm);
+		this.axis.drawYAxisLabel(g, this.cm);
 
 		if (this.legend.getIncludeLegend()) {
-			this.legend.drawLegend(g, cm, this.plot.getColorPalette());
+			this.legend.drawLegend(g, this.cm, this.plot.getColorPalette());
 		}
 
-		this.drawTitle(g, cm);
+		this.drawTitle(g, this.cm);
 
 //		this.drawXDebugLines(g, cm);
 //		this.drawYDebugLines(g, cm);

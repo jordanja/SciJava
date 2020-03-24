@@ -226,7 +226,7 @@ public class DataItem {
 
 	public Double getValueConvertedToDouble() {
 		try {
-			return Double.parseDouble(String.valueOf(getObjectValue()));
+			return Double.parseDouble(getObjectValue().toString());
 		} catch (Exception e) {
 			return null;
 		}

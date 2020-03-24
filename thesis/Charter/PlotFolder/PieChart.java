@@ -29,7 +29,7 @@ public class PieChart extends Chart {
 		
 		this.plot = new PiePlot();
 		this.legend = new Legend();
-		cm = new PieChartMeasurements();
+		this.cm = new PieChartMeasurements();
 		
 	}
 	
@@ -37,33 +37,33 @@ public class PieChart extends Chart {
 	@Override
 	public void Create() {
 		this.legend.calculateLegend(this.legendLabel, CommonArray.convertStringArrayToObjectArray(labels));
-		cm.calculateChartImageMetrics(this.legend, this.getTitle(), this.getTitleFont());
+		this.cm.calculateChartImageMetrics(this.legend, this.getTitle(), this.getTitleFont());
 		
-		instantiateChart(cm);
+		this.instantiateChart(this.cm);
 
-		Graphics2D g = initializaGraphicsObject(cm);
+		Graphics2D g = initializaGraphicsObject(this.cm);
 		
-		drawBackground(g, cm);
+		this.drawBackground(g, this.cm);
 		
 		this.plot.setPlotBackgroundColor(Color.white);
 		
-		this.plot.drawPlotBackground(g, cm);
-		this.plot.drawPlotOutline(g, cm);
+		this.plot.drawPlotBackground(g, this.cm);
+		this.plot.drawPlotOutline(g, this.cm);
 		
-		this.plot.drawPlot(g, this.labels, this.values, cm);
+		this.plot.drawPlot(g, this.labels, this.values, this.cm);
 		
-		this.legend.drawLegend(g, cm, this.plot.getColorPalette());
+		this.legend.drawLegend(g, this.cm, this.plot.getColorPalette());
 		
-		this.drawTitle(g, cm);
+		this.drawTitle(g, this.cm);
 	}
 
 
-	public PieChartMeasurements getCm() {
-		return cm;
+	public PieChartMeasurements getChartMeasurements() {
+		return this.cm;
 	}
 
 
-	public void setCm(PieChartMeasurements cm) {
+	public void setChartMeasurements(PieChartMeasurements cm) {
 		this.cm = cm;
 	}
 

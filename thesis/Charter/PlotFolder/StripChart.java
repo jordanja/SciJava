@@ -44,7 +44,7 @@ public class StripChart extends XYChart{
 		this.plot = new StripPlot();
 		this.legend = new Legend();
 		
-		cm = new XYChartMeasurements();
+		this.cm = new XYChartMeasurements();
 	}
 
 	@Override
@@ -64,31 +64,31 @@ public class StripChart extends XYChart{
 			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
 		}
 
-		cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
+		this.cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
 
-		instantiateChart(cm);
+		this.instantiateChart(this.cm);
 
-		Graphics2D g = initializaGraphicsObject(cm);
-		drawBackground(g, cm);
+		Graphics2D g = initializaGraphicsObject(this.cm);
+		this.drawBackground(g, this.cm);
 
-		this.plot.drawPlotBackground(g, cm);
+		this.plot.drawPlotBackground(g, this.cm);
 
-		this.axis.drawAxis(g, cm);
+		this.axis.drawAxis(g, this.cm);
 		
-		this.plot.drawPlotOutline(g, cm);
+		this.plot.drawPlotOutline(g, this.cm);
 
-		this.axis.drawAxisTicks(g, cm);
+		this.axis.drawAxisTicks(g, this.cm);
 		
-		this.plot.drawPlot(g, this.axis, data, xDataOrdered, typeOfData, cm);
+		this.plot.drawPlot(g, this.axis, data, xDataOrdered, typeOfData, this.cm);
 
-		this.axis.drawXAxisLabel(g, cm);
-		this.axis.drawYAxisLabel(g, cm);
+		this.axis.drawXAxisLabel(g, this.cm);
+		this.axis.drawYAxisLabel(g, this.cm);
 
 		if (this.legend.getIncludeLegend()) {
-			this.legend.drawLegend(g, cm, this.plot.getColorPalette());
+			this.legend.drawLegend(g, this.cm, this.plot.getColorPalette());
 		}
 
-		this.drawTitle(g, cm);
+		this.drawTitle(g, this.cm);
 		
 	}
 	

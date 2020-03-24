@@ -42,7 +42,7 @@ public class BoxChart extends XYChart{
 		this.plot = new BoxPlot();
 		this.legend = new Legend();
 		
-		cm = new XYChartMeasurements();
+		this.cm = new XYChartMeasurements();
 	}
 
 	@Override
@@ -60,31 +60,31 @@ public class BoxChart extends XYChart{
 			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
 		}
 
-		cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
+		this.cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
 
-		instantiateChart(cm);
+		this.instantiateChart(this.cm);
 
-		Graphics2D g = initializaGraphicsObject(cm);
-		drawBackground(g, cm);
+		Graphics2D g = initializaGraphicsObject(this.cm);
+		this.drawBackground(g, this.cm);
 
-		this.plot.drawPlotBackground(g, cm);
+		this.plot.drawPlotBackground(g, this.cm);
 
-		this.axis.drawAxis(g, cm);
+		this.axis.drawAxis(g, this.cm);
 		
-		this.plot.drawPlotOutline(g, cm);
+		this.plot.drawPlotOutline(g, this.cm);
 
-		this.axis.drawAxisTicks(g, cm);
+		this.axis.drawAxisTicks(g, this.cm);
 		
-		this.plot.drawPlot(g, this.axis, data, xDataOrdered, typeOfData, cm);
+		this.plot.drawPlot(g, this.axis, data, xDataOrdered, typeOfData, this.cm);
 
-		this.axis.drawXAxisLabel(g, cm);
-		this.axis.drawYAxisLabel(g, cm);
+		this.axis.drawXAxisLabel(g, this.cm);
+		this.axis.drawYAxisLabel(g, this.cm);
 
 		if (this.legend.getIncludeLegend()) {
-			this.legend.drawLegend(g, cm, this.plot.getBoxColorPalette());
+			this.legend.drawLegend(g, this.cm, this.plot.getBoxColorPalette());
 		}
 
-		this.drawTitle(g, cm);
+		this.drawTitle(g, this.cm);
 	}
 
 	private String[] getXDataOrdered(String typeOfData) {
@@ -267,7 +267,7 @@ public class BoxChart extends XYChart{
 		this.legend.setIncludeLegend(true);
 	}
 	
-	public XYChartMeasurements getChartMeadurements() {
+	public XYChartMeasurements getChartMeasurements() {
 		return this.cm;
 	}
 	
