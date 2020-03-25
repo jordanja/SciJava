@@ -9,7 +9,8 @@ import java.util.List;
 
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;
@@ -116,42 +117,42 @@ public class ScatterPlot extends Plot {
 
 	}
 
-	public void drawPlot(Graphics2D g, NumericAxis axis, DataItem[] xData, DataItem[] yData, Object[] colorCodeValues, XYChartMeasurements cm) {
+	public void drawPlot(Graphics2D g, NumericAxis axis, DataItem[] xData, DataItem[] yData, String[] colorCodeValues, XYChartMeasurements cm) {
 		double[] xTicks = axis.getXTicksValues();
 		double[] yTicks = axis.getYTicksValues();
-
-		g.setStroke(new BasicStroke(this.outlineWidth));
 
 		for (int dataPointNumber = 0; dataPointNumber < xData.length; dataPointNumber++) {
 
 			int xPos = worldXPosToPlotXPos(xData[dataPointNumber].getValueConvertedToDouble(), xTicks, cm);
 			int yPos = worldYPosToPlotYPos(yData[dataPointNumber].getValueConvertedToDouble(), yTicks, cm);
-//			System.out.println(xPos + " " + yPos);
-			drawDataPoint(g, xPos, yPos, dataPointNumber, colorCodeValues);
+
+			Color dataPointColor;
+			
+			if (colorCodeValues == null) {
+				dataPointColor = new Color(this.dataPointColor.getRed(), this.dataPointColor.getGreen(), this.dataPointColor.getBlue(), Math.round(this.dataPointTransparency * 255));
+			} else {
+				String[] uniquecolorCodeValues = CommonArray.removeDuplicates(colorCodeValues);
+			
+				
+				int colorCodeValue = CommonMath.elementNumInArray(uniquecolorCodeValues, colorCodeValues[dataPointNumber]) % (this.colorPalette.length - 1);
+				dataPointColor = this.colorPalette[colorCodeValue];
+
+			}
+			drawDataPoint(g, xPos, yPos, dataPointNumber, dataPointColor);
 
 		}
 	}
 
-	private void drawDataPoint(Graphics2D g, int xCenter, int yCenter, int dataPointNumber, Object[] colorCodeValues) {
+	private void drawDataPoint(Graphics2D g, int xCenter, int yCenter, int dataPointNumber, Color dataPointColor) {
 
-		if (colorCodeValues == null) {
-
-			g.setColor(new Color(this.dataPointColor.getRed(), this.dataPointColor.getGreen(),
-					this.dataPointColor.getBlue(), Math.round(this.dataPointTransparency * 255)));
-		} else {
-			String[] uniquecolorCodeValues = new HashSet<>(Arrays.asList(colorCodeValues)).toArray(new String[0]);
-
-			int colorCodeValue = CommonMath.elementNumInArray(uniquecolorCodeValues, colorCodeValues[dataPointNumber])
-					% (this.colorPalette.length - 1);
-			g.setColor(this.colorPalette[colorCodeValue]);
-
-		}
+		g.setColor(dataPointColor);
 
 		g.fillOval(xCenter - this.dataPointRadius / 2, yCenter - this.dataPointRadius / 2, this.dataPointRadius,
 				this.dataPointRadius);
 
 		if (this.includeDataPointOutline) {
 			g.setColor(this.dataPointOutlineColor);
+			g.setStroke(new BasicStroke(this.outlineWidth));
 			g.drawOval(xCenter - this.dataPointRadius / 2, yCenter - this.dataPointRadius / 2, this.dataPointRadius,
 					this.dataPointRadius);
 		}

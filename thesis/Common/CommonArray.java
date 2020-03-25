@@ -2,6 +2,7 @@ package thesis.Common;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CommonArray {
@@ -14,7 +15,16 @@ public class CommonArray {
 			}
 		}
 		return newList.toArray(new Double[0]);
-
+	}
+	
+	public static Object[] removeDuplicates(Object[] list) {
+		ArrayList<Object> newList = new ArrayList<Object>();
+		for (int i = 0; i < list.length; i++) {
+			if (!newList.contains(list[i])) {
+				newList.add(list[i]);
+			}
+		}
+		return newList.toArray(new Object[0]);
 	}
 	
 	public static String[] removeDuplicates(String[] list) {
@@ -79,14 +89,7 @@ public class CommonArray {
 		}
 		return arrToOrder;
 	}
-	
-	public static Double[] arrayListToArray(ArrayList<Double> origList) {
-		Double[] doubleList = new Double[origList.size()];
-		for (int i = 0; i < doubleList.length; i++) {
-			doubleList[i] = origList.get(i);
-		}
-		return doubleList;
-	}
+
 	
 	public static boolean valuesUnique(ArrayList<String> values) {
 		Set<String> set = new HashSet<String>(values);
@@ -142,5 +145,7 @@ public class CommonArray {
 			System.out.println(i + ": " + arr[i]);
 		}
 	}
+
+
 
 }

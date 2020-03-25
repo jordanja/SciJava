@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.StripChartAxis;
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;

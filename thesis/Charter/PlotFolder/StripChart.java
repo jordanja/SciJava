@@ -9,8 +9,8 @@ import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.Axis.StripChartAxis;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.LegendPackage.Legend;
-import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.DataFrame.DataFrame;
@@ -199,7 +199,7 @@ public class StripChart extends XYChart{
 		for (String catagory: origFormattedValues.keySet()) {
 			data.put(catagory, new HashMap<String, HashMap<String, Double>>());
 			for (String hue: origFormattedValues.get(catagory).keySet()) {
-				Double[] doubleList = CommonArray.arrayListToArray(origFormattedValues.get(catagory).get(hue));
+				Double[] doubleList = origFormattedValues.get(catagory).get(hue).toArray(new Double[0]);
 				((HashMap<Object, Object>) data.get(catagory)).put(hue, doubleList);
 			}
 		}
@@ -228,7 +228,7 @@ public class StripChart extends XYChart{
 		}
 		HashMap<Object, Object> data = new HashMap<Object, Object>();
 		for (String catagory: origSortedValues.keySet()) {
-			Double[] doubleList = CommonArray.arrayListToArray(origSortedValues.get(catagory));
+			Double[] doubleList = origSortedValues.get(catagory).toArray(new Double[0]);
 			data.put(catagory, doubleList);
 		}
 		

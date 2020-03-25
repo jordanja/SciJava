@@ -1,4 +1,4 @@
-package thesis.Charter.Others;
+package thesis.Charter.ChartMeasurements;
 
 import java.awt.Font;
 

@@ -7,8 +7,9 @@ import java.util.List;
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.AxisFactory;
 import thesis.Charter.Axis.NumericAxis;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.LegendPackage.Legend;
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.DataFrame.*;
 
@@ -19,7 +20,7 @@ public class ScatterChart extends XYChart {
 	protected Legend legend;
 
 	private String colorCodeLabel;
-	private Object[] colorCodeValues;
+	private String[] colorCodeValues;
 
 	public ScatterChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis), "Scatter");
@@ -67,14 +68,14 @@ public class ScatterChart extends XYChart {
 		this.legend.setIncludeLegend(true);
 	}
 
-	public void colorCode(Object[] colorCodeData) {
+	public void colorCode(String[] colorCodeData) {
 		this.colorCodeValues = colorCodeData;
 		this.legend.setIncludeLegend(true);
 
 	}
 
-	public void colorCode(List<Object> colorCodeData) {
-		this.colorCodeValues = colorCodeData.toArray();
+	public void colorCode(List<String> colorCodeData) {
+		this.colorCodeValues = colorCodeData.toArray(new String[0]);
 		this.legend.setIncludeLegend(true);
 
 	}

@@ -4,8 +4,8 @@ import java.awt.Graphics2D;
 import java.util.HashMap;
 
 import thesis.Charter.Axis.StackedBarChartAxis;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.LegendPackage.Legend;
-import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonHashMap;
 import thesis.DataFrame.DataFrame;

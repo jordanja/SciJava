@@ -1,7 +1,7 @@
 package thesis.Charter.PlotFolder;
 
-import thesis.Charter.Others.ChartMeasurements;
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.ChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;

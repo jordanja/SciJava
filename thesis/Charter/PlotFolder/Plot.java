@@ -13,8 +13,8 @@ import javax.imageio.ImageIO;
 
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
-import thesis.Charter.Others.ChartMeasurements;
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.ChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;

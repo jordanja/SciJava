@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.BoxChartAxis;
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;

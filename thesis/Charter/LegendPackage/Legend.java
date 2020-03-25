@@ -13,8 +13,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import thesis.Charter.Others.ChartMeasurements;
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.ChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 
 public class Legend {

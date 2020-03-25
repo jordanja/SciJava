@@ -12,8 +12,8 @@ import java.awt.image.BufferedImage;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-import thesis.Charter.Others.ChartMeasurements;
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.ChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 
 public class DrawString {
 	public enum xAlignment {

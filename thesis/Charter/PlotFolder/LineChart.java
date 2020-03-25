@@ -8,8 +8,8 @@ import java.util.Set;
 
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.LegendPackage.Legend;
-import thesis.Charter.Others.XYChartMeasurements;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;

@@ -1,4 +1,4 @@
-package thesis.Charter.Others;
+package thesis.Charter.ChartMeasurements;
 
 import java.awt.Font;
 import java.awt.Graphics2D;

@@ -1,4 +1,4 @@
-package thesis.Charter.Others;
+package thesis.Charter.ChartMeasurements;
 
 public abstract class ChartMeasurements {
 

@@ -9,7 +9,7 @@ import java.awt.geom.GeneralPath;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-import thesis.Charter.Others.PieChartMeasurements;
+import thesis.Charter.ChartMeasurements.PieChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
@@ -83,7 +83,7 @@ public class PiePlot extends Plot{
 
 
 	private void drawSlice(Graphics2D g, double degrees, double radius, double cumulativeAngle, Color color, double xCenter, double yCenter) {		
-		int numPoints = 200;
+		int numPoints = 100;
 		
 		GeneralPath slice = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
 		
@@ -91,22 +91,25 @@ public class PiePlot extends Plot{
 		
 		double incrementAmount = Math.toRadians(degrees / (numPoints - 1));
 		
+		double angle = normalized - (numPoints + 1) * incrementAmount;
+		double innerRadius = radius * this.donutAmount;
 		slice.moveTo(
-			Math.cos(normalized - (numPoints + 1) * incrementAmount) * radius * this.donutAmount + xCenter, 
-			Math.sin(normalized - (numPoints + 1) * incrementAmount) * radius * this.donutAmount + yCenter
+			Math.cos(angle) * innerRadius + xCenter, 
+			Math.sin(angle) * innerRadius + yCenter
 		);
 		
 		for (int i = numPoints; i > 0; i--) {
-			double xPoint = Math.cos(normalized  - i * incrementAmount) * radius * this.donutAmount + xCenter;
-			double yPoint = Math.sin(normalized  - i * incrementAmount) * radius * this.donutAmount + yCenter;
+			angle = normalized - i * incrementAmount;
+			double xPoint = Math.cos(angle) * innerRadius + xCenter;
+			double yPoint = Math.sin(angle) * innerRadius + yCenter;
 			
 			slice.lineTo(xPoint, yPoint);
 		}
 		
 		for (int i = 0; i < numPoints; i++) {
-			
-			double xPoint = Math.cos(normalized - i * incrementAmount) * radius + xCenter;
-			double yPoint = Math.sin(normalized - i * incrementAmount) * radius + yCenter;
+			angle = normalized - i * incrementAmount;
+			double xPoint = Math.cos(angle) * radius + xCenter;
+			double yPoint = Math.sin(angle) * radius + yCenter;
 			
 			slice.lineTo(xPoint, yPoint);
 			

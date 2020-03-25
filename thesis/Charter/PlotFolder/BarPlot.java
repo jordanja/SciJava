@@ -12,7 +12,7 @@ import java.util.HashMap;
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.NumericAxis;
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
@@ -41,11 +41,11 @@ public class BarPlot extends Plot {
 
 	private Color barColor = barColorPalette[0];
 
-	boolean singleColor = true;
+	private boolean singleColor = true;
 
-	boolean drawBarValue = true;
+	private boolean drawBarValue = true;
 
-	public void drawPlot(Graphics2D g, BarChartAxis axis, HashMap<Object, Object> data, String[] xDataOrdered, XYChartMeasurements cm) {
+	public void drawPlot(Graphics2D g, BarChartAxis axis, HashMap<Object, Object> data, String[] xCategoryOrder, XYChartMeasurements cm) {
 		// Are there color code values
 		boolean haveColorCodeValues = (data.get(data.keySet().iterator().next()) instanceof HashMap);
 		
@@ -57,7 +57,7 @@ public class BarPlot extends Plot {
 		
 		if (haveColorCodeValues) {
 		
-			for (String xCatagory : xDataOrdered) {
+			for (String xCatagory : xCategoryOrder) {
 
 				HashMap<String, Double> colorCodeValues = (HashMap<String, Double>) data.get(xCatagory);
 
@@ -90,7 +90,7 @@ public class BarPlot extends Plot {
 		} else {
 			int halfWidthOfSingularBar = (int) (this.singlularBarWidthPercentage * cm.getPlotWidth()
 					/ (2 * numXCatagories));
-			for (String xCatagory : xDataOrdered) {
+			for (String xCatagory : xCategoryOrder) {
 				Color boxColor;
 				if (this.singleColor) {
 					boxColor = this.barColor;

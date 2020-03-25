@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import thesis.Charter.Axis.NumericAxis;
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;
 
