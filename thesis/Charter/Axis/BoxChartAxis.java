@@ -1,23 +1,8 @@
 package thesis.Charter.Axis;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
-import thesis.Charter.ChartMeasurements.XYChartMeasurements;
-import thesis.Charter.StringDrawer.DrawString;
-import thesis.Charter.StringDrawer.DrawString.xAlignment;
-import thesis.Charter.StringDrawer.DrawString.yAlignment;
-import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
-import thesis.DataFrame.DataItem;
 
 public class BoxChartAxis extends XYOneCategoricalAxis {
 	
@@ -27,10 +12,6 @@ public class BoxChartAxis extends XYOneCategoricalAxis {
 	
 	private double minValueInHashMap(HashMap<Object, Object> map) {
 		return (double) map.get("Min");
-	}
-	
-	public void setXAxis(String[] xData) {
-		this.xTicks = xData;
 	}
 
 	public void setYAxis(HashMap<Object, Object> data, String typeOfData) {		

@@ -13,6 +13,10 @@ public class XYOneCategoricalAxis extends XYAxis {
 	private boolean includeAxisLinesOnPlot = true;
 	private Color axisLinesOnPlotColor = Color.WHITE;
 
+	public void setXAxis(String[] xData) {
+		this.xTicks = xData;
+	}
+	
 	public void drawAxis(Graphics2D g, XYChartMeasurements cm) {
 		if (this.xTicks.length > 0) {
 			int halfWidthOfXUnit = (cm.getPlotWidth() / (2 * this.xTicks.length));

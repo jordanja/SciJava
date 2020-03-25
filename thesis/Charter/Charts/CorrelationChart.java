@@ -10,7 +10,7 @@ public class CorrelationChart extends XYChart {
 	
 	
 	public CorrelationChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis), "Box");
+		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
 		
 
 	}

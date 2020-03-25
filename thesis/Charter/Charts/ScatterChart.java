@@ -25,7 +25,7 @@ public class ScatterChart extends XYChart {
 	private String[] colorCodeValues;
 
 	public ScatterChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis), "Scatter");
+		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
 
 		this.axis = (NumericAxis) AxisFactory.getAxis("Scatter");
 		this.plot = (ScatterPlot) PlotFactory.getPlot("Scatter");

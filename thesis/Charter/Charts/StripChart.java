@@ -29,7 +29,7 @@ public class StripChart extends XYChart{
 	private String[] order = new String[0];
 	
 	public StripChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis), "Strip");
+		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
 		
 		initialize();
 

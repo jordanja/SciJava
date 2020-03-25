@@ -16,8 +16,8 @@ public abstract class XYChart extends Chart {
 	protected XYChartMeasurements cm;
 	
 	
-	public XYChart(DataFrame dataFrame, DataItem[] xData, DataItem[] yData, String chartType) {
-		super(dataFrame, chartType);	
+	public XYChart(DataFrame dataFrame, DataItem[] xData, DataItem[] yData) {
+		super(dataFrame);	
 		this.xData = xData;
 		this.yData = yData;
 	}
@@ -26,7 +26,7 @@ public abstract class XYChart extends Chart {
 	
 	
 	public XYChart(DataFrame dataFrame, DataItem[] yData, String chartType) {
-		super(dataFrame, chartType);
+		super(dataFrame);
 		this.yData = yData;
 		this.xData = null;
 	}

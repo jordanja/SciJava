@@ -1,26 +1,11 @@
 package thesis.Charter.Axis;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.HashMap;
 
-import thesis.Charter.ChartMeasurements.XYChartMeasurements;
-import thesis.Charter.StringDrawer.DrawString;
-import thesis.Charter.StringDrawer.DrawString.xAlignment;
-import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonArray;
-import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 
 public class StripChartAxis extends XYOneCategoricalAxis {
-
-	public void setXAxis(String[] xData) {
-		this.xTicks = xData;
-	}
 
 	public void setYAxis(Object data, String typeOfData) {
 

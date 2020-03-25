@@ -39,7 +39,7 @@ public abstract class Chart {
 	}
 	
 	
-	public Chart(DataFrame dataFrame, String chartType) {	
+	public Chart(DataFrame dataFrame) {	
 		this.dataFrame = dataFrame;
 	}
 	
