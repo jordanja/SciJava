@@ -74,9 +74,7 @@ public class StackedBarPlot  extends Plot{
 		g.setColor(color);
 		g.fillRect(xBoxStart, yBoxStart, boxWidth, boxHeight);
 
-		DrawString.setColor(this.valuesColor);
-		DrawString.setFont(this.valuesFont);
-		DrawString.setRotation(0);
+		DrawString.setTextStyle(this.valuesColor, this.valuesFont, 0);
 		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 		DrawString.write(g, DrawString.formatDoubleForDisplay(value), xBoxStart + boxWidth/2, yBoxStart + boxHeight/2);
 	}

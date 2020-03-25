@@ -49,9 +49,7 @@ public class NumericAxis extends XYAxis {
 					cm.imageLeftToPlotRightWidth());
 			String stringToDisplay = this.getXTicksFormattedForDisplay()[count];
 			
-			DrawString.setColor(this.xAxisColor);
-			DrawString.setFont(this.xAxisFont);
-			DrawString.setRotation(this.xAxisRotation);
+			DrawString.setTextStyle(this.xAxisColor, this.xAxisFont, this.xAxisRotation);
 			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 			if (this.drawBottomXAxisValues) {
 				DrawString.write(g, stringToDisplay, position, cm.imageBottomToBottomAxisMidHeight());
@@ -67,14 +65,13 @@ public class NumericAxis extends XYAxis {
 
 		}
 
+		String[] yAxisValues = getYTicksFormattedForDisplay();
 		for (int count = 1; count < this.yTicks.length - 1; count++) {
 			int position = CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(),
 					cm.imageBottomToPlotTopHeight());
-			String stringToDisplay = this.getYTicksFormattedForDisplay()[count];
+			String stringToDisplay = yAxisValues[count];
 
-			DrawString.setColor(this.yAxisColor);
-			DrawString.setFont(this.yAxisFont);
-			DrawString.setRotation(this.yAxisRotation);
+			DrawString.setTextStyle(this.yAxisColor, this.yAxisFont, this.yAxisRotation);
 			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 			if (this.drawLeftYAxisValues) {
 				DrawString.write(g, stringToDisplay, cm.imageLeftToLeftAxisMidWidth(), position);

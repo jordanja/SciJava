@@ -137,9 +137,7 @@ public class BarPlot extends Plot {
 		}
 
 		if (this.drawBarValue) {
-			DrawString.setColor(Color.black);
-			DrawString.setFont(this.valuesFont);
-			DrawString.setRotation(0);
+			DrawString.setTextStyle(Color.BLACK, this.valuesFont, 0);
 			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.TopAlign);
 			DrawString.write(g, df.format(heightValue), xBoxStart + boxWidth / 2, yBoxStart + boxHeight - 10);
 		}

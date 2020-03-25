@@ -507,10 +507,7 @@ public abstract class Axis {
 	}
 
 	public void drawXAxisLabel(Graphics2D g, XYChartMeasurements cm) {
-
-		DrawString.setColor(this.xAxisLabelColor);
-		DrawString.setFont(this.xAxisLabelFont);
-		DrawString.setRotation(0);
+		DrawString.setTextStyle(this.xAxisLabelColor, this.xAxisLabelFont, 0);
 		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 		if (this.drawBottomXLabel()) {
 			DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
@@ -525,11 +522,7 @@ public abstract class Axis {
 	}
 
 	public void drawYAxisLabel(Graphics2D g, XYChartMeasurements cm) {
-
-
-		DrawString.setColor(this.yAxisLabelColor);
-		DrawString.setFont(this.yAxisLabelFont);
-		DrawString.setRotation(-90);
+		DrawString.setTextStyle(this.yAxisLabelColor, this.yAxisLabelFont, -90);
 		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 		if (this.drawLeftYLabel()) {
 			DrawString.write(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(),

@@ -49,9 +49,9 @@ public class DrawString {
 		if (DrawString.xTextAlignment == xAlignment.LeftAlign) {
 			xPosition = x;
 		} else if (DrawString.xTextAlignment == xAlignment.CenterAlign) {
-			xPosition = x - g.getFontMetrics().stringWidth(string) / 2;
+			xPosition = x - bounds.width / 2;
 		} else if (DrawString.xTextAlignment == xAlignment.RightAlign) {
-			xPosition = x - g.getFontMetrics().stringWidth(string);
+			xPosition = x - bounds.width;
 		}
 
 		if (DrawString.yTextAlignment == yAlignment.TopAlign) {
@@ -73,9 +73,9 @@ public class DrawString {
 		g.drawString(string, xPosition, yPosition);
 //		g.drawRect(xPosition, yPosition - bounds.height, bounds.width, bounds.height);
 
-		affineTransform.rotate(Math.toRadians(-DrawString.rotation), bounds.width / 2, -bounds.height / 2);
-		Font regularFont = g.getFont().deriveFont(affineTransform);
-		g.setFont(regularFont);
+//		affineTransform.rotate(Math.toRadians(-DrawString.rotation), bounds.width / 2, -bounds.height / 2);
+//		Font regularFont = g.getFont().deriveFont(affineTransform);
+//		g.setFont(regularFont);
 
 		g.setTransform(orig);
 
@@ -194,6 +194,12 @@ public class DrawString {
 	public static void setAlignment(xAlignment xTextAlignment, yAlignment yTextAlignment) {
 		DrawString.xTextAlignment = xTextAlignment;
 		DrawString.yTextAlignment = yTextAlignment;
+	}
+	
+	public static void setTextStyle(Color textColor, Font font, float rotation) {
+		DrawString.color = textColor;
+		DrawString.font = font;
+		DrawString.rotation = rotation;
 	}
 	
 //	public static void setStringStyle(Color color, Font font, float rotation, xAlignment xAlign, yAlignment yAlign) {

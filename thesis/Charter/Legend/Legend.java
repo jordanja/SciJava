@@ -91,19 +91,14 @@ public class Legend {
 		
 		g.drawRect(cm.imageLeftToLegendLeftWidth(), legendBottom, this.getLegendWidth(), this.getLegendHeight());
 		
-
-		DrawString.setColor(Color.BLACK);
-		DrawString.setFont(this.hueLabelFont);
-		DrawString.setRotation(0);
+		DrawString.setTextStyle(Color.BLACK, this.hueLabelFont, 0);
 		DrawString.setAlignment(DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign);
 		DrawString.write(g, this.hueLabel, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + this.getBottomlegentToHueLabelBottomHeight());
 
 		
 		for (int i = 0; i < this.hueValues.length; i++) {
 
-			DrawString.setColor(Color.BLACK);
-			DrawString.setFont(this.hueValueFont);
-			DrawString.setRotation(0);
+			DrawString.setTextStyle(Color.BLACK, this.hueValueFont, 0);
 			DrawString.setAlignment(DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign);
 			DrawString.write(g, this.hueValues[i], cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + getBottomLegendToHueValueBottomHeight(i));
 

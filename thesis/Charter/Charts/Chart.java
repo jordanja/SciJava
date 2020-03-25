@@ -102,9 +102,8 @@ public abstract class Chart {
 	
 	protected void drawTitle(Graphics2D g, ChartMeasurements cm) {
 		if (this.title != null) {	
-			DrawString.setColor(this.titleColor);
-			DrawString.setFont(this.titleFont);
-			DrawString.setRotation(0);
+			
+			DrawString.setTextStyle(this.titleColor, this.titleFont, 0);
 			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.BottomAlign);
 			DrawString.write(g, this.title, cm.imageWidth()/2, cm.imageBottomToTitleBottomHeight());
 		}

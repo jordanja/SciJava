@@ -78,9 +78,7 @@ public class PiePlot extends Plot{
 
 		String strToDisplay = formatStrForPlot(value) + "%";
 		
-		DrawString.setColor(this.proportionsColor);
-		DrawString.setFont(this.proportionsFont);
-		DrawString.setRotation(0);
+		DrawString.setTextStyle(this.proportionsColor, this.proportionsFont, 0);
 		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 		DrawString.write(g, strToDisplay, xPos, yPos);
 	}
