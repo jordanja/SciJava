@@ -1,4 +1,4 @@
-package thesis.Charter.PlotFolder;
+package thesis.Charter.Charts;
 
 import thesis.Charter.ChartMeasurements.ChartMeasurements;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;

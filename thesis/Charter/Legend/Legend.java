@@ -1,4 +1,4 @@
-package thesis.Charter.LegendPackage;
+package thesis.Charter.Legend;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

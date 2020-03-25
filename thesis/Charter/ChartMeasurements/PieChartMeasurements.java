@@ -3,7 +3,7 @@ package thesis.Charter.ChartMeasurements;
 import java.awt.Font;
 
 import thesis.Charter.Axis.Axis;
-import thesis.Charter.LegendPackage.Legend;
+import thesis.Charter.Legend.Legend;
 import thesis.Charter.StringDrawer.DrawString;
 
 public class PieChartMeasurements extends ChartMeasurements{

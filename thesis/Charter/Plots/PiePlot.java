@@ -1,4 +1,4 @@
-package thesis.Charter.PlotFolder;
+package thesis.Charter.Plots;
 
 import java.awt.Color;
 import java.awt.Font;

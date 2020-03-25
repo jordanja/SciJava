@@ -1,10 +1,11 @@
-package thesis.Charter.PlotFolder;
+package thesis.Charter.Charts;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import thesis.Charter.ChartMeasurements.PieChartMeasurements;
-import thesis.Charter.LegendPackage.Legend;
+import thesis.Charter.Legend.Legend;
+import thesis.Charter.Plots.PiePlot;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;

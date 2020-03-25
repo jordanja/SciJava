@@ -1,4 +1,4 @@
-package thesis.Charter.PlotFolder;
+package thesis.Charter.Charts;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -10,7 +10,8 @@ import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.Axis.StripChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
-import thesis.Charter.LegendPackage.Legend;
+import thesis.Charter.Legend.Legend;
+import thesis.Charter.Plots.StripPlot;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.DataFrame.DataFrame;

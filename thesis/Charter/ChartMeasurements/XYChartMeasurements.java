@@ -13,9 +13,9 @@ import java.util.Arrays;
 
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.NumericAxis;
-import thesis.Charter.LegendPackage.Legend;
-import thesis.Charter.PlotFolder.Plot;
-import thesis.Charter.PlotFolder.ScatterPlot;
+import thesis.Charter.Legend.Legend;
+import thesis.Charter.Plots.Plot;
+import thesis.Charter.Plots.ScatterPlot;
 import thesis.Charter.StringDrawer.DrawString;
 
 public class XYChartMeasurements extends ChartMeasurements {
