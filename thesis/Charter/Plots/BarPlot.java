@@ -30,13 +30,14 @@ public class BarPlot extends Plot {
 
 	private Font valuesFont = new Font("Dialog", Font.PLAIN, 12);
 
-	
 	// When there are no color code bars, this is the width of a bar
 	private double singlularBarWidthPercentage = 0.5f;
 
-	// When there are colorCode bars, this is the total width of all bars in a cluster
+	// When there are colorCode bars, this is the total width of all bars in a
+	// cluster
 	private double multipleBarWidthPercentage = 0.8f;
-	// When there are colorCode bars, this is the number of pixels between bars in a cluster
+	// When there are colorCode bars, this is the number of pixels between bars in a
+	// cluster
 	private int multipleBarPixelSpacing = 10;
 
 	private Color barColor = barColorPalette[0];
@@ -45,18 +46,18 @@ public class BarPlot extends Plot {
 
 	private boolean drawBarValue = true;
 
-	public void drawPlot(Graphics2D g, BarChartAxis axis, HashMap<Object, Object> data, String[] xCategoryOrder, XYChartMeasurements cm) {
+	public void drawPlot(Graphics2D g, BarChartAxis axis, HashMap<Object, Object> data, String[] xCategoryOrder,
+			XYChartMeasurements cm) {
 		// Are there color code values
 		boolean haveColorCodeValues = (data.get(data.keySet().iterator().next()) instanceof HashMap);
-		
+
 		double[] yTicks = axis.getYTicksValues();
 
-		
 		int numXCatagories = data.keySet().size();
 		int xCatagoryCount = 0;
-		
+
 		if (haveColorCodeValues) {
-		
+
 			for (String xCatagory : xCategoryOrder) {
 
 				HashMap<String, Double> colorCodeValues = (HashMap<String, Double>) data.get(xCatagory);
@@ -72,15 +73,15 @@ public class BarPlot extends Plot {
 				int colorCodeCount = 0;
 				for (String colorCode : colorCodeValues.keySet()) {
 					Color boxColor = this.barColorPalette[colorCodeCount % this.barColorPalette.length];
-					
+
 					int xBoxStart = positionAtBarsStart
 							+ ((widthOfColorCodeBar + multipleBarPixelSpacing) * colorCodeCount);
 					int yBoxStart = yTickNumToPlotY(0, yTicks, cm);
 					int boxWidth = widthOfColorCodeBar;
 					int boxHeight = yTickNumToPlotY(colorCodeValues.get(colorCode), yTicks, cm)
 							- yTickNumToPlotY(0, yTicks, cm);
-					
-					drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, colorCodeValues.get(colorCode), cm);
+
+					drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, colorCodeValues.get(colorCode));
 
 					colorCodeCount++;
 				}
@@ -103,7 +104,7 @@ public class BarPlot extends Plot {
 				int boxHeight = yTickNumToPlotY((double) data.get(xCatagory), yTicks, cm)
 						- yTickNumToPlotY(0, yTicks, cm);
 
-				drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, (double) data.get(xCatagory), cm);
+				drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, (double) data.get(xCatagory));
 				xCatagoryCount++;
 			}
 		}
@@ -117,14 +118,15 @@ public class BarPlot extends Plot {
 	}
 
 	private int yTickNumToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
-		return CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1],
-				cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
+		return CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1], cm.imageBottomToPlotBottomHeight(),
+				cm.imageBottomToPlotTopHeight());
 	}
 
-	private void drawBar(Graphics2D g, int xBoxStart, int yBoxStart, int boxWidth, int boxHeight, Color barColor, double heightValue, XYChartMeasurements cm) {
+	private void drawBar(Graphics2D g, int xBoxStart, int yBoxStart, int boxWidth, int boxHeight, Color barColor,
+			double heightValue) {
 		DecimalFormat df = new DecimalFormat("#.####");
 		df.setRoundingMode(RoundingMode.CEILING);
-		
+
 		g.setColor(barColor);
 		g.fillRect(xBoxStart, yBoxStart, boxWidth, boxHeight);
 
@@ -135,14 +137,13 @@ public class BarPlot extends Plot {
 		}
 
 		if (this.drawBarValue) {
-			g.setColor(Color.black);
-			g.setFont(this.valuesFont);
-			DrawString.write(g, df.format(heightValue), xBoxStart + boxWidth / 2,
-					yBoxStart + boxHeight - 10, xAlignment.CenterAlign, yAlignment.TopAlign, 0, cm);
+			DrawString.setColor(Color.black);
+			DrawString.setFont(this.valuesFont);
+			DrawString.setRotation(0);
+			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.TopAlign);
+			DrawString.write(g, df.format(heightValue), xBoxStart + boxWidth / 2, yBoxStart + boxHeight - 10);
 		}
 	}
-	
-	
 
 	public boolean isDrawBarOutline() {
 		return drawBarOutline;

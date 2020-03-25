@@ -338,37 +338,37 @@ public abstract class Axis {
 	public double[] getYTicksValues() {
 		return Arrays.stream(getYTicks()).mapToDouble(Double::parseDouble).toArray();
 	}
-	
+
 	public String[] getXTicksFormattedForDisplay() {
 		String[] formattedXTicks = new String[this.xTicks.length];
-		
-		if (this.xTicks.length > 0) {			
+
+		if (this.xTicks.length > 0) {
 			if (TypeCheckers.isNumeric(this.xTicks[0])) {
 				double[] xTicksValues = this.getXTicksValues();
-				
+
 				DecimalFormat df = new DecimalFormat("#.##");
 				df.setRoundingMode(RoundingMode.HALF_DOWN);
-				
+
 				for (int i = 0; i < formattedXTicks.length; i++) {
 					formattedXTicks[i] = df.format(xTicksValues[i]);
 				}
 				return formattedXTicks;
 			} else {
-				return this.xTicks; 
+				return this.xTicks;
 			}
 		}
 		return null;
 	}
-	
+
 	public String[] getYTicksFormattedForDisplay() {
 		String[] formattedYTicks = new String[this.yTicks.length];
-		
-		if (TypeCheckers.isNumeric(this.yTicks[0])) {			
+
+		if (TypeCheckers.isNumeric(this.yTicks[0])) {
 			double[] yTicksValues = this.getYTicksValues();
-			
+
 			DecimalFormat df = new DecimalFormat("#.##");
 			df.setRoundingMode(RoundingMode.HALF_DOWN);
-			
+
 			for (int i = 0; i < formattedYTicks.length; i++) {
 				formattedYTicks[i] = df.format(yTicksValues[i]);
 			}
@@ -506,22 +506,23 @@ public abstract class Axis {
 		return this.yAxisLabelColor;
 	}
 
-	
 	public void drawXAxisLabel(Graphics2D g, XYChartMeasurements cm) {
 
 		g.setColor(this.xAxisLabelColor);
 		g.setFont(this.xAxisLabelFont);
 
 		if (this.xAxisLabel != null) {
+			DrawString.setColor(this.xAxisLabelColor);
+			DrawString.setFont(this.xAxisLabelFont);
+			DrawString.setRotation(0);
+			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 			if (this.drawBottomXLabel) {
 				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
-						cm.imageBottomToBottomAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign,
-						DrawString.yAlignment.MiddleAlign, 0, cm);
+						cm.imageBottomToBottomAxisLabelMidHeight());
 			}
 			if (this.drawTopXLabel) {
 				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
-						cm.imageBottomToTopAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign,
-						DrawString.yAlignment.MiddleAlign, 0, cm);
+						cm.imageBottomToTopAxisLabelMidHeight());
 			}
 		}
 
@@ -532,17 +533,19 @@ public abstract class Axis {
 		g.setFont(this.yAxisLabelFont);
 
 		if (this.yAxisLabel != null) {
+			DrawString.setColor(this.yAxisLabelColor);
+			DrawString.setFont(this.yAxisLabelFont);
+			DrawString.setRotation(-90);
+			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 			if (this.drawLeftYLabel) {
 				DrawString.write(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(),
-						cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign,
-						DrawString.yAlignment.MiddleAlign, -90, cm);
+						cm.imageBottomToPlotMidHeight());
 			}
 			if (this.drawRightYLabel) {
 				DrawString.write(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(),
-						cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign,
-						DrawString.yAlignment.MiddleAlign, -90, cm);
+						cm.imageBottomToPlotMidHeight());
 			}
 		}
 	}
-	
+
 }

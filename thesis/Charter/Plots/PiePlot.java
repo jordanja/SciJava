@@ -11,6 +11,8 @@ import java.text.DecimalFormat;
 
 import thesis.Charter.ChartMeasurements.PieChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.StringDrawer.DrawString.xAlignment;
+import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;
@@ -76,9 +78,11 @@ public class PiePlot extends Plot{
 
 		String strToDisplay = formatStrForPlot(value) + "%";
 		
-		g.setColor(this.proportionsColor);
-		g.setFont(this.proportionsFont);
-		DrawString.write(g, strToDisplay, xPos, yPos, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
+		DrawString.setColor(this.proportionsColor);
+		DrawString.setFont(this.proportionsFont);
+		DrawString.setRotation(0);
+		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
+		DrawString.write(g, strToDisplay, xPos, yPos);
 	}
 
 

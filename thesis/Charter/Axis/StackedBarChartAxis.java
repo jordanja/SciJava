@@ -13,6 +13,8 @@ import java.util.Map;
 
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.StringDrawer.DrawString.xAlignment;
+import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonHashMap;
 import thesis.Common.CommonMath;
@@ -49,13 +51,15 @@ public class StackedBarChartAxis extends XYAxis {
 				cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit
 			);
 			
-			g.setColor(this.xAxisColor);
-			g.setFont(this.xAxisFont);
+			DrawString.setColor(this.xAxisColor);
+			DrawString.setFont(this.xAxisFont);
+			DrawString.setRotation(this.xAxisRotation);
+			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 			if (this.drawBottomXAxisValues) {				
-				DrawString.write(g, xCatagory, xPosition, cm.imageBottomToBottomAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
+				DrawString.write(g, xCatagory, xPosition, cm.imageBottomToBottomAxisMidHeight());
 			}
 			if (this.drawTopXAxisValues) {
-				DrawString.write(g, xCatagory, xPosition, cm.imageBottomToTopAxisMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.xAxisRotation, cm);
+				DrawString.write(g, xCatagory, xPosition, cm.imageBottomToTopAxisMidHeight());
 			}
 			count++;
 		}
@@ -69,14 +73,15 @@ public class StackedBarChartAxis extends XYAxis {
 			int position = CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 			String stringToDisplay = String.valueOf(df.format(doubleYTicks[count]));
 			
-			g.setColor(this.yAxisColor);
-			g.setFont(this.yAxisFont);
-			
+			DrawString.setColor(this.yAxisColor);
+			DrawString.setFont(this.yAxisFont);
+			DrawString.setRotation(this.yAxisRotation);
+			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 			if (this.drawLeftYAxisValues) {				
-				DrawString.write(g, stringToDisplay, cm.imageLeftToLeftAxisMidWidth(), position, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.yAxisRotation, cm);
+				DrawString.write(g, stringToDisplay, cm.imageLeftToLeftAxisMidWidth(), position);
 			}
 			if (this.drawRightYAxisValues) {
-				DrawString.write(g, stringToDisplay, cm.imageLeftToRightAxisMidWidth(), position, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, this.yAxisRotation, cm);
+				DrawString.write(g, stringToDisplay, cm.imageLeftToRightAxisMidWidth(), position);
 			}
 
 			if (this.includeAxisLinesOnPlot) {				
@@ -145,30 +150,34 @@ public class StackedBarChartAxis extends XYAxis {
 	
 	public void drawXAxisLabel(Graphics2D g, XYChartMeasurements cm) {
 		
-		g.setColor(this.xAxisLabelColor);
-		g.setFont(this.xAxisLabelFont);
-		
-		if (this.xAxisLabel != null ) {			
-			if (this.drawBottomXLabel ) {			
-				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(), cm.imageBottomToBottomAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
+		if (this.xAxisLabel != null ) {
+			DrawString.setColor(this.xAxisLabelColor);
+			DrawString.setFont(this.xAxisLabelFont);
+			DrawString.setRotation(0);
+			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
+			if (this.drawBottomXLabel) {			
+				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(), cm.imageBottomToBottomAxisLabelMidHeight());
 			}
 			if (this.drawTopXLabel) {
-				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(), cm.imageBottomToTopAxisLabelMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
+				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(), cm.imageBottomToTopAxisLabelMidHeight());
 			}
 		}
 		
 	}
 	
 	public void drawYAxisLabel(Graphics2D g, XYChartMeasurements cm) {
-		g.setColor(this.yAxisLabelColor);
-		g.setFont(this.yAxisLabelFont);
+		
+		DrawString.setColor(this.yAxisLabelColor);
+		DrawString.setFont(this.yAxisLabelFont);
+		DrawString.setRotation(-90);
+		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 		
 		if (this.yAxisLabel != null) {
 			if (this.drawLeftYLabel) {
-				DrawString.write(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(), cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, -90, cm);
+				DrawString.write(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(), cm.imageBottomToPlotMidHeight());
 			}
 			if (this.drawRightYLabel) {
-				DrawString.write(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(), cm.imageBottomToPlotMidHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, -90, cm);
+				DrawString.write(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(), cm.imageBottomToPlotMidHeight());
 			}
 		}
 	}

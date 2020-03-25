@@ -3,6 +3,8 @@ package thesis.Charter.Charts;
 import thesis.Charter.ChartMeasurements.ChartMeasurements;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.StringDrawer.DrawString.xAlignment;
+import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
 
@@ -99,10 +101,12 @@ public abstract class Chart {
 	
 	
 	protected void drawTitle(Graphics2D g, ChartMeasurements cm) {
-		if (this.title != null) {			
-			g.setColor(this.titleColor);
-			g.setFont(this.titleFont);
-			DrawString.write(g, this.title, cm.imageWidth()/2, cm.imageBottomToTitleBottomHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.BottomAlign, 0, cm);
+		if (this.title != null) {	
+			DrawString.setColor(this.titleColor);
+			DrawString.setFont(this.titleFont);
+			DrawString.setRotation(0);
+			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.BottomAlign);
+			DrawString.write(g, this.title, cm.imageWidth()/2, cm.imageBottomToTitleBottomHeight());
 		}
 	}
 	

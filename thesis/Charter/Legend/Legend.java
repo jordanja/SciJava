@@ -16,6 +16,8 @@ import java.util.HashSet;
 import thesis.Charter.ChartMeasurements.ChartMeasurements;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.StringDrawer.DrawString.xAlignment;
+import thesis.Charter.StringDrawer.DrawString.yAlignment;
 
 public class Legend {
 
@@ -89,15 +91,23 @@ public class Legend {
 		
 		g.drawRect(cm.imageLeftToLegendLeftWidth(), legendBottom, this.getLegendWidth(), this.getLegendHeight());
 		
-		g.setFont(this.hueLabelFont);
-		DrawString.write(g, this.hueLabel, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + this.getBottomlegentToHueLabelBottomHeight(), DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign, 0, cm);
 
-		g.setFont(this.hueValueFont);
+		DrawString.setColor(Color.BLACK);
+		DrawString.setFont(this.hueLabelFont);
+		DrawString.setRotation(0);
+		DrawString.setAlignment(DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign);
+		DrawString.write(g, this.hueLabel, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + this.getBottomlegentToHueLabelBottomHeight());
+
+		
 		for (int i = 0; i < this.hueValues.length; i++) {
-			g.setColor(Color.BLACK);
-			DrawString.write(g, this.hueValues[i], cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + getBottomLegendToHueValueBottomHeight(i), DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign, 0, cm);
 
-			int height = DrawString.getStringHeight(this.hueValues[i], this.hueValueFont);//DrawString.getShapeOfText(this.hueValueFont, this.hueValues[i]).getBounds().height;
+			DrawString.setColor(Color.BLACK);
+			DrawString.setFont(this.hueValueFont);
+			DrawString.setRotation(0);
+			DrawString.setAlignment(DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign);
+			DrawString.write(g, this.hueValues[i], cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + getBottomLegendToHueValueBottomHeight(i));
+
+			int height = DrawString.getStringHeight(this.hueValues[i], this.hueValueFont);
 			
 			g.setColor(colors[i % colors.length]);
 			g.fillOval(cm.imageLeftToLegendLeftWidth() + legendLeftToDataPointWidth, legendBottom + getBottomLegendToHueValueBottomHeight(i) + height/2 - dataPointDiameter/2, dataPointDiameter, dataPointDiameter);

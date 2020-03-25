@@ -9,6 +9,8 @@ import java.util.HashMap;
 import thesis.Charter.Axis.StackedBarChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.StringDrawer.DrawString.xAlignment;
+import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonHashMap;
 import thesis.Common.CommonMath;
@@ -72,9 +74,11 @@ public class StackedBarPlot  extends Plot{
 		g.setColor(color);
 		g.fillRect(xBoxStart, yBoxStart, boxWidth, boxHeight);
 
-		g.setFont(this.valuesFont);
-		g.setColor(this.valuesColor);
-		DrawString.write(g, DrawString.formatDoubleForDisplay(value), xBoxStart + boxWidth/2, yBoxStart + boxHeight/2, DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign, 0, cm);
+		DrawString.setColor(this.valuesColor);
+		DrawString.setFont(this.valuesFont);
+		DrawString.setRotation(0);
+		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
+		DrawString.write(g, DrawString.formatDoubleForDisplay(value), xBoxStart + boxWidth/2, yBoxStart + boxHeight/2);
 	}
 
 
