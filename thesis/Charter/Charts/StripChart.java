@@ -237,7 +237,7 @@ public class StripChart extends XYChart{
 	}
 	
 	
-	public Axis getAxis() {
+	public StripChartAxis getAxis() {
 		return this.axis;
 	}
 

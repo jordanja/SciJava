@@ -508,44 +508,38 @@ public abstract class Axis {
 
 	public void drawXAxisLabel(Graphics2D g, XYChartMeasurements cm) {
 
-		g.setColor(this.xAxisLabelColor);
-		g.setFont(this.xAxisLabelFont);
-
-		if (this.xAxisLabel != null) {
-			DrawString.setColor(this.xAxisLabelColor);
-			DrawString.setFont(this.xAxisLabelFont);
-			DrawString.setRotation(0);
-			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
-			if (this.drawBottomXLabel) {
-				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
-						cm.imageBottomToBottomAxisLabelMidHeight());
-			}
-			if (this.drawTopXLabel) {
-				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
-						cm.imageBottomToTopAxisLabelMidHeight());
-			}
+		DrawString.setColor(this.xAxisLabelColor);
+		DrawString.setFont(this.xAxisLabelFont);
+		DrawString.setRotation(0);
+		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
+		if (this.drawBottomXLabel()) {
+			DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
+					cm.imageBottomToBottomAxisLabelMidHeight());
 		}
+		if (this.drawTopXLabel()) {
+			DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
+					cm.imageBottomToTopAxisLabelMidHeight());
+		}
+		
 
 	}
 
 	public void drawYAxisLabel(Graphics2D g, XYChartMeasurements cm) {
-		g.setColor(this.yAxisLabelColor);
-		g.setFont(this.yAxisLabelFont);
 
-		if (this.yAxisLabel != null) {
-			DrawString.setColor(this.yAxisLabelColor);
-			DrawString.setFont(this.yAxisLabelFont);
-			DrawString.setRotation(-90);
-			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
-			if (this.drawLeftYLabel) {
-				DrawString.write(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(),
-						cm.imageBottomToPlotMidHeight());
-			}
-			if (this.drawRightYLabel) {
-				DrawString.write(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(),
-						cm.imageBottomToPlotMidHeight());
-			}
+
+		DrawString.setColor(this.yAxisLabelColor);
+		DrawString.setFont(this.yAxisLabelFont);
+		DrawString.setRotation(-90);
+		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
+		if (this.drawLeftYLabel()) {
+			DrawString.write(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(),
+					cm.imageBottomToPlotMidHeight());
 		}
+		if (this.drawRightYLabel()) {
+			DrawString.write(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(),
+					cm.imageBottomToPlotMidHeight());
+		}
+		
 	}
 
 }

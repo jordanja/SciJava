@@ -185,40 +185,6 @@ public class BoxChartAxis extends XYAxis {
 		}
 	}
 	
-	public void drawXAxisLabel(Graphics2D g, XYChartMeasurements cm) {
-		
-		DrawString.setColor(this.xAxisLabelColor);
-		DrawString.setFont(this.xAxisLabelFont);
-		DrawString.setRotation(0);
-		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
-		
-		if (this.xAxisLabel != null ) {			
-			if (this.drawBottomXLabel ) {			
-				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(), cm.imageBottomToBottomAxisLabelMidHeight());
-			}
-			if (this.drawTopXLabel) {
-				DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(), cm.imageBottomToTopAxisLabelMidHeight());
-			}
-		}
-		
-	}
-	
-	public void drawYAxisLabel(Graphics2D g, XYChartMeasurements cm) {
-
-		DrawString.setColor(this.yAxisLabelColor);
-		DrawString.setFont(this.yAxisLabelFont);
-		DrawString.setRotation(-90);
-		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
-		
-		if (this.yAxisLabel != null) {
-			if (this.drawLeftYLabel) {
-				DrawString.write(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(), cm.imageBottomToPlotMidHeight());
-			}
-			if (this.drawRightYLabel) {
-				DrawString.write(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(), cm.imageBottomToPlotMidHeight());
-			}
-		}
-	}
 
 
 }
