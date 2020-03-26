@@ -1,5 +1,6 @@
 package thesis.Charter.Plots;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.HashMap;
 import thesis.Charter.Axis.Axis;
 import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;
@@ -22,7 +24,7 @@ public class BoxPlot extends Plot {
 
 	private Color barColor = boxColorPalette[0];
 
-	// When there are no categories, this is the width of a bar releive to the plot
+	// When there are no categories, this is the width of a bar relative to the plot
 	private double singluarBarWidthPercentage = 0.8f;
 
 	// When there are categories but no color code bars, this is the width of a bar
@@ -35,42 +37,63 @@ public class BoxPlot extends Plot {
 	// cluster
 	private int multipleBarPixelSpacing = 0;
 
-	public void drawPlot(Graphics2D g, BoxChartAxis axis, HashMap<Object, Object> data, String[] xDataOrdered,
-			String typeOfData, XYChartMeasurements cm) {
-		int numberOfXTicks = axis.getCategoricalTicks().length;
+	public void drawPlot(Graphics2D g, BoxChartAxis axis, HashMap<Object, Object> data, String[] categoryOrder,
+			String typeOfData, String orientation, XYChartMeasurements cm) {
+
+		int numberOfCategoricalTicks = axis.getCategoricalTicks().length;
 
 		if (typeOfData == "singleCatagory") {
-			int widthOfbar = (int) (singluarBarWidthPercentage * cm.getPlotWidth());
 
-			double[] yTicks = axis.getNumericTicksValues();
+			int lengthOfbar = (int) (singluarBarWidthPercentage
+					* (orientation == "v" ? cm.getPlotWidth() : cm.getPlotHeight()));
 
-			double min = (Double) data.get("Min");
-			double Q1 = (Double) data.get("Q1");
-			double Q2 = (Double) data.get("Q2");
-			double Q3 = (Double) data.get("Q3");
-			double max = (Double) data.get("Max");
+			double[] numericTicks = axis.getNumericTicksValues();
 
-			int xBoxStart = xCategoryNumToPlotX(0, 1, cm) - (int) (0.5f * widthOfbar);
-			int yBoxStart = yTickNumToPlotY(Q1, yTicks, cm);
-			int boxWidth = widthOfbar;
-			int boxHeight = yTickNumToPlotY(Q3, yTicks, cm) - yBoxStart;
+			double min = (double) data.get("Min");
+			double Q1 = (double) data.get("Q1");
+			double Q2 = (double) data.get("Q2");
+			double Q3 = (double) data.get("Q3");
+			double max = (double) data.get("Max");
 
-			int xCenterOfBox = xCategoryNumToPlotX(0, 1, cm);
+			if (orientation == "v") {
+				int xCenterOfBox = xCategoryNumToPlotX(0, 1, cm);
 
-			int yMin = yTickNumToPlotY(min, yTicks, cm);
-			int yMax = yTickNumToPlotY(max, yTicks, cm);
-			int yMedian = yTickNumToPlotY(Q2, yTicks, cm);
-			drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, xCenterOfBox, yMin, yMax, yMedian, this.barColor,
-					this.outlineColor);
+				int xBoxStart = xCenterOfBox - (int) (0.5f * lengthOfbar);
+				int yBoxStart = yValueToPlotY(Q1, numericTicks, cm);
+				int boxWidth = lengthOfbar;
+				int boxHeight = yValueToPlotY(Q3, numericTicks, cm) - yBoxStart;
+
+				int yMin = yValueToPlotY(min, numericTicks, cm);
+				int yMax = yValueToPlotY(max, numericTicks, cm);
+				int yMedian = yValueToPlotY(Q2, numericTicks, cm);
+				drawVerticleBox(g, xBoxStart, yBoxStart, boxWidth, boxHeight, xCenterOfBox, yMin, yMax, yMedian,
+						this.barColor, this.outlineColor);
+			} else {
+				int yCenterOfBox = yCategoryNumToPlotY(0, 1, cm);
+
+				int xBoxStart = xValueToToPlotX(Q1, numericTicks, cm);
+				int yBoxStart = yCenterOfBox - (int) (0.5f * lengthOfbar);
+				int boxWidth = xValueToToPlotX(Q3, numericTicks, cm) - xBoxStart;
+				int boxHeight = lengthOfbar;
+
+				int xMin = xValueToToPlotX(min, numericTicks, cm);
+				int xMax = xValueToToPlotX(max, numericTicks, cm);
+				int xMedian = xValueToToPlotX(Q2, numericTicks, cm);
+				
+				drawHorizontalBox(g, xBoxStart, yBoxStart, boxWidth, boxHeight,yCenterOfBox, xMin, xMax, xMedian, this.barColor, this.outlineColor);
+				
+//				System.out.println("min: " + min + "\n" + "Q1: " + Q1 + "\n" + "Q2: " + Q2 + "\n" + "Q3: " + Q3 + "\n" + "max: " + max);
+				
+			}
 
 		} else if (typeOfData == "multipleCatagoriesAndNoHueValue") {
-			int widthOfbar = (int) (this.singlularClusterBarWidthPercentage * cm.getPlotWidth() / numberOfXTicks);
-			int xCatagoryCount = 0;
-			for (String xCategory : xDataOrdered) {
-				Color fillColor = this.boxColorPalette[xCatagoryCount % this.boxColorPalette.length];
-				HashMap<Object, Double> map = (HashMap<Object, Double>) data.get(xCategory);
+			
+			int catagoryCount = 0;
+			for (String category : categoryOrder) {
+				Color fillColor = this.boxColorPalette[catagoryCount % this.boxColorPalette.length];
+				HashMap<Object, Double> map = (HashMap<Object, Double>) data.get(category);
 
-				double[] yTicks = axis.getNumericTicksValues();
+				double[] numericTicks = axis.getNumericTicksValues();
 
 				double min = map.get("Min");
 				double Q1 = map.get("Q1");
@@ -78,75 +101,146 @@ public class BoxPlot extends Plot {
 				double Q3 = map.get("Q3");
 				double max = map.get("Max");
 
-				int xBoxStart = xCategoryNumToPlotX(xCatagoryCount, numberOfXTicks, cm) - (int) (0.5f * widthOfbar);
-				int yBoxStart = yTickNumToPlotY(Q1, yTicks, cm);
-				int boxWidth = widthOfbar;
-				int boxHeight = yTickNumToPlotY(Q3, yTicks, cm) - yBoxStart;
+				if (orientation == "v") {	
+					int lengthOfbar = (int) (this.singlularClusterBarWidthPercentage * cm.getPlotWidth() / numberOfCategoricalTicks);
+					int xCenterOfBox = xCategoryNumToPlotX(catagoryCount, numberOfCategoricalTicks, cm);
+					
+					int xBoxStart = xCenterOfBox - (int) (0.5f * lengthOfbar);
+					int yBoxStart = yValueToPlotY(Q1, numericTicks, cm);
+					int boxWidth = lengthOfbar;
+					int boxHeight = yValueToPlotY(Q3, numericTicks, cm) - yBoxStart;
+					
+					int yMin = yValueToPlotY(min, numericTicks, cm);
+					int yMax = yValueToPlotY(max, numericTicks, cm);
+					int yMedian = yValueToPlotY(Q2, numericTicks, cm);
+					drawVerticleBox(g, xBoxStart, yBoxStart, boxWidth, boxHeight, xCenterOfBox, yMin, yMax, yMedian,
+							fillColor, this.outlineColor);
+				} else {
+					int lengthOfbar = (int) (this.singlularClusterBarWidthPercentage * cm.getPlotHeight() / numberOfCategoricalTicks);
+					
+					int yCenterOfBox = yCategoryNumToPlotY(catagoryCount, numberOfCategoricalTicks, cm);
+					
+					int xBoxStart = xValueToToPlotX(Q1, numericTicks, cm);
+					int yBoxStart = yCenterOfBox - (int) (0.5f * lengthOfbar);
+					int boxWidth = xValueToToPlotX(Q3, numericTicks, cm) - xBoxStart;
+					int boxHeight = lengthOfbar;
+					
+					int xMin = xValueToToPlotX(min, numericTicks, cm);
+					int xMax = xValueToToPlotX(max, numericTicks, cm);
+					int xMedian = xValueToToPlotX(Q2, numericTicks, cm);
+					drawHorizontalBox(g, xBoxStart, yBoxStart, boxWidth, boxHeight, yCenterOfBox, xMin, xMax, xMedian, fillColor, this.outlineColor);
+				}
 
-				int xCenterOfBox = xCategoryNumToPlotX(xCatagoryCount, numberOfXTicks, cm);
-
-				int yMin = yTickNumToPlotY(min, yTicks, cm);
-				int yMax = yTickNumToPlotY(max, yTicks, cm);
-				int yMedian = yTickNumToPlotY(Q2, yTicks, cm);
-				drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, xCenterOfBox, yMin, yMax, yMedian, fillColor,
-						this.outlineColor);
-
-				xCatagoryCount++;
+				catagoryCount++;
 			}
 		} else if (typeOfData == "multipleCatagoriesAndHueValue") {
-			int xCatagoryCount = 0;
-			for (String xCategory : xDataOrdered) {
-				HashMap<Object, HashMap<Object, Double>> category = (HashMap<Object, HashMap<Object, Double>>) data.get(xCategory);
+			int catagoryCount = 0;
+			for (String category : categoryOrder) {
+				HashMap<Object, HashMap<Object, Double>> categoryMap = (HashMap<Object, HashMap<Object, Double>>) data
+						.get(category);
 
-				int numColorCodeValues = category.keySet().size();
+				int numColorCodeValues = categoryMap.keySet().size();
 				int totalSpaceInbetweenBars = (numColorCodeValues - 1) * this.multipleBarPixelSpacing;
-				int widthOfColorCodeBar = (int) ((((cm.getPlotWidth() / (numberOfXTicks))
-						* this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
+				
+				int lengthOfColorCodeBar;
+				int offsetAtBarsStart;
+				
+				if (orientation == "v") {					
+					lengthOfColorCodeBar = (int) ((((cm.getPlotWidth() / (numberOfCategoricalTicks))
+							* this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
+					
+					offsetAtBarsStart = xCategoryNumToPlotX(catagoryCount - 0.5f, data.keySet().size(), cm)
+							+ (int) (((1 - this.multipleBarWidthPercentage) / 2) * (cm.getPlotWidth() / (numberOfCategoricalTicks)));
+				} else {
+					lengthOfColorCodeBar = (int) ((((cm.getPlotHeight() / (numberOfCategoricalTicks))
+							* this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
+					
+					offsetAtBarsStart = yCategoryNumToPlotY(catagoryCount - 0.5f, data.keySet().size(), cm)
+							+ (int) (((1 - this.multipleBarWidthPercentage) / 2) * (cm.getPlotHeight() / (numberOfCategoricalTicks)));
 
-				int positionAtBarsStart = xCategoryNumToPlotX(xCatagoryCount - 0.5f, data.keySet().size(), cm)
-						+ (int) (((1 - this.multipleBarWidthPercentage) / 2) * (cm.getPlotWidth() / (numberOfXTicks)));
+				}
+				
 
 				int colorCodeCount = 0;
-				for (Object colorCode : category.keySet()) {
+				for (Object colorCode : categoryMap.keySet()) {
 					Color fillColor = this.boxColorPalette[colorCodeCount % this.boxColorPalette.length];
 
-					HashMap<Object, Double> map = category.get(colorCode);
+					HashMap<Object, Double> map = categoryMap.get(colorCode);
 
-					double[] yTicks = axis.getNumericTicksValues();
+					double[] numericalTicks = axis.getNumericTicksValues();
 
 					double min = map.get("Min");
 					double Q1 = map.get("Q1");
 					double Q2 = map.get("Q2");
 					double Q3 = map.get("Q3");
 					double max = map.get("Max");
-//					System.out.println("min: " + min + "\n" + "Q1: " + Q1 + "\n" + "Q2: " + Q2 + "\n" + "Q3: " + Q3 + "\n" + "max: " + max);
 
-					int xBoxStart = positionAtBarsStart
-							+ ((widthOfColorCodeBar + multipleBarPixelSpacing) * colorCodeCount);
-					int yBoxStart = yTickNumToPlotY(Q1, yTicks, cm);
-					int boxWidth = widthOfColorCodeBar;
-					int boxHeight = yTickNumToPlotY(Q3, yTicks, cm) - yBoxStart;
-
-					int xCenterOfBox = xBoxStart + boxWidth / 2;
-
-					int yMin = yTickNumToPlotY(min, yTicks, cm);
-					int yMax = yTickNumToPlotY(max, yTicks, cm);
-					int yMedian = yTickNumToPlotY(Q2, yTicks, cm);
-
-					drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, xCenterOfBox, yMin, yMax, yMedian, fillColor,
-							this.outlineColor);
+					if (orientation == "v") {						
+						int xBoxStart = offsetAtBarsStart
+								+ ((lengthOfColorCodeBar + this.multipleBarPixelSpacing) * colorCodeCount);
+						int yBoxStart = yValueToPlotY(Q1, numericalTicks, cm);
+						int boxWidth = lengthOfColorCodeBar;
+						int boxHeight = yValueToPlotY(Q3, numericalTicks, cm) - yBoxStart;
+						
+						int xCenterOfBox = xBoxStart + boxWidth / 2;
+						
+						int yMin = yValueToPlotY(min, numericalTicks, cm);
+						int yMax = yValueToPlotY(max, numericalTicks, cm);
+						int yMedian = yValueToPlotY(Q2, numericalTicks, cm);
+						
+						drawVerticleBox(g, xBoxStart, yBoxStart, boxWidth, boxHeight, xCenterOfBox, yMin, yMax, yMedian,
+								fillColor, this.outlineColor);
+					} else {
+						int xBoxStart = xValueToToPlotX(Q1, numericalTicks, cm);
+						int yBoxStart = offsetAtBarsStart + ((lengthOfColorCodeBar + this.multipleBarPixelSpacing) * colorCodeCount);
+						int boxWidth = xValueToToPlotX(Q3, numericalTicks, cm) - xValueToToPlotX(Q1, numericalTicks, cm);
+						int boxHeight = lengthOfColorCodeBar;
+						
+						int yCenterOfBox = yBoxStart + boxHeight / 2;
+						
+						int xMin = xValueToToPlotX(min, numericalTicks, cm);
+						int xMax = xValueToToPlotX(max, numericalTicks, cm);
+						int xMedian = xValueToToPlotX(Q2, numericalTicks, cm);
+						
+						drawHorizontalBox(g, xBoxStart, yBoxStart, boxWidth, boxHeight, yCenterOfBox, xMin, xMax, xMedian, fillColor, this.outlineColor);
+						
+//						System.out.println("min: " + min + "\n" + "Q1: " + Q1 + "\n" + "Q2: " + Q2 + "\n" + "Q3: " + Q3 + "\n" + "max: " + max + "\n");
+					}
 
 					colorCodeCount++;
 				}
 
-				xCatagoryCount++;
+				catagoryCount++;
 			}
 		}
 
 	}
 
-	private void drawBar(Graphics2D g, int xBoxStart, int yBoxStart, int boxWidth, int boxHeight, int xCenterOfBox,
-			int yMin, int yMax, int yMedian, Color fillColor, Color outlineColor) {
+	private void drawHorizontalBox(Graphics2D g, int xBoxStart, int yBoxStart, int boxWidth, int boxHeight,
+			int yCenterOfBox, int xMin, int xMax, int xMedian, Color fillColor, Color outlineColor) {
+		g.setColor(fillColor);
+		g.fillRect(xBoxStart, yBoxStart, boxWidth, boxHeight);
+		
+		g.setColor(outlineColor);
+		g.drawRect(xBoxStart, yBoxStart, boxWidth, boxHeight);
+		
+		// Line from left of box to the min
+		g.drawLine(xBoxStart, yCenterOfBox, xMin, yCenterOfBox);
+		// Line up min
+		g.drawLine(xMin, yBoxStart, xMin, yBoxStart + boxHeight);
+		
+		// Line from the right of box to the max
+		g.drawLine(xBoxStart + boxWidth, yCenterOfBox, xMax, yCenterOfBox);
+		// Line up the max
+		g.drawLine(xMax, yBoxStart, xMax, yBoxStart + boxHeight);
+		
+		// Line through median
+		g.drawLine(xMedian, yBoxStart, xMedian, yBoxStart + boxHeight);
+		
+	}
+
+	private void drawVerticleBox(Graphics2D g, int xBoxStart, int yBoxStart, int boxWidth, int boxHeight,
+			int xCenterOfBox, int yMin, int yMax, int yMedian, Color fillColor, Color outlineColor) {
 		g.setColor(fillColor);
 		g.fillRect(xBoxStart, yBoxStart, boxWidth, boxHeight);
 
@@ -169,12 +263,21 @@ public class BoxPlot extends Plot {
 	}
 
 	private int xCategoryNumToPlotX(double xCatagoryNum, int totalXCategories, XYChartMeasurements cm) {
-		int widthOfXUnit = (cm.getPlotWidth() / (totalXCategories));
-
+		int widthOfXUnit = cm.getPlotWidth() / totalXCategories;
 		return (int) ((xCatagoryNum) * widthOfXUnit) + (int) (0.5f * widthOfXUnit) + cm.imageLeftToPlotLeftWidth();
 	}
 
-	private int yTickNumToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
+	private int xValueToToPlotX(double xPos, double[] xTicks, XYChartMeasurements cm) {
+		return CommonMath.map(xPos, xTicks[0], xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(),
+				cm.imageLeftToPlotRightWidth());
+	}
+
+	private int yCategoryNumToPlotY(double yCategoryNum, int totalYCategories, XYChartMeasurements cm) {
+		int widthOfYUnit = cm.getPlotHeight() / totalYCategories;
+		return (int) ((yCategoryNum) * widthOfYUnit) + (int) (0.5f * widthOfYUnit) + cm.imageBottomToPlotBottomHeight();
+	}
+
+	private int yValueToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
 		return CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1], cm.imageBottomToPlotBottomHeight(),
 				cm.imageBottomToPlotTopHeight());
 	}

@@ -21,7 +21,7 @@ public class XYOneCategoricalAxis extends XYAxis {
 	private boolean includeAxisLinesOnPlot = true;
 	private Color axisLinesOnPlotColor = Color.WHITE;
 
-	private String orientation = "h";
+	private String orientation = "v";
 
 	public void setXAxis(String[] xData) {
 		this.categoricalTicks = xData;
@@ -288,5 +288,13 @@ public class XYOneCategoricalAxis extends XYAxis {
 			}
 		}
 		return null;
+	}
+
+	public String getOrientation() {
+		return orientation;
+	}
+
+	public void setOrientation(String orientation) {
+		this.orientation = orientation;
 	}
 }

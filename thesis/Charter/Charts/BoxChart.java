@@ -76,7 +76,7 @@ public class BoxChart extends XYChart{
 
 		this.axis.drawAxisTicks(g, this.cm);
 		
-		this.plot.drawPlot(g, this.axis, data, xDataOrdered, typeOfData, this.cm);
+		this.plot.drawPlot(g, this.axis, data, xDataOrdered, typeOfData, this.axis.getOrientation(), this.cm);
 
 		this.axis.drawXAxisLabel(g, this.cm);
 		this.axis.drawYAxisLabel(g, this.cm);
