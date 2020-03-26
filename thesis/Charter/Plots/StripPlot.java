@@ -49,7 +49,7 @@ public class StripPlot extends Plot{
 			int minJitter = (int) (-this.jitter * cm.getPlotWidth()/2);
 			for (int i = 0; i < allValues.length; i++) {
 				int x = xCategoryNumToPlotX(0, 1, cm);
-				int y = yTickNumToPlotY(allValues[i], axis.getYTicksValues(), cm);
+				int y = yTickNumToPlotY(allValues[i], axis.getNumericTicksValues(), cm);
 				
 				int jitterAmount = r.nextInt((maxJitter - minJitter) + 1) + minJitter;
 				
@@ -71,7 +71,7 @@ public class StripPlot extends Plot{
 					
 					int jitterAmount = r.nextInt((maxJitter - minJitter) + 1) + minJitter;
 					int x = xCategoryNumToPlotX(xCatagoryCount, xDataOrdered.length, cm);
-					int y = yTickNumToPlotY(values[valueCount], axis.getYTicksValues(), cm);
+					int y = yTickNumToPlotY(values[valueCount], axis.getNumericTicksValues(), cm);
 					drawDataPoint(g, x + jitterAmount, y, this.colorPalette[xCatagoryCount % this.colorPalette.length]);
 				}
 				
@@ -113,7 +113,7 @@ public class StripPlot extends Plot{
 						for (int valueCount = 0; valueCount < values.length; valueCount++) {
 							int jitterAmount = r.nextInt((maxJitter - minJitter) + 1) + minJitter;
 							int x = positionAtBarsStart + ((widthOfColorCodeBar + multipleBarPixelSpacing) * colorCodeCount);
-							int y = yTickNumToPlotY(values[valueCount], axis.getYTicksValues(), cm);
+							int y = yTickNumToPlotY(values[valueCount], axis.getNumericTicksValues(), cm);
 							drawDataPoint(g, x + jitterAmount, y, fillColor);
 						}
 						colorCodeCount++;
@@ -142,7 +142,7 @@ public class StripPlot extends Plot{
 					for (int valueCount = 0; valueCount < values.length; valueCount++) {
 						int jitterAmount = r.nextInt((maxJitter - minJitter) + 1) + minJitter;
 						int x = xCategoryNumToPlotX(xCatagoryCount, xDataOrdered.length, cm);
-						int y = yTickNumToPlotY(values[indexArray.get(valueCount)], axis.getYTicksValues(), cm);
+						int y = yTickNumToPlotY(values[indexArray.get(valueCount)], axis.getNumericTicksValues(), cm);
 						drawDataPoint(g, x + jitterAmount, y, fillColor[indexArray.get(valueCount)]);
 					}
 				}

@@ -82,6 +82,7 @@ public class BarChart extends XYChart{
 		}
 
 		this.drawTitle(g, this.cm);
+		
 	}
 
 	/*

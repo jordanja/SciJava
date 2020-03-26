@@ -28,7 +28,7 @@ public class StackedBarPlot  extends Plot{
 	private Font valuesFont = new Font("Dialog", Font.PLAIN, 20);
 	
 	public void drawPlot(Graphics2D g, StackedBarChartAxis axis, HashMap<String, HashMap<String, HashMap<String, Double>>> data, String[] xDataOrder, String[] hueValuesOrder, XYChartMeasurements cm) {
-		double[] yTicks = axis.getYTicksValues();
+		double[] yTicks = axis.getNumericTicksValues();
 		
 		int numXCatagories = data.keySet().size();
 		int xCatagoryCount = 0;

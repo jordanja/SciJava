@@ -37,12 +37,12 @@ public class BoxPlot extends Plot {
 
 	public void drawPlot(Graphics2D g, BoxChartAxis axis, HashMap<Object, Object> data, String[] xDataOrdered,
 			String typeOfData, XYChartMeasurements cm) {
-		int numberOfXTicks = axis.getXTicks().length;
+		int numberOfXTicks = axis.getCategoricalTicks().length;
 
 		if (typeOfData == "singleCatagory") {
 			int widthOfbar = (int) (singluarBarWidthPercentage * cm.getPlotWidth());
 
-			double[] yTicks = axis.getYTicksValues();
+			double[] yTicks = axis.getNumericTicksValues();
 
 			double min = (Double) data.get("Min");
 			double Q1 = (Double) data.get("Q1");
@@ -70,7 +70,7 @@ public class BoxPlot extends Plot {
 				Color fillColor = this.boxColorPalette[xCatagoryCount % this.boxColorPalette.length];
 				HashMap<Object, Double> map = (HashMap<Object, Double>) data.get(xCategory);
 
-				double[] yTicks = Arrays.stream(axis.getYTicks()).mapToDouble(Double::parseDouble).toArray();
+				double[] yTicks = axis.getNumericTicksValues();
 
 				double min = map.get("Min");
 				double Q1 = map.get("Q1");
@@ -112,7 +112,7 @@ public class BoxPlot extends Plot {
 
 					HashMap<Object, Double> map = category.get(colorCode);
 
-					double[] yTicks = Arrays.stream(axis.getYTicks()).mapToDouble(Double::parseDouble).toArray();
+					double[] yTicks = axis.getNumericTicksValues();
 
 					double min = map.get("Min");
 					double Q1 = map.get("Q1");

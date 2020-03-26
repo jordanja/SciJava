@@ -16,7 +16,6 @@ public class StripChartAxis extends XYOneCategoricalAxis {
 			Double[] dataList = (Double[]) data;
 			maxValue = CommonArray.maxValue(dataList);
 			minValue = CommonArray.minValue(dataList);
-
 		} else if (typeOfData == "multipleCatagoriesAndNoHueValue") {
 
 			HashMap<Object, Double[]> catagoryMap = (HashMap<Object, Double[]>) data;
@@ -39,11 +38,11 @@ public class StripChartAxis extends XYOneCategoricalAxis {
 		}
 		NiceScale yNS = new NiceScale(minValue, maxValue);
 
-		this.yTicks = new String[1 + (int) (Math.ceil(yNS.getNiceMax() / yNS.getTickSpacing()))];
-
+		this.numericalTicks = new String[1 + (int) (Math.ceil(yNS.getNiceMax() / yNS.getTickSpacing()))];
+		
 		for (int i = 0; i * yNS.getTickSpacing() <= yNS.getNiceMax(); i++) {
 			double tickValue = i * yNS.getTickSpacing();
-			this.yTicks[i] = String.valueOf(tickValue);
+			this.numericalTicks[i] = String.valueOf(tickValue);
 		}
 	}
 

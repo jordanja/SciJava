@@ -3,47 +3,69 @@ package thesis.Charter.Axis;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.Arrays;
 
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
+import thesis.Helpers.TypeCheckers;
 
 public class XYOneCategoricalAxis extends XYAxis {
+
+	protected String[] categoricalTicks;
+	protected String[] numericalTicks;
 
 	private boolean includeAxisLinesOnPlot = true;
 	private Color axisLinesOnPlotColor = Color.WHITE;
 
-	public void setXAxis(String[] xData) {
-		this.xTicks = xData;
-	}
-	
-	public void drawAxis(Graphics2D g, XYChartMeasurements cm) {
-		if (this.xTicks.length > 0) {
-			int halfWidthOfXUnit = (cm.getPlotWidth() / (2 * this.xTicks.length));
-			int count = 0;
-			for (String xCatagory : this.xTicks) {
-				int xPosition = CommonMath.map(count, 0, this.xTicks.length - 1,
-						cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit,
-						cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
+	private String orientation = "h";
 
-				DrawString.setTextStyle(this.xAxisColor, this.xAxisFont, this.xAxisRotation);
+	public void setXAxis(String[] xData) {
+		this.categoricalTicks = xData;
+	}
+
+	public void drawAxis(Graphics2D g, XYChartMeasurements cm) {
+		if (this.orientation == "v") {
+			drawXAxisCategorical(g, cm, this.categoricalTicks);
+			drawYAxisNumerical(g, cm, getNumericTicksFormattedForDisplay());
+		} else if (this.orientation == "h") {
+			drawXAxisNumerical(g, cm, getNumericTicksFormattedForDisplay());
+			drawYAxisCategorical(g, cm, this.categoricalTicks);
+		}
+
+	}
+
+	private void drawYAxisCategorical(Graphics2D g, XYChartMeasurements cm, String[] ticks) {
+		if (ticks.length > 0) {
+			int halfWidthOfYUnit = (cm.getPlotHeight() / (2 * ticks.length));
+			int count = 0;
+			for (String xCatagory : ticks) {
+				int yPosition = CommonMath.map(count, 0, ticks.length - 1,
+						cm.imageBottomToPlotBottomHeight() + halfWidthOfYUnit,
+						cm.imageBottomToPlotTopHeight() - halfWidthOfYUnit);
+
+				DrawString.setTextStyle(this.yAxisColor, this.yAxisFont, this.yAxisRotation);
 				DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
-				if (this.drawBottomXAxisValues) {
-					DrawString.write(g, xCatagory, xPosition, cm.imageBottomToBottomAxisMidHeight());
+				if (this.drawLeftYAxisValues()) {
+					DrawString.write(g, xCatagory, cm.imageLeftToLeftAxisMidWidth(), yPosition);
 				}
-				if (this.drawTopXAxisValues) {
-					DrawString.write(g, xCatagory, xPosition, cm.imageBottomToTopAxisMidHeight());
+				if (this.drawRightYAxisValues()) {
+					DrawString.write(g, xCatagory, cm.imageLeftToRightAxisMidWidth(), yPosition);
 				}
 				count++;
 			}
 		}
-
-		if (this.yTicks.length > 0) {
-			String[] yAxisValues = getYTicksFormattedForDisplay();
-			for (int count = 1; count < this.yTicks.length - 1; count++) {
-				int position = CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(),
-						cm.imageBottomToPlotTopHeight());
-				String stringToDisplay = yAxisValues[count];
+	}
+	
+	private void drawYAxisNumerical(Graphics2D g, XYChartMeasurements cm, String[] ticks) {
+		if (ticks.length > 0) {
+			for (int count = 1; count < ticks.length - 1; count++) {
+				int position = CommonMath.map(count, 0, ticks.length - 1,
+						cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
+				String stringToDisplay = ticks[count];
 
 				DrawString.setTextStyle(this.yAxisColor, this.yAxisFont, this.yAxisRotation);
 				DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
@@ -61,16 +83,60 @@ public class XYOneCategoricalAxis extends XYAxis {
 
 			}
 		}
+	}
 
+	private void drawXAxisNumerical(Graphics2D g, XYChartMeasurements cm, String[] ticks) {
+		if (ticks.length > 0) {
+			for (int count = 1; count < ticks.length - 1; count++) {
+				int position = CommonMath.map(count, 0, ticks.length - 1, cm.imageLeftToPlotLeftWidth(), cm.imageLeftToPlotRightWidth());
+				String stringToDisplay = ticks[count];
+				DrawString.setTextStyle(this.xAxisColor, this.xAxisFont, this.xAxisRotation);
+				DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
+				if (this.drawBottomXAxisValues()) {
+					DrawString.write(g, stringToDisplay, position, cm.imageBottomToBottomAxisMidHeight());
+				}
+				if (this.drawTopXAxisValues()) {
+					DrawString.write(g, stringToDisplay, position, cm.imageBottomToTopAxisMidHeight());
+				}
+			}
+		}
+	}
+	
+	private void drawXAxisCategorical(Graphics2D g, XYChartMeasurements cm, String[] ticks) {
+		if (ticks.length > 0) {
+			int halfWidthOfXUnit = (cm.getPlotWidth() / (2 * ticks.length));
+			int count = 0;
+			for (String xCatagory : ticks) {
+				int xPosition = CommonMath.map(count, 0, ticks.length - 1,
+						cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit,
+						cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
+
+				DrawString.setTextStyle(this.xAxisColor, this.xAxisFont, this.xAxisRotation);
+				DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
+				if (this.drawBottomXAxisValues) {
+					DrawString.write(g, xCatagory, xPosition, cm.imageBottomToBottomAxisMidHeight());
+				}
+				if (this.drawTopXAxisValues) {
+					DrawString.write(g, xCatagory, xPosition, cm.imageBottomToTopAxisMidHeight());
+				}
+				count++;
+			}
+		}
 	}
 
 	public void drawAxisTicks(Graphics2D g, XYChartMeasurements cm) {
 
-		if (this.xTicks.length > 0) {
-			int halfWidthOfXUnit = (cm.getPlotWidth() / (2 * this.xTicks.length));
-			for (int count = 0; count < this.xTicks.length; count++) {
-				int xPosition = CommonMath.map(count, 0, xTicks.length - 1,
-						cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit,
+		int numTicks;
+		if (this.orientation == "v") {
+			numTicks = this.categoricalTicks.length;
+		} else {
+			numTicks = this.numericalTicks.length;
+		}
+
+		if (numTicks > 0) {
+			int halfWidthOfXUnit = (cm.getPlotWidth() / (2 * numTicks));
+			for (int count = 0; count < numTicks; count++) {
+				int xPosition = CommonMath.map(count, 0, numTicks - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit,
 						cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
 
 				g.setColor(this.bottomTickColor);
@@ -99,10 +165,10 @@ public class XYOneCategoricalAxis extends XYAxis {
 			}
 		}
 
-		if (this.yTicks.length > 0) {
-			for (int count = 0; count < this.yTicks.length; count++) {
-				int position = CommonMath.map(count, 0, this.yTicks.length - 1, cm.imageBottomToPlotBottomHeight(),
-						cm.imageBottomToPlotTopHeight());
+		if (this.numericalTicks.length > 0) {
+			for (int count = 0; count < this.numericalTicks.length; count++) {
+				int position = CommonMath.map(count, 0, this.numericalTicks.length - 1,
+						cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 
 				g.setColor(this.leftTickColor);
 				if (this.drawExteriorLeftYAxisTicks) {
@@ -143,5 +209,84 @@ public class XYOneCategoricalAxis extends XYAxis {
 
 	public void setAxisLinesOnPlotColor(Color axisLinesOnPlotColor) {
 		this.axisLinesOnPlotColor = axisLinesOnPlotColor;
+	}
+
+	public String[] getCategoricalTicks() {
+		return categoricalTicks;
+	}
+
+	public void setCategoricalTicks(String[] categoricalTicks) {
+		this.categoricalTicks = categoricalTicks;
+	}
+
+	public String[] getNumericalTicks() {
+		return numericalTicks;
+	}
+
+	public void setNumericalTicks(String[] numericalTicks) {
+		this.numericalTicks = numericalTicks;
+	}
+
+	public double[] getNumericTicksValues() {
+		return Arrays.stream(getNumericalTicks()).mapToDouble(Double::parseDouble).toArray();
+	}
+
+	public String[] getXTicksFormattedForDisplay() {
+
+		if (this.orientation == "v") {
+			return this.categoricalTicks;
+		} else if (this.orientation == "h") {
+			String[] formattedXTicks = new String[this.numericalTicks.length];
+
+			if (this.numericalTicks.length > 0) {
+				if (TypeCheckers.isNumeric(this.numericalTicks[0])) {
+					double[] xTicksValues = this.getNumericTicksValues();
+
+					DecimalFormat df = new DecimalFormat("#.##");
+					df.setRoundingMode(RoundingMode.HALF_DOWN);
+
+					for (int i = 0; i < formattedXTicks.length; i++) {
+						formattedXTicks[i] = df.format(xTicksValues[i]);
+					}
+					return formattedXTicks;
+				} else {
+					return this.numericalTicks;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public String[] getYTicksFormattedForDisplay() {
+
+		if (this.orientation == "v") {
+			return getNumericTicksFormattedForDisplay();
+		} else if (this.orientation == "h"){
+			return this.categoricalTicks;
+		}
+		
+		return null;
+	}
+
+	public String[] getNumericTicksFormattedForDisplay() {
+		if (this.numericalTicks.length > 0) {
+			if (TypeCheckers.isNumeric(this.numericalTicks[0])) {
+				String[] formattedXTicks = new String[this.numericalTicks.length];
+
+				double[] xTicksValues = this.getNumericTicksValues();
+
+				DecimalFormat df = new DecimalFormat("#.##");
+				df.setRoundingMode(RoundingMode.HALF_DOWN);
+
+				for (int i = 0; i < formattedXTicks.length; i++) {
+					formattedXTicks[i] = df.format(xTicksValues[i]);
+				}
+				return formattedXTicks;
+			} else {
+				return this.numericalTicks;
+			}
+		}
+		return null;
 	}
 }
