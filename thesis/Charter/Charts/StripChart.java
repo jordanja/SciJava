@@ -249,7 +249,7 @@ public class StripChart extends XYChart{
 		return this.legend;
 	}
 	
-	public XYChartMeasurements getChartMeadurements() {
+	public XYChartMeasurements getChartMeasurements() {
 		return this.cm;
 	}
 

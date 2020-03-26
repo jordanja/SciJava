@@ -27,20 +27,27 @@ public class StackedBarPlot  extends Plot{
 	private Color valuesColor =  Color.WHITE;
 	private Font valuesFont = new Font("Dialog", Font.PLAIN, 20);
 	
-	public void drawPlot(Graphics2D g, StackedBarChartAxis axis, HashMap<String, HashMap<String, HashMap<String, Double>>> data, String[] xDataOrder, String[] hueValuesOrder, XYChartMeasurements cm) {
-		double[] yTicks = axis.getNumericTicksValues();
+	public void drawPlot(Graphics2D g, StackedBarChartAxis axis, HashMap<String, HashMap<String, HashMap<String, Double>>> data, String[] xDataOrder, String[] hueValuesOrder, String orientation, XYChartMeasurements cm) {
+		double[] numericTicks = axis.getNumericTicksValues();
 		
-		int numXCatagories = data.keySet().size();
-		int xCatagoryCount = 0;
+		int numCatagories = data.keySet().size();
 		
-		int halfWidthOfSingularBar = (int) (this.barWidthPercentage * cm.getPlotWidth() / (2 * numXCatagories));
+		double halfCategoryWidth = (orientation == "v" ? cm.getPlotWidth() : cm.getPlotHeight()) / (2 * numCatagories);
 		
+		int halfWidthOfSingularBar = (int) (this.barWidthPercentage * halfCategoryWidth);
+		int catagoryCount = 0;		
 		for (String xCatagory : xDataOrder) {
-			int xBoxStart = xTickNumToPlotX(xCatagoryCount, data.keySet().size(), cm) - halfWidthOfSingularBar;
-			int boxWidth = 2 * halfWidthOfSingularBar;
-			drawBar(g, cm, xBoxStart, boxWidth , hueValuesOrder, data.get(xCatagory), yTicks);
 			
-			xCatagoryCount++;
+			int categoryOffset; 
+			if (orientation == "v") {				
+				categoryOffset = xCategoryNumToPlotX(catagoryCount, numCatagories, cm) - halfWidthOfSingularBar;
+			} else {
+				categoryOffset = yCategoryNumToPlotY(catagoryCount, numCatagories, cm) - halfWidthOfSingularBar;
+			}
+			int boxWidth = 2 * halfWidthOfSingularBar;
+			drawBar(g, cm, categoryOffset, boxWidth , hueValuesOrder, data.get(xCatagory), numericTicks, orientation);
+			
+			catagoryCount++;
 		}
 	}
 	
@@ -48,22 +55,29 @@ public class StackedBarPlot  extends Plot{
 	
 	
 	
-	private void drawBar(Graphics2D g, XYChartMeasurements cm, int xBoxStart, int boxWidth, String[] hueValuesOrder, HashMap<String, HashMap<String, Double>> xCategoryMap, double[] yTicks) {
+	private void drawBar(Graphics2D g, XYChartMeasurements cm, int categoryOffset, int boxLength, String[] hueValuesOrder, HashMap<String, HashMap<String, Double>> categoryMap, double[] numericTicks, String orientation) {
 		double currentStartProportion = 0;
 		int hueCount = 0;
 		
-		int bottomOfPlotHeight = yTickNumToPlotY(0, yTicks, cm);
+		int bottomOfPlotHeight = yValueToPlotY(0, numericTicks, cm);
+		int leftOfPlotWidth = xValueToPlotX(0, numericTicks, cm);
 		
 		for (String hueValue: hueValuesOrder) {
-			double proportion = xCategoryMap.get(hueValue).get("proportion");
-			double value = xCategoryMap.get(hueValue).get("value");
-			
-			int yBoxStart = yTickNumToPlotY(currentStartProportion, yTicks, cm);
-			int boxHeight = yTickNumToPlotY(proportion, yTicks, cm) - bottomOfPlotHeight;
-
+			double proportion = categoryMap.get(hueValue).get("proportion");
+			double value = categoryMap.get(hueValue).get("value");
 			Color color = this.colorPalette[hueCount % this.colorPalette.length];
+
+			if (orientation == "v") {				
+				int yBoxStart = yValueToPlotY(currentStartProportion, numericTicks, cm);
+				int boxHeight = yValueToPlotY(proportion, numericTicks, cm) - bottomOfPlotHeight;
+				drawHueBar(g, categoryOffset, yBoxStart, boxLength, boxHeight, value, color, proportion, cm);
+			} else {
+				int xBoxStart = xValueToPlotX(currentStartProportion, numericTicks, cm);
+				int boxWidth = xValueToPlotX(proportion, numericTicks, cm) - leftOfPlotWidth;
+				drawHueBar(g, xBoxStart, categoryOffset, boxWidth, boxLength, value, color, proportion, cm);
+			}
+
 			
-			drawHueBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, value, color, proportion, cm);
 			
 			currentStartProportion += proportion;
 			hueCount++;
@@ -78,15 +92,25 @@ public class StackedBarPlot  extends Plot{
 		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
 		DrawString.write(g, DrawString.formatDoubleForDisplay(value), xBoxStart + boxWidth/2, yBoxStart + boxHeight/2);
 	}
+	
+	
 
-
-	private int xTickNumToPlotX(double xTickNum, int totalxTicks, XYChartMeasurements cm) {
-		int halfWidthOfXUnit = (cm.getPlotWidth() / (2 * totalxTicks));
-		return CommonMath.map(xTickNum, 0, totalxTicks - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit,
+	private int xCategoryNumToPlotX(double xCategoryNum, int totalXCategories, XYChartMeasurements cm) {
+		int halfWidthOfXUnit = (cm.getPlotWidth() / (2 * totalXCategories));
+		return CommonMath.map(xCategoryNum, 0, totalXCategories - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit,
 				cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
 	}
+	private int xValueToPlotX(double xPos, double[] xTicks, XYChartMeasurements cm) {
+		return CommonMath.map(xPos, xTicks[0], xTicks[xTicks.length - 1],
+				cm.imageLeftToPlotLeftWidth(), cm.imageLeftToPlotRightWidth());
+	}
 
-	private int yTickNumToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
+	private int yCategoryNumToPlotY(double yCategoryNum, int totalYCategories, XYChartMeasurements cm) {
+		int halfHeightOfYUnit = (cm.getPlotHeight() / (2 * totalYCategories));
+		return CommonMath.map(yCategoryNum, 0, totalYCategories - 1, cm.imageBottomToPlotBottomHeight() + halfHeightOfYUnit,
+				cm.imageBottomToPlotTopHeight() - halfHeightOfYUnit);
+	}
+	private int yValueToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
 		return CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1],
 				cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
 	}
