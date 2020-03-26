@@ -72,7 +72,7 @@ public class BarChart extends XYChart{
 
 		this.axis.drawAxisTicks(g, this.cm);
 
-		this.plot.drawPlot(g, this.axis, data, xDataOrdered, this.cm);
+		this.plot.drawPlot(g, this.axis, data, xDataOrdered, this.axis.getOrientation(), this.cm);
 
 		this.axis.drawXAxisLabel(g, this.cm);
 		this.axis.drawYAxisLabel(g, this.cm);

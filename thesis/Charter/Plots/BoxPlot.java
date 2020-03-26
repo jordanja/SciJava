@@ -25,14 +25,14 @@ public class BoxPlot extends Plot {
 	private Color barColor = boxColorPalette[0];
 
 	// When there are no categories, this is the width of a bar relative to the plot
-	private double singluarBarWidthPercentage = 0.8f;
+	private double singluarBarLengthPercentage = 0.8f;
 
 	// When there are categories but no color code bars, this is the width of a bar
-	private double singlularClusterBarWidthPercentage = 0.5f;
+	private double singlularClusterBarLengthPercentage = 0.5f;
 
 	// When there are colorCode bars, this is the total width of all bars in a
 	// cluster
-	private double multipleBarWidthPercentage = 0.8f;
+	private double multipleBarLengthPercentage = 0.8f;
 	// When there are colorCode bars, this is the number of pixels between bars in a
 	// cluster
 	private int multipleBarPixelSpacing = 0;
@@ -44,7 +44,7 @@ public class BoxPlot extends Plot {
 
 		if (typeOfData == "singleCatagory") {
 
-			int lengthOfbar = (int) (singluarBarWidthPercentage
+			int lengthOfbar = (int) (singluarBarLengthPercentage
 					* (orientation == "v" ? cm.getPlotWidth() : cm.getPlotHeight()));
 
 			double[] numericTicks = axis.getNumericTicksValues();
@@ -102,7 +102,7 @@ public class BoxPlot extends Plot {
 				double max = map.get("Max");
 
 				if (orientation == "v") {	
-					int lengthOfbar = (int) (this.singlularClusterBarWidthPercentage * cm.getPlotWidth() / numberOfCategoricalTicks);
+					int lengthOfbar = (int) (this.singlularClusterBarLengthPercentage * cm.getPlotWidth() / numberOfCategoricalTicks);
 					int xCenterOfBox = xCategoryNumToPlotX(catagoryCount, numberOfCategoricalTicks, cm);
 					
 					int xBoxStart = xCenterOfBox - (int) (0.5f * lengthOfbar);
@@ -116,7 +116,7 @@ public class BoxPlot extends Plot {
 					drawVerticleBox(g, xBoxStart, yBoxStart, boxWidth, boxHeight, xCenterOfBox, yMin, yMax, yMedian,
 							fillColor, this.outlineColor);
 				} else {
-					int lengthOfbar = (int) (this.singlularClusterBarWidthPercentage * cm.getPlotHeight() / numberOfCategoricalTicks);
+					int lengthOfbar = (int) (this.singlularClusterBarLengthPercentage * cm.getPlotHeight() / numberOfCategoricalTicks);
 					
 					int yCenterOfBox = yCategoryNumToPlotY(catagoryCount, numberOfCategoricalTicks, cm);
 					
@@ -147,16 +147,16 @@ public class BoxPlot extends Plot {
 				
 				if (orientation == "v") {					
 					lengthOfColorCodeBar = (int) ((((cm.getPlotWidth() / (numberOfCategoricalTicks))
-							* this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
+							* this.multipleBarLengthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
 					
 					offsetAtBarsStart = xCategoryNumToPlotX(catagoryCount - 0.5f, data.keySet().size(), cm)
-							+ (int) (((1 - this.multipleBarWidthPercentage) / 2) * (cm.getPlotWidth() / (numberOfCategoricalTicks)));
+							+ (int) (((1 - this.multipleBarLengthPercentage) / 2) * (cm.getPlotWidth() / (numberOfCategoricalTicks)));
 				} else {
 					lengthOfColorCodeBar = (int) ((((cm.getPlotHeight() / (numberOfCategoricalTicks))
-							* this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
+							* this.multipleBarLengthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
 					
 					offsetAtBarsStart = yCategoryNumToPlotY(catagoryCount - 0.5f, data.keySet().size(), cm)
-							+ (int) (((1 - this.multipleBarWidthPercentage) / 2) * (cm.getPlotHeight() / (numberOfCategoricalTicks)));
+							+ (int) (((1 - this.multipleBarLengthPercentage) / 2) * (cm.getPlotHeight() / (numberOfCategoricalTicks)));
 
 				}
 				
@@ -262,9 +262,9 @@ public class BoxPlot extends Plot {
 
 	}
 
-	private int xCategoryNumToPlotX(double xCatagoryNum, int totalXCategories, XYChartMeasurements cm) {
+	private int xCategoryNumToPlotX(double xCategoryNum, int totalXCategories, XYChartMeasurements cm) {
 		int widthOfXUnit = cm.getPlotWidth() / totalXCategories;
-		return (int) ((xCatagoryNum) * widthOfXUnit) + (int) (0.5f * widthOfXUnit) + cm.imageLeftToPlotLeftWidth();
+		return (int) ((xCategoryNum) * widthOfXUnit) + (int) (0.5f * widthOfXUnit) + cm.imageLeftToPlotLeftWidth();
 	}
 
 	private int xValueToToPlotX(double xPos, double[] xTicks, XYChartMeasurements cm) {
@@ -273,8 +273,8 @@ public class BoxPlot extends Plot {
 	}
 
 	private int yCategoryNumToPlotY(double yCategoryNum, int totalYCategories, XYChartMeasurements cm) {
-		int widthOfYUnit = cm.getPlotHeight() / totalYCategories;
-		return (int) ((yCategoryNum) * widthOfYUnit) + (int) (0.5f * widthOfYUnit) + cm.imageBottomToPlotBottomHeight();
+		int heightOfYUnit = cm.getPlotHeight() / totalYCategories;
+		return (int) ((yCategoryNum) * heightOfYUnit) + (int) (0.5f * heightOfYUnit) + cm.imageBottomToPlotBottomHeight();
 	}
 
 	private int yValueToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
@@ -314,28 +314,28 @@ public class BoxPlot extends Plot {
 		this.barColor = barColor;
 	}
 
-	public double getSingluarBarWidthPercentage() {
-		return singluarBarWidthPercentage;
+	public double getSingluarBarLengthPercentage() {
+		return singluarBarLengthPercentage;
 	}
 
-	public void setSingluarBarWidthPercentage(double singluarBarWidthPercentage) {
-		this.singluarBarWidthPercentage = singluarBarWidthPercentage;
+	public void setSingluarBarWidthPercentage(double singluarBarLengthPercentage) {
+		this.singluarBarLengthPercentage = singluarBarLengthPercentage;
 	}
 
-	public double getSinglularClusterBarWidthPercentage() {
-		return singlularClusterBarWidthPercentage;
+	public double getSinglularClusterBarLengthPercentage() {
+		return singlularClusterBarLengthPercentage;
 	}
 
-	public void setSinglularClusterBarWidthPercentage(double singlularClusterBarWidthPercentage) {
-		this.singlularClusterBarWidthPercentage = singlularClusterBarWidthPercentage;
+	public void setSinglularClusterBarLengthPercentage(double singlularClusterBarLengthPercentage) {
+		this.singlularClusterBarLengthPercentage = singlularClusterBarLengthPercentage;
 	}
 
-	public double getMultipleBarWidthPercentage() {
-		return multipleBarWidthPercentage;
+	public double getMultipleBarLengthPercentage() {
+		return multipleBarLengthPercentage;
 	}
 
-	public void setMultipleBarWidthPercentage(double multipleBarWidthPercentage) {
-		this.multipleBarWidthPercentage = multipleBarWidthPercentage;
+	public void setMultipleBarLengthPercentage(double multipleBarLengthPercentage) {
+		this.multipleBarLengthPercentage = multipleBarLengthPercentage;
 	}
 
 	public int getMultipleBarPixelSpacing() {
