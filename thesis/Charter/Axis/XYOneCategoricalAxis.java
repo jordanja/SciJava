@@ -126,18 +126,28 @@ public class XYOneCategoricalAxis extends XYAxis {
 
 	public void drawAxisTicks(Graphics2D g, XYChartMeasurements cm) {
 
-		int numTicks;
+		int numHorizontalTicks;
+		int numVerticleTicks;
 		if (this.orientation == "v") {
-			numTicks = this.categoricalTicks.length;
+			numHorizontalTicks = this.categoricalTicks.length;
+			numVerticleTicks = this.numericalTicks.length;
 		} else {
-			numTicks = this.numericalTicks.length;
+			numHorizontalTicks = this.numericalTicks.length;
+			numVerticleTicks = this.categoricalTicks.length;
 		}
-
-		if (numTicks > 0) {
-			int halfWidthOfXUnit = (cm.getPlotWidth() / (2 * numTicks));
-			for (int count = 0; count < numTicks; count++) {
-				int xPosition = CommonMath.map(count, 0, numTicks - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit,
-						cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
+		System.out.println("drawing: " + numHorizontalTicks + " horizontal ticks");
+		System.out.println("drawing: " + numVerticleTicks + " verticle ticks");
+		
+		if (numHorizontalTicks > 0) {
+			
+			int halfWidthOfXUnit = (cm.getPlotWidth() / (2 * numHorizontalTicks));
+			for (int count = 0; count < numHorizontalTicks; count++) {
+				int xPosition;
+				if (this.orientation == "v") {					
+					xPosition = CommonMath.map(count, 0, numHorizontalTicks - 1, cm.imageLeftToPlotLeftWidth() + halfWidthOfXUnit, cm.imageLeftToPlotRightWidth() - halfWidthOfXUnit);
+				} else {
+					xPosition = CommonMath.map(count, 0, numHorizontalTicks - 1, cm.imageLeftToPlotLeftWidth(), cm.imageLeftToPlotRightWidth());
+				}
 
 				g.setColor(this.bottomTickColor);
 				if (this.drawExteriorBottomXAxisTicks) {
@@ -165,30 +175,35 @@ public class XYOneCategoricalAxis extends XYAxis {
 			}
 		}
 
-		if (this.numericalTicks.length > 0) {
-			for (int count = 0; count < this.numericalTicks.length; count++) {
-				int position = CommonMath.map(count, 0, this.numericalTicks.length - 1,
-						cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
+		if (numVerticleTicks > 0) {
+			int halfHeightOfYUnit = (cm.getPlotHeight() / (2 * numVerticleTicks));
+			for (int count = 0; count < numVerticleTicks; count++) {
+				int yPosition; 
+				if (this.orientation == "v") {
+					yPosition = CommonMath.map(count, 0, numVerticleTicks - 1, cm.imageBottomToPlotBottomHeight(), cm.imageBottomToPlotTopHeight());
+				} else {
+					yPosition = CommonMath.map(count, 0, numVerticleTicks - 1, cm.imageBottomToPlotBottomHeight() + halfHeightOfYUnit, cm.imageBottomToPlotTopHeight() - halfHeightOfYUnit);
+				}
 
 				g.setColor(this.leftTickColor);
 				if (this.drawExteriorLeftYAxisTicks) {
 					g.setStroke(new BasicStroke(this.exteriorLeftTickThickness));
-					g.drawLine(cm.imageLeftToPlotLeftWidth(), position, cm.imageLeftToLeftTicksEndWidth(), position);
+					g.drawLine(cm.imageLeftToPlotLeftWidth(), yPosition, cm.imageLeftToLeftTicksEndWidth(), yPosition);
 				}
 				if (this.drawInteriorLeftYAxisTicks) {
 					g.setStroke(new BasicStroke(this.interiorLeftTickThickness));
-					g.drawLine(cm.imageLeftToPlotLeftWidth(), position,
-							cm.imageLeftToPlotLeftWidth() + cm.getLeftTicksWidth(), position);
+					g.drawLine(cm.imageLeftToPlotLeftWidth(), yPosition,
+							cm.imageLeftToPlotLeftWidth() + cm.getLeftTicksWidth(), yPosition);
 				}
 				g.setColor(this.rightTickColor);
 				if (this.drawExteriorRightYAxisTicks) {
 					g.setStroke(new BasicStroke(this.exteriorRightTickThickness));
-					g.drawLine(cm.imageLeftToPlotRightWidth(), position, cm.imageLeftToRightTicksEndWidth(), position);
+					g.drawLine(cm.imageLeftToPlotRightWidth(), yPosition, cm.imageLeftToRightTicksEndWidth(), yPosition);
 				}
 				if (this.drawInteriorRightYAxisTicks) {
 					g.setStroke(new BasicStroke(this.interiorRightTickThickness));
-					g.drawLine(cm.imageLeftToPlotRightWidth(), position,
-							cm.imageLeftToPlotRightWidth() - cm.getRightTicksWidth(), position);
+					g.drawLine(cm.imageLeftToPlotRightWidth(), yPosition,
+							cm.imageLeftToPlotRightWidth() - cm.getRightTicksWidth(), yPosition);
 				}
 
 			}
