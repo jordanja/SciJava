@@ -66,7 +66,7 @@ public class StackedBarChart extends XYChart{
 
 		this.axis.drawAxisTicks(g, this.cm);
 		
-		this.plot.drawPlot(g, this.axis, data, xDataOrdered, uniqueHueValues, this.cm);
+		this.plot.drawPlot(g, this.axis, data, xDataOrdered, uniqueHueValues, this.axis.getOrientation(), this.cm);
 
 		this.axis.drawXAxisLabel(g, this.cm);
 		this.axis.drawYAxisLabel(g, this.cm);

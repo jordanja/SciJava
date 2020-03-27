@@ -17,6 +17,7 @@ import thesis.Charter.Legend.Legend;
 import thesis.Charter.Plots.Plot;
 import thesis.Charter.Plots.ScatterPlot;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Common.CommonArray;
 
 public class XYChartMeasurements extends ChartMeasurements {
 	protected int imageBottomToBottomAxisLabelHeight = 5;
@@ -39,7 +40,7 @@ public class XYChartMeasurements extends ChartMeasurements {
 	protected int leftAxisLabelWidth;
 	protected int leftAxisLabelToLeftAxisWidth = 5;
 	protected int leftAxisWidth;
-	protected int leftAxisToLeftTicksWidth = 5;
+	protected int leftAxisToLeftTicksWidth = 10;
 	protected int leftTicksWidth = 5;
 	protected int plotWidth = 400;
 	protected int rightTicksWidth = 5;
@@ -392,6 +393,7 @@ public class XYChartMeasurements extends ChartMeasurements {
 		String[] xTicks = axis.getXTicksFormattedForDisplay();
 		String[] yTicks = axis.getYTicksFormattedForDisplay();
 
+		
 		double heightOfXAxis = DrawString.maxHeightOfStringInList(xTicks, axis.getXAxisFont(), axis.getXAxisRotation());
 		double widthOfYAxis = DrawString.maxWidthOfStringInList(yTicks, axis.getYAxisFont(), axis.getYAxisRotation());
 

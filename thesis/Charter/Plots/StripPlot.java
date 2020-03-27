@@ -36,69 +36,75 @@ public class StripPlot extends Plot{
 	// cluster
 	private int multipleBarPixelSpacing = 0;
 
-	private double jitter = 0.8;
+	private double jitter = 0.3;
 	
 	private boolean dodge = true;
 
 
-	public void drawPlot(Graphics2D g, StripChartAxis axis, Object data, String[] xDataOrdered, String typeOfData, XYChartMeasurements cm) {
+	public void drawPlot(Graphics2D g, StripChartAxis axis, Object data, String[] categoryOrder, String typeOfData, String orientation, XYChartMeasurements cm) {
 		Random r = new Random();
-		if (typeOfData == "singleCatagory") {
+		if (typeOfData == "singleCategory") {
 			Double[] allValues = (Double[])data;
-			int maxJitter = (int) (this.jitter * cm.getPlotWidth()/2);
-			int minJitter = (int) (-this.jitter * cm.getPlotWidth()/2);
 			for (int i = 0; i < allValues.length; i++) {
-				int x = xCategoryNumToPlotX(0, 1, cm);
-				int y = yTickNumToPlotY(allValues[i], axis.getYTicksValues(), cm);
 				
-				int jitterAmount = r.nextInt((maxJitter - minJitter) + 1) + minJitter;
-				
-				drawDataPoint(g, x + jitterAmount, y, this.pointColor);
+				int x = 0;
+				int y = 0;
+				if (orientation == "v") {					
+					int maxJitter = (int) (this.jitter * cm.getPlotWidth()/2);
+					int jitterAmount = r.nextInt((2 * maxJitter) + 1) - maxJitter;
+					x = xCategoryNumToPlotX(0, 1, cm) + jitterAmount;
+					y = yValueToPlotY(allValues[i], axis.getNumericTicksValues(), cm);				
+				} else {
+					int maxJitter = (int) (this.jitter * cm.getPlotHeight()/2);
+					int jitterAmount = r.nextInt((2 * maxJitter) + 1) - maxJitter;
+					x = xValueNumToPlotX(allValues[i], axis.getNumericTicksValues(), cm);
+					y = yCategoryNumToPlotY(0, 1, cm) + jitterAmount;
+				}
+				drawDataPoint(g, x, y, this.pointColor);
 			}
 			
-		} else if (typeOfData == "multipleCatagoriesAndNoHueValue") {
-			int columnWidth = cm.getPlotWidth()/xDataOrdered.length;
-			int maxJitter = (int) (this.jitter * columnWidth/2);
-			int minJitter = (int) (-this.jitter * columnWidth/2);
+		} else if (typeOfData == "multipleCategoriesAndNoHueValue") {
 			
 			HashMap<Object, Double[]> categoryMap =  (HashMap<Object, Double[]>)data; 
 			
-			int xCatagoryCount = 0;
-			for (String xCategory : xDataOrdered) {
-				Double[] values = categoryMap.get(xCategory);
+			int categoryCount = 0;
+			for (String category : categoryOrder) {
+				Double[] values = categoryMap.get(category);
 				
 				for (int valueCount = 0; valueCount < values.length; valueCount++) {
-					
-					int jitterAmount = r.nextInt((maxJitter - minJitter) + 1) + minJitter;
-					int x = xCategoryNumToPlotX(xCatagoryCount, xDataOrdered.length, cm);
-					int y = yTickNumToPlotY(values[valueCount], axis.getYTicksValues(), cm);
-					drawDataPoint(g, x + jitterAmount, y, this.colorPalette[xCatagoryCount % this.colorPalette.length]);
+					int x = 0;
+					int y = 0;
+					if (orientation == "v") {
+						int columnWidth = cm.getPlotWidth()/categoryOrder.length;
+						int maxJitter = (int) (this.jitter * columnWidth/2);
+						int jitterAmount = r.nextInt((2 * maxJitter) + 1) - maxJitter;
+						x = xCategoryNumToPlotX(categoryCount, categoryOrder.length, cm) + jitterAmount;
+						y = yValueToPlotY(values[valueCount], axis.getNumericTicksValues(), cm);
+					} else {
+						int rowWidth = cm.getPlotHeight()/categoryOrder.length;
+						int maxJitter = (int) (this.jitter * rowWidth/2);
+						int jitterAmount = r.nextInt((2 * maxJitter) + 1) - maxJitter;
+						x = xValueNumToPlotX(values[valueCount], axis.getNumericTicksValues(), cm);
+						y = yCategoryNumToPlotY(categoryCount, categoryOrder.length, cm) + jitterAmount;
+					}
+					drawDataPoint(g, x, y, this.colorPalette[categoryCount % this.colorPalette.length]);
 				}
 				
 				
-				xCatagoryCount++;
+				categoryCount++;
 			}
 			
-		} else if (typeOfData == "multipleCatagoriesAndHueValue") {			
+		} else if (typeOfData == "multipleCategoriesAndHueValue") {			
 			HashMap<Object, HashMap<Object, Double[]>> categoryMap = (HashMap<Object, HashMap<Object, Double[]>>)data; 
 			
-			int xCatagoryCount = 0;
-			for (String xCategory : xDataOrdered) {
+			int categoryCount = 0;
+			for (String xCategory : categoryOrder) {
 				HashMap<Object, Double[]> hueMap = categoryMap.get(xCategory);
 				
 				int numColorCodeValues = hueMap.keySet().size();
 				int totalSpaceInbetweenBars = (numColorCodeValues - 1) * this.multipleBarPixelSpacing;
-				int widthOfColorCodeBar = (int) ((((cm.getPlotWidth() / (xDataOrdered.length))
-						* this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
-
-				int positionAtBarsStart = xCategoryNumToPlotX(xCatagoryCount - 0.5f, categoryMap.keySet().size(), cm)
-						+ (int) (((1 - this.multipleBarWidthPercentage) / 2) * (cm.getPlotWidth() / (xDataOrdered.length))) + widthOfColorCodeBar/2;
 
 				int colorCodeCount = 0;
-				
-				
-				int maxJitter = (int) (this.jitter * widthOfColorCodeBar/2);
-				int minJitter = (int) (-this.jitter * widthOfColorCodeBar/2);
 				
 				
 				
@@ -111,10 +117,25 @@ public class StripPlot extends Plot{
 						Double[] values = hueMap.get(colorCode);
 						
 						for (int valueCount = 0; valueCount < values.length; valueCount++) {
-							int jitterAmount = r.nextInt((maxJitter - minJitter) + 1) + minJitter;
-							int x = positionAtBarsStart + ((widthOfColorCodeBar + multipleBarPixelSpacing) * colorCodeCount);
-							int y = yTickNumToPlotY(values[valueCount], axis.getYTicksValues(), cm);
-							drawDataPoint(g, x + jitterAmount, y, fillColor);
+							int x = 0;
+							int y = 0;
+							if (orientation == "v") {								
+								int widthOfColorCodeBar = (int) ((((cm.getPlotWidth() / (categoryOrder.length)) * this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
+								int positionAtBarsStart = xCategoryNumToPlotX(categoryCount - 0.5f, categoryMap.keySet().size(), cm) + (int) (((1 - this.multipleBarWidthPercentage) / 2) * (cm.getPlotWidth() / (categoryOrder.length))) + widthOfColorCodeBar/2;
+								int maxJitter = (int) (this.jitter * widthOfColorCodeBar/2);
+								int jitterAmount = r.nextInt((2 * maxJitter) + 1) - maxJitter;
+								x = positionAtBarsStart + ((widthOfColorCodeBar + multipleBarPixelSpacing) * colorCodeCount) + jitterAmount;
+								y = yValueToPlotY(values[valueCount], axis.getNumericTicksValues(), cm);
+							} else {
+								int widthOfColorCodeBar = (int) ((((cm.getPlotHeight() / (categoryOrder.length)) * this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
+								int positionAtBarsStart = yCategoryNumToPlotY(categoryCount - 0.5f, categoryMap.keySet().size(), cm) + (int) (((1 - this.multipleBarWidthPercentage) / 2) * (cm.getPlotHeight() / (categoryOrder.length))) + widthOfColorCodeBar/2;
+								int maxJitter = (int) (this.jitter * widthOfColorCodeBar/2);
+								int jitterAmount = r.nextInt((2 * maxJitter) + 1) - maxJitter;
+								x = xValueNumToPlotX(values[valueCount], axis.getNumericTicksValues(), cm);
+								y = positionAtBarsStart + ((widthOfColorCodeBar + multipleBarPixelSpacing) * colorCodeCount) + jitterAmount;
+								
+							}
+							drawDataPoint(g, x, y, fillColor);
 						}
 						colorCodeCount++;
 					}
@@ -140,15 +161,27 @@ public class StripPlot extends Plot{
 
 					
 					for (int valueCount = 0; valueCount < values.length; valueCount++) {
-						int jitterAmount = r.nextInt((maxJitter - minJitter) + 1) + minJitter;
-						int x = xCategoryNumToPlotX(xCatagoryCount, xDataOrdered.length, cm);
-						int y = yTickNumToPlotY(values[indexArray.get(valueCount)], axis.getYTicksValues(), cm);
-						drawDataPoint(g, x + jitterAmount, y, fillColor[indexArray.get(valueCount)]);
+						int x = 0;
+						int y = 0;
+						if (orientation == "v") {							
+							int widthOfColorCodeBar = (int) ((((cm.getPlotWidth() / (categoryOrder.length)) * this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
+							int maxJitter = (int) (this.jitter * widthOfColorCodeBar/2);
+							int jitterAmount = r.nextInt((2 * maxJitter) + 1) - maxJitter;
+							x = xCategoryNumToPlotX(categoryCount, categoryOrder.length, cm) + jitterAmount;
+							y = yValueToPlotY(values[indexArray.get(valueCount)], axis.getNumericTicksValues(), cm);
+						} else {
+							int widthOfColorCodeBar = (int) ((((cm.getPlotHeight() / (categoryOrder.length)) * this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
+							int maxJitter = (int) (this.jitter * widthOfColorCodeBar/2);
+							int jitterAmount = r.nextInt((2 * maxJitter) + 1) - maxJitter;
+							x = xValueNumToPlotX(values[indexArray.get(valueCount)], axis.getNumericTicksValues(), cm);
+							y = yCategoryNumToPlotY(categoryCount, categoryOrder.length, cm) + jitterAmount;
+						}
+						drawDataPoint(g, x, y, fillColor[indexArray.get(valueCount)]);
 					}
 				}
 				
 				
-				xCatagoryCount++;
+				categoryCount++;
 			}
 		}
 		
@@ -173,13 +206,20 @@ public class StripPlot extends Plot{
 		}
 	}
 	
-	private int xCategoryNumToPlotX(double xCatagoryNum, int totalXCategories, XYChartMeasurements cm) {
+	private int xCategoryNumToPlotX(double xCategoryNum, int totalXCategories, XYChartMeasurements cm) {
 		int widthOfXUnit = (cm.getPlotWidth() / (totalXCategories));
-
-		return (int) ((xCatagoryNum) * widthOfXUnit) + (int) (0.5f * widthOfXUnit) + cm.imageLeftToPlotLeftWidth();
+		return (int) ((xCategoryNum) * widthOfXUnit) + (int) (0.5f * widthOfXUnit) + cm.imageLeftToPlotLeftWidth();
+	}
+	private int xValueNumToPlotX(double xPos, double[] xTicks, XYChartMeasurements cm) {
+		return CommonMath.map(xPos, xTicks[0], xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(),
+				cm.imageLeftToPlotRightWidth());
 	}
 
-	private int yTickNumToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
+	private int yCategoryNumToPlotY(double yCategoryNum, int totalYCategories, XYChartMeasurements cm) {
+		int widthOfYUnit = (cm.getPlotHeight() / (totalYCategories));
+		return (int) ((yCategoryNum) * widthOfYUnit) + (int) (0.5f * widthOfYUnit) + cm.imageBottomToPlotBottomHeight();
+	}
+	private int yValueToPlotY(double yPos, double[] yTicks, XYChartMeasurements cm) {
 		return CommonMath.map(yPos, yTicks[0], yTicks[yTicks.length - 1], cm.imageBottomToPlotBottomHeight(),
 				cm.imageBottomToPlotTopHeight());
 	}

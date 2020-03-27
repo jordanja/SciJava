@@ -14,9 +14,13 @@ import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
+import thesis.Helpers.TypeCheckers;
 
 public class NumericAxis extends XYAxis {
 
+	protected String[] xTicks;
+	protected String[] yTicks;
+	
 	private boolean includeZeroXAxis;
 	private boolean includeZeroYAxis;
 
@@ -213,4 +217,59 @@ public class NumericAxis extends XYAxis {
 		this.includeZeroYAxis = includeZeroYAxis;
 	}
 
+	public String[] getXTicks() {
+		return this.xTicks;
+	}
+
+	public String[] getYTicks() {
+		return this.yTicks;
+	}
+
+	public double[] getXTicksValues() {
+		return Arrays.stream(getXTicks()).mapToDouble(Double::parseDouble).toArray();
+	}
+
+	public double[] getYTicksValues() {
+		return Arrays.stream(getYTicks()).mapToDouble(Double::parseDouble).toArray();
+	}
+
+	public String[] getXTicksFormattedForDisplay() {
+		String[] formattedXTicks = new String[this.xTicks.length];
+
+		if (this.xTicks.length > 0) {
+			if (TypeCheckers.isNumeric(this.xTicks[0])) {
+				double[] xTicksValues = this.getXTicksValues();
+
+				DecimalFormat df = new DecimalFormat("#.##");
+				df.setRoundingMode(RoundingMode.HALF_DOWN);
+
+				for (int i = 0; i < formattedXTicks.length; i++) {
+					formattedXTicks[i] = df.format(xTicksValues[i]);
+				}
+				return formattedXTicks;
+			} else {
+				return this.xTicks;
+			}
+		}
+		return null;
+	}
+
+	public String[] getYTicksFormattedForDisplay() {
+		String[] formattedYTicks = new String[this.yTicks.length];
+
+		if (TypeCheckers.isNumeric(this.yTicks[0])) {
+			double[] yTicksValues = this.getYTicksValues();
+
+			DecimalFormat df = new DecimalFormat("#.##");
+			df.setRoundingMode(RoundingMode.HALF_DOWN);
+
+			for (int i = 0; i < formattedYTicks.length; i++) {
+				formattedYTicks[i] = df.format(yTicksValues[i]);
+			}
+			return formattedYTicks;
+		} else {
+			return this.yTicks;
+		}
+	}
+	
 }

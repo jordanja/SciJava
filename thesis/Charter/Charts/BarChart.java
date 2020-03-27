@@ -72,7 +72,7 @@ public class BarChart extends XYChart{
 
 		this.axis.drawAxisTicks(g, this.cm);
 
-		this.plot.drawPlot(g, this.axis, data, xDataOrdered, this.cm);
+		this.plot.drawPlot(g, this.axis, data, xDataOrdered, this.axis.getOrientation(), this.cm);
 
 		this.axis.drawXAxisLabel(g, this.cm);
 		this.axis.drawYAxisLabel(g, this.cm);
@@ -82,6 +82,7 @@ public class BarChart extends XYChart{
 		}
 
 		this.drawTitle(g, this.cm);
+		
 	}
 
 	/*
@@ -207,10 +208,6 @@ public class BarChart extends XYChart{
 
 	public Legend getLegend() {
 		return this.legend;
-	}
-	
-	public XYChartMeasurements getChartMeasurements() {
-		return this.cm;
 	}
 
 	public void colorCode(String colorCodeLabel) {

@@ -69,4 +69,11 @@ public abstract class XYChart extends Chart {
 		g.drawLine(cm.imageLeftToRightAxisLabelRightWidth(), 0, cm.imageLeftToRightAxisLabelRightWidth(), cm.imageHeight());
 	}
 
+
+
+
+	public XYChartMeasurements getXYChartMeasurements() {
+		return cm;
+	}
+
 }

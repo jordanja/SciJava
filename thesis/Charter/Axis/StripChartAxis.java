@@ -12,24 +12,23 @@ public class StripChartAxis extends XYOneCategoricalAxis {
 		double maxValue = Double.NEGATIVE_INFINITY;
 		double minValue = Double.POSITIVE_INFINITY;
 
-		if (typeOfData == "singleCatagory") {
+		if (typeOfData == "singleCategory") {
 			Double[] dataList = (Double[]) data;
 			maxValue = CommonArray.maxValue(dataList);
 			minValue = CommonArray.minValue(dataList);
+		} else if (typeOfData == "multipleCategoriesAndNoHueValue") {
 
-		} else if (typeOfData == "multipleCatagoriesAndNoHueValue") {
-
-			HashMap<Object, Double[]> catagoryMap = (HashMap<Object, Double[]>) data;
-			for (Object catagory : catagoryMap.keySet()) {
-				Double[] dataList = catagoryMap.get(catagory);
+			HashMap<Object, Double[]> categoryMap = (HashMap<Object, Double[]>) data;
+			for (Object category : categoryMap.keySet()) {
+				Double[] dataList = categoryMap.get(category);
 				maxValue = Double.max(maxValue, CommonArray.maxValue(dataList));
 				minValue = Double.min(minValue, CommonArray.minValue(dataList));
 			}
 
-		} else if (typeOfData == "multipleCatagoriesAndHueValue") {
-			HashMap<Object, HashMap<Object, Double[]>> catagoryMap = (HashMap<Object, HashMap<Object, Double[]>>) data;
-			for (Object catagory : catagoryMap.keySet()) {
-				HashMap<Object, Double[]> hueMap = catagoryMap.get(catagory);
+		} else if (typeOfData == "multipleCategoriesAndHueValue") {
+			HashMap<Object, HashMap<Object, Double[]>> categoryMap = (HashMap<Object, HashMap<Object, Double[]>>) data;
+			for (Object category : categoryMap.keySet()) {
+				HashMap<Object, Double[]> hueMap = categoryMap.get(category);
 				for (Object hue : hueMap.keySet()) {
 					Double[] dataList = hueMap.get(hue);
 					maxValue = Double.max(maxValue, CommonArray.maxValue(dataList));
@@ -39,11 +38,11 @@ public class StripChartAxis extends XYOneCategoricalAxis {
 		}
 		NiceScale yNS = new NiceScale(minValue, maxValue);
 
-		this.yTicks = new String[1 + (int) (Math.ceil(yNS.getNiceMax() / yNS.getTickSpacing()))];
-
+		this.numericalTicks = new String[1 + (int) (Math.ceil(yNS.getNiceMax() / yNS.getTickSpacing()))];
+		
 		for (int i = 0; i * yNS.getTickSpacing() <= yNS.getNiceMax(); i++) {
 			double tickValue = i * yNS.getTickSpacing();
-			this.yTicks[i] = String.valueOf(tickValue);
+			this.numericalTicks[i] = String.valueOf(tickValue);
 		}
 	}
 
