@@ -80,7 +80,7 @@ public class StripChart extends XYChart{
 
 		this.axis.drawAxisTicks(g, this.cm);
 		
-		this.plot.drawPlot(g, this.axis, data, xDataOrdered, typeOfData, this.cm);
+		this.plot.drawPlot(g, this.axis, data, xDataOrdered, typeOfData, this.axis.getOrientation(), this.cm);
 
 		this.axis.drawXAxisLabel(g, this.cm);
 		this.axis.drawYAxisLabel(g, this.cm);
@@ -97,16 +97,16 @@ public class StripChart extends XYChart{
 	public String getTypeOfPlot(Object data) {
 		
 		if (data instanceof Double[]) {
-			return "singleCatagory";
+			return "singleCategory";
 		} else {
 			
 			HashMap<Object, Object> dataMap = (HashMap<Object, Object>)data;
 			
-			boolean catagoriesNoHue = (dataMap.get(dataMap.keySet().iterator().next()) instanceof HashMap);
-			if (catagoriesNoHue) {
-				return "multipleCatagoriesAndHueValue";
+			boolean categoriesNoHue = (dataMap.get(dataMap.keySet().iterator().next()) instanceof HashMap);
+			if (categoriesNoHue) {
+				return "multipleCategoriesAndHueValue";
 			} else {
-				return "multipleCatagoriesAndNoHueValue";
+				return "multipleCategoriesAndNoHueValue";
 			}
 		}
 		
@@ -115,11 +115,11 @@ public class StripChart extends XYChart{
 	
 	
 	private String[] getXDataOrdered(String typeOfData) {
-		if (typeOfData != "singleCatagory") {
+		if (typeOfData != "singleCategory") {
 			
-			String[] uniqueXCatagories = CommonArray.removeDuplicates(DataItem.convertToStringList(this.xData));
+			String[] uniqueXCategories = CommonArray.removeDuplicates(DataItem.convertToStringList(this.xData));
 		
-			return CommonArray.orderArrayByOtherArray(uniqueXCatagories, this.order);
+			return CommonArray.orderArrayByOtherArray(uniqueXCategories, this.order);
 		} else {
 			return new String[0];
 		}
@@ -170,7 +170,7 @@ public class StripChart extends XYChart{
 	/*
 	 * Creates a data object in the following shape:
 	 *		{
-	 *			"Catagory 1": {
+	 *			"Category 1": {
 	 *				"Color Code 1": {
 	 *					[value1, value2, ..., valueN]
 	 *				},
@@ -178,30 +178,30 @@ public class StripChart extends XYChart{
 	 *					[value1, value2, ..., valueN]
 	 *				}
 	 *			},
-	 *			"Catagory 2": {...},
+	 *			"Category 2": {...},
 	 *			...,
 	 *		} 
 	 */
-	private HashMap<Object, Object> calculateXYHueStripPlotData(String[] catagoricalData, Double[] values, String[] hueValues) {
+	private HashMap<Object, Object> calculateXYHueStripPlotData(String[] categoricalData, Double[] values, String[] hueValues) {
 		HashMap<String, HashMap<String, ArrayList<Double>>> origFormattedValues = new HashMap<String, HashMap<String, ArrayList<Double>>>();
-		String[] uniqueCatagories = CommonArray.removeDuplicates(catagoricalData);
+		String[] uniqueCategories = CommonArray.removeDuplicates(categoricalData);
 		String[] uniqueHues = CommonArray.removeDuplicates(hueValues); 
-		for (String catagory: uniqueCatagories) {
-			origFormattedValues.put(catagory, new HashMap<String, ArrayList<Double>>());
+		for (String category: uniqueCategories) {
+			origFormattedValues.put(category, new HashMap<String, ArrayList<Double>>());
 			for (String hue: uniqueHues) {
-				origFormattedValues.get(catagory).put(hue, new ArrayList<Double>());
+				origFormattedValues.get(category).put(hue, new ArrayList<Double>());
 			}
 		}
-		for (int i = 0; i < catagoricalData.length; i++) {
-			origFormattedValues.get(catagoricalData[i]).get(hueValues[i]).add(values[i]);
+		for (int i = 0; i < categoricalData.length; i++) {
+			origFormattedValues.get(categoricalData[i]).get(hueValues[i]).add(values[i]);
 		}
 		
 		HashMap<Object, Object> data = new HashMap<Object, Object>();
-		for (String catagory: origFormattedValues.keySet()) {
-			data.put(catagory, new HashMap<String, HashMap<String, Double>>());
-			for (String hue: origFormattedValues.get(catagory).keySet()) {
-				Double[] doubleList = origFormattedValues.get(catagory).get(hue).toArray(new Double[0]);
-				((HashMap<Object, Object>) data.get(catagory)).put(hue, doubleList);
+		for (String category: origFormattedValues.keySet()) {
+			data.put(category, new HashMap<String, HashMap<String, Double>>());
+			for (String hue: origFormattedValues.get(category).keySet()) {
+				Double[] doubleList = origFormattedValues.get(category).get(hue).toArray(new Double[0]);
+				((HashMap<Object, Object>) data.get(category)).put(hue, doubleList);
 			}
 		}
 		return data;
@@ -210,27 +210,27 @@ public class StripChart extends XYChart{
 	/*
 	 * Creates a data object in the following shape:
 	 *		{
-	 *			"Catagory 1": {
+	 *			"Category 1": {
 	 *				[value1, value2, ..., valueN]
 	 *			},
-	 *			"Catagory 2": {...},
+	 *			"Category 2": {...},
 	 *			...,
 	 *		} 
 	 */
-	private HashMap<Object, Object> calculateXYStripPlotData(String[] catagoricalData, Double[] values) {
-		String[] uniqueCatagories = CommonArray.removeDuplicates(catagoricalData);
+	private HashMap<Object, Object> calculateXYStripPlotData(String[] categoricalData, Double[] values) {
+		String[] uniqueCategories = CommonArray.removeDuplicates(categoricalData);
 		HashMap<String, ArrayList<Double>> origSortedValues = new HashMap<String, ArrayList<Double>>();
-		for (int i = 0; i < catagoricalData.length; i++) {
-			if (!origSortedValues.containsKey(catagoricalData[i])) {
-				origSortedValues.put(catagoricalData[i],new ArrayList<Double>());
+		for (int i = 0; i < categoricalData.length; i++) {
+			if (!origSortedValues.containsKey(categoricalData[i])) {
+				origSortedValues.put(categoricalData[i],new ArrayList<Double>());
 			} 
 
-			origSortedValues.get(catagoricalData[i]).add(values[i]);
+			origSortedValues.get(categoricalData[i]).add(values[i]);
 		}
 		HashMap<Object, Object> data = new HashMap<Object, Object>();
-		for (String catagory: origSortedValues.keySet()) {
-			Double[] doubleList = origSortedValues.get(catagory).toArray(new Double[0]);
-			data.put(catagory, doubleList);
+		for (String category: origSortedValues.keySet()) {
+			Double[] doubleList = origSortedValues.get(category).toArray(new Double[0]);
+			data.put(category, doubleList);
 		}
 		
 		return data;
@@ -247,10 +247,6 @@ public class StripChart extends XYChart{
 
 	public Legend getLegend() {
 		return this.legend;
-	}
-	
-	public XYChartMeasurements getChartMeasurements() {
-		return this.cm;
 	}
 
 	public void colorCode(String colorCodeLabel) {

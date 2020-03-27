@@ -136,8 +136,4 @@ public class ScatterChart extends XYChart {
 		return this.legend;
 	}
 
-	public XYChartMeasurements getChartMeasurements() {
-		return this.cm;
-	}
-
 }

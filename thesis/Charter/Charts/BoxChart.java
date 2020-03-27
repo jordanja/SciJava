@@ -268,10 +268,6 @@ public class BoxChart extends XYChart{
 		this.legend.setIncludeLegend(true);
 	}
 	
-	public XYChartMeasurements getChartMeasurements() {
-		return this.cm;
-	}
-	
 	public String[] getOrder() {
 		return order;
 	}

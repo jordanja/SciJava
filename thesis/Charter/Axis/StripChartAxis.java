@@ -12,23 +12,23 @@ public class StripChartAxis extends XYOneCategoricalAxis {
 		double maxValue = Double.NEGATIVE_INFINITY;
 		double minValue = Double.POSITIVE_INFINITY;
 
-		if (typeOfData == "singleCatagory") {
+		if (typeOfData == "singleCategory") {
 			Double[] dataList = (Double[]) data;
 			maxValue = CommonArray.maxValue(dataList);
 			minValue = CommonArray.minValue(dataList);
-		} else if (typeOfData == "multipleCatagoriesAndNoHueValue") {
+		} else if (typeOfData == "multipleCategoriesAndNoHueValue") {
 
-			HashMap<Object, Double[]> catagoryMap = (HashMap<Object, Double[]>) data;
-			for (Object catagory : catagoryMap.keySet()) {
-				Double[] dataList = catagoryMap.get(catagory);
+			HashMap<Object, Double[]> categoryMap = (HashMap<Object, Double[]>) data;
+			for (Object category : categoryMap.keySet()) {
+				Double[] dataList = categoryMap.get(category);
 				maxValue = Double.max(maxValue, CommonArray.maxValue(dataList));
 				minValue = Double.min(minValue, CommonArray.minValue(dataList));
 			}
 
-		} else if (typeOfData == "multipleCatagoriesAndHueValue") {
-			HashMap<Object, HashMap<Object, Double[]>> catagoryMap = (HashMap<Object, HashMap<Object, Double[]>>) data;
-			for (Object catagory : catagoryMap.keySet()) {
-				HashMap<Object, Double[]> hueMap = catagoryMap.get(catagory);
+		} else if (typeOfData == "multipleCategoriesAndHueValue") {
+			HashMap<Object, HashMap<Object, Double[]>> categoryMap = (HashMap<Object, HashMap<Object, Double[]>>) data;
+			for (Object category : categoryMap.keySet()) {
+				HashMap<Object, Double[]> hueMap = categoryMap.get(category);
 				for (Object hue : hueMap.keySet()) {
 					Double[] dataList = hueMap.get(hue);
 					maxValue = Double.max(maxValue, CommonArray.maxValue(dataList));

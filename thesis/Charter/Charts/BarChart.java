@@ -209,10 +209,6 @@ public class BarChart extends XYChart{
 	public Legend getLegend() {
 		return this.legend;
 	}
-	
-	public XYChartMeasurements getChartMeasurements() {
-		return this.cm;
-	}
 
 	public void colorCode(String colorCodeLabel) {
 		this.colorCodeLabel = colorCodeLabel;
