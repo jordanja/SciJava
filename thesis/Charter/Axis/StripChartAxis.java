@@ -18,6 +18,7 @@ public class StripChartAxis extends XYOneCategoricalAxis {
 			minValue = CommonArray.minValue(dataList);
 		} else if (typeOfData == "multipleCategoriesAndNoHueValue") {
 
+			@SuppressWarnings("unchecked")
 			HashMap<Object, Double[]> categoryMap = (HashMap<Object, Double[]>) data;
 			for (Object category : categoryMap.keySet()) {
 				Double[] dataList = categoryMap.get(category);
@@ -26,6 +27,7 @@ public class StripChartAxis extends XYOneCategoricalAxis {
 			}
 
 		} else if (typeOfData == "multipleCategoriesAndHueValue") {
+			@SuppressWarnings("unchecked")
 			HashMap<Object, HashMap<Object, Double[]>> categoryMap = (HashMap<Object, HashMap<Object, Double[]>>) data;
 			for (Object category : categoryMap.keySet()) {
 				HashMap<Object, Double[]> hueMap = categoryMap.get(category);

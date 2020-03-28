@@ -21,6 +21,7 @@ public class CommonHashMap {
 	public static Double maxValueInBlind2DHashMap(HashMap<Object, Object> map) {
 		double max = Double.MIN_VALUE;
 		for (Object xCatagory: map.keySet()) {
+			@SuppressWarnings("unchecked")
 			HashMap<Object, Object> map2 = (HashMap<Object, Object>) map.get(xCatagory);
 			max = Double.max(max, CommonHashMap.maxValueInHashMap(map2));
 		}

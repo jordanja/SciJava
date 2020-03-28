@@ -807,14 +807,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 
-	private ArrayList<DataItem> convertObjectsToDataItems(ArrayList<Object> objectArray) {
-		ArrayList<DataItem> dataItemArray = new ArrayList<DataItem>();
-		for (Object obj : objectArray) {
-			dataItemArray.add(new DataItem(obj));
-		}
-		return dataItemArray;
-	}
-
 	@Override
 	public Iterator<ArrayList<DataItem>> iterator() {
 

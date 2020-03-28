@@ -3,19 +3,17 @@ package thesis.Charter.Plots;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Arc2D;
 import java.awt.geom.GeneralPath;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import thesis.Charter.ChartMeasurements.PieChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
-import thesis.Charter.StringDrawer.DrawString.xAlignment;
-import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;
+
 public class PiePlot extends Plot{
 
 	private Color[] colorPalette = Palette.Default;
@@ -34,7 +32,7 @@ public class PiePlot extends Plot{
 		if (this.shatter == null) {
 			this.shatter = CommonArray.initializeArrayWithValues(labels.length, 0);
 		}
-		
+
 		double total = CommonMath.total(values);
 		
 		double[] sliceDegrees = new double[values.length];
@@ -61,7 +59,6 @@ public class PiePlot extends Plot{
 			if (this.includeProportionsOnPie) {
 				double value = 100 * values[sliceCount]/total;
 				writeProportions(g, value, cm, radius, sliceCount, angleToShatterTowards);
-				
 				
 			}
 			
@@ -178,8 +175,6 @@ public class PiePlot extends Plot{
 	public Color getProportionsColor() {
 		return proportionsColor;
 	}
-
-
 	public void setProportionsColor(Color proportionsColor) {
 		this.proportionsColor = proportionsColor;
 	}

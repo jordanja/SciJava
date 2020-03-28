@@ -5,7 +5,8 @@ public class TypeCheckers {
 	// https://stackoverflow.com/questions/29437223/take-input-and-then-cast-into-appropriate-data-type-java
 	public static boolean isDouble(String string) {
 	    try {
-	        double d = Double.parseDouble(string);
+	        @SuppressWarnings("unused")
+			double d = Double.parseDouble(string);
 	    } catch (NumberFormatException nfe) {
 	        return false;
 	    }
@@ -14,7 +15,8 @@ public class TypeCheckers {
 
 	public static boolean isInteger(String string) {
 	    try {
-	        double d = Integer.parseInt(string);
+	        @SuppressWarnings("unused")
+			double d = Integer.parseInt(string);
 	    } catch (NumberFormatException nfe) {
 	        return false;
 	    }
