@@ -123,6 +123,14 @@ public class CommonArray {
 		}
 		return objArr;
 	}
+	
+	public static String[] convertObjectArrayToStringArray(Object[] arr) {
+		String[] objArr = new String[arr.length];
+		for (int i = 0; i < arr.length; i++) {
+			objArr[i] = arr[i].toString();
+		}
+		return objArr;
+	}
 
 	public static double[] initializeArrayWithValues(int length, int value) {
 		double[] arr = new double[length];

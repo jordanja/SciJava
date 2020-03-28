@@ -218,7 +218,6 @@ public class StripChart extends XYChart{
 	 *		} 
 	 */
 	private HashMap<Object, Object> calculateXYStripPlotData(String[] categoricalData, Double[] values) {
-		String[] uniqueCategories = CommonArray.removeDuplicates(categoricalData);
 		HashMap<String, ArrayList<Double>> origSortedValues = new HashMap<String, ArrayList<Double>>();
 		for (int i = 0; i < categoricalData.length; i++) {
 			if (!origSortedValues.containsKey(categoricalData[i])) {

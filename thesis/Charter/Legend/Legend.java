@@ -18,6 +18,7 @@ import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
+import thesis.Common.CommonArray;
 
 public class Legend {
 
@@ -48,31 +49,13 @@ public class Legend {
 	public void calculateLegend(String hueLabel, Object[] hueValues) {
 		this.includeLegend = true;
 		this.hueLabel = hueLabel;
-		this.hueValues = new HashSet<>(Arrays.asList(hueValues)).toArray(new String[0]);
+		this.hueValues = CommonArray.convertObjectArrayToStringArray(hueValues); 
 		
-		
-		this.hueValueHeight = 0;
-		this.widestHueValueWidth = 0;
-		for (String hueValue: this.hueValues) {		
-			Rectangle2D bounds = this.hueValueFont.createGlyphVector(new FontRenderContext(null, true, false), hueValue).getOutline().getBounds2D();
-			int height =  (int) Math.ceil(bounds.getHeight());
-			if (height > this.hueValueHeight) {
-				this.hueValueHeight = height;
-			}
-			
-			int width = (int) Math.ceil(bounds.getWidth());
-			if (width > this.widestHueValueWidth) {
-				this.widestHueValueWidth = width;
-			}
-			
-		}
-		
-		
-		Rectangle2D bounds = this.hueLabelFont.createGlyphVector(new FontRenderContext(null, true, false), hueLabel).getOutline().getBounds2D();
-		this.hueLabelHeight = (int)Math.ceil(bounds.getHeight());
-		this.hueLabelWidth = (int)Math.ceil(bounds.getWidth());
-		
-		
+		this.hueValueHeight = DrawString.maxHeightOfStringInList(this.hueValues, this.hueValueFont, 0);
+		this.widestHueValueWidth = DrawString.maxWidthOfStringInList(this.hueValues, this.hueValueFont, 0);
+				
+		this.hueLabelHeight = DrawString.getStringHeight(hueLabel, this.hueLabelFont);
+		this.hueLabelWidth = DrawString.getStringWidth(hueLabel, this.hueLabelFont);
 		
 	}
 	
@@ -127,13 +110,6 @@ public class Legend {
 		
 	}
 
-	private String[] objectToString(Object[] oldList) {
-		String[] newList = new String[oldList.length];
-		for (int i = 0; i < oldList.length; i++) {
-			newList[i] = (String) oldList[i];
-		}
-		return newList;
-	}
 
 	public Color getBackgroundColor() {
 		return backgroundColor;
