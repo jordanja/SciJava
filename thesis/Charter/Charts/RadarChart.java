@@ -68,7 +68,7 @@ public class RadarChart extends Chart{
 		
 		this.plot.drawPlotOutline(g, this.cm);
 		
-		this.plot.drawPlot(data, uniqueRadarCategories, uniqueValueCategories, this.axis.getAxisRadius(), this.cm);
+		this.plot.drawPlot(g, data, uniqueRadarCategories, uniqueValueCategories, this.axis.getAxisRadius(), this.axis.getTicks(), this.cm);
 		
 
 		if (this.legend.getIncludeLegend()) {

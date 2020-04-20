@@ -118,4 +118,8 @@ public class RadarChartAxis {
 	public int getAxisRadius() {
 		return this.axisRadius;
 	}
+	
+	public String[] getTicks() {
+		return this.numericalTicks;
+	}
 }
