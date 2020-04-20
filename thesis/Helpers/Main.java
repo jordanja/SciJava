@@ -42,12 +42,12 @@ public class Main {
 
 	public static void main(String[] args) {
 		stackedAreaChart();
-//		pieChart();
-//		stripCharting();
-//		boxCharting();
-//		lineCharting();
-//		barCharting();
-//		scatterCharting();
+		pieChart();
+		stripCharting();
+		boxCharting();
+		lineCharting();
+		barCharting();
+		scatterCharting();
 //		dfPlay();
 
 		System.out.println("\n\nFINISHED EXECUTION");
@@ -101,7 +101,7 @@ public class Main {
 
 		StripPlot plot = sc.getPlot();
 		
-		XYChartMeasurements cm = sc.getChartMeadurements();
+		XYChartMeasurements cm = sc.getXYChartMeasurements();
 		cm.setPlotWidth(900);
 		
 		sc.Create();
@@ -118,7 +118,7 @@ public class Main {
 
 		bc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
 
-		XYChartMeasurements cm = bc.getChartMeasurements();
+		XYChartMeasurements cm = bc.getXYChartMeasurements();
 
 		cm.setPlotWidth(800);
 
@@ -167,7 +167,7 @@ public class Main {
 
 		BarChartAxis axis = (BarChartAxis) bc.getAxis();
 		BarPlot plot = bc.getPlot();
-		XYChartMeasurements cm = bc.getChartMeasurements();
+		XYChartMeasurements cm = bc.getXYChartMeasurements();
 
 		axis.setIncludeBottomXAxisTicks(true, true);
 		axis.setIncludeTopXAxisTicks(true, true);
@@ -223,7 +223,7 @@ public class Main {
 		plot.includeDataPointOutline(true);
 		plot.includeLinearRegression(true);
 		
-		XYChartMeasurements cm = sc.getChartMeasurements();
+		XYChartMeasurements cm = sc.getXYChartMeasurements();
 		cm.setLeftAxisLabelToLeftAxisWidth(15);
 		cm.setTopAxisLabelToTitleHeight(15);
 
