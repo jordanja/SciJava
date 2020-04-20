@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 
 import thesis.Charter.ChartMeasurements.PieChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.StringDrawer.DrawString.xAlignment;
+import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonArray;
 import thesis.Common.NiceScale;
 
@@ -52,13 +54,64 @@ public class RadarChartAxis {
 		
 		int xMid = cm.imageLeftToPlotMidWidth();
 		int yMid = cm.imageBottomToPlotMidHeight();
+		
+		DrawString.setTextStyle(Color.black, font, 0);
+		
 		for (int categoryCount = 0; categoryCount < this.categories.length; categoryCount++) {
-			double angle = Math.PI * 2 * ((double)categoryCount/this.categories.length) + Math.PI/2;
+			double angle = Math.PI * 2 * (-(double)categoryCount/this.categories.length) + Math.PI/2;
 			int x = (int) (this.axisRadius * Math.cos(angle) + cm.imageLeftToPlotMidWidth());
 			int y = (int) (this.axisRadius * Math.sin(angle) + cm.imageBottomToPlotMidHeight());
 			
 			g.drawLine(xMid, yMid, x, y);
 			
+			double proportion = (double)categoryCount/this.categories.length;
+			if (proportion == 0) {
+				// Top
+				DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.BottomAlign);
+			} else if (proportion == 0.25) {
+				// Right
+				DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.MiddleAlign);				
+			} else if (proportion == 0.5) {
+				// Bottom
+				DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.TopAlign);
+			} else if (proportion == 0.75) {
+				// Left
+				DrawString.setAlignment(xAlignment.RightAlign, yAlignment.MiddleAlign);
+			} else if ((proportion > 0) && (proportion < 0.25)) {
+				// Top Right
+				DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.BottomAlign);
+			} else if ((proportion > 0.25) && (proportion < 0.5)) {
+				// Bottom Right
+				DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.TopAlign);
+			} else if ((proportion > 0.5) && (proportion < 0.75)) {
+				// Bottom Left
+				DrawString.setAlignment(xAlignment.RightAlign, yAlignment.TopAlign);
+			} else if ((proportion > 0.75) && (proportion < 1)) {
+				// Top Left
+				DrawString.setAlignment(xAlignment.RightAlign, yAlignment.BottomAlign);
+			}
+			
+			int stringX = (int) (x + this.plotToAxisSpacing * Math.cos(angle));
+			int stringY = (int) (y + this.plotToAxisSpacing * Math.sin(angle));
+			
+			DrawString.write(g, this.categories[categoryCount], stringX, stringY);
+			
+		}
+		
+		for (int tickCount = 1; tickCount < this.numericalTicks.length; tickCount++) {
+			double proportion = (double)tickCount/(this.numericalTicks.length - 1);
+			int radius = (int) (this.axisRadius * proportion);
+			for (int categoryCount = 0; categoryCount < this.categories.length; categoryCount++) {
+				double angle1 = Math.PI * 2 * ((double)categoryCount/this.categories.length) + Math.PI/2;
+				int x1 = (int) (radius * Math.cos(angle1) + cm.imageLeftToPlotMidWidth());
+				int y1 = (int) (radius * Math.sin(angle1) + cm.imageBottomToPlotMidHeight());
+				
+				double angle2 = Math.PI * 2 * ((double)(categoryCount + 1)/this.categories.length) + Math.PI/2;
+				int x2 = (int) (radius * Math.cos(angle2) + cm.imageLeftToPlotMidWidth());
+				int y2 = (int) (radius * Math.sin(angle2) + cm.imageBottomToPlotMidHeight());
+				
+				g.drawLine(x1, y1, x2, y2);
+			}
 		}
 	}
 	
