@@ -22,6 +22,7 @@ import thesis.Charter.Charts.BarChart;
 import thesis.Charter.Charts.BoxChart;
 import thesis.Charter.Charts.LineChart;
 import thesis.Charter.Charts.PieChart;
+import thesis.Charter.Charts.RadarChart;
 import thesis.Charter.Charts.ScatterChart;
 import thesis.Charter.Charts.StackedBarChart;
 import thesis.Charter.Charts.StripChart;
@@ -41,16 +42,32 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
-		stackedAreaChart();
-		pieChart();
-		stripCharting();
-		boxCharting();
-		lineCharting();
-		barCharting();
-		scatterCharting();
+//		stackedAreaChart();
+//		pieChart();
+//		stripCharting();
+//		boxCharting();
+//		lineCharting();
+//		barCharting();
+//		scatterCharting();
+		radarChart();
 //		dfPlay();
 
 		System.out.println("\n\nFINISHED EXECUTION");
+	}
+
+	private static void radarChart() {
+		DataFrame df = new DataFrame("Datasets/radarchart.csv", true);
+		System.out.println(df);
+		
+		RadarChart rc = new RadarChart(df, "Fruit", "Supermarket", "Quantity");
+		
+		rc.getPlot().setPlotOutlineColor(Color.BLACK);
+		rc.getPlot().includePlotOutline(new boolean[] {true, true, true, true});
+		
+		rc.Create();
+		rc.WriteFile("Chart Images/Radar Chart.png");
+		
+		
 	}
 
 	private static void stackedAreaChart() {
