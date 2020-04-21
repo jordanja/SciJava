@@ -17,9 +17,10 @@ public class RadarChartAxis {
 	private String[] numericalTicks;
 	private String[] categories;
 	
-	private Font font = new Font("Dialog", Font.PLAIN, 12);
+	private Font categoryFont = new Font("Dialog", Font.PLAIN, 12);
+	private Font tickFont = new Font("Dialog", Font.PLAIN, 12);
 	
-	private int plotToAxisSpacing = 5;
+	private int plotToAxisSpacing = 8;
 	private int axisRadius;
 	
 	public RadarChartAxis() {
@@ -42,7 +43,7 @@ public class RadarChartAxis {
 	}
 	
 	public void calculateAxisRadius(PieChartMeasurements cm) {
-		int widestCategory = DrawString.maxWidthOfStringInList(categories, this.font, 0);
+		int widestCategory = DrawString.maxWidthOfStringInList(categories, this.categoryFont, 0);
 		
 		this.axisRadius = (cm.getPlotWidth() - 2 * (widestCategory + plotToAxisSpacing))/2;
 	}
@@ -54,8 +55,6 @@ public class RadarChartAxis {
 		
 		int xMid = cm.imageLeftToPlotMidWidth();
 		int yMid = cm.imageBottomToPlotMidHeight();
-		
-		DrawString.setTextStyle(Color.black, font, 0);
 		
 		for (int categoryCount = 0; categoryCount < this.categories.length; categoryCount++) {
 			double angle = Math.PI * 2 * (-(double)categoryCount/this.categories.length) + Math.PI/2;
@@ -94,6 +93,7 @@ public class RadarChartAxis {
 			int stringX = (int) (x + this.plotToAxisSpacing * Math.cos(angle));
 			int stringY = (int) (y + this.plotToAxisSpacing * Math.sin(angle));
 			
+			DrawString.setTextStyle(Color.black, categoryFont, 0);
 			DrawString.write(g, this.categories[categoryCount], stringX, stringY);
 			
 		}
@@ -110,8 +110,24 @@ public class RadarChartAxis {
 				int x2 = (int) (radius * Math.cos(angle2) + cm.imageLeftToPlotMidWidth());
 				int y2 = (int) (radius * Math.sin(angle2) + cm.imageBottomToPlotMidHeight());
 				
+				g.setColor(Color.black);
+				g.setStroke(new BasicStroke(1));
+				
 				g.drawLine(x1, y1, x2, y2);
 			}
+			
+			g.setColor(Color.white);
+			String tick = this.numericalTicks[tickCount];
+			
+			int width = DrawString.getStringWidth(tick, this.tickFont);
+			int height = DrawString.getStringHeight(tick, this.tickFont);
+			
+			int x = (int) (radius * Math.cos(Math.PI/2) + cm.imageLeftToPlotMidWidth());
+			int y = (int) (radius * Math.sin(Math.PI/2) + cm.imageBottomToPlotMidHeight());
+			g.fillRect(x - width/2 - 2, y - height/2 - 2, width + 4, height + 4);
+			DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.MiddleAlign);
+			DrawString.setTextStyle(Color.black, this.tickFont, 0);
+			DrawString.write(g, tick, x, y);
 		}
 	}
 	
