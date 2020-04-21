@@ -51,7 +51,7 @@ public class RadarChart extends Chart{
 		this.axis.setCategories(uniqueValueCategories);
 		this.axis.calculateAxisRadius(cm);
 		
-		this.legend.calculateLegend(this.legendLabel, uniqueValueCategories);
+		this.legend.calculateLegend(this.legendLabel, uniqueRadarCategories);
 		this.cm.calculateChartImageMetrics(this.legend, this.getTitle(), this.getTitleFont());
 		
 		this.instantiateChart(this.cm);
