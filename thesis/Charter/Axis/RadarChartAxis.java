@@ -138,4 +138,29 @@ public class RadarChartAxis {
 	public String[] getTicks() {
 		return this.numericalTicks;
 	}
+
+	public Font getCategoryFont() {
+		return categoryFont;
+	}
+
+	public void setCategoryFont(Font categoryFont) {
+		this.categoryFont = categoryFont;
+	}
+
+	public Font getTickFont() {
+		return tickFont;
+	}
+
+	public void setTickFont(Font tickFont) {
+		this.tickFont = tickFont;
+	}
+
+	public int getPlotToAxisSpacing() {
+		return plotToAxisSpacing;
+	}
+
+	public void setPlotToAxisSpacing(int plotToAxisSpacing) {
+		this.plotToAxisSpacing = plotToAxisSpacing;
+	}
+	
 }

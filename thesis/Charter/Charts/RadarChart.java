@@ -71,9 +71,8 @@ public class RadarChart extends Chart{
 		this.plot.drawPlot(g, data, uniqueRadarCategories, uniqueValueCategories, this.axis.getAxisRadius(), this.axis.getTicks(), this.cm);
 		
 
-		if (this.legend.getIncludeLegend()) {
-			this.legend.drawLegend(g, this.cm, this.plot.getColorPalette());
-		}
+		this.legend.drawLegend(g, this.cm, this.plot.getColorPalette());
+		
 
 		this.drawTitle(g, this.cm);
 		
