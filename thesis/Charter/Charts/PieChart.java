@@ -3,7 +3,7 @@ package thesis.Charter.Charts;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import thesis.Charter.ChartMeasurements.PieChartMeasurements;
+import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Plots.PiePlot;
 import thesis.Common.CommonArray;
@@ -17,7 +17,7 @@ public class PieChart extends Chart {
 	
 	String legendLabel = "";
 	
-	PieChartMeasurements cm;
+	NoAxisChartMeasurements cm;
 	
 	PiePlot plot;
 	Legend legend;
@@ -30,7 +30,7 @@ public class PieChart extends Chart {
 		
 		this.plot = new PiePlot();
 		this.legend = new Legend();
-		this.cm = new PieChartMeasurements();
+		this.cm = new NoAxisChartMeasurements();
 		
 	}
 	
@@ -59,12 +59,12 @@ public class PieChart extends Chart {
 	}
 
 
-	public PieChartMeasurements getChartMeasurements() {
+	public NoAxisChartMeasurements getChartMeasurements() {
 		return this.cm;
 	}
 
 
-	public void setChartMeasurements(PieChartMeasurements cm) {
+	public void setChartMeasurements(NoAxisChartMeasurements cm) {
 		this.cm = cm;
 	}
 

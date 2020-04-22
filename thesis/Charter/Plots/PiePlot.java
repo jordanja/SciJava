@@ -8,7 +8,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import thesis.Charter.ChartMeasurements.PieChartMeasurements;
+import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
@@ -27,7 +27,7 @@ public class PiePlot extends Plot{
 	
 	private boolean useSemiCircle = false;
 	
-	public void drawPlot(Graphics2D g, String[] labels, Double[] values, PieChartMeasurements cm) {
+	public void drawPlot(Graphics2D g, String[] labels, Double[] values, NoAxisChartMeasurements cm) {
 		
 		if (this.shatter == null) {
 			this.shatter = CommonArray.initializeArrayWithValues(labels.length, 0);
@@ -68,7 +68,7 @@ public class PiePlot extends Plot{
 	}
 
 
-	private void writeProportions(Graphics2D g, double value, PieChartMeasurements cm, double radius, int sliceCount, double angleToShatterTowards) {
+	private void writeProportions(Graphics2D g, double value, NoAxisChartMeasurements cm, double radius, int sliceCount, double angleToShatterTowards) {
 
 		int xPos = (int)(cm.imageLeftToPlotMidWidth() + (radius * Math.cos(angleToShatterTowards)) * (this.shatter[sliceCount] + 0.5));
 		int yPos = (int)(cm.imageBottomToPlotMidHeight() + (radius * Math.sin(angleToShatterTowards)) * (this.shatter[sliceCount] + 0.5));

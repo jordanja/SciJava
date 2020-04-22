@@ -106,6 +106,7 @@ public abstract class Plot {
 			System.out.println("Error: Must have four values for plot outlines");
 			return;
 		}
+		
 		this.bottomPlotOutline = plotOutlines[0];
 		this.leftPlotOutline = plotOutlines[1];
 		this.topPlotOutline = plotOutlines[2];
@@ -129,7 +130,6 @@ public abstract class Plot {
 	}
 	
 	public void drawPlotOutline(Graphics2D g, ChartMeasurements cm) {
-		
 		if (this.bottomPlotOutline) {
 			g.setStroke(new BasicStroke(this.bottomPlotOutlineWidth));
 			g.setColor(this.bottomPlotOutlineColor);
