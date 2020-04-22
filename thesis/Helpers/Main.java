@@ -61,8 +61,12 @@ public class Main {
 		
 		RadarChart rc = new RadarChart(df, "Fruit", "Supermarket", "Quantity");
 		
-		rc.getPlot().setPlotOutlineColor(Color.BLACK);
-		rc.getPlot().includePlotOutline(new boolean[] {true, true, true, true});
+		
+		rc.setTitleFont(new Font("Dialog", Font.PLAIN, 80));
+		rc.setTitle("This is a title");
+		
+		rc.getChartMeasurements().setPlotWidth(600);
+		rc.getChartMeasurements().setPlotHeight(600);
 		
 		rc.Create();
 		rc.WriteFile("Chart Images/Radar Chart.png");

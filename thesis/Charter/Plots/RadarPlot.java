@@ -7,7 +7,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.util.HashMap;
 
-import thesis.Charter.ChartMeasurements.PieChartMeasurements;
+import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Common.CommonArray;
 import thesis.Helpers.Palette;
 
@@ -26,7 +26,7 @@ public class RadarPlot extends Plot{
 
 
 	public void drawPlot(Graphics2D g, HashMap<String, HashMap<String, Double>> data, String[] uniqueRadarCategories,
-			String[] uniqueValueCategories, int axisRadius, String[] ticks, PieChartMeasurements cm) {
+			String[] uniqueValueCategories, int axisRadius, String[] ticks, NoAxisChartMeasurements cm) {
 		int categoryCount = 0;
 		for (String category: uniqueRadarCategories) {
 			HashMap<String, Double> categoryData = data.get(category);
@@ -95,10 +95,10 @@ public class RadarPlot extends Plot{
 
 	}
 	
-	private int angleToXPos(double angle, double value, int maxTick, int fullRadius, PieChartMeasurements cm) {
+	private int angleToXPos(double angle, double value, int maxTick, int fullRadius, NoAxisChartMeasurements cm) {
 		return (int) (fullRadius * (value/maxTick) * Math.cos(angle) + cm.imageLeftToPlotMidWidth());
 	}
-	private int angleToYPos(double angle, double value, int maxTick, int fullRadius, PieChartMeasurements cm) {
+	private int angleToYPos(double angle, double value, int maxTick, int fullRadius, NoAxisChartMeasurements cm) {
 		return (int) (fullRadius * (value/maxTick) * Math.sin(angle) + cm.imageBottomToPlotMidHeight());
 	}
 

@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.util.HashMap;
 
 import thesis.Charter.Axis.RadarChartAxis;
-import thesis.Charter.ChartMeasurements.PieChartMeasurements;
+import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Plots.PiePlot;
 import thesis.Charter.Plots.RadarPlot;
@@ -21,7 +21,7 @@ public class RadarChart extends Chart{
 	
 	private String legendLabel = "";
 	
-	private PieChartMeasurements cm;
+	private NoAxisChartMeasurements cm;
 	
 	private RadarChartAxis axis;
 	private RadarPlot plot;
@@ -37,7 +37,7 @@ public class RadarChart extends Chart{
 		this.axis = new RadarChartAxis();
 		this.plot = new RadarPlot();
 		this.legend = new Legend();
-		this.cm = new PieChartMeasurements();
+		this.cm = new NoAxisChartMeasurements();
 	}
 
 	@Override
@@ -90,10 +90,10 @@ public class RadarChart extends Chart{
 	}
 	
 	
-	public PieChartMeasurements getChartMeasurements() {
+	public NoAxisChartMeasurements getChartMeasurements() {
 		return this.cm;
 	}
-	public void setChartMeasurements(PieChartMeasurements cm) {
+	public void setChartMeasurements(NoAxisChartMeasurements cm) {
 		this.cm = cm;
 	}
 

@@ -6,7 +6,7 @@ import thesis.Charter.Axis.Axis;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.StringDrawer.DrawString;
 
-public class PieChartMeasurements extends ChartMeasurements{
+public class NoAxisChartMeasurements extends ChartMeasurements{
 
 	protected int imageLeftToPlotLeftWidth = 20;
 	protected int plotWidth = 400;

@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
-import thesis.Charter.ChartMeasurements.PieChartMeasurements;
+import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
@@ -42,13 +42,13 @@ public class RadarChartAxis {
 		this.categories = categories;
 	}
 	
-	public void calculateAxisRadius(PieChartMeasurements cm) {
+	public void calculateAxisRadius(NoAxisChartMeasurements cm) {
 		int widestCategory = DrawString.maxWidthOfStringInList(categories, this.categoryFont, 0);
 		
 		this.axisRadius = (cm.getPlotWidth() - 2 * (widestCategory + plotToAxisSpacing))/2;
 	}
 
-	public void drawAxis(Graphics2D g, PieChartMeasurements cm) {
+	public void drawAxis(Graphics2D g, NoAxisChartMeasurements cm) {
 			
 		g.setColor(Color.darkGray);
 		g.setStroke(new BasicStroke(1));
