@@ -122,8 +122,8 @@ public class RadarChartAxis {
 			int width = DrawString.getStringWidth(tick, this.tickFont);
 			int height = DrawString.getStringHeight(tick, this.tickFont);
 			
-			int x = (int) (radius * Math.cos(Math.PI/2) + cm.imageLeftToPlotMidWidth());
-			int y = (int) (radius * Math.sin(Math.PI/2) + cm.imageBottomToPlotMidHeight());
+			int x =  cm.imageLeftToPlotMidWidth();
+			int y = (int) (radius + cm.imageBottomToPlotMidHeight());
 			g.fillRect(x - width/2 - 2, y - height/2 - 2, width + 4, height + 4);
 			DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.MiddleAlign);
 			DrawString.setTextStyle(Color.black, this.tickFont, 0);
