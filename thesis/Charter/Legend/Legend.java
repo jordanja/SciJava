@@ -1,4 +1,4 @@
-package thesis.Charter.LegendPackage;
+package thesis.Charter.Legend;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,8 +13,12 @@ import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.ChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.StringDrawer.DrawString.xAlignment;
+import thesis.Charter.StringDrawer.DrawString.yAlignment;
+import thesis.Common.CommonArray;
 
 public class Legend {
 
@@ -43,36 +47,19 @@ public class Legend {
 	
 
 	public void calculateLegend(String hueLabel, Object[] hueValues) {
+		this.includeLegend = true;
 		this.hueLabel = hueLabel;
-		this.hueValues = new HashSet<>(Arrays.asList(hueValues)).toArray(new String[0]);
+		this.hueValues = CommonArray.convertObjectArrayToStringArray(hueValues); 
 		
-		
-		this.hueValueHeight = 0;
-		this.widestHueValueWidth = 0;
-		for (String hueValue: this.hueValues) {		
-			Rectangle2D bounds = this.hueValueFont.createGlyphVector(new FontRenderContext(null, true, false), hueValue).getOutline().getBounds2D();
-			int height =  (int) Math.ceil(bounds.getHeight());
-			if (height > this.hueValueHeight) {
-				this.hueValueHeight = height;
-			}
-			
-			int width = (int) Math.ceil(bounds.getWidth());
-			if (width > this.widestHueValueWidth) {
-				this.widestHueValueWidth = width;
-			}
-			
-		}
-		
-		
-		Rectangle2D bounds = this.hueLabelFont.createGlyphVector(new FontRenderContext(null, true, false), hueLabel).getOutline().getBounds2D();
-		this.hueLabelHeight = (int)Math.ceil(bounds.getHeight());
-		this.hueLabelWidth = (int)Math.ceil(bounds.getWidth());
-		
-		
+		this.hueValueHeight = DrawString.maxHeightOfStringInList(this.hueValues, this.hueValueFont, 0);
+		this.widestHueValueWidth = DrawString.maxWidthOfStringInList(this.hueValues, this.hueValueFont, 0);
+				
+		this.hueLabelHeight = DrawString.getStringHeight(hueLabel, this.hueLabelFont);
+		this.hueLabelWidth = DrawString.getStringWidth(hueLabel, this.hueLabelFont);
 		
 	}
 	
-	public void drawLegend(Graphics2D g, XYChartMeasurements cm, Color[] colors) {
+	public void drawLegend(Graphics2D g, ChartMeasurements cm, Color[] colors) {
 		
 		int legendBottom = cm.imageBottomToPlotMidHeight() - this.getLegendHeight()/2;
 
@@ -87,31 +74,20 @@ public class Legend {
 		
 		g.drawRect(cm.imageLeftToLegendLeftWidth(), legendBottom, this.getLegendWidth(), this.getLegendHeight());
 		
-		g.setFont(this.hueLabelFont);
-		DrawString.drawString(g, this.hueLabel, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + this.getBottomlegentToHueLabelBottomHeight(), DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign, 0, cm);
+		DrawString.setTextStyle(Color.BLACK, this.hueLabelFont, 0);
+		DrawString.setAlignment(DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign);
+		DrawString.write(g, this.hueLabel, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + this.getBottomlegentToHueLabelBottomHeight());
 
-		g.setFont(this.hueValueFont);
+		
 		for (int i = 0; i < this.hueValues.length; i++) {
-			g.setColor(Color.BLACK);
-			DrawString.drawString(g, this.hueValues[i], cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + getBottomLegendToHueValueBottomHeight(i), DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign, 0, cm);
-			
-			
-//			Rectangle2D bounds = this.hueValueFont.createGlyphVector(new FontRenderContext(null, true, false), this.hueValues[i]).getVisualBounds().getBounds2D();
-//			int other =  (int) Math.ceil(bounds.getHeight());
-			
-			
-//			FontRenderContext frc = g.getFontRenderContext();
-//	        GlyphVector gv = g.getFont().createGlyphVector(frc, this.hueValues[i]);
-//	        Rectangle2D bounds = gv.getPixelBounds(null, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + getBottomLegendToHueValueBottomHeight(i));
-//			int height =  (int) Math.ceil(bounds.getHeight());
-			
 
-//			int height = g.getFontMetrics().getAscent();
-//			System.out.println(height + " vs " + other);
+			DrawString.setTextStyle(Color.BLACK, this.hueValueFont, 0);
+			DrawString.setAlignment(DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign);
+			DrawString.write(g, this.hueValues[i], cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + getBottomLegendToHueValueBottomHeight(i));
 
-			int height = DrawString.getShapeOfText(this.hueValueFont, this.hueValues[i]).getBounds().height;
+			int height = DrawString.getStringHeight(this.hueValues[i], this.hueValueFont);
 			
-			g.setColor(colors[i]);
+			g.setColor(colors[i % colors.length]);
 			g.fillOval(cm.imageLeftToLegendLeftWidth() + legendLeftToDataPointWidth, legendBottom + getBottomLegendToHueValueBottomHeight(i) + height/2 - dataPointDiameter/2, dataPointDiameter, dataPointDiameter);
 		}
 //		drawDebugLines(g,cm);
@@ -134,13 +110,6 @@ public class Legend {
 		
 	}
 
-	private String[] objectToString(Object[] oldList) {
-		String[] newList = new String[oldList.length];
-		for (int i = 0; i < oldList.length; i++) {
-			newList[i] = (String) oldList[i];
-		}
-		return newList;
-	}
 
 	public Color getBackgroundColor() {
 		return backgroundColor;

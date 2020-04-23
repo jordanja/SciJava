@@ -1,7 +1,10 @@
-package thesis.Charter.PlotFolder;
+package thesis.Charter.Charts;
 
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.ChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.StringDrawer.DrawString.xAlignment;
+import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
 
@@ -36,7 +39,7 @@ public abstract class Chart {
 	}
 	
 	
-	public Chart(DataFrame dataFrame, DataItem[] xData, DataItem[] yData, String chartType) {	
+	public Chart(DataFrame dataFrame) {	
 		this.dataFrame = dataFrame;
 	}
 	
@@ -72,11 +75,11 @@ public abstract class Chart {
 	
 	public abstract void Create();
 	
-	protected void instantiateChart(XYChartMeasurements cm) {	
+	protected void instantiateChart(ChartMeasurements cm) {	
 		this.chartImage = new BufferedImage(cm.imageWidth(), cm.imageHeight(), BufferedImage.TYPE_INT_RGB);
 	}
 	
-	protected Graphics2D initializaGraphicsObject(XYChartMeasurements cm) {
+	protected Graphics2D initializaGraphicsObject(ChartMeasurements cm) {
 		Graphics2D g = this.chartImage.createGraphics();	
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);		
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -86,22 +89,23 @@ public abstract class Chart {
 		return g;
 	}
 
-	private void changeCoordFrame(Graphics2D g, XYChartMeasurements cm) {
+	private void changeCoordFrame(Graphics2D g, ChartMeasurements cm) {
 		g.translate(0.0, cm.imageHeight());
 		g.scale(1.0, -1.0);
 	}
 	
-	protected void drawBackground(Graphics2D g, XYChartMeasurements cm) {
+	protected void drawBackground(Graphics2D g, ChartMeasurements cm) {
 		g.setBackground(this.imageBackgroundColor);
 		g.clearRect(0, 0, cm.imageWidth(), cm.imageHeight());
 	}
 	
 	
-	protected void drawTitle(Graphics2D g, XYChartMeasurements cm) {
-		if (this.title != null) {			
-			g.setColor(this.titleColor);
-			g.setFont(this.titleFont);
-			DrawString.drawString(g, this.title, cm.imageWidth()/2, cm.imageBottomToTitleBottomHeight(), DrawString.xAlignment.CenterAlign, DrawString.yAlignment.BottomAlign, 0, cm);
+	protected void drawTitle(Graphics2D g, ChartMeasurements cm) {
+		if (this.title != null) {	
+			
+			DrawString.setTextStyle(this.titleColor, this.titleFont, 0);
+			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.BottomAlign);
+			DrawString.write(g, this.title, cm.imageWidth()/2, cm.imageBottomToTitleBottomHeight());
 		}
 	}
 	

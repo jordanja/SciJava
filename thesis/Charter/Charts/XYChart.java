@@ -1,10 +1,10 @@
-package thesis.Charter.PlotFolder;
+package thesis.Charter.Charts;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
 
@@ -16,8 +16,8 @@ public abstract class XYChart extends Chart {
 	protected XYChartMeasurements cm;
 	
 	
-	public XYChart(DataFrame dataFrame, DataItem[] xData, DataItem[] yData, String chartType) {
-		super(dataFrame, xData, yData, chartType);	
+	public XYChart(DataFrame dataFrame, DataItem[] xData, DataItem[] yData) {
+		super(dataFrame);	
 		this.xData = xData;
 		this.yData = yData;
 	}
@@ -25,6 +25,15 @@ public abstract class XYChart extends Chart {
 	
 	
 	
+	public XYChart(DataFrame dataFrame, DataItem[] yData, String chartType) {
+		super(dataFrame);
+		this.yData = yData;
+		this.xData = null;
+	}
+
+
+
+
 	protected void drawXDebugLines(Graphics2D g, XYChartMeasurements cm) {
 		g.setStroke(new BasicStroke(1));
 		g.setColor(Color.GRAY);
@@ -58,6 +67,13 @@ public abstract class XYChart extends Chart {
 		g.drawLine(cm.imageLeftToRightAxisRightWidth(), 0, cm.imageLeftToRightAxisRightWidth(), cm.imageHeight());
 		g.drawLine(cm.imageLeftToRightAxisLabelLeftWidth(), 0, cm.imageLeftToRightAxisLabelLeftWidth(), cm.imageHeight());
 		g.drawLine(cm.imageLeftToRightAxisLabelRightWidth(), 0, cm.imageLeftToRightAxisLabelRightWidth(), cm.imageHeight());
+	}
+
+
+
+
+	public XYChartMeasurements getXYChartMeasurements() {
+		return cm;
 	}
 
 }

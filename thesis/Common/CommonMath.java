@@ -1,12 +1,18 @@
-package thesis.Auxiliary;
+package thesis.Common;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import thesis.DataFrame.DataItem;
 
-public class MathHelpers {
-
+public class CommonMath {
+	
+	public static int indexOfMedian(int leftIndex, int rightIndex){ 
+		int gapSize = rightIndex - leftIndex + 1; 
+		int halfGapSize = (gapSize + 1) / 2 - 1; 
+		return leftIndex + halfGapSize; 
+	}
+	
 	public static double average(float[] dataPoints) {
 		double sum = 0;
 		for (int i = 0; i < dataPoints.length; i++) {
@@ -20,11 +26,19 @@ public class MathHelpers {
 	public static double average(DataItem[] dataPoints) {
 		double sum = 0;
 		for (int i = 0; i < dataPoints.length; i++) {
-			sum +=  dataPoints[i].getDoubleValue();
+			sum +=  dataPoints[i].getValueConvertedToDouble();
 		}
 		
 		return sum/dataPoints.length;
 		
+	}
+	
+	public static double total(Double[] arr) {
+		double total = 0;
+		for (Double value: arr) {
+			total += value;
+		}
+		return total;
 	}
 
 	public static double variance(DataItem[] dataPoints, double average) {	
@@ -49,7 +63,7 @@ public class MathHelpers {
 		
 		double sum = 0;
 		for (int i = 0; i < dataPoints1.length; i++) {
-			sum += dataPoints1[i].getDoubleValue() * dataPoints2[i].getDoubleValue();
+			sum += dataPoints1[i].getValueConvertedToDouble() * dataPoints2[i].getValueConvertedToDouble();
 		}
 		
 		double result = (sum/dataPoints1.length) - (average1 * average2);
@@ -58,11 +72,11 @@ public class MathHelpers {
 	}
 	
 	public static Double minimumValue(DataItem[] column) {
-		Double minValue = (Double) column[0].getDoubleValue();
+		Double minValue = (Double) column[0].getValueConvertedToDouble();
 
 		for (int i = 0; i < column.length; i++){
-			if ((Double) (column[i].getDoubleValue()) < minValue) {
-				minValue = (Double) (column[i].getDoubleValue());
+			if ((Double) (column[i].getValueConvertedToDouble()) < minValue) {
+				minValue = (Double) (column[i].getValueConvertedToDouble());
 			}
 		}
 
@@ -70,19 +84,19 @@ public class MathHelpers {
 		return minValue;
 	}
 	public static Double maximumValue(DataItem[] column) {
-		Double maxValue = (Double) column[0].getDoubleValue();
+		Double maxValue = (Double) column[0].getValueConvertedToDouble();
 
 		for (int i = 0; i < column.length; i++){
-			if ((Double) (column[i].getDoubleValue()) > maxValue) {
-				maxValue = (Double) (column[i].getDoubleValue());
+			if ((Double) (column[i].getValueConvertedToDouble()) > maxValue) {
+				maxValue = (Double) (column[i].getValueConvertedToDouble());
 			}
 		}
 
 		return maxValue;
 	}
 	
-	public static double map (double value, double origLow, double origHigh, double newLow, double newHigh) {
-	    return (value - origLow) / (origHigh - origLow) * (newHigh - newLow) + newLow;
+	public static int map (double value, double origLow, double origHigh, double newLow, double newHigh) {
+	    return (int)((value - origLow) / (origHigh - origLow) * (newHigh - newLow) + newLow);
 
 	}
 	
@@ -104,4 +118,9 @@ public class MathHelpers {
 	    return bd.doubleValue();
 	}
 	
+	// http://www.java2s.com/example/android/java.lang/normalize-an-angle-so-that-it-is-between-0-and-360.html
+	public static double normalizeAngle(final double angle) {
+        return (angle >= 0 ? angle : (360 - ((-angle) % 360))) % 360;
+    }
+
 }

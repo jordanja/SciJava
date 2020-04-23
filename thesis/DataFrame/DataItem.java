@@ -1,146 +1,95 @@
 package thesis.DataFrame;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
-import thesis.Helpers.TypeCheckers;
 
 public class DataItem {
 	private String strValue;
-	private Boolean boolValue;
 	private Integer intValue;
-	private Long longValue;
-	private Float floatValue;
 	private Double doubleValue;
-	private Date dateValue;
+	private LocalDate dateValue;
 
-	
-	public enum StorageType {String, Boolean, Integer, Long, Float, Double, Null, Date, Time, DateTime };
+	public enum StorageType {String, Integer, Double, Null, Date};
 	StorageType type;
-	
+
 	public DataItem() {
 		this.type = StorageType.Null;
 	}
-	
+
 	public DataItem(Object value, StorageType type) {
-		initialize(type, String.valueOf(value));
+		initialize(type, value);
 	}
-	
+
 	public DataItem(Object value) {
-		String strValue = String.valueOf(value);
-		
 		StorageType typeOfObject = null;
 		if (value == null) {
 			type = StorageType.Null;
+		} else if (value instanceof Integer) {
+			typeOfObject = StorageType.Integer;
+		} else if (value instanceof Double) {
+			typeOfObject = StorageType.Double;
+		} else if (value instanceof LocalDate) {
+			typeOfObject = StorageType.Date;
 		} else {
-			if (TypeCheckers.isInteger(strValue)) {
-				typeOfObject = StorageType.Integer;
-			} else if (TypeCheckers.isDouble(strValue)) {
-				typeOfObject = StorageType.Double;
-			} else {
-				typeOfObject = StorageType.String;
-			}
-			
-//			if (value.getClass().equals(String.class)) {
-//				typeOfObject = StorageType.String;
-//			} else if (value.getClass().equals(Boolean.class)) {
-//				typeOfObject = StorageType.Boolean;
-//			} else if (value.getClass().equals(Integer.class)) {
-//				typeOfObject = StorageType.Integer;
-//			} else if (value.getClass().equals(Long.class)) {
-//				typeOfObject = StorageType.Long;
-//			} else if (value.getClass().equals(Double.class)) {
-//				typeOfObject = StorageType.Double;
-//			}  else if (value.getClass().equals(Date.class)) {
-//				typeOfObject = StorageType.Date;
-//			} 
-			
-			initialize(typeOfObject, strValue);
+			typeOfObject = StorageType.String;
 		}
+
+		initialize(typeOfObject, value);
 	}
 
 	// String Value
 	public DataItem(String value) {
-		initialize(StorageType.String, value);
+		this.strValue = value;
+		this.type = StorageType.String;
 	}
-	
-	// Boolean Value
-	public DataItem(Boolean value) {
-//		initialize(StorageType.Boolean, value);
-	}
-	public DataItem(boolean value) {
-//		initialize(StorageType.Boolean, value);
-	}
-	
+
 	// Integer Value
 	public DataItem(Integer value) {
-//		initialize(StorageType.Integer, value);
+		this.intValue = value;
+		this.type = StorageType.Integer;
 	}
+
 	public DataItem(int value) {
-//		initialize(StorageType.Integer, value);
+		this.intValue = value;
+		this.type = StorageType.Integer;
 	}
-	
-	// Long Value
-	public DataItem(Long value) {
-//		initialize(StorageType.Long, value);
-	}
-	public DataItem(long value) {
-//		initialize(StorageType.Long, value);
-	}
-	
-	// Float Value
-	public DataItem(Float value) {
-//		initialize(StorageType.Float, value);
-	}
-	public DataItem(float value) {
-//		initialize(StorageType.Float, value);
-	}
-	
+
 	// Double Value
 	public DataItem(Double value) {
-//		initialize(StorageType.Double, value);
+		this.doubleValue = value;
+		this.type = StorageType.Double;
 	}
+
 	public DataItem(double value) {
-//		initialize(StorageType.Double, value);
+		this.doubleValue = value;
+		this.type = StorageType.Double;
 	}
-	
-	public DataItem(Date value) {
-//		initialize(StorageType.Date, value);
+
+	public DataItem(LocalDate value) {
+		this.dateValue = value;
+		this.type = StorageType.Date;
 	}
-	
+
 	public DataItem(StorageType typeToUse, Object value) {
-//		initialize(typeToUse, value);
+		initialize(typeToUse, value.toString());
 	}
-	
-	private void initialize(StorageType typeToUse, String value) {
+
+	private void initialize(StorageType typeToUse, Object value) {
 		setType(typeToUse);
 		if (this.type == StorageType.String) {
-			this.strValue = (String)value;
-		} else if (this.type == StorageType.Boolean) {
-//			this.boolValue = (Boolean) value;
+			this.strValue = value.toString();
 		} else if (this.type == StorageType.Integer) {
-			this.intValue = Integer.parseInt(value);
-		} else if (this.type == StorageType.Long) {
-//			this.longValue = (Long) value;
-		} else if (this.type == StorageType.Float) {
-//			this.floatValue = (Float) value;
+			this.intValue = (Integer) value;
 		} else if (this.type == StorageType.Double) {
-			this.doubleValue = Double.parseDouble((value));
+			this.doubleValue = (Double) value;
 		} else if (this.type == StorageType.Date) {
-			
-			SimpleDateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
-			try {
-				this.dateValue = parser.parse((String) value);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			
+			this.dateValue = LocalDate.parse(value.toString());
+
 		} else {
 			System.out.println("You have entered an incompatible type: " + value.getClass());
 		}
 	}
-	
+
 	public static DataItem[] convertToDataItemList(Object[] values) {
 		DataItem[] dataItems = new DataItem[values.length];
 		for (int i = 0; i < values.length; i++) {
@@ -148,27 +97,97 @@ public class DataItem {
 		}
 		return dataItems;
 	}
-	
-	public void setType(StorageType typeToUse) {
-		this.type = typeToUse;
+
+	public static Double[] convertToDoubleList(DataItem[] dataItemList) {
+		Double[] doubleList = new Double[dataItemList.length];
+		for (int i = 0; i < dataItemList.length; i++) {
+			doubleList[i] = dataItemList[i].getValueConvertedToDouble();
+		}
+		return doubleList;
 	}
-	
+
+	public static String[] convertToStringList(DataItem[] dataItemList) {
+		String[] stringList = new String[dataItemList.length];
+		for (int i = 0; i < dataItemList.length; i++) {
+			stringList[i] = dataItemList[i].getValueConvertedToString();
+		}
+		return stringList;
+	}
+
+	public static Object[] convertToObjectList(DataItem[] dataItemList) {
+		Object[] stringList = new String[dataItemList.length];
+		for (int i = 0; i < dataItemList.length; i++) {
+			stringList[i] = dataItemList[i].getObjectValue();
+		}
+		return stringList;
+	}
+
+	@SuppressWarnings("incomplete-switch")
+	public void setType(StorageType typeToUse) {
+
+		if (this.type == StorageType.String) {
+			switch (typeToUse) {
+				case Integer:
+					this.intValue = Integer.parseInt(this.strValue);
+					break;
+				case Double:
+					this.doubleValue = Double.parseDouble(this.strValue);
+					break;
+				case Date:
+					this.dateValue = LocalDate.parse(this.strValue);
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+			this.strValue = null;
+		} else if (this.type == StorageType.Integer) {
+			switch(typeToUse) {
+				case String:
+					this.strValue = this.intValue.toString();
+					break;
+				case Double:
+					this.doubleValue = this.intValue.doubleValue();
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+			this.intValue = null;
+		} else if (this.type == StorageType.Double) {
+			switch(typeToUse) {
+				case String:
+					this.strValue = this.doubleValue.toString();
+					break;
+				case Integer:
+					this.intValue = this.doubleValue.intValue();
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+			this.doubleValue = null;
+		} else if (this.type == StorageType.Date) {
+			switch(typeToUse) {
+				case String:
+					this.strValue = this.dateValue.toString();
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+			this.dateValue = null;
+		}
+		this.type = typeToUse;
+
+	}
+
 	public StorageType getType() {
 		return this.type;
 	}
-	
+
 	public Object getObjectValue() {
-		
+
 		if (this.type == StorageType.String) {
 			return this.strValue;
-		} else if (this.type == StorageType.Boolean) {
-			return this.boolValue;
 		} else if (this.type == StorageType.Integer) {
 			return this.intValue;
-		} else if (this.type == StorageType.Long) {
-			return this.longValue;
-		} else if (this.type == StorageType.Float) {
-			return this.floatValue;
 		} else if (this.type == StorageType.Double) {
 			return this.doubleValue;
 		} else if (this.type == StorageType.Date) {
@@ -176,46 +195,47 @@ public class DataItem {
 		}
 		return null;
 	}
-	
+
 	public String getStringValue() {
 		return this.strValue;
 	}
-	public Boolean getBooleanValue() {
-		return this.boolValue;
-	}
+
 	public Integer getIntegerValue() {
 		return this.intValue;
 	}
-	public Long getLongValue() {
-		return this.longValue;
-	}
-	public Float getFloatValue() {
-		return this.floatValue;
-	}
+
 	public double getDoubleValue() {
 		return this.doubleValue;
 	}
-	public Date getDateValue() {
+
+	public LocalDate getDateValue() {
 		return this.dateValue;
 	}
-	
+
 	public String getValueConvertedToString() {
-		if (this.type == StorageType.Date) {
-			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-			String stringDate = formatter.format(this.dateValue);
-			return stringDate;
-		} else {			
-			return String.valueOf(getObjectValue());
+		return getObjectValue().toString();
+	}
+
+	public Double getValueConvertedToDouble() {
+		try {
+			return Double.parseDouble(getObjectValue().toString());
+		} catch (Exception e) {
+			return null;
 		}
 	}
-	
-	
+
+	public Number getValueConvertedToNumber() {
+		if (this.type == StorageType.Integer) {
+			return this.intValue;
+		} else if (this.type == StorageType.Double) {
+			return this.doubleValue;
+		} else
+			return null;
+	}
+
 	@Override
 	public String toString() {
 		return getValueConvertedToString();
 	}
-	
-	
 
-	
 }

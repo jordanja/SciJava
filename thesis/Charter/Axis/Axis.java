@@ -3,58 +3,59 @@ package thesis.Charter.Axis;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.Arrays;
 
-import thesis.Auxiliary.NiceScale;
-import thesis.Charter.Others.XYChartMeasurements;
+import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.StringDrawer.DrawString;
+import thesis.Common.NiceScale;
+import thesis.Helpers.TypeCheckers;
 
 public abstract class Axis {
 
-	
-	protected String[] xTicks;
-	protected String[] yTicks;
-	
 	protected float xAxisRotation;
 	protected float yAxisRotation;
-	
+
 	protected String xAxisLabel;
 	protected String yAxisLabel;
-	
+
 	protected boolean drawBottomXLabel = true;
 	protected boolean drawTopXLabel;
 	protected boolean drawLeftYLabel = true;
 	protected boolean drawRightYLabel;
-	
+
 	protected boolean drawBottomXAxisValues = true;
 	protected boolean drawTopXAxisValues;
 	protected boolean drawLeftYAxisValues = true;
 	protected boolean drawRightYAxisValues;
-	
+
 	private boolean drawExteriorTicksDefaults = false;
 	protected boolean drawExteriorBottomXAxisTicks = drawExteriorTicksDefaults;
 	protected boolean drawExteriorTopXAxisTicks = drawExteriorTicksDefaults;
 	protected boolean drawExteriorLeftYAxisTicks = drawExteriorTicksDefaults;
 	protected boolean drawExteriorRightYAxisTicks = drawExteriorTicksDefaults;
-	
+
 	private boolean drawInteriorTicksDefaults = false;
 	protected boolean drawInteriorBottomXAxisTicks = drawInteriorTicksDefaults;
 	protected boolean drawInteriorTopXAxisTicks = drawInteriorTicksDefaults;
 	protected boolean drawInteriorLeftYAxisTicks = drawInteriorTicksDefaults;
 	protected boolean drawInteriorRightYAxisTicks = drawInteriorTicksDefaults;
-	
+
 	private Color defaultTickColor = Color.BLACK;
 	protected Color bottomTickColor = this.defaultTickColor;
 	protected Color leftTickColor = this.defaultTickColor;
 	protected Color topTickColor = this.defaultTickColor;
 	protected Color rightTickColor = this.defaultTickColor;
-	
+
 	private int defaultTickThickness = 1;
-	
+
 	protected int defaultInteriorTickThickness = this.defaultTickThickness;
 	protected int interiorBottomTickThickness = this.defaultInteriorTickThickness;
 	protected int interiorTopTickThickness = this.defaultInteriorTickThickness;
 	protected int interiorLeftTickThickness = this.defaultInteriorTickThickness;
 	protected int interiorRightTickThickness = this.defaultInteriorTickThickness;
-	
+
 	protected int defaultExteriorTickThickness = this.defaultTickThickness;
 	protected int exteriorBottomTickThickness = this.defaultExteriorTickThickness;
 	protected int exteriorTopTickThickness = this.defaultExteriorTickThickness;
@@ -66,116 +67,119 @@ public abstract class Axis {
 	protected Font yAxisFont = this.defaultFont;
 	protected Font xAxisLabelFont = this.defaultFont;
 	protected Font yAxisLabelFont = this.defaultFont;
-	
+
 	private Color defaultTextColor = Color.BLACK;
 	protected Color xAxisColor = this.defaultTextColor;
 	protected Color yAxisColor = this.defaultTextColor;
 	protected Color xAxisLabelColor = this.defaultTextColor;
 	protected Color yAxisLabelColor = this.defaultTextColor;
-	
-	
+
 	public Axis() {
-		
+
 	}
-	
-	
+
 	public void xAxisRotation(float xAxisRotation) {
 		this.xAxisRotation = xAxisRotation;
 	}
-	
+
 	public void yAxisRotation(float yAxisRotation) {
 		this.yAxisRotation = yAxisRotation;
 	}
-	
+
 	public void setXAxisLabel(String xAxisLabel) {
 		this.xAxisLabel = xAxisLabel;
 	}
+
 	public void setYAxisLabel(String yAxisLabel) {
 		this.yAxisLabel = yAxisLabel;
 	}
-	
+
 	public void setIncludeBottomXLabel(boolean includeBottomXLabel) {
 		this.drawBottomXLabel = includeBottomXLabel;
-	}	
+	}
+
 	public void setIncludeTopXLabel(boolean includeTopXLabel) {
 		this.drawTopXLabel = includeTopXLabel;
 	}
-	
+
 	public void setIncludeLeftYLabel(boolean includeLeftYLabel) {
 		this.drawLeftYLabel = includeLeftYLabel;
 	}
-	
+
 	public void setIncludeRightYLabel(boolean includeRightYLabel) {
 		this.drawRightYLabel = includeRightYLabel;
 	}
-	
-	
+
 	public void setIncludeBottomXAxisValues(boolean includeBottomXAxisValues) {
 		this.drawBottomXAxisValues = includeBottomXAxisValues;
 	}
-	
+
 	public void setIncludeTopXAxisValues(boolean includeTopXAxisValues) {
 		this.drawTopXAxisValues = includeTopXAxisValues;
 	}
-	
+
 	public void setIncludeLeftYAxisValues(boolean includeLeftYAxisValues) {
 		this.drawLeftYAxisValues = includeLeftYAxisValues;
 	}
-	
+
 	public void setIncludeRightYAxisValues(boolean includeRightYAxisValues) {
 		this.drawRightYAxisValues = includeRightYAxisValues;
 	}
-	
-	public void setIncludeExteriorTicks(boolean includeExteriorBottomXAxisTicks, boolean includeExteriorTopXAxisTicks, boolean includeExteriorLeftYAxisTicks, boolean includeExteriorRightYAxisTicks) {
+
+	public void setIncludeExteriorTicks(boolean includeExteriorBottomXAxisTicks, boolean includeExteriorTopXAxisTicks,
+			boolean includeExteriorLeftYAxisTicks, boolean includeExteriorRightYAxisTicks) {
 		setIncludeBottomXAxisTicks(includeExteriorBottomXAxisTicks, this.drawInteriorBottomXAxisTicks);
 		setIncludeTopXAxisTicks(includeExteriorTopXAxisTicks, this.drawInteriorTopXAxisTicks);
 		setIncludeLeftYAxisTicks(includeExteriorLeftYAxisTicks, this.drawInteriorLeftYAxisTicks);
 		setIncludeRightYAxisTicks(includeExteriorRightYAxisTicks, this.drawInteriorRightYAxisTicks);
 	}
-	
-	public void setIncludeInteriorTicks(boolean includeInteriorBottomXAxisTicks, boolean includeInteriorTopXAxisTicks, boolean includeInteriorLeftYAxisTicks, boolean includeInteriorRightYAxisTicks) {
+
+	public void setIncludeInteriorTicks(boolean includeInteriorBottomXAxisTicks, boolean includeInteriorTopXAxisTicks,
+			boolean includeInteriorLeftYAxisTicks, boolean includeInteriorRightYAxisTicks) {
 		setIncludeBottomXAxisTicks(this.drawExteriorBottomXAxisTicks, includeInteriorBottomXAxisTicks);
 		setIncludeTopXAxisTicks(this.drawExteriorTopXAxisTicks, includeInteriorTopXAxisTicks);
 		setIncludeLeftYAxisTicks(this.drawExteriorLeftYAxisTicks, includeInteriorLeftYAxisTicks);
 		setIncludeRightYAxisTicks(this.drawExteriorRightYAxisTicks, includeInteriorRightYAxisTicks);
-		
+
 	}
-	
+
 	public void setIncludeTicks(boolean includeExteriorBottomXAxisTicks, boolean includeInteriorBottomXAxisTicks,
-			boolean includeExteriorTopXAxisTicks, boolean includeInteriorTopXAxisTicks, 
-			boolean includeExteriorLeftYAxisTicks, boolean includeInteriorLeftYAxisTicks, 
+			boolean includeExteriorTopXAxisTicks, boolean includeInteriorTopXAxisTicks,
+			boolean includeExteriorLeftYAxisTicks, boolean includeInteriorLeftYAxisTicks,
 			boolean includeExteriorRightYAxisTicks, boolean includeInteriorRightYAxisTicks) {
 		setIncludeBottomXAxisTicks(includeExteriorBottomXAxisTicks, includeInteriorBottomXAxisTicks);
 		setIncludeTopXAxisTicks(includeExteriorTopXAxisTicks, includeInteriorTopXAxisTicks);
 		setIncludeLeftYAxisTicks(includeExteriorLeftYAxisTicks, includeInteriorLeftYAxisTicks);
 		setIncludeRightYAxisTicks(includeExteriorRightYAxisTicks, includeInteriorRightYAxisTicks);
 	}
-	
-	public void setIncludeBottomXAxisTicks(boolean includeExteriorBottomXAxisTicks, boolean includeInteriorBottomXAxisTicks) {
+
+	public void setIncludeBottomXAxisTicks(boolean includeExteriorBottomXAxisTicks,
+			boolean includeInteriorBottomXAxisTicks) {
 		this.drawExteriorBottomXAxisTicks = includeExteriorBottomXAxisTicks;
 		this.drawInteriorBottomXAxisTicks = includeInteriorBottomXAxisTicks;
 	}
-	
+
 	public void setIncludeTopXAxisTicks(boolean includeExteriorTopXAxisTicks, boolean includeInteriorTopXAxisTicks) {
 		this.drawExteriorTopXAxisTicks = includeExteriorTopXAxisTicks;
 		this.drawInteriorTopXAxisTicks = includeInteriorTopXAxisTicks;
 	}
-	
+
 	public void setIncludeLeftYAxisTicks(boolean includeExteriorLeftYAxisTicks, boolean includeInteriorLeftYAxisTicks) {
 		this.drawExteriorLeftYAxisTicks = includeExteriorLeftYAxisTicks;
 		this.drawInteriorLeftYAxisTicks = includeInteriorLeftYAxisTicks;
 	}
-	
-	public void setIncludeRightYAxisTicks(boolean includeExteriorRightYAxisTicks, boolean includeInteriorRightYAxisTicks) {
+
+	public void setIncludeRightYAxisTicks(boolean includeExteriorRightYAxisTicks,
+			boolean includeInteriorRightYAxisTicks) {
 		this.drawExteriorRightYAxisTicks = includeExteriorRightYAxisTicks;
 		this.drawInteriorRightYAxisTicks = includeInteriorRightYAxisTicks;
 	}
-	
+
 	public void setTickThickness(int thickness) {
 		setInteriorTickThickness(thickness);
 		setExteriorTickThickness(thickness);
 	}
-	
+
 	public void setInteriorTickThickness(int thickness) {
 		setInteriorBottomTickThickness(thickness);
 		setInteriorTopTickThickness(thickness);
@@ -183,7 +187,7 @@ public abstract class Axis {
 		setInteriorRightTickThickness(thickness);
 
 	}
-	
+
 	public void setExteriorTickThickness(int thickness) {
 		setExteriorBottomTickThickness(thickness);
 		setExteriorTopTickThickness(thickness);
@@ -191,9 +195,9 @@ public abstract class Axis {
 		setExteriorRightTickThickness(thickness);
 
 	}
-	
+
 	public int getInteriorBottomTickThickness() {
-		return interiorBottomTickThickness;
+		return this.interiorBottomTickThickness;
 	}
 
 	public void setInteriorBottomTickThickness(int interiorBottomTickThickness) {
@@ -201,7 +205,7 @@ public abstract class Axis {
 	}
 
 	public int getInteriorTopTickThickness() {
-		return interiorTopTickThickness;
+		return this.interiorTopTickThickness;
 	}
 
 	public void setInteriorTopTickThickness(int interiorTopTickThickness) {
@@ -209,7 +213,7 @@ public abstract class Axis {
 	}
 
 	public int getInteriorLeftTickThickness() {
-		return interiorLeftTickThickness;
+		return this.interiorLeftTickThickness;
 	}
 
 	public void setInteriorLeftTickThickness(int interiorLeftTickThickness) {
@@ -217,7 +221,7 @@ public abstract class Axis {
 	}
 
 	public int getInteriorRightTickThickness() {
-		return interiorRightTickThickness;
+		return this.interiorRightTickThickness;
 	}
 
 	public void setInteriorRightTickThickness(int interiorRightTickThickness) {
@@ -225,7 +229,7 @@ public abstract class Axis {
 	}
 
 	public int getExteriorBottomTickThickness() {
-		return exteriorBottomTickThickness;
+		return this.exteriorBottomTickThickness;
 	}
 
 	public void setExteriorBottomTickThickness(int exteriorBottomTickThickness) {
@@ -233,7 +237,7 @@ public abstract class Axis {
 	}
 
 	public int getExteriorTopTickThickness() {
-		return exteriorTopTickThickness;
+		return this.exteriorTopTickThickness;
 	}
 
 	public void setExteriorTopTickThickness(int exteriorTopTickThickness) {
@@ -241,7 +245,7 @@ public abstract class Axis {
 	}
 
 	public int getExteriorLeftTickThickness() {
-		return exteriorLeftTickThickness;
+		return this.exteriorLeftTickThickness;
 	}
 
 	public void setExteriorLeftTickThickness(int exteriorLeftTickThickness) {
@@ -249,261 +253,231 @@ public abstract class Axis {
 	}
 
 	public int getExteriorRightTickThickness() {
-		return exteriorRightTickThickness;
+		return this.exteriorRightTickThickness;
 	}
 
 	public void setExteriorRightTickThickness(int exteriorRightTickThickness) {
 		this.exteriorRightTickThickness = exteriorRightTickThickness;
 	}
-	
-	
+
 	public void setTickColor(Color color) {
 		setBottomTickColor(color);
 		setLeftTickColor(color);
 		setTopTickColor(color);
 		setRightTickColor(color);
-		
+
 	}
-	
+
 	public void setBottomTickColor(Color color) {
 		this.bottomTickColor = color;
 	}
+
 	public void setLeftTickColor(Color color) {
 		this.leftTickColor = color;
 	}
+
 	public void setTopTickColor(Color color) {
 		this.topTickColor = color;
 	}
+
 	public void setRightTickColor(Color color) {
 		this.rightTickColor = color;
 	}
-	
+
 	public void setXAxisFont(Font xAxisFont) {
-	this.xAxisFont = xAxisFont;
-}
+		this.xAxisFont = xAxisFont;
+	}
 
 	public void setYAxisFont(Font yAxisFont) {
 		this.yAxisFont = yAxisFont;
 	}
-	
+
 	public void setXAxisLabelFont(Font xAxisLabelFont) {
 		this.xAxisLabelFont = xAxisLabelFont;
 	}
-	
+
 	public void setYAxisLabelFont(Font yAxisLabelFont) {
 		this.yAxisLabelFont = yAxisLabelFont;
 	}
+
 	public void setDefaultTextColor(Color defaultTextColor) {
 		this.defaultTextColor = defaultTextColor;
 	}
-	
 
-	
 	public void setXAxisColor(Color xAxisColor) {
 		this.xAxisColor = xAxisColor;
 	}
-	
+
 	public void setYAxisColor(Color yAxisColor) {
 		this.yAxisColor = yAxisColor;
 	}
-	
+
 	public void setXAxisLabelColor(Color xAxisLabelColor) {
 		this.xAxisLabelColor = xAxisLabelColor;
 	}
-	
+
 	public void setYAxisLabelColor(Color yAxisLabelColor) {
 		this.yAxisLabelColor = yAxisLabelColor;
 	}
-	
-	public String[] getxTicks() {
-		return xTicks;
+
+	public float getXAxisRotation() {
+		return this.xAxisRotation;
 	}
 
-	public String[] getyTicks() {
-		return yTicks;
+	public float getYAxisRotation() {
+		return this.yAxisRotation;
 	}
 
-	public float getxAxisRotation() {
-		return xAxisRotation;
+	public String getXAxisLabel() {
+		return this.xAxisLabel;
 	}
 
-	public float getyAxisRotation() {
-		return yAxisRotation;
-	}
-
-	public String getxAxisLabel() {
-		return xAxisLabel;
-	}
-
-	public String getyAxisLabel() {
-		return yAxisLabel;
+	public String getYAxisLabel() {
+		return this.yAxisLabel;
 	}
 
 	public boolean drawBottomXLabel() {
-		return drawBottomXLabel;
+		return this.drawBottomXLabel && this.xAxisLabel != null;
 	}
 
 	public boolean drawTopXLabel() {
-		return drawTopXLabel;
+		return this.drawTopXLabel && this.xAxisLabel != null;
 	}
 
 	public boolean drawLeftYLabel() {
-		return drawLeftYLabel;
+		return this.drawLeftYLabel && this.yAxisLabel != null;
 	}
 
 	public boolean drawRightYLabel() {
-		return drawRightYLabel;
+		return this.drawRightYLabel && this.yAxisLabel != null;
 	}
 
 	public boolean drawBottomXAxisValues() {
-		return drawBottomXAxisValues;
+		return this.drawBottomXAxisValues;
 	}
 
 	public boolean drawTopXAxisValues() {
-		return drawTopXAxisValues;
+		return this.drawTopXAxisValues;
 	}
 
 	public boolean drawLeftYAxisValues() {
-		return drawLeftYAxisValues;
+		return this.drawLeftYAxisValues;
 	}
 
 	public boolean drawRightYAxisValues() {
-		return drawRightYAxisValues;
+		return this.drawRightYAxisValues;
 	}
 
 	public boolean drawExteriorBottomXAxisTicks() {
-		return drawExteriorBottomXAxisTicks;
+		return this.drawExteriorBottomXAxisTicks;
 	}
 
 	public boolean drawExteriorTopXAxisTicks() {
-		return drawExteriorTopXAxisTicks;
+		return this.drawExteriorTopXAxisTicks;
 	}
 
 	public boolean drawExteriorLeftYAxisTicks() {
-		return drawExteriorLeftYAxisTicks;
+		return this.drawExteriorLeftYAxisTicks;
 	}
 
 	public boolean drawExteriorRightYAxisTicks() {
-		return drawExteriorRightYAxisTicks;
+		return this.drawExteriorRightYAxisTicks;
 	}
 
 	public boolean drawInteriorBottomXAxisTicks() {
-		return drawInteriorBottomXAxisTicks;
+		return this.drawInteriorBottomXAxisTicks;
 	}
 
 	public boolean drawInteriorTopXAxisTicks() {
-		return drawInteriorTopXAxisTicks;
+		return this.drawInteriorTopXAxisTicks;
 	}
 
 	public boolean drawInteriorLeftYAxisTicks() {
-		return drawInteriorLeftYAxisTicks;
+		return this.drawInteriorLeftYAxisTicks;
 	}
 
 	public boolean drawInteriorRightYAxisTicks() {
-		return drawInteriorRightYAxisTicks;
+		return this.drawInteriorRightYAxisTicks;
 	}
 
 	public Color getBottomTickColor() {
-		return bottomTickColor;
+		return this.bottomTickColor;
 	}
 
 	public Color getLeftTickColor() {
-		return leftTickColor;
+		return this.leftTickColor;
 	}
 
 	public Color getTopTickColor() {
-		return topTickColor;
+		return this.topTickColor;
 	}
 
 	public Color getRightTickColor() {
-		return rightTickColor;
+		return this.rightTickColor;
 	}
 
-	public Font getxAxisFont() {
-		return xAxisFont;
+	public Font getXAxisFont() {
+		return this.xAxisFont;
 	}
 
-	public Font getyAxisFont() {
-		return yAxisFont;
+	public Font getYAxisFont() {
+		return this.yAxisFont;
 	}
 
-	public Font getxAxisLabelFont() {
-		return xAxisLabelFont;
+	public Font getXAxisLabelFont() {
+		return this.xAxisLabelFont;
 	}
 
-	public Font getyAxisLabelFont() {
-		return yAxisLabelFont;
+	public Font getYAxisLabelFont() {
+		return this.yAxisLabelFont;
 	}
 
-	public Color getxAxisColor() {
-		return xAxisColor;
+	public Color getXAxisColor() {
+		return this.xAxisColor;
 	}
 
-	public Color getyAxisColor() {
-		return yAxisColor;
+	public Color getYAxisColor() {
+		return this.yAxisColor;
 	}
 
-	public Color getxAxisLabelColor() {
-		return xAxisLabelColor;
+	public Color getXAxisLabelColor() {
+		return this.xAxisLabelColor;
 	}
 
-	public Color getyAxisLabelColor() {
-		return yAxisLabelColor;
+	public Color getYAxisLabelColor() {
+		return this.yAxisLabelColor;
 	}
-	
-	
-	
-	public abstract void drawAxis(Graphics2D g, XYChartMeasurements cm);
-	
-	
-	
-	
-	
+
+	public void drawXAxisLabel(Graphics2D g, XYChartMeasurements cm) {
+		DrawString.setTextStyle(this.xAxisLabelColor, this.xAxisLabelFont, 0);
+		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
+		if (this.drawBottomXLabel()) {
+			DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
+					cm.imageBottomToBottomAxisLabelMidHeight());
+		}
+		if (this.drawTopXLabel()) {
+			DrawString.write(g, this.xAxisLabel, cm.imageLeftToPlotMidWidth(),
+					cm.imageBottomToTopAxisLabelMidHeight());
+		}
+		
+
+	}
+
+	public void drawYAxisLabel(Graphics2D g, XYChartMeasurements cm) {
+		DrawString.setTextStyle(this.yAxisLabelColor, this.yAxisLabelFont, -90);
+		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
+		if (this.drawLeftYLabel()) {
+			DrawString.write(g, this.yAxisLabel, cm.imageLeftToLeftAxisLabelMidWidth(),
+					cm.imageBottomToPlotMidHeight());
+		}
+		if (this.drawRightYLabel()) {
+			DrawString.write(g, this.yAxisLabel, cm.imageLeftToRightAxisLabelMidWidth(),
+					cm.imageBottomToPlotMidHeight());
+		}
+		
+	}
+
+	public abstract String[] getXTicksFormattedForDisplay();
+	public abstract String[] getYTicksFormattedForDisplay();
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
