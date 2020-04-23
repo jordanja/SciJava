@@ -22,6 +22,7 @@ import thesis.Charter.Charts.BarChart;
 import thesis.Charter.Charts.BoxChart;
 import thesis.Charter.Charts.LineChart;
 import thesis.Charter.Charts.PieChart;
+import thesis.Charter.Charts.PolarAreaChart;
 import thesis.Charter.Charts.RadarChart;
 import thesis.Charter.Charts.ScatterChart;
 import thesis.Charter.Charts.StackedBarChart;
@@ -49,10 +50,24 @@ public class Main {
 //		lineCharting();
 //		barCharting();
 //		scatterCharting();
-		radarChart();
+//		radarChart();
+		polarAreaChart();
 //		dfPlay();
 
 		System.out.println("\n\nFINISHED EXECUTION");
+	}
+
+	private static void polarAreaChart() {
+		DataFrame df = new DataFrame("Datasets/own.csv", true);
+		PolarAreaChart pac = new PolarAreaChart(df, "Fruit", "Quantity");
+		
+//		pac.getPlot().setPlotOutlineColor(Color.BLACK);
+//		pac.getPlot().includePlotOutline(new boolean[] {true, true, true, true});
+		pac.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
+		pac.setTitle("Polar Area Chart");
+		
+		pac.Create();
+		pac.WriteFile("Chart Images/Polar Area Chart.png");
 	}
 
 	private static void radarChart() {
