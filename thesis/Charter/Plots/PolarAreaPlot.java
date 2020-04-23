@@ -1,7 +1,9 @@
 package thesis.Charter.Plots;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Arc2D;
 
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Helpers.Palette;
@@ -29,7 +31,15 @@ public class PolarAreaPlot extends Plot{
 			Color color = this.colorPalette[categoryCount];
 			g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), this.fillOpacity));
 
-			g.fillArc(xMid - radius, yMid - radius, radius * 2, radius * 2, (int)currentAngle, (int)angleDelta);
+			Arc2D arc = new Arc2D.Double(xMid - radius, yMid - radius, radius * 2, radius * 2, (int)currentAngle, (int)angleDelta, Arc2D.PIE);
+			g.fill(arc);
+			
+			
+			if (this.outlines) {				
+				g.setColor(color);
+				g.setStroke(new BasicStroke(this.outlineWidth));
+				g.draw(arc);
+			}
 			
 			currentAngle +=  angleDelta;
 		}
