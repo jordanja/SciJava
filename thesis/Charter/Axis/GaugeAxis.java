@@ -54,8 +54,6 @@ public class GaugeAxis {
 			int x = (int) (xMid + Math.cos(currentAngle) * fullRadius);
 			int y = (int) (yMid + Math.sin(currentAngle) * fullRadius);
 			
-			g.fillOval(x - 3, y - 3, 6, 6);
-			
 			String axisValue = this.axisValues[axisValueCount];
 			
 			setTextAlignment(currentAngle);

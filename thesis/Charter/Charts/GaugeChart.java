@@ -47,11 +47,11 @@ public class GaugeChart extends Chart{
 		
 		this.plot.drawPlotBackground(g, this.cm);
 
-//		this.axis.drawAxis(g, this.cm);
+		this.axis.drawAxis(g, this.cm);
 		
 		this.plot.drawPlotOutline(g, this.cm);
 	
-//		this.plot.drawPlot(g, data, uniqueRadarCategories, uniqueValueCategories, this.axis.getAxisRadius(), this.axis.getTicks(), this.cm);
+		this.plot.drawPlot(g, this.value, this.axis, this.cm);
 		
 
 		this.drawTitle(g, this.cm);
