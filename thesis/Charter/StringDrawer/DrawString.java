@@ -202,6 +202,12 @@ public class DrawString {
 		DrawString.rotation = rotation;
 	}
 	
+//	public static String formatNumberForAxis(double num) {
+//		DecimalFormat df = new DecimalFormat("#.##");
+//		df.setRoundingMode(RoundingMode.HALF_DOWN);
+//		return df.format(num);
+//	}
+	
 //	public static void setStringStyle(Color color, Font font, float rotation, xAlignment xAlign, yAlignment yAlign) {
 //		
 //	}

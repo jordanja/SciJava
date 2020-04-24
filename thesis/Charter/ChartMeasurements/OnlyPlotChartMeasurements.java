@@ -1,5 +1,10 @@
 package thesis.Charter.ChartMeasurements;
 
+import java.awt.Font;
+
+import thesis.Charter.Legend.Legend;
+import thesis.Charter.StringDrawer.DrawString;
+
 public class OnlyPlotChartMeasurements extends ChartMeasurements{
 
 	protected int imageLeftToPlotLeftWidth = 20;
@@ -123,6 +128,15 @@ public class OnlyPlotChartMeasurements extends ChartMeasurements{
 
 	public int imageLeftToLegendLeftWidth() {
 		return 0;
+	}
+	
+	public void calculateChartImageMetrics(String title, Font titleFont) {
+		if (title != null) {
+			this.titleHeight = DrawString.getStringHeight(title, titleFont);
+		} else {
+			this.titleHeight = 0;
+		}
+
 	}
 	
 }
