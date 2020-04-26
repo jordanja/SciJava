@@ -25,6 +25,7 @@ public class DrawString {
 	private static float rotation = 0;
 	private static xAlignment xTextAlignment = xAlignment.LeftAlign;
 	private static yAlignment yTextAlignment = yAlignment.BottomAlign;
+	
 
 	public enum xAlignment {
 		LeftAlign, CenterAlign, RightAlign
