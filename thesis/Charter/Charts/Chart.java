@@ -2,6 +2,7 @@ package thesis.Charter.Charts;
 
 import thesis.Charter.ChartMeasurements.ChartMeasurements;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.StringDrawer.DrawArrow;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
@@ -41,6 +42,9 @@ public abstract class Chart {
 	private Font defaultTextFont = new Font("Dialog", Font.PLAIN, 12);
 	private float defaultTextRotation = 0;
 	
+	private Color defaultArrowColor = Color.BLACK;
+	private int defaultArrowWeight = 1;
+	
 	public Chart() {
 		
 	}
@@ -71,6 +75,17 @@ public abstract class Chart {
 	
 	public void write(String text, int x, int y) {
 		write(text, x, y, this.defaultTextXAlign, this.defaultTextYAlignment, this.defautTextColor, this.defaultTextFont, this.defaultTextRotation);
+	}
+	
+	public void drawArrow(int x1, int y1, int x2, int y2) {
+		DrawArrow.setColor(this.defaultArrowColor);
+		DrawArrow.setLineWeight(this.defaultArrowWeight);
+		DrawArrow.drawArrow(g, x1, y1, x2, y2);
+	}
+	public void drawArrow(int x1, int y1, int x2, int y2, Color lineColor, int lineWeight) {
+		DrawArrow.setColor(lineColor);
+		DrawArrow.setLineWeight(lineWeight);
+		DrawArrow.drawArrow(g, x1, y1, x2, y2);
 	}
 	
 	 //If using DataFrame
