@@ -87,7 +87,7 @@ public class ScatterChart extends XYChart {
 		this.axis.calculateYAxis(CommonMath.minimumValue(this.yData), CommonMath.maximumValue(this.yData));
 
 		if (this.legend.getIncludeLegend()) {
-			this.legend.calculateLegend(this.colorCodeLabel, this.colorCodeValues);
+			this.legend.calculateLegend(this.colorCodeLabel, CommonArray.removeDuplicates(this.colorCodeValues));
 		}
 
 		this.cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());

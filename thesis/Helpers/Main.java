@@ -20,6 +20,7 @@ import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Charts.BarChart;
 import thesis.Charter.Charts.BoxChart;
+import thesis.Charter.Charts.GaugeChart;
 import thesis.Charter.Charts.LineChart;
 import thesis.Charter.Charts.PieChart;
 import thesis.Charter.Charts.PolarAreaChart;
@@ -35,6 +36,8 @@ import thesis.Charter.Plots.PiePlot;
 import thesis.Charter.Plots.ScatterPlot;
 import thesis.Charter.Plots.StackedBarPlot;
 import thesis.Charter.Plots.StripPlot;
+import thesis.Charter.StringDrawer.DrawString.xAlignment;
+import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.*;
 import thesis.NumJa.NumJa;
@@ -49,12 +52,31 @@ public class Main {
 //		boxCharting();
 //		lineCharting();
 //		barCharting();
-//		scatterCharting();
+		scatterCharting();
 //		radarChart();
-		polarAreaChart();
+//		polarAreaChart();
+//		gaugeChart();
 //		dfPlay();
 
 		System.out.println("\n\nFINISHED EXECUTION");
+	}
+
+	private static void gaugeChart() {
+		GaugeChart gc = new GaugeChart(20, 0, 100);
+//		GaugeChart gc = new GaugeChart(0.3);
+		
+		gc.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
+		gc.setTitle("Gauge Chart");
+		
+		gc.getPlot().setArcColors(new Color[] {Color.RED, Color.ORANGE, Color.BLUE, Color.CYAN, Color.GREEN});
+		
+		gc.Create();
+		
+		gc.write("hello", 100, 100, xAlignment.CenterAlign, yAlignment.MiddleAlign, Color.BLACK, new Font("Dialog", Font.PLAIN, 30), 45);
+		
+		gc.drawArrow(10, 10, 100, 200, Color.BLUE, 5);
+		
+		gc.WriteFile("Chart Images/Gauge Chart.png");
 	}
 
 	private static void polarAreaChart() {
