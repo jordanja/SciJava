@@ -1,12 +1,15 @@
 package thesis.Charter.Plots;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
 import thesis.Charter.Axis.GaugeAxis;
 import thesis.Charter.ChartMeasurements.OnlyPlotChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.StringDrawer.DrawString.xAlignment;
+import thesis.Charter.StringDrawer.DrawString.yAlignment;
 
 public class GaugePlot extends Plot {
 
@@ -15,6 +18,10 @@ public class GaugePlot extends Plot {
 	private int innerRadiusDifference = 50;
 
 	private Color needleColor = Color.BLUE;
+	
+	private Color valueColor = Color.BLACK;
+	private Font valueFont = new Font("Dialog", Font.PLAIN, 24);
+	private boolean writeValue = true;
 
 	public void drawPlot(Graphics2D g, double value, GaugeAxis axis, OnlyPlotChartMeasurements cm) {
 		String[] axisStringValues = axis.getAxisStringValues();
@@ -33,6 +40,13 @@ public class GaugePlot extends Plot {
 		drawGauge(g, xMid, yMid, outerRadius, innerRadius);
 
 		drawNeedle(g, value, axisValues, xMid, yMid, outerRadius, innerRadius);
+		
+		if (this.writeValue) {			
+			String formattedValue = DrawString.formatDoubleForDisplay(value);
+			DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.MiddleAlign);
+			DrawString.setTextStyle(this.valueColor, this.valueFont, 0);
+			DrawString.write(g, formattedValue, cm.imageLeftToPlotMidWidth(), cm.imageBottomToPlotMidHeight() - 20);
+		}
 
 	}
 
@@ -134,6 +148,30 @@ public class GaugePlot extends Plot {
 
 	public void setNeedleColor(Color needleColor) {
 		this.needleColor = needleColor;
+	}
+
+	public Color getValueColor() {
+		return valueColor;
+	}
+
+	public void setValueColor(Color valueColor) {
+		this.valueColor = valueColor;
+	}
+
+	public Font getValueFont() {
+		return valueFont;
+	}
+
+	public void setValueFont(Font valueFont) {
+		this.valueFont = valueFont;
+	}
+
+	public boolean isWriteValue() {
+		return writeValue;
+	}
+
+	public void setWriteValue(boolean writeValue) {
+		this.writeValue = writeValue;
 	}
 
 }
