@@ -64,31 +64,7 @@ public class RadarChartAxis {
 			g.drawLine(xMid, yMid, x, y);
 			
 			double proportion = (double)categoryCount/this.categories.length;
-			if (proportion == 0) {
-				// Top
-				DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.BottomAlign);
-			} else if (proportion == 0.25) {
-				// Right
-				DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.MiddleAlign);				
-			} else if (proportion == 0.5) {
-				// Bottom
-				DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.TopAlign);
-			} else if (proportion == 0.75) {
-				// Left
-				DrawString.setAlignment(xAlignment.RightAlign, yAlignment.MiddleAlign);
-			} else if ((proportion > 0) && (proportion < 0.25)) {
-				// Top Right
-				DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.BottomAlign);
-			} else if ((proportion > 0.25) && (proportion < 0.5)) {
-				// Bottom Right
-				DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.TopAlign);
-			} else if ((proportion > 0.5) && (proportion < 0.75)) {
-				// Bottom Left
-				DrawString.setAlignment(xAlignment.RightAlign, yAlignment.TopAlign);
-			} else if ((proportion > 0.75) && (proportion < 1)) {
-				// Top Left
-				DrawString.setAlignment(xAlignment.RightAlign, yAlignment.BottomAlign);
-			}
+			setTextAlignment(proportion);
 			
 			int stringX = (int) (x + this.plotToAxisSpacing * Math.cos(angle));
 			int stringY = (int) (y + this.plotToAxisSpacing * Math.sin(angle));
@@ -128,6 +104,34 @@ public class RadarChartAxis {
 			DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.MiddleAlign);
 			DrawString.setTextStyle(Color.black, this.tickFont, 0);
 			DrawString.write(g, tick, x, y);
+		}
+	}
+
+	private void setTextAlignment(double proportion) {
+		if (proportion == 0) {
+			// Top
+			DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.BottomAlign);
+		} else if (proportion == 0.25) {
+			// Right
+			DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.MiddleAlign);				
+		} else if (proportion == 0.5) {
+			// Bottom
+			DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.TopAlign);
+		} else if (proportion == 0.75) {
+			// Left
+			DrawString.setAlignment(xAlignment.RightAlign, yAlignment.MiddleAlign);
+		} else if ((proportion > 0) && (proportion < 0.25)) {
+			// Top Right
+			DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.BottomAlign);
+		} else if ((proportion > 0.25) && (proportion < 0.5)) {
+			// Bottom Right
+			DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.TopAlign);
+		} else if ((proportion > 0.5) && (proportion < 0.75)) {
+			// Bottom Left
+			DrawString.setAlignment(xAlignment.RightAlign, yAlignment.TopAlign);
+		} else if ((proportion > 0.75) && (proportion < 1)) {
+			// Top Left
+			DrawString.setAlignment(xAlignment.RightAlign, yAlignment.BottomAlign);
 		}
 	}
 	
