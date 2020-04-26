@@ -14,7 +14,9 @@ import thesis.Common.NiceScale;
 
 public class GaugeAxis {
 
-	private String[] axisValues;
+	private String[] axisValuesString;
+	private double[] axisValues;
+	
 	private Font axisFont = new Font("Dialog", Font.PLAIN, 12);
 	private Color axisValueColor = Color.BLACK;
 	
@@ -28,19 +30,36 @@ public class GaugeAxis {
 	
 	private int edgeBuffer = 2;
 	
-	public void setAxis(double value, double min, double max) {
-		NiceScale yNS = new NiceScale(min, max);
+	public void setAxis(double value) {
+		NiceScale yNS = new NiceScale(0, 1);
 		yNS.setMaxTicks(this.maxTicks);
-		this.axisValues = new String[1 + (int) (Math.ceil(yNS.getNiceMax() / yNS.getTickSpacing()))];
+		this.axisValuesString = new String[1 + (int) (Math.ceil(yNS.getNiceMax() / yNS.getTickSpacing()))];
+		this.axisValues = new double[1 + (int) (Math.ceil(yNS.getNiceMax() / yNS.getTickSpacing()))];
 		
 		for (int i = 0; i * yNS.getTickSpacing() <= yNS.getNiceMax(); i++) {
 			double tickValue = i * yNS.getTickSpacing();
-			this.axisValues[i] = DrawString.formatDoubleForDisplay(tickValue);
+			double decimal = tickValue * 100;
+			
+			this.axisValuesString[i] = DrawString.formatDoubleForDisplay(decimal) + "%";
+			this.axisValues[i] = tickValue;
+		}
+	}
+	
+	public void setAxis(double value, double min, double max) {
+		NiceScale yNS = new NiceScale(min, max);
+		yNS.setMaxTicks(this.maxTicks);
+		this.axisValuesString = new String[1 + (int) (Math.ceil(yNS.getNiceMax() / yNS.getTickSpacing()))];
+		this.axisValues = new double[1 + (int) (Math.ceil(yNS.getNiceMax() / yNS.getTickSpacing()))];
+		
+		for (int i = 0; i * yNS.getTickSpacing() <= yNS.getNiceMax(); i++) {
+			double tickValue = i * yNS.getTickSpacing();
+			this.axisValuesString[i] = DrawString.formatDoubleForDisplay(tickValue);
+			this.axisValues[i] = tickValue;
 		}
 	}
 
 	public void drawAxis(Graphics2D g, OnlyPlotChartMeasurements cm) {
-		int numAxisValues = axisValues.length;
+		int numAxisValues = axisValuesString.length;
 		int fullRadius = cm.getPlotWidth()/2 - edgeBuffer;
 		
 		int xMid = cm.imageLeftToPlotMidWidth();
@@ -49,13 +68,13 @@ public class GaugeAxis {
 		double currentAngle = Math.PI;
 		double angleDelta = Math.PI/(numAxisValues - 1);
 		
-		g.setColor(Color.BLACK);
 		for (int axisValueCount = 0; axisValueCount < numAxisValues; axisValueCount++) {
 			int x = (int) (xMid + Math.cos(currentAngle) * fullRadius);
 			int y = (int) (yMid + Math.sin(currentAngle) * fullRadius);
 			
-			String axisValue = this.axisValues[axisValueCount];
+			String axisValue = this.axisValuesString[axisValueCount];
 			
+			g.setColor(this.axisValueColor);
 			setTextAlignment(currentAngle);
 			DrawString.setTextStyle(Color.black, this.axisFont, 0);
 			DrawString.write(g, axisValue, x, y);
@@ -97,7 +116,11 @@ public class GaugeAxis {
 	}
 
 
-	public String[] getAxisValues() {
+	public String[] getAxisStringValues() {
+		return axisValuesString;
+	}
+	
+	public double[] getAxisValues() {
 		return axisValues;
 	}
 

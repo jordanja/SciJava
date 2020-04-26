@@ -19,12 +19,29 @@ public class GaugeChart extends Chart{
 	
 	private OnlyPlotChartMeasurements cm;
 	
-	public GaugeChart(double value, double min, double max, boolean percentageGauge) {
+	public GaugeChart(double value) {
+		if ((value >= 0) && (value <= 1)) {			
+			this.value = value;
+			this.min = 0;
+			this.max = 1;
+			this.percentageGuage = true;
+			
+			initalizeComponents();
+		} else {
+			System.out.println("value must be between 0 and 1");
+		}
+	}
+	
+	public GaugeChart(double value, double min, double max) {
 		this.value = value;
 		this.min = min;
 		this.max = max;
-		this.percentageGuage = percentageGauge;
+		this.percentageGuage = false;
 		
+		initalizeComponents();
+	}
+	
+	private void initalizeComponents() {
 		this.plot = new GaugePlot();
 		this.axis = new GaugeAxis();
 		this.cm = new OnlyPlotChartMeasurements();
@@ -33,7 +50,11 @@ public class GaugeChart extends Chart{
 	
 	@Override
 	public void Create() {
-		this.axis.setAxis(value, min, max);
+		if (this.percentageGuage) {
+			this.axis.setAxis(value);
+		} else {
+			this.axis.setAxis(value, min, max);			
+		}
 		
 		
 		this.cm.calculateChartImageMetrics(this.getTitle(), this.getTitleFont());
@@ -47,12 +68,12 @@ public class GaugeChart extends Chart{
 		
 		this.plot.drawPlotBackground(g, this.cm);
 
-		this.axis.drawAxis(g, this.cm);
 		
 		this.plot.drawPlotOutline(g, this.cm);
 	
 		this.plot.drawPlot(g, this.value, this.axis, this.cm);
 		
+		this.axis.drawAxis(g, this.cm);
 
 		this.drawTitle(g, this.cm);
 	

@@ -16,9 +16,11 @@ public class GaugePlot extends Plot{
 	private int innerRadiusDifference = 50;
 	
 	public void drawPlot(Graphics2D g, double value, GaugeAxis axis, OnlyPlotChartMeasurements cm) {
-		String[] axisValues = axis.getAxisValues();
-		int widestAxisValue = DrawString.maxWidthOfStringInList(axisValues, axis.getAxisFont(), 0);
-		int heighestAxisValue = DrawString.maxHeightOfStringInList(axisValues, axis.getAxisFont(), 0);
+		String[] axisStringValues = axis.getAxisStringValues();
+		double[] axisValues = axis.getAxisValues();
+
+		int widestAxisValue = DrawString.maxWidthOfStringInList(axisStringValues, axis.getAxisFont(), 0);
+		int heighestAxisValue = DrawString.maxHeightOfStringInList(axisStringValues, axis.getAxisFont(), 0);
 		int axisValueIndent = Integer.max(widestAxisValue, heighestAxisValue);
 		
 		int xMid = cm.imageLeftToPlotMidWidth();
@@ -33,9 +35,9 @@ public class GaugePlot extends Plot{
 		
 	}
 
-	private void drawNeedle(Graphics2D g, double value, String[] axisValues, int xMid, int yMid, int outerRadius,
+	private void drawNeedle(Graphics2D g, double value, double[] axisValues, int xMid, int yMid, int outerRadius,
 			int innerRadius) {
-		double needleProportion = value / Double.valueOf(axisValues[axisValues.length - 1]);
+		double needleProportion = value / axisValues[axisValues.length - 1];
 		double needleAngle = Math.PI - (needleProportion * Math.PI);
 		
 		double middleRadius = (innerRadius + outerRadius)/2;
