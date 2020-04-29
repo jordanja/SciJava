@@ -2,17 +2,14 @@ package thesis.Charter.ChartMeasurements;
 
 import java.awt.Font;
 
-import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.StringDrawer.DrawString;
 
-public class NoAxisChartMeasurements extends ChartMeasurements{
+public class OnlyPlotChartMeasurements extends ChartMeasurements{
 
 	protected int imageLeftToPlotLeftWidth = 20;
 	protected int plotWidth = 400;
-	protected int plotRightToLegendLeftWidth = 20;
-	protected int legendWidth;
-	protected int legendRightToChartRightWidth = 20;
+	protected int plotRightToChartRightWidth = 20;
 	
 	protected int imageBottomToPlotBottomHeight = 20;
 	protected int plotHeight = 400;
@@ -32,20 +29,8 @@ public class NoAxisChartMeasurements extends ChartMeasurements{
 		return this.imageLeftToPlotLeftWidth() + this.plotWidth;
 	}
 	
-	public int imageLeftToLegendLeftWidth() {
-		return this.imageLeftToPlotRightWidth() + this.plotRightToLegendLeftWidth;
-	}
-	
-	public int imageLeftToLegendMidWidth() {
-		return this.imageLeftToLegendLeftWidth() + this.legendWidth/2;
-	}
-	
-	public int imageLeftToLegendRightWidth() {
-		return this.imageLeftToLegendLeftWidth() + this.legendWidth;
-	}
-	
 	public int imageWidth() {
-		return this.imageLeftToLegendRightWidth() + this.legendRightToChartRightWidth;
+		return this.imageLeftToPlotRightWidth() + this.plotRightToChartRightWidth;
 	}
 	
 	
@@ -93,28 +78,12 @@ public class NoAxisChartMeasurements extends ChartMeasurements{
 		this.plotWidth = plotWidth;
 	}
 
-	public int getPlotRightToLegendLeftWidth() {
-		return plotRightToLegendLeftWidth;
+	public int getPlotRightToChartRightWidth() {
+		return plotRightToChartRightWidth;
 	}
 
-	public void setPlotRightToLegendLeftWidth(int plotRightToLegendLeftWidth) {
-		this.plotRightToLegendLeftWidth = plotRightToLegendLeftWidth;
-	}
-
-	public int getLegendWidth() {
-		return legendWidth;
-	}
-
-	public void setLegendWidth(int legendWidth) {
-		this.legendWidth = legendWidth;
-	}
-
-	public int getLegendRightToChartRightWidth() {
-		return legendRightToChartRightWidth;
-	}
-
-	public void setLegendRightToChartRightWidth(int legendRightToChartRightWidth) {
-		this.legendRightToChartRightWidth = legendRightToChartRightWidth;
+	public void setPlotRightToChartRightWidth(int plotRightToChartRightWidth) {
+		this.plotRightToChartRightWidth = plotRightToChartRightWidth;
 	}
 
 	public int getImageBottomToPlotBottomHeight() {
@@ -156,19 +125,18 @@ public class NoAxisChartMeasurements extends ChartMeasurements{
 	public void setTitleTopToImageTopHeight(int titleTopToImageTopHeight) {
 		this.titleTopToImageTopHeight = titleTopToImageTopHeight;
 	}
+
+	public int imageLeftToLegendLeftWidth() {
+		return 0;
+	}
 	
-	
-	public void calculateChartImageMetrics(Legend legend, String title, Font titleFont) {
+	public void calculateChartImageMetrics(String title, Font titleFont) {
 		if (title != null) {
 			this.titleHeight = DrawString.getStringHeight(title, titleFont);
 		} else {
 			this.titleHeight = 0;
 		}
-		
-		if (legend.getIncludeLegend()) {
-			this.legendWidth = legend.getLegendWidth();
-		} else {
-			this.legendWidth = 0;
-		}
+
 	}
+	
 }

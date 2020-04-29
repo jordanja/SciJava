@@ -25,7 +25,6 @@ public class Legend {
 	private boolean includeLegend;
 	private String hueLabel;
 	private String[] hueValues;
-//	private Color[] colors;
 	
 	private int hueLabelWidth;
 	private int widestHueValueWidth;
@@ -45,7 +44,30 @@ public class Legend {
 
 	private Color backgroundColor = Color.WHITE;
 	
-
+	private int numOfBubbleSizeValues = 3;
+	
+	/*
+	 * 	[
+	 *		{
+	 *			"label": "color-label",
+	 *			"type": "color",
+	 *			"data": {
+	 *				"label-1": Color.red,
+	 *				"label-2": Color.blue,
+	 *			}
+	 *		},
+	 *		{
+	 *			"label": "size-label",
+	 *			"type": "size",
+	 *			"data": {
+	 *				"smallest-value": radius,
+	 *				"middle-value": radius,
+	 *				"largest-value": radius,
+	 *			}
+	 *		}
+	 * 	]
+	 */
+	
 	public void calculateLegend(String hueLabel, Object[] hueValues) {
 		this.includeLegend = true;
 		this.hueLabel = hueLabel;

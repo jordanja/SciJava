@@ -11,7 +11,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.ChartMeasurements;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;

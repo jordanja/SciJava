@@ -6,8 +6,9 @@ import java.awt.Graphics2D;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Common.CommonArray;
@@ -30,6 +31,9 @@ public class ScatterPlot extends Plot {
 	private float dataPointTransparency = 1;
 
 	private Color[] colorPalette = Palette.Default;
+	
+	private int smallestRadius = 6;
+	private int largestRadius = 40;
 
 	public ScatterPlot() {
 
@@ -117,44 +121,58 @@ public class ScatterPlot extends Plot {
 
 	}
 
-	public void drawPlot(Graphics2D g, NumericAxis axis, DataItem[] xData, DataItem[] yData, String[] colorCodeValues, XYChartMeasurements cm) {
+	public void drawPlot(Graphics2D g, NumericAxis axis, Map<String, Object>[] data, XYChartMeasurements cm) {
 		double[] xTicks = axis.getXTicksValues();
 		double[] yTicks = axis.getYTicksValues();
+		
+		boolean hasColorCode = data[0].containsKey("color");
+		boolean hasSize = data[0].containsKey("size");
 
-		for (int dataPointNumber = 0; dataPointNumber < xData.length; dataPointNumber++) {
-
-			int xPos = worldXPosToPlotXPos(xData[dataPointNumber].getValueConvertedToDouble(), xTicks, cm);
-			int yPos = worldYPosToPlotYPos(yData[dataPointNumber].getValueConvertedToDouble(), yTicks, cm);
+		String[] uniqueColorCodeValus = null;
+		if (hasColorCode) {
+			uniqueColorCodeValus = CommonArray.removeDuplicates(CommonArray.getAllValuesOfKey(data, "color"));
+		}
+		
+		for (int dataPointNumber = 0; dataPointNumber < data.length; dataPointNumber++) {
+			
+			int xPos = worldXPosToPlotXPos((double)data[dataPointNumber].get("x"), xTicks, cm);
+			int yPos = worldYPosToPlotYPos((double)data[dataPointNumber].get("y"), yTicks, cm);
 
 			Color dataPointColor;
 			
-			if (colorCodeValues == null) {
-				dataPointColor = new Color(this.dataPointColor.getRed(), this.dataPointColor.getGreen(), this.dataPointColor.getBlue(), Math.round(this.dataPointTransparency * 255));
-			} else {
-				String[] uniquecolorCodeValues = CommonArray.removeDuplicates(colorCodeValues);
-			
-				
-				int colorCodeValue = CommonMath.elementNumInArray(uniquecolorCodeValues, colorCodeValues[dataPointNumber]) % (this.colorPalette.length - 1);
+			if (hasColorCode) {
+				int colorCodeValue = CommonMath.elementNumInArray(uniqueColorCodeValus, data[dataPointNumber].get("color")) % (this.colorPalette.length - 1);
 				dataPointColor = this.colorPalette[colorCodeValue];
+			} else {			
+				dataPointColor = new Color(this.dataPointColor.getRed(), this.dataPointColor.getGreen(), this.dataPointColor.getBlue(), Math.round(this.dataPointTransparency * 255));
+			}
+			
+			if (hasSize) {
+				Double[] sizeValues = CommonArray.getAllDoubleValuesOfKey(data, "size");
+				double minSize = CommonArray.minValue(sizeValues);
+				double maxSize = CommonArray.maxValue(sizeValues);
+				int radius = CommonMath.map((double)data[dataPointNumber].get("size"), minSize, maxSize, (double)this.smallestRadius, (double)this.largestRadius);
+				drawDataPoint(g, xPos, yPos, dataPointNumber, dataPointColor, radius);
+
+			} else {
+				drawDataPoint(g, xPos, yPos, dataPointNumber, dataPointColor, this.dataPointRadius);
 
 			}
-			drawDataPoint(g, xPos, yPos, dataPointNumber, dataPointColor);
+			
 
 		}
 	}
 
-	private void drawDataPoint(Graphics2D g, int xCenter, int yCenter, int dataPointNumber, Color dataPointColor) {
+	private void drawDataPoint(Graphics2D g, int xCenter, int yCenter, int dataPointNumber, Color dataPointColor, int radius) {
 
 		g.setColor(dataPointColor);
 
-		g.fillOval(xCenter - this.dataPointRadius / 2, yCenter - this.dataPointRadius / 2, this.dataPointRadius,
-				this.dataPointRadius);
+		g.fillOval(xCenter - radius / 2, yCenter - radius / 2, radius, radius);
 
 		if (this.includeDataPointOutline) {
 			g.setColor(this.dataPointOutlineColor);
 			g.setStroke(new BasicStroke(this.outlineWidth));
-			g.drawOval(xCenter - this.dataPointRadius / 2, yCenter - this.dataPointRadius / 2, this.dataPointRadius,
-					this.dataPointRadius);
+			g.drawOval(xCenter - radius / 2, yCenter - radius / 2, radius, radius);
 		}
 	}
 

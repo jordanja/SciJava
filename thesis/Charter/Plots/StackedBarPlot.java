@@ -87,10 +87,12 @@ public class StackedBarPlot  extends Plot{
 	private void drawHueBar(Graphics2D g, int xBoxStart, int yBoxStart, int boxWidth, int boxHeight, double value, Color color, double proportion, XYChartMeasurements cm) {
 		g.setColor(color);
 		g.fillRect(xBoxStart, yBoxStart, boxWidth, boxHeight);
-
-		DrawString.setTextStyle(this.valuesColor, this.valuesFont, 0);
-		DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
-		DrawString.write(g, DrawString.formatDoubleForDisplay(value), xBoxStart + boxWidth/2, yBoxStart + boxHeight/2);
+		
+		if (this.drawValuesOnBar) {			
+			DrawString.setTextStyle(this.valuesColor, this.valuesFont, 0);
+			DrawString.setAlignment(DrawString.xAlignment.CenterAlign, DrawString.yAlignment.MiddleAlign);
+			DrawString.write(g, DrawString.formatDoubleForDisplay(value), xBoxStart + boxWidth/2, yBoxStart + boxHeight/2);
+		}
 	}
 	
 	

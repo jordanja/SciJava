@@ -14,12 +14,13 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Charts.BarChart;
 import thesis.Charter.Charts.BoxChart;
+import thesis.Charter.Charts.GaugeChart;
 import thesis.Charter.Charts.LineChart;
 import thesis.Charter.Charts.PieChart;
 import thesis.Charter.Charts.PolarAreaChart;
@@ -35,6 +36,8 @@ import thesis.Charter.Plots.PiePlot;
 import thesis.Charter.Plots.ScatterPlot;
 import thesis.Charter.Plots.StackedBarPlot;
 import thesis.Charter.Plots.StripPlot;
+import thesis.Charter.StringDrawer.DrawString.xAlignment;
+import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.*;
 import thesis.NumJa.NumJa;
@@ -50,21 +53,45 @@ public class Main {
 //		lineCharting();
 //		barCharting();
 //		scatterCharting();
+		bubbleChart();
 //		radarChart();
-		polarAreaChart();
+//		polarAreaChart();
+//		gaugeChart();
 //		dfPlay();
+//		scatterChartingDiamond();
 
 		System.out.println("\n\nFINISHED EXECUTION");
+	}
+
+	private static void gaugeChart() {
+		GaugeChart gc = new GaugeChart(0.3);
+		
+		gc.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
+		gc.setTitle("Gauge Chart");
+		
+		gc.getPlot().setArcColors(new Color[] {Color.RED, Color.ORANGE, 
+				Color.GREEN});
+		
+		gc.getPlot().setInnerRadiusDifference(100);
+		
+		gc.Create();
+		
+		gc.write("Danger Zone", 210, 150, 
+				xAlignment.LeftAlign, yAlignment.MiddleAlign, 
+				Color.BLACK, new Font("Dialog", Font.PLAIN, 30), 0);
+		gc.drawArrow(200, 150, 100, 250, Color.BLACK, 2);
+		
+		gc.WriteFile("Chart Images/Gauge Chart.png");
 	}
 
 	private static void polarAreaChart() {
 		DataFrame df = new DataFrame("Datasets/own.csv", true);
 		PolarAreaChart pac = new PolarAreaChart(df, "Fruit", "Quantity");
 		
-//		pac.getPlot().setPlotOutlineColor(Color.BLACK);
-//		pac.getPlot().includePlotOutline(new boolean[] {true, true, true, true});
 		pac.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
 		pac.setTitle("Polar Area Chart");
+		
+		pac.getPlot().setOutlineWidth(10);
 		
 		pac.Create();
 		pac.WriteFile("Chart Images/Polar Area Chart.png");
@@ -72,21 +99,17 @@ public class Main {
 
 	private static void radarChart() {
 		DataFrame df = new DataFrame("Datasets/radarchart.csv", true);
-		System.out.println(df);
 		
 		RadarChart rc = new RadarChart(df, "Fruit", "Supermarket", "Quantity");
 		
-		
-		rc.setTitleFont(new Font("Dialog", Font.PLAIN, 80));
-		rc.setTitle("This is a title");
+		rc.setTitleFont(new Font("Dialog", Font.PLAIN, 40));
+		rc.setTitle("Supermarket Quantities of Fruit");
 		
 		rc.getChartMeasurements().setPlotWidth(600);
 		rc.getChartMeasurements().setPlotHeight(600);
 		
 		rc.Create();
 		rc.WriteFile("Chart Images/Radar Chart.png");
-		
-		
 	}
 
 	private static void stackedAreaChart() {
@@ -104,16 +127,15 @@ public class Main {
 	public static void pieChart() {
 		DataFrame df = new DataFrame("Datasets/own.csv", true);
 		PieChart pc = new PieChart(df, "Fruit", "Quantity");
-		
-		pc.setTitleFont(new Font("Dialog", Font.PLAIN, 80));
-		pc.setTitle("This is a title");
-		
 		PiePlot plot = pc.getPlot();
-		plot.setDonutAmount(0.4f);
+		
+		pc.setTitleFont(new Font("Dialog", Font.PLAIN, 50));
+		pc.setTitle("Quantity of Fruit");
+		
 		plot.setShatter(new double[] {0.1, 0, 0, 0.3, 0});
-		plot.setUseSemiCircle(true);
-//		plot.setIncludeProportionsOnPie(true);
-//		plot.setProportionsColor(Color.RED);
+		
+		plot.setIncludeProportionsOnPie(true);
+		plot.setProportionsColor(Color.WHITE);
 		
 		pc.Create();
 		pc.WriteFile("Chart Images/Pie Chart.png");
@@ -132,7 +154,7 @@ public class Main {
 
 		sc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
 		
-		Axis axis = sc.getAxis();
+		BaseAxis axis = sc.getAxis();
 		axis.setXAxisFont(new Font("Dialog", Font.PLAIN, 80));
 
 		StripPlot plot = sc.getPlot();
@@ -230,9 +252,43 @@ public class Main {
 		plot.setBarColorPalette(Palette.Contrast);
 
 		cm.setPlotWidth(1200);
+		
+		axis.setOrientation("h");
+		
 
 		bc.Create();
 		bc.WriteFile("Chart Images/Bar Chart.png");
+	}
+	
+	private static void scatterChartingDiamond() {
+		DataFrame dfDiamonds = new DataFrame("Datasets/diamonds.csv", true);
+
+		ScatterChart themeCategorical = new ScatterChart(dfDiamonds, "carat", "price");
+
+		themeCategorical.colorCode("clarity");
+
+		themeCategorical.setTitle("Diamon Analysis by clarity");
+		themeCategorical.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+		
+		themeCategorical.Create();
+		themeCategorical.WriteFile("Chart Images/Scatter Chart (diamond).png");
+	}
+	
+	private static void bubbleChart() {
+		DataFrame df = new DataFrame("Datasets/bubble.csv", true);
+
+		ScatterChart sc = new ScatterChart(df, "age", "height");
+
+		NumericAxis axis = sc.getAxis();
+		ScatterPlot plot = sc.getPlot();
+		Legend legend = sc.getLegend();
+		
+		sc.colorCode("gender");
+		sc.setBubbleSize("wealth");
+		
+		sc.Create();
+		sc.WriteFile("Chart Images/Bubble Chart.png");
+
 	}
 
 	private static void scatterCharting() {
@@ -241,8 +297,8 @@ public class Main {
 
 		ScatterChart sc = new ScatterChart(df, "total_bill", "tip");
 
-		NumericAxis axis = (NumericAxis) sc.getAxis();
-		ScatterPlot plot = (ScatterPlot) sc.getPlot();
+		NumericAxis axis = sc.getAxis();
+		ScatterPlot plot = sc.getPlot();
 		Legend legend = sc.getLegend();
 
 		sc.setTitle("sepal_length vs sepal_width");

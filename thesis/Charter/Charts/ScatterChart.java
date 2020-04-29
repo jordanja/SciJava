@@ -1,10 +1,11 @@
 package thesis.Charter.Charts;
 
 import java.awt.Graphics2D;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.AxisFactory;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
@@ -23,12 +24,15 @@ public class ScatterChart extends XYChart {
 
 	private String colorCodeLabel;
 	private String[] colorCodeValues;
+	
+	private String bubbleSizeLabel;
+	private Double[] bubbleSizeValues;
 
 	public ScatterChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
 
-		this.axis = (NumericAxis) AxisFactory.getAxis("Scatter");
-		this.plot = (ScatterPlot) PlotFactory.getPlot("Scatter");
+		this.axis = new NumericAxis();
+		this.plot = new ScatterPlot();
 		this.legend = new Legend();
 
 		this.cm = new XYChartMeasurements();
@@ -79,15 +83,26 @@ public class ScatterChart extends XYChart {
 	public void colorCode(List<String> colorCodeData) {
 		this.colorCodeValues = colorCodeData.toArray(new String[0]);
 		this.legend.setIncludeLegend(true);
-
+	}
+	
+	public void setBubbleSize(String bubbleSizeLabel) {
+		this.bubbleSizeLabel = bubbleSizeLabel;
+		this.bubbleSizeValues = DataItem.convertToDoubleList(dataFrame.getColumnAsArray(this.bubbleSizeLabel));
 	}
 
 	public void Create() {
-		this.axis.calculateXAxis(CommonMath.minimumValue(this.xData), CommonMath.maximumValue(this.xData));
-		this.axis.calculateYAxis(CommonMath.minimumValue(this.yData), CommonMath.maximumValue(this.yData));
+		double minX = CommonMath.minimumValue(this.xData);
+		double maxX = CommonMath.maximumValue(this.xData);
+		double minY = CommonMath.minimumValue(this.yData);
+		double maxY = CommonMath.maximumValue(this.yData);
+		
+		this.axis.calculateXAxis(minX, maxX);
+		this.axis.calculateYAxis(minY, maxY);
+
+		Map<String, Object>[] data = calculteData();
 
 		if (this.legend.getIncludeLegend()) {
-			this.legend.calculateLegend(this.colorCodeLabel, this.colorCodeValues);
+			this.legend.calculateLegend(this.colorCodeLabel, CommonArray.removeDuplicates(this.colorCodeValues));
 		}
 
 		this.cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
@@ -98,7 +113,6 @@ public class ScatterChart extends XYChart {
 		this.drawBackground(g, this.cm);
 
 		this.plot.drawPlotBackground(g, this.cm);
-
 		this.axis.drawAxis(g, this.cm);
 
 		this.plot.drawLinearRegression(g, this.axis, this.xData, this.yData, this.cm);
@@ -107,7 +121,8 @@ public class ScatterChart extends XYChart {
 
 		this.axis.drawAxisTicks(g, this.cm);
 
-		this.plot.drawPlot(g, this.axis, this.xData, this.yData, this.colorCodeValues, this.cm);
+		
+		this.plot.drawPlot(g, this.axis, data, this.cm);
 
 		this.axis.drawXAxisLabel(g, this.cm);
 		this.axis.drawYAxisLabel(g, this.cm);
@@ -124,11 +139,33 @@ public class ScatterChart extends XYChart {
 		g.dispose();
 	}
 
-	public Axis getAxis() {
+	private Map<String, Object>[] calculteData() {
+		Double[] xValues = DataItem.convertToDoubleList(this.xData);
+		Double[] yValues = DataItem.convertToDoubleList(this.yData);
+		
+		@SuppressWarnings("unchecked")
+		Map<String, Object>[] data = (Map<String, Object>[]) new Map[xValues.length];
+		for (int rowCount = 0; rowCount < xValues.length; rowCount++) {
+			data[rowCount] = new HashMap<String, Object>();
+			data[rowCount].put("x", xValues[rowCount]);
+			data[rowCount].put("y", yValues[rowCount]);
+			
+			if (this.colorCodeLabel != null) {				
+				data[rowCount].put("color", this.colorCodeValues[rowCount]);
+			}
+			if (this.bubbleSizeLabel != null) {
+				data[rowCount].put("size", this.bubbleSizeValues[rowCount]);
+			}
+			
+		}
+		return data;		
+	}
+
+	public NumericAxis getAxis() {
 		return this.axis;
 	}
 
-	public Plot getPlot() {
+	public ScatterPlot getPlot() {
 		return this.plot;
 	}
 

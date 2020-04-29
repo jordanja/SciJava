@@ -25,6 +25,7 @@ public class DrawString {
 	private static float rotation = 0;
 	private static xAlignment xTextAlignment = xAlignment.LeftAlign;
 	private static yAlignment yTextAlignment = yAlignment.BottomAlign;
+	private static Color backgroundColor = null;
 
 	public enum xAlignment {
 		LeftAlign, CenterAlign, RightAlign
@@ -68,10 +69,17 @@ public class DrawString {
 
 		Font rotatedFont = g.getFont().deriveFont(affineTransform);
 		g.setFont(rotatedFont);
-
+		
+		
+		
 		g.setColor(DrawString.color);
 		g.drawString(string, xPosition, yPosition);
-//		g.drawRect(xPosition, yPosition - bounds.height, bounds.width, bounds.height);
+		
+//		g.setColor(Color.red);
+//		Rectangle rect = new Rectangle(xPosition, yPosition - bounds.height, bounds.width, bounds.height);
+//		g.rotate(DrawString.rotation, xPosition + bounds.width/2, yPosition - bounds.height/2);
+////		g.setTransform(affineTransform);
+//		g.drawRect(rect.x, rect.y, rect.width, rect.height);
 
 //		affineTransform.rotate(Math.toRadians(-DrawString.rotation), bounds.width / 2, -bounds.height / 2);
 //		Font regularFont = g.getFont().deriveFont(affineTransform);
@@ -197,10 +205,16 @@ public class DrawString {
 	}
 	
 	public static void setTextStyle(Color textColor, Font font, float rotation) {
+		setTextStyle(textColor, font, rotation, null);
+	}
+	
+	public static void setTextStyle(Color textColor, Font font, float rotation, Color backgroundColor) {
 		DrawString.color = textColor;
 		DrawString.font = font;
 		DrawString.rotation = rotation;
+		DrawString.backgroundColor = backgroundColor;
 	}
+
 	
 //	public static void setStringStyle(Color color, Font font, float rotation, xAlignment xAlign, yAlignment yAlign) {
 //		

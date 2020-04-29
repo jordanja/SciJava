@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
@@ -74,9 +74,10 @@ public class BarPlot extends Plot {
 						int yBoxStart = yValueToPlotY(0, numericalTicks, cm);
 						int boxWidth = widthOfColorCodeBar;
 						int boxHeight = yValueToPlotY(colorCodeValues.get(colorCode), numericalTicks, cm) - yBoxStart;
-						
+						System.out.println("in v");
 						drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, colorCodeValues.get(colorCode), orientation);
 					} else {
+						System.out.println("in h");
 						int widthOfColorCodeBar = (int) ((((cm.getPlotHeight() / (numCategories)) * this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
 						int yPositionAtBarsStart = yCategoryNumToPlotY(categoryCount - 0.5f, numCategories, cm) + (int) (((1 - this.multipleBarWidthPercentage) / 2) * (cm.getPlotHeight() / (numCategories)));
 

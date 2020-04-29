@@ -11,7 +11,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Plots.Plot;
@@ -388,7 +388,7 @@ public class XYChartMeasurements extends ChartMeasurements {
 		this.rightTicksWidth = length;
 	}
 
-	public void calculateChartImageMetrics(Axis axis, Legend legend, String title, Font titleFont) {
+	public void calculateChartImageMetrics(BaseAxis axis, Legend legend, String title, Font titleFont) {
 		
 		String[] xTicks = axis.getXTicksFormattedForDisplay();
 		String[] yTicks = axis.getYTicksFormattedForDisplay();

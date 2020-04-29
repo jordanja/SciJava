@@ -12,7 +12,7 @@ import thesis.Charter.StringDrawer.DrawString;
 import thesis.Common.NiceScale;
 import thesis.Helpers.TypeCheckers;
 
-public abstract class Axis {
+public abstract class BaseAxis {
 
 	protected float xAxisRotation;
 	protected float yAxisRotation;
@@ -74,7 +74,7 @@ public abstract class Axis {
 	protected Color xAxisLabelColor = this.defaultTextColor;
 	protected Color yAxisLabelColor = this.defaultTextColor;
 
-	public Axis() {
+	public BaseAxis() {
 
 	}
 
