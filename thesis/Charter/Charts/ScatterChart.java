@@ -1,8 +1,9 @@
 package thesis.Charter.Charts;
 
 import java.awt.Graphics2D;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.AxisFactory;
@@ -23,6 +24,9 @@ public class ScatterChart extends XYChart {
 
 	private String colorCodeLabel;
 	private String[] colorCodeValues;
+	
+	private String bubbleSizeLabel;
+	private Double[] bubbleSizeValues;
 
 	public ScatterChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
@@ -79,7 +83,11 @@ public class ScatterChart extends XYChart {
 	public void colorCode(List<String> colorCodeData) {
 		this.colorCodeValues = colorCodeData.toArray(new String[0]);
 		this.legend.setIncludeLegend(true);
-
+	}
+	
+	public void setBubbleSize(String bubbleSizeLabel) {
+		this.bubbleSizeLabel = bubbleSizeLabel;
+		this.bubbleSizeValues = DataItem.convertToDoubleList(dataFrame.getColumnAsArray(this.bubbleSizeLabel));
 	}
 
 	public void Create() {
@@ -90,6 +98,8 @@ public class ScatterChart extends XYChart {
 		
 		this.axis.calculateXAxis(minX, maxX);
 		this.axis.calculateYAxis(minY, maxY);
+
+		Map<String, Object>[] data = calculteData();
 
 		if (this.legend.getIncludeLegend()) {
 			this.legend.calculateLegend(this.colorCodeLabel, CommonArray.removeDuplicates(this.colorCodeValues));
@@ -111,7 +121,8 @@ public class ScatterChart extends XYChart {
 
 		this.axis.drawAxisTicks(g, this.cm);
 
-		this.plot.drawPlot(g, this.axis, this.xData, this.yData, this.colorCodeValues, this.cm);
+		
+		this.plot.drawPlot(g, this.axis, data, this.cm);
 
 		this.axis.drawXAxisLabel(g, this.cm);
 		this.axis.drawYAxisLabel(g, this.cm);
@@ -126,6 +137,28 @@ public class ScatterChart extends XYChart {
 //		this.drawYDebugLines(g, cm);
 
 		g.dispose();
+	}
+
+	private Map<String, Object>[] calculteData() {
+		Double[] xValues = DataItem.convertToDoubleList(this.xData);
+		Double[] yValues = DataItem.convertToDoubleList(this.yData);
+		
+		@SuppressWarnings("unchecked")
+		Map<String, Object>[] data = (Map<String, Object>[]) new Map[xValues.length];
+		for (int rowCount = 0; rowCount < xValues.length; rowCount++) {
+			data[rowCount] = new HashMap<String, Object>();
+			data[rowCount].put("x", xValues[rowCount]);
+			data[rowCount].put("y", yValues[rowCount]);
+			
+			if (this.colorCodeLabel != null) {				
+				data[rowCount].put("color", this.colorCodeValues[rowCount]);
+			}
+			if (this.bubbleSizeLabel != null) {
+				data[rowCount].put("size", this.bubbleSizeValues[rowCount]);
+			}
+			
+		}
+		return data;		
 	}
 
 	public NumericAxis getAxis() {

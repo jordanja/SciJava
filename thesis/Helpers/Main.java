@@ -52,7 +52,8 @@ public class Main {
 //		boxCharting();
 //		lineCharting();
 //		barCharting();
-		scatterCharting();
+//		scatterCharting();
+		bubbleChart();
 //		radarChart();
 //		polarAreaChart();
 //		gaugeChart();
@@ -271,6 +272,23 @@ public class Main {
 		
 		themeCategorical.Create();
 		themeCategorical.WriteFile("Chart Images/Scatter Chart (diamond).png");
+	}
+	
+	private static void bubbleChart() {
+		DataFrame df = new DataFrame("Datasets/bubble.csv", true);
+
+		ScatterChart sc = new ScatterChart(df, "age", "height");
+
+		NumericAxis axis = sc.getAxis();
+		ScatterPlot plot = sc.getPlot();
+		Legend legend = sc.getLegend();
+		
+		sc.colorCode("gender");
+		sc.setBubbleSize("wealth");
+		
+		sc.Create();
+		sc.WriteFile("Chart Images/Bubble Chart.png");
+
 	}
 
 	private static void scatterCharting() {

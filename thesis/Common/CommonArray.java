@@ -2,6 +2,7 @@ package thesis.Common;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class CommonArray {
@@ -153,6 +154,25 @@ public class CommonArray {
 		}
 	}
 
+	public static String[] getAllValuesOfKey(Map<String, Object>[] listOfMaps, String key) {
+		String[] list = new String[listOfMaps.length];
+		for (int mapCount = 0; mapCount < listOfMaps.length; mapCount++) {
+			if (listOfMaps[mapCount].containsKey(key)) {
+				list[mapCount] = (String) listOfMaps[mapCount].get(key);
+			}
+		}
+		return list;
+	}
+
+	public static Double[] getAllDoubleValuesOfKey(Map<String, Object>[] listOfMaps, String key) {
+		Double[] list = new Double[listOfMaps.length];
+		for (int mapCount = 0; mapCount < listOfMaps.length; mapCount++) {
+			if (listOfMaps[mapCount].containsKey(key)) {
+				list[mapCount] = (Double) listOfMaps[mapCount].get(key);
+			}
+		}
+		return list;
+	}
 
 
 }
