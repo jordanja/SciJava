@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Common.CommonArray;
@@ -121,8 +121,13 @@ public class ScatterPlot extends Plot {
 		double[] xTicks = axis.getXTicksValues();
 		double[] yTicks = axis.getYTicksValues();
 
+		String[] uniqueColorCodeValus = null;
+		if (colorCodeValues != null) {
+			uniqueColorCodeValus = CommonArray.removeDuplicates(colorCodeValues);
+		}
+		
 		for (int dataPointNumber = 0; dataPointNumber < xData.length; dataPointNumber++) {
-
+			
 			int xPos = worldXPosToPlotXPos(xData[dataPointNumber].getValueConvertedToDouble(), xTicks, cm);
 			int yPos = worldYPosToPlotYPos(yData[dataPointNumber].getValueConvertedToDouble(), yTicks, cm);
 
@@ -130,11 +135,9 @@ public class ScatterPlot extends Plot {
 			
 			if (colorCodeValues == null) {
 				dataPointColor = new Color(this.dataPointColor.getRed(), this.dataPointColor.getGreen(), this.dataPointColor.getBlue(), Math.round(this.dataPointTransparency * 255));
-			} else {
-				String[] uniquecolorCodeValues = CommonArray.removeDuplicates(colorCodeValues);
-			
+			} else {			
 				
-				int colorCodeValue = CommonMath.elementNumInArray(uniquecolorCodeValues, colorCodeValues[dataPointNumber]) % (this.colorPalette.length - 1);
+				int colorCodeValue = CommonMath.elementNumInArray(uniqueColorCodeValus, colorCodeValues[dataPointNumber]) % (this.colorPalette.length - 1);
 				dataPointColor = this.colorPalette[colorCodeValue];
 
 			}

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Legend.Legend;
@@ -198,7 +198,7 @@ public class BarChart extends XYChart{
 	}
 
 
-	public Axis getAxis() {
+	public BaseAxis getAxis() {
 		return this.axis;
 	}
 
@@ -228,6 +228,7 @@ public class BarChart extends XYChart{
 		return orient;
 	}
 	public void setOrient(String orient) {
+		
 		this.orient = orient;
 	}
 

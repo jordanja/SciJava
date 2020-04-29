@@ -2,7 +2,7 @@ package thesis.Charter.ChartMeasurements;
 
 import java.awt.Font;
 
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.StringDrawer.DrawString;
 

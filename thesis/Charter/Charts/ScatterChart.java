@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.util.List;
 
 
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.AxisFactory;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
@@ -27,8 +27,8 @@ public class ScatterChart extends XYChart {
 	public ScatterChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
 
-		this.axis = (NumericAxis) AxisFactory.getAxis("Scatter");
-		this.plot = (ScatterPlot) PlotFactory.getPlot("Scatter");
+		this.axis = new NumericAxis();
+		this.plot = new ScatterPlot();
 		this.legend = new Legend();
 
 		this.cm = new XYChartMeasurements();
@@ -83,8 +83,13 @@ public class ScatterChart extends XYChart {
 	}
 
 	public void Create() {
-		this.axis.calculateXAxis(CommonMath.minimumValue(this.xData), CommonMath.maximumValue(this.xData));
-		this.axis.calculateYAxis(CommonMath.minimumValue(this.yData), CommonMath.maximumValue(this.yData));
+		double minX = CommonMath.minimumValue(this.xData);
+		double maxX = CommonMath.maximumValue(this.xData);
+		double minY = CommonMath.minimumValue(this.yData);
+		double maxY = CommonMath.maximumValue(this.yData);
+		
+		this.axis.calculateXAxis(minX, maxX);
+		this.axis.calculateYAxis(minY, maxY);
 
 		if (this.legend.getIncludeLegend()) {
 			this.legend.calculateLegend(this.colorCodeLabel, CommonArray.removeDuplicates(this.colorCodeValues));
@@ -98,7 +103,6 @@ public class ScatterChart extends XYChart {
 		this.drawBackground(g, this.cm);
 
 		this.plot.drawPlotBackground(g, this.cm);
-
 		this.axis.drawAxis(g, this.cm);
 
 		this.plot.drawLinearRegression(g, this.axis, this.xData, this.yData, this.cm);
@@ -124,11 +128,11 @@ public class ScatterChart extends XYChart {
 		g.dispose();
 	}
 
-	public Axis getAxis() {
+	public NumericAxis getAxis() {
 		return this.axis;
 	}
 
-	public Plot getPlot() {
+	public ScatterPlot getPlot() {
 		return this.plot;
 	}
 

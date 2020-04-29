@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Common.CommonArray;

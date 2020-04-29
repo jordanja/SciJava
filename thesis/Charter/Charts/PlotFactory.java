@@ -1,6 +1,6 @@
 package thesis.Charter.Charts;
 
-import thesis.Charter.Axis.Axis;
+import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.Plots.Plot;
 import thesis.Charter.Plots.ScatterPlot;
