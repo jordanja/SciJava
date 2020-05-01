@@ -11,7 +11,9 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import thesis.Charter.ChartMeasurements.ChartMeasurements;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
@@ -111,29 +113,66 @@ public class Legend {
 		int widestValueTextWidth = Integer.max(this.widestHueValueWidth, this.widestSizeValueWidth);
 		int widestLabelTextWidth = Integer.max(this.hueLabelWidth, this.sizeLabelWidth);
 		this.widestTextWidth = Integer.max(widestValueTextWidth, widestLabelTextWidth);
-		getLegendBottomToTopSizeValuesHeight();
+		getLegendBottomToSizeValueBottomHeight(0);	
 	}
 	
-	public void drawLegend(Graphics2D g, ChartMeasurements cm, Color[] colors) {
+	public void drawLegend(Graphics2D g, ChartMeasurements cm) {
 		
-//		int legendBottom = cm.imageBottomToPlotMidHeight() - this.getLegendHeight()/2;
-//
-//		if (this.backgroundColor != null) {
-//			g.setColor(this.backgroundColor);
-//			g.fillRect(cm.imageLeftToLegendLeftWidth(), legendBottom, this.getLegendWidth(), this.getLegendHeight());
-//		}
-//		
-//		
-//		g.setStroke(new BasicStroke(1));
-//		g.setColor(Color.BLACK);
-//		
-//		g.drawRect(cm.imageLeftToLegendLeftWidth(), legendBottom, this.getLegendWidth(), this.getLegendHeight());
-//		
-//		DrawString.setTextStyle(Color.BLACK, this.hueLabelFont, 0);
-//		DrawString.setAlignment(DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign);
-//		DrawString.write(g, this.hueLabel, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeftWidth(), legendBottom + this.getBottomlegentToHueLabelBottomHeight());
-//
-//		
+		int legendBottom = cm.imageBottomToPlotMidHeight() - this.getLegendHeight()/2;
+
+		if (this.backgroundColor != null) {
+			g.setColor(this.backgroundColor);
+			g.fillRect(cm.imageLeftToLegendLeftWidth(), legendBottom, this.getLegendWidth(), this.getLegendHeight());
+		}
+		
+		
+		g.setStroke(new BasicStroke(1));
+		g.setColor(Color.BLACK);
+		
+		g.drawRect(cm.imageLeftToLegendLeftWidth(), legendBottom, this.getLegendWidth(), this.getLegendHeight());
+
+		if (this.legendData.includeColorInLegend()) {			
+			DrawString.setTextStyle(Color.BLACK, this.labelFont, 0);
+			DrawString.setAlignment(DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign);
+			DrawString.write(g, this.legendData.getColorLabel(), cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeft(), legendBottom + this.getLegendBottomToHueLabelBottomHeight());
+			
+			int hueCount = 0;
+			for (String hueValue: this.legendData.getColorData().keySet()) {
+				DrawString.setTextStyle(Color.BLACK, this.valueFont, 0);
+				DrawString.setAlignment(DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign);
+				DrawString.write(g, hueValue, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeft(), legendBottom + getLegendBottomToHueValueBottomHeight(hueCount));
+	
+				g.setColor(this.legendData.getColorData().get(hueValue));
+				
+				int x = cm.imageLeftToLegendLeftWidth() + getLegendLeftToDataPointsMidWidth() - this.dataPointDiameter/2;
+				int y = legendBottom + getLegendBottomToHueValueBottomHeight(hueCount);
+				g.fillOval(x, y, this.dataPointDiameter, this.dataPointDiameter);
+				hueCount++;
+			}
+			
+		}
+
+		if (this.legendData.includeSizeInLegend()) {
+			DrawString.setTextStyle(Color.BLACK, this.labelFont, 0);
+			DrawString.setAlignment(DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign);
+			DrawString.write(g, this.legendData.getSizeLabel(), cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeft(), legendBottom + this.getLegendBottomToSizeLabelBottomHeight());
+			
+			String[] keys = this.legendData.getSizeData().keySet().toArray(new String[0]);
+			Integer[] diameters = new Integer[keys.length];
+			
+			for (int i = 0; i < diameters.length; i++) {
+				diameters[i] = this.legendData.getSizeData().get(keys[i]);
+			}
+			
+			for (int count = 0; count < keys.length; count++) {
+				DrawString.setTextStyle(Color.BLACK, this.valueFont, 0);
+				DrawString.setAlignment(DrawString.xAlignment.LeftAlign, DrawString.yAlignment.BottomAlign);
+				DrawString.write(g, keys[count], cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeft(), legendBottom + getLegendBottomToSizeValueBottomHeight(count));
+			}
+			
+		}
+		
+		
 //		for (int i = 0; i < this.hueValues.length; i++) {
 //
 //			DrawString.setTextStyle(Color.BLACK, this.hueValueFont, 0);
@@ -368,23 +407,23 @@ public class Legend {
 			   heightTotal;
 	}
 	
-	public int getLegendBottomToSizeLabelBottom() {
+	public int getLegendBottomToSizeLabelBottomHeight() {
 		return getLegendBottomToSizeValuesTopHeight() + 
 			   this.valuesTopToLabelHeight;
 	}
 	
-	public int getLegendBottomToSizeLabelMid() {
-		return getLegendBottomToSizeLabelBottom() +
+	public int getLegendBottomToSizeLabelMidHeight() {
+		return getLegendBottomToSizeLabelBottomHeight() +
 			   this.sizeLabelHeight/2;
 	}
 	
-	public int getLegendBottomToSizeLabelTop() {
-		return getLegendBottomToSizeLabelBottom() +
+	public int getLegendBottomToSizeLabelTopHeight() {
+		return getLegendBottomToSizeLabelBottomHeight() +
 			   this.sizeLabelHeight;
 	}
 	
 	public int getLegendBottomToHueValuesBottomHeight() {
-		return getLegendBottomToSizeLabelTop() +
+		return getLegendBottomToSizeLabelTopHeight() +
 			   this.topSizeLabelToBottomHueHeight;
 	}
 	
@@ -415,40 +454,31 @@ public class Legend {
 			   this.topLabelToLegendTopHeight;
 	}
 	
+	// i starts from the top
+	public int getLegendBottomToSizeValueBottomHeight(int i) {
+		HashMap<String, Integer> sizeData = this.legendData.getSizeData();
+		int numSizeValues = sizeData.keySet().size();
+		
+		int baseHeight = 0;//getLegendBottomToBottomValue();
+		
+		Integer[] diameters = sizeData.values().toArray(new Integer[0]);
+		Arrays.sort(diameters);
+		
+		int runningTotal = 0;
+		
+		for (int count = numSizeValues - 1; count >= i; count--) {
+			runningTotal += Integer.max(diameters[count], this.maxSizeValueHeight);
+		}
+
+		runningTotal += this.valueSpacingHeight * (numSizeValues - i - 1);
+		
+		return baseHeight + runningTotal;
+	}
 	
-	
-//	public int getBottomLegendToTopHueValueHeight() {
-//		return getBottomLegendToBottomHueValue() + 
-//			   ((this.hueValues.length - 1) * this.hueValueSpacingHeight) + 
-//			   ((this.hueValues.length) * this.hueValueHeight);
-//	}
-//	public int getBottomlegentToHueLabelBottomHeight() {
-//		return getBottomLegendToTopHueValueHeight() + 
-//			   this.hueValuesTopToHueLabelHeight;
-//	}
-//	public int getBottomlegentToHueLabelMidHeight() {
-//		return getBottomlegentToHueLabelBottomHeight() + 
-//			   this.hueLabelHeight/2;
-//	}
-//	public int getBottomlegentToHueLabelTopHeight() {
-//		return getBottomlegentToHueLabelBottomHeight() + 
-//			   this.hueLabelHeight;
-//	}
-//	public int getLegendHeight() {
-//		return getBottomlegentToHueLabelTopHeight() +
-//			   this.hueLabelToLegendTopHeight;
-//	}
-//	
-//	public int getBottomLegendToHueValueBottomHeight(int i) {
-//		return getBottomLegendToBottomHueValue() + 
-//			   ((this.hueValues.length - 1 - i) * (this.hueValueSpacingHeight + this.hueValueHeight));
-//	}
-//	
-//	public int getBottomLegendToHueValueMidHeight(int i) {
-//		return getBottomLegendToHueValueBottomHeight(i) + 
-//			   this.hueValueHeight/2;
-//	}
-	
+	public int getLegendBottomToHueValueBottomHeight(int i) {
+		return getLegendBottomToHueValuesBottomHeight() + 
+			   ((this.legendData.getColorData().values().size() - 1 - i) * (this.valueSpacingHeight + this.maxHueValueHeight));
+	}
 	
 	
 }

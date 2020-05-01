@@ -111,7 +111,7 @@ public class ScatterChart extends XYChart {
 			}
 			if (this.bubbleSizeLabel != null) {
 				legendData.setSizeDataMaxMin(this.bubbleSizeValues, this.plot.getSmallestRadius(), this.plot.getLargestRadius());
-				legendData.setSizeLabel(this.colorCodeLabel);
+				legendData.setSizeLabel(this.bubbleSizeLabel);
 			}
 			this.legend.setLegendData(legendData);
 			this.legend.calculateLegend();
@@ -140,7 +140,7 @@ public class ScatterChart extends XYChart {
 		this.axis.drawYAxisLabel(g, this.cm);
 
 		if (this.legend.getIncludeLegend()) {
-			this.legend.drawLegend(g, this.cm, this.plot.getColorPalette());
+			this.legend.drawLegend(g, this.cm);
 		}
 
 		this.drawTitle(g, this.cm);
