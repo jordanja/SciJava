@@ -459,7 +459,7 @@ public class Legend {
 		HashMap<String, Integer> sizeData = this.legendData.getSizeData();
 		int numSizeValues = sizeData.keySet().size();
 		
-		int baseHeight = 0;//getLegendBottomToBottomValue();
+		int baseHeight = getLegendBottomToBottomValue();
 		
 		Integer[] diameters = sizeData.values().toArray(new Integer[0]);
 		Arrays.sort(diameters);
