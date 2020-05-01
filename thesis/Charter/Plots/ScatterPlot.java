@@ -186,4 +186,21 @@ public class ScatterPlot extends Plot {
 				cm.imageBottomToPlotTopHeight());
 	}
 
+	public int getSmallestRadius() {
+		return smallestRadius;
+	}
+
+	public void setSmallestRadius(int smallestRadius) {
+		this.smallestRadius = smallestRadius;
+	}
+
+	public int getLargestRadius() {
+		return largestRadius;
+	}
+
+	public void setLargestRadius(int largestRadius) {
+		this.largestRadius = largestRadius;
+	}
+	
+
 }

@@ -10,6 +10,7 @@ import thesis.Charter.Axis.AxisFactory;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Legend.Legend;
+import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.Plot;
 import thesis.Charter.Plots.ScatterPlot;
 import thesis.Common.CommonArray;
@@ -88,6 +89,7 @@ public class ScatterChart extends XYChart {
 	public void setBubbleSize(String bubbleSizeLabel) {
 		this.bubbleSizeLabel = bubbleSizeLabel;
 		this.bubbleSizeValues = DataItem.convertToDoubleList(dataFrame.getColumnAsArray(this.bubbleSizeLabel));
+		this.legend.setIncludeLegend(true);
 	}
 
 	public void Create() {
@@ -102,7 +104,17 @@ public class ScatterChart extends XYChart {
 		Map<String, Object>[] data = calculteData();
 
 		if (this.legend.getIncludeLegend()) {
-			this.legend.calculateLegend(this.colorCodeLabel, CommonArray.removeDuplicates(this.colorCodeValues));
+			LegendData legendData = new LegendData();
+			if (this.colorCodeLabel != null) {				
+				legendData.setColorData(CommonArray.removeDuplicates(this.colorCodeValues), this.plot.getColorPalette());
+				legendData.setColorLabel(this.colorCodeLabel);
+			}
+			if (this.bubbleSizeLabel != null) {
+				legendData.setSizeDataMaxMin(this.bubbleSizeValues, this.plot.getSmallestRadius(), this.plot.getLargestRadius());
+				legendData.setSizeLabel(this.colorCodeLabel);
+			}
+			this.legend.setLegendData(legendData);
+			this.legend.calculateLegend();
 		}
 
 		this.cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());

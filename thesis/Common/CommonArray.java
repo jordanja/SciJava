@@ -56,6 +56,15 @@ public class CommonArray {
 		return max;
 	}
 	
+	public static Integer maxValue(Integer[] arr) {
+		Integer max = Integer.MIN_VALUE;
+		
+		for (Integer value : arr) {
+			max = Integer.max(max, value);
+		}
+		return max;
+	}
+	
 	public static double maxValue(double[] arr) {
 		double max = Double.MIN_VALUE;
 		
