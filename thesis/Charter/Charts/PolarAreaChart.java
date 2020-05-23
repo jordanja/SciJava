@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import thesis.Charter.Axis.PolarAreaChartAxis;
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.Legend.Legend;
+import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.PolarAreaPlot;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
@@ -38,7 +39,12 @@ public class PolarAreaChart extends Chart{
 
 	@Override
 	public void Create() {
-		this.legend.calculateLegend(this.legendLabel, CommonArray.convertStringArrayToObjectArray(categories));
+		LegendData legendData = new LegendData();
+		legendData.setColorData(CommonArray.convertObjectArrayToStringArray(CommonArray.removeDuplicates(categories)), this.plot.getColorPalette());
+		legendData.setColorLabel(this.legendLabel);
+		this.legend.setLegendData(legendData);
+		this.legend.calculateLegend();
+		
 		this.cm.calculateChartImageMetrics(this.legend, this.getTitle(), this.getTitleFont());
 		this.axis.setAxis(this.values);
 
@@ -59,7 +65,7 @@ public class PolarAreaChart extends Chart{
 		
 		this.plot.drawPlot(g, this.categories, this.values, this.axis.getTicks(), this.cm);
 		
-		this.legend.drawLegend(g, this.cm, this.plot.getColorPalette());
+		this.legend.drawLegend(g, this.cm);
 		
 		this.drawTitle(g, this.cm);
 		

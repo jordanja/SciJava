@@ -11,6 +11,7 @@ import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Legend.Legend;
+import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.BarPlot;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
@@ -54,7 +55,11 @@ public class BarChart extends XYChart{
 		this.axis.setYAxis(data);
 
 		if (this.legend.getIncludeLegend()) {
-			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
+			LegendData legendData = new LegendData();
+			legendData.setColorData(CommonArray.removeDuplicates(this.colorCodeValues), this.plot.getBarColorPalette());
+			legendData.setColorLabel(this.colorCodeLabel);
+			this.legend.setLegendData(legendData);
+			this.legend.calculateLegend();
 		}
 
 		this.cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
@@ -78,7 +83,7 @@ public class BarChart extends XYChart{
 		this.axis.drawYAxisLabel(g, this.cm);
 
 		if (this.legend.getIncludeLegend()) {
-			this.legend.drawLegend(g, this.cm, this.plot.getBarColorPalette());
+			this.legend.drawLegend(g, this.cm);
 		}
 
 		this.drawTitle(g, this.cm);
