@@ -7,6 +7,7 @@ import java.util.HashMap;
 import thesis.Charter.Axis.RadarChartAxis;
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.Legend.Legend;
+import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.PiePlot;
 import thesis.Charter.Plots.RadarPlot;
 import thesis.Common.CommonArray;
@@ -51,7 +52,12 @@ public class RadarChart extends Chart{
 		this.axis.setCategories(uniqueValueCategories);
 		this.axis.calculateAxisRadius(cm);
 		
-		this.legend.calculateLegend(this.legendLabel, uniqueRadarCategories);
+		LegendData legendData = new LegendData();
+		legendData.setColorData(CommonArray.removeDuplicates(uniqueRadarCategories), this.plot.getColorPalette());
+		legendData.setColorLabel(this.legendLabel);
+		this.legend.setLegendData(legendData);
+		this.legend.calculateLegend();
+		
 		this.cm.calculateChartImageMetrics(this.legend, this.getTitle(), this.getTitleFont());
 		
 		this.instantiateChart(this.cm);
@@ -71,7 +77,7 @@ public class RadarChart extends Chart{
 		this.plot.drawPlot(g, data, uniqueRadarCategories, uniqueValueCategories, this.axis.getAxisRadius(), this.axis.getTicks(), this.cm);
 		
 
-		this.legend.drawLegend(g, this.cm, this.plot.getColorPalette());
+		this.legend.drawLegend(g, this.cm);
 		
 
 		this.drawTitle(g, this.cm);

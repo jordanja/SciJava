@@ -46,19 +46,19 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
-//		stackedAreaChart();
-//		pieChart();
-//		stripCharting();
-//		boxCharting();
-//		lineCharting();
-//		barCharting();
-//		scatterCharting();
+		stackedAreaChart();
+		pieChart();
+		stripCharting();
+		boxCharting();
+		lineCharting();
+		barCharting();
+		scatterCharting();
 		bubbleChart();
-//		radarChart();
-//		polarAreaChart();
-//		gaugeChart();
-//		dfPlay();
-//		scatterChartingDiamond();
+		radarChart();
+		polarAreaChart();
+		gaugeChart();
+		dfPlay();
+		scatterChartingDiamond();
 
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
