@@ -11,6 +11,7 @@ import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.Axis.StripChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Legend.Legend;
+import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.StripPlot;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
@@ -62,7 +63,11 @@ public class StripChart extends XYChart{
 		
 		
 		if (this.legend.getIncludeLegend()) {
-			this.legend.calculateLegend(this.colorCodeLabel, hueValues);
+			LegendData legendData = new LegendData();
+			legendData.setColorData(CommonArray.removeDuplicates(this.colorCodeValues), this.plot.getColorPalette());
+			legendData.setColorLabel(this.colorCodeLabel);
+			this.legend.setLegendData(legendData);
+			this.legend.calculateLegend();
 		}
 
 		this.cm.calculateChartImageMetrics(this.axis, this.legend, getTitle(), getTitleFont());
@@ -86,7 +91,7 @@ public class StripChart extends XYChart{
 		this.axis.drawYAxisLabel(g, this.cm);
 
 		if (this.legend.getIncludeLegend()) {
-			this.legend.drawLegend(g, this.cm, this.plot.getColorPalette());
+			this.legend.drawLegend(g, this.cm);
 		}
 
 		this.drawTitle(g, this.cm);
