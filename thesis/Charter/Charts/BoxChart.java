@@ -30,7 +30,7 @@ public class BoxChart extends XYChart{
 	private String[] order = new String[0];
 	
 	public BoxChart(DataFrame dataFrame, String yAxis) {
-		super(dataFrame,dataFrame.getColumnAsArray(yAxis), "Box");
+		super(dataFrame,dataFrame.getColumnAsArray(yAxis));
 		initialize();
 	}
 	

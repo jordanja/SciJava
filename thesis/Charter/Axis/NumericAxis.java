@@ -221,8 +221,16 @@ public class NumericAxis extends XYAxis {
 		return this.xTicks;
 	}
 
+	public void setXTicks(String[] xTicks) {
+		this.xTicks = xTicks;
+	}
+	
 	public String[] getYTicks() {
 		return this.yTicks;
+	}
+	
+	public void setYTicks(String[] yTicks) {
+		this.yTicks = yTicks;
 	}
 
 	public double[] getXTicksValues() {

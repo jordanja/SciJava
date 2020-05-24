@@ -1,11 +1,7 @@
 package thesis.Charter.Charts;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BarChartAxis;

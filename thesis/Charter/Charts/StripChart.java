@@ -37,7 +37,7 @@ public class StripChart extends XYChart{
 	}
 	
 	public StripChart(DataFrame dataFrame, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(yAxis), "Strip");
+		super(dataFrame, dataFrame.getColumnAsArray(yAxis));
 		initialize();
 	}
 	

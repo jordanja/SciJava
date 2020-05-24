@@ -65,6 +65,15 @@ public class CommonArray {
 		return max;
 	}
 	
+	public static int maxValue(int[] arr) {
+		int max = Integer.MIN_VALUE;
+		
+		for (int value : arr) {
+			max = Integer.max(max, value);
+		}
+		return max;
+	}
+	
 	public static double maxValue(double[] arr) {
 		double max = Double.MIN_VALUE;
 		
@@ -151,6 +160,13 @@ public class CommonArray {
 	}
 
 	public static void printArray(Object[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			System.out.println(i + ": " + arr[i]);
+		}
+		
+	}
+	
+	public static void printArray(int[] arr) {
 		for (int i = 0; i < arr.length; i++) {
 			System.out.println(i + ": " + arr[i]);
 		}

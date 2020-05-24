@@ -33,6 +33,15 @@ public class CommonMath {
 		
 	}
 	
+	public static double average(Double[] dataPoints) {
+		double sum = 0;
+		for (int i = 0; i < dataPoints.length; i++) {
+			sum +=  dataPoints[i];
+		}
+		
+		return sum/dataPoints.length;
+	}
+	
 	public static double total(Double[] arr) {
 		double total = 0;
 		for (Double value: arr) {
@@ -40,6 +49,18 @@ public class CommonMath {
 		}
 		return total;
 	}
+	
+	public static double standardDeviation(Double arr[]) {
+        double std = 0;
+                
+        double average = average(arr);
+
+        for (double num: arr) {
+        	std += Math.pow(num - average, 2);
+        }
+
+        return Math.sqrt(std / arr.length);
+    }
 
 	public static double variance(DataItem[] dataPoints, double average) {	
 		return covariance(dataPoints, dataPoints, average, average);
@@ -123,4 +144,8 @@ public class CommonMath {
         return (angle >= 0 ? angle : (360 - ((-angle) % 360))) % 360;
     }
 
+	public static int constrain(int value, int min, int max) {
+		return Math.min(Math.max(value, min), max);
+	}
+	
 }
