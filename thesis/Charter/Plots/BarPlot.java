@@ -77,7 +77,6 @@ public class BarPlot extends Plot {
 						System.out.println("in v");
 						drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, colorCodeValues.get(colorCode), orientation);
 					} else {
-						System.out.println("in h");
 						int widthOfColorCodeBar = (int) ((((cm.getPlotHeight() / (numCategories)) * this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
 						int yPositionAtBarsStart = yCategoryNumToPlotY(categoryCount - 0.5f, numCategories, cm) + (int) (((1 - this.multipleBarWidthPercentage) / 2) * (cm.getPlotHeight() / (numCategories)));
 

@@ -49,6 +49,7 @@ public class HistogramChart extends XYChart {
 			xTicks[i] = DrawString.formatDoubleForDisplay(values[0] + i * binSize);
 			
 		}
+		
 		this.axis.setXTicks(xTicks);
 		this.axis.calculateYAxis(0.0, (double)CommonArray.maxValue(binCount));
 		
@@ -60,6 +61,19 @@ public class HistogramChart extends XYChart {
 		this.drawBackground(g, this.cm);
 
 		this.plot.drawPlotBackground(g, this.cm);
+		
+		this.axis.drawAxis(g, this.cm);
+		
+		this.plot.drawPlotOutline(g, this.cm);
+
+		this.axis.drawAxisTicks(g, this.cm);
+
+		this.plot.drawPlot(g, this.axis, binCount, binSize, this.cm);
+
+		this.axis.drawXAxisLabel(g, this.cm);
+		this.axis.drawYAxisLabel(g, this.cm);
+
+		this.drawTitle(g, this.cm);
 	}
 
 	private int whichBin(double value, Double[] values, double binSize) {
