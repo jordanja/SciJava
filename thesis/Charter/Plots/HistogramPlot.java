@@ -3,6 +3,7 @@ package thesis.Charter.Plots;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
@@ -17,8 +18,14 @@ public class HistogramPlot extends Plot{
 	private int barOutlineWidth = 1;
 	private boolean drawBarOutline = true;
 	
-	public void drawPlot(Graphics2D g, NumericAxis axis, int[] binCount, double binSize, XYChartMeasurements cm) {
+	private boolean drawRugLines = false;
+	private Color rugLineColor = new Color(60, 93, 160);
+	private int rugLineWidth = 1;
+	private int rugLineHeight = 10;
+	
+	public void drawPlot(Graphics2D g, NumericAxis axis, int[] binCount, double binSize, Double[] values, XYChartMeasurements cm) {
 		double[] yTicks = axis.getYTicksValues();
+		double[] xTicks = axis.getXTicksValues();
 
 		int bottomY = binCountToYPixel(0, yTicks, cm);
 		for (int i = 0; i < binCount.length; i++) {			
@@ -36,8 +43,44 @@ public class HistogramPlot extends Plot{
 				g.setColor(this.barOutlineColor);
 				g.drawRect(leftX, bottomY, width, height);
 			}
+			
 		}
 		
+		if (this.drawRugLines) {
+			for (int valueCount = 0; valueCount < values.length; valueCount++) {			
+				g.setColor(this.rugLineColor);
+				g.setStroke(new BasicStroke(this.rugLineWidth));
+				int rugX = xValueToXPixel(values[valueCount], xTicks, cm);
+				int rugBottomY = cm.imageBottomToPlotBottomHeight() + 1;
+				int rugTopY = rugBottomY + this.rugLineHeight;
+				g.drawLine(rugX, rugBottomY, rugX, rugTopY);	
+			}
+		}
+		
+	}
+	public static int diffValues(Double[] numArray){
+	    int numOfDifferentVals = 0;
+
+	    ArrayList<Double> diffNum = new ArrayList<>();
+
+	    for(int i=0; i<numArray.length; i++){
+	        if(!diffNum.contains(numArray[i])){
+	            diffNum.add(numArray[i]);
+	        }
+	    }
+
+	    if(diffNum.size()==1){
+	            numOfDifferentVals = 0;
+	    }
+	    else{
+	          numOfDifferentVals = diffNum.size();
+	        } 
+
+	   return numOfDifferentVals;
+	}
+	private int xValueToXPixel(double xPos, double[] xTicks, XYChartMeasurements cm) {
+		return CommonMath.map(xPos, xTicks[0], xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(),
+				cm.imageLeftToPlotRightWidth());
 	}
 	
 	private int binNumToXPixel(double binNum, int numBins, XYChartMeasurements cm) {
@@ -79,6 +122,38 @@ public class HistogramPlot extends Plot{
 
 	public void setDrawBarOutline(boolean drawBarOutline) {
 		this.drawBarOutline = drawBarOutline;
+	}
+
+	public boolean isDrawRugLines() {
+		return drawRugLines;
+	}
+
+	public void setDrawRugLines(boolean drawRugLines) {
+		this.drawRugLines = drawRugLines;
+	}
+
+	public Color getRugLineColor() {
+		return rugLineColor;
+	}
+
+	public void setRugLineColor(Color rugLineColor) {
+		this.rugLineColor = rugLineColor;
+	}
+
+	public int getRugLineWidth() {
+		return rugLineWidth;
+	}
+
+	public void setRugLineWidth(int rugLineWidth) {
+		this.rugLineWidth = rugLineWidth;
+	}
+
+	public int getRugLineHeight() {
+		return rugLineHeight;
+	}
+
+	public void setRugLineHeight(int rugLineHeight) {
+		this.rugLineHeight = rugLineHeight;
 	}
 
 	

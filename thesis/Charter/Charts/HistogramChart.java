@@ -55,6 +55,17 @@ public class HistogramChart extends XYChart {
 		
 		this.cm.calculateChartImageMetrics(this.axis, getTitle(), getTitleFont());
 		
+		int axisPadding = 10;		
+		int halfLeftMostTickWidth = DrawString.getStringWidth(xTicks[0], this.axis.getXAxisFont(), this.axis.getXAxisRotation())/2;
+		if (this.cm.imageLeftToPlotLeftWidth() < halfLeftMostTickWidth + axisPadding) {			
+			this.cm.setLeftAxisToLeftTicksWidth(halfLeftMostTickWidth + axisPadding);
+		}
+		
+		int halfRightMostTickWidth = DrawString.getStringWidth(xTicks[xTicks.length - 1], this.axis.getXAxisFont(), this.axis.getXAxisRotation())/2;
+		if (this.cm.getPlotWidth() - this.cm.imageLeftToPlotRightWidth() < halfRightMostTickWidth + axisPadding) {
+			this.cm.setRightTicksToRightAxisWidth(halfRightMostTickWidth + axisPadding);
+		}
+		
 		this.instantiateChart(this.cm);
 
 		Graphics2D g = initializaGraphicsObject(this.cm);
@@ -62,13 +73,15 @@ public class HistogramChart extends XYChart {
 
 		this.plot.drawPlotBackground(g, this.cm);
 		
+		this.axis.setDrawLeftmostXAxisValue(true);
+		this.axis.setDrawRightmostXAxisValue(true);
 		this.axis.drawAxis(g, this.cm);
 		
 		this.plot.drawPlotOutline(g, this.cm);
 
 		this.axis.drawAxisTicks(g, this.cm);
 
-		this.plot.drawPlot(g, this.axis, binCount, binSize, this.cm);
+		this.plot.drawPlot(g, this.axis, binCount, binSize, values, this.cm);
 
 		this.axis.drawXAxisLabel(g, this.cm);
 		this.axis.drawYAxisLabel(g, this.cm);
