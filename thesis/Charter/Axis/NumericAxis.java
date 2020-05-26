@@ -31,6 +31,9 @@ public class NumericAxis extends XYAxis {
 
 	private boolean includeAxisLinesOnPlot = true;
 	private Color axisLinesOnPlotColor = Color.WHITE;
+	
+	private boolean drawLeftmostXAxisValue = false;
+	private boolean drawRightmostXAxisValue = false;
 
 	public void includeAxisLinesOnPlot(boolean includeAxisLinesOnPlot) {
 		this.includeAxisLinesOnPlot = includeAxisLinesOnPlot;
@@ -47,7 +50,22 @@ public class NumericAxis extends XYAxis {
 
 	public void drawAxis(Graphics2D g, XYChartMeasurements cm) {
 
-		for (int count = 1; count < this.xTicks.length - 1; count++) {
+		int xAxisStart;
+		if (this.drawLeftmostXAxisValue) {
+			xAxisStart = 0;
+		} else {
+			xAxisStart = 1;
+		}
+		
+		int xAxisEnd;
+		if (this.drawRightmostXAxisValue) {
+			xAxisEnd = this.xTicks.length;
+		} else {
+			xAxisEnd = this.xTicks.length - 1;
+		}
+		
+		
+		for (int count = xAxisStart; count < xAxisEnd; count++) {
 
 			int position = CommonMath.map(count, 0, xTicks.length - 1, cm.imageLeftToPlotLeftWidth(),
 					cm.imageLeftToPlotRightWidth());
@@ -221,8 +239,16 @@ public class NumericAxis extends XYAxis {
 		return this.xTicks;
 	}
 
+	public void setXTicks(String[] xTicks) {
+		this.xTicks = xTicks;
+	}
+	
 	public String[] getYTicks() {
 		return this.yTicks;
+	}
+	
+	public void setYTicks(String[] yTicks) {
+		this.yTicks = yTicks;
 	}
 
 	public double[] getXTicksValues() {
@@ -231,6 +257,23 @@ public class NumericAxis extends XYAxis {
 
 	public double[] getYTicksValues() {
 		return Arrays.stream(getYTicks()).mapToDouble(Double::parseDouble).toArray();
+	}
+	
+
+	public boolean isDrawLeftmostXAxisValue() {
+		return drawLeftmostXAxisValue;
+	}
+
+	public void setDrawLeftmostXAxisValue(boolean drawLeftmostXAxisValue) {
+		this.drawLeftmostXAxisValue = drawLeftmostXAxisValue;
+	}
+
+	public boolean isDrawRightmostXAxisValue() {
+		return drawRightmostXAxisValue;
+	}
+
+	public void setDrawRightmostXAxisValue(boolean drawRightmostXAxisValue) {
+		this.drawRightmostXAxisValue = drawRightmostXAxisValue;
 	}
 
 	public String[] getXTicksFormattedForDisplay() {

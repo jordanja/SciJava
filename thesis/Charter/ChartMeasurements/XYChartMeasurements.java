@@ -387,7 +387,10 @@ public class XYChartMeasurements extends ChartMeasurements {
 		this.leftTicksWidth = length;
 		this.rightTicksWidth = length;
 	}
-
+	public void calculateChartImageMetrics(BaseAxis axis, String title, Font titleFont) {
+		calculateChartImageMetrics(axis, null, title, titleFont);
+	}
+	
 	public void calculateChartImageMetrics(BaseAxis axis, Legend legend, String title, Font titleFont) {
 		
 		String[] xTicks = axis.getXTicksFormattedForDisplay();
@@ -482,7 +485,7 @@ public class XYChartMeasurements extends ChartMeasurements {
 			this.rightAxisLabelWidth = 0;
 		}
 
-		if (legend.getIncludeLegend()) {
+		if ((legend != null) && (legend.getIncludeLegend())) {
 			this.legendWidth = legend.getLegendWidth();
 		} else {
 			this.legendWidth = 0;

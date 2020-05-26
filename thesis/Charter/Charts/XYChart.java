@@ -25,7 +25,7 @@ public abstract class XYChart extends Chart {
 	
 	
 	
-	public XYChart(DataFrame dataFrame, DataItem[] yData, String chartType) {
+	public XYChart(DataFrame dataFrame, DataItem[] yData) {
 		super(dataFrame);
 		this.yData = yData;
 		this.xData = null;
