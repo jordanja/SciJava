@@ -55,16 +55,7 @@ public class HistogramChart extends XYChart {
 		
 		this.cm.calculateChartImageMetrics(this.axis, getTitle(), getTitleFont());
 		
-		int axisPadding = 10;		
-		int halfLeftMostTickWidth = DrawString.getStringWidth(xTicks[0], this.axis.getXAxisFont(), this.axis.getXAxisRotation())/2;
-		if (this.cm.imageLeftToPlotLeftWidth() < halfLeftMostTickWidth + axisPadding) {			
-			this.cm.setLeftAxisToLeftTicksWidth(halfLeftMostTickWidth + axisPadding);
-		}
-		
-		int halfRightMostTickWidth = DrawString.getStringWidth(xTicks[xTicks.length - 1], this.axis.getXAxisFont(), this.axis.getXAxisRotation())/2;
-		if (this.cm.getPlotWidth() - this.cm.imageLeftToPlotRightWidth() < halfRightMostTickWidth + axisPadding) {
-			this.cm.setRightTicksToRightAxisWidth(halfRightMostTickWidth + axisPadding);
-		}
+		expandXAxisForEdgeValues(xTicks);
 		
 		this.instantiateChart(this.cm);
 
@@ -87,6 +78,19 @@ public class HistogramChart extends XYChart {
 		this.axis.drawYAxisLabel(g, this.cm);
 
 		this.drawTitle(g, this.cm);
+	}
+
+	private void expandXAxisForEdgeValues(String[] xTicks) {
+		int axisPadding = 10;		
+		int halfLeftMostTickWidth = DrawString.getStringWidth(xTicks[0], this.axis.getXAxisFont(), this.axis.getXAxisRotation())/2;
+		if (this.cm.imageLeftToPlotLeftWidth() < halfLeftMostTickWidth + axisPadding) {			
+			this.cm.setLeftAxisToLeftTicksWidth(halfLeftMostTickWidth + axisPadding);
+		}
+		
+		int halfRightMostTickWidth = DrawString.getStringWidth(xTicks[xTicks.length - 1], this.axis.getXAxisFont(), this.axis.getXAxisRotation())/2;
+		if (this.cm.getPlotWidth() - this.cm.imageLeftToPlotRightWidth() < halfRightMostTickWidth + axisPadding) {
+			this.cm.setRightTicksToRightAxisWidth(halfRightMostTickWidth + axisPadding);
+		}
 	}
 
 	private int whichBin(double value, Double[] values, double binSize) {

@@ -21,6 +21,7 @@ import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Charts.BarChart;
 import thesis.Charter.Charts.BoxChart;
 import thesis.Charter.Charts.GaugeChart;
+import thesis.Charter.Charts.HistogramChart;
 import thesis.Charter.Charts.LineChart;
 import thesis.Charter.Charts.PieChart;
 import thesis.Charter.Charts.PolarAreaChart;
@@ -46,21 +47,33 @@ import thesis.NumJa.NumJa;
 public class Main {
 
 	public static void main(String[] args) {
-		stackedAreaChart();
-		pieChart();
-		stripCharting();
-		boxCharting();
-		lineCharting();
-		barCharting();
-		scatterCharting();
-		bubbleChart();
-		radarChart();
-		polarAreaChart();
-		gaugeChart();
-		dfPlay();
-		scatterChartingDiamond();
+		histogram();
+//		stackedAreaChart();
+//		pieChart();
+//		stripCharting();
+//		boxCharting();
+//		lineCharting();
+//		barCharting();
+//		scatterCharting();
+//		bubbleChart();
+//		radarChart();
+//		polarAreaChart();
+//		gaugeChart();
+//		dfPlay();
+//		scatterChartingDiamond();
 
 		System.out.println("\n\nFINISHED EXECUTION");
+	}
+
+	private static void histogram() {
+		DataFrame df = new DataFrame("Datasets/histogram.csv", true);
+		HistogramChart hc = new HistogramChart(df, "tree_heights");
+		
+		hc.getXYChartMeasurements().setPlotWidth(1000);
+		
+		hc.Create();
+		hc.WriteFile("Chart Images/Histogram Chart.png");
+		
 	}
 
 	private static void gaugeChart() {
