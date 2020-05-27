@@ -38,6 +38,184 @@ public class CorrelationChartMeasurements extends ChartMeasurements{
 	protected int colorBarValuesToPlotRightWidth = 5;
 	
 	
+	public int imageLeftToAxisLabelLeftWidth() {
+		return this.imageLeftToLeftAxisLabelWidth;
+	}
+
+	public int imageLeftToLeftAxisLabelMidWidth() {
+		return imageLeftToAxisLabelLeftWidth() + this.leftAxisLabelWidth / 2;
+	}
+
+	public int imageLeftToLeftAxisLabelRightWidth() {
+		return imageLeftToAxisLabelLeftWidth() + this.leftAxisLabelWidth;
+	}
+
+	public int imageLeftToLeftAxisLeftWidth() {
+		return imageLeftToLeftAxisLabelRightWidth() + leftAxisLabelToLeftAxisWidth;
+	}
+
+	public int imageLeftToLeftAxisMidWidth() {
+		return imageLeftToLeftAxisLeftWidth() + this.leftAxisWidth / 2;
+	}
+
+	public int imageLeftToLeftAxisRightWidth() {
+		return imageLeftToLeftAxisLeftWidth() + this.leftAxisWidth;
+	}
+
+	public int imageLeftToLeftTicksEndWidth() {
+		return imageLeftToLeftAxisRightWidth() + this.leftAxisToLeftTicksWidth;
+	}
+
+	public int imageLeftToPlotLeftWidth() {
+		return imageLeftToLeftTicksEndWidth() + this.leftTicksWidth;
+	}
+
+	public int imageLeftToPlotMidWidth() {
+		return imageLeftToPlotLeftWidth() + this.plotWidth / 2;
+	}
+
+	public int imageLeftToPlotRightWidth() {
+		return imageLeftToPlotLeftWidth() + this.plotWidth;
+	}
+
+	public int imageLeftToRightTicksEndWidth() {
+		return imageLeftToPlotRightWidth() + this.rightTicksWidth;
+	}
+
+	public int imageLeftToRightAxisLeftWidth() {
+		return imageLeftToRightTicksEndWidth() + rightTicksToRightAxisWidth;
+	}
+
+	public int imageLeftToRightAxisMidWidth() {
+		return imageLeftToRightAxisLeftWidth() + this.rightAxisWidth / 2;
+	}
+
+	public int imageLeftToRightAxisRightWidth() {
+		return imageLeftToRightAxisLeftWidth() + this.rightAxisWidth;
+	}
+
+	public int imageLeftToRightAxisLabelLeftWidth() {
+		return imageLeftToRightAxisRightWidth() + rightAxisToRightAxisLabelWidth;
+	}
+
+	public int imageLeftToRightAxisLabelMidWidth() {
+		return imageLeftToRightAxisLabelLeftWidth() + this.rightAxisLabelWidth / 2;
+	}
+
+	public int imageLeftToRightAxisLabelRightWidth() {
+		return imageLeftToRightAxisLabelLeftWidth() + this.rightAxisLabelWidth;
+	}
+	
+	public int imageLeftToColorBarLeftWidth() {
+		return imageLeftToRightAxisLabelRightWidth() + this.rightAxisLabelToColorBarWidth;
+	}
+	
+	public int imageLeftToColorBarRightWidth() {
+		return imageLeftToColorBarLeftWidth() + this.colorBarWith;
+	}
+	
+	public int imageLeftToColorBarTicksRightWidth() {
+		return imageLeftToColorBarRightWidth() + this.colorBarTicksWidth;
+	}
+	
+	public int imageLeftToColorBarValuesLeftWidth() {
+		return imageLeftToColorBarTicksRightWidth() + this.colorBarTicksToColorBarValuesWidth;
+	}
+	
+	public int imageLeftToRightmostColorBarValue() {
+		return imageLeftToColorBarValuesLeftWidth() + this.colorBarValuesWidth;
+	}
+	
+	public int imageWidth() {
+		return imageLeftToRightmostColorBarValue() + this.colorBarValuesToPlotRightWidth;
+	}
+	
+	// Height functions
+	public int imageBottomToBottomAxisLabelBottomHeight() {
+		return this.imageBottomToBottomAxisLabelHeight;
+	}
+	
+	public int imageBottomToBottomAxisLabelMidHeight() {
+		return imageBottomToBottomAxisLabelBottomHeight() + this.bottomAxisLabelHeight / 2;
+	}
+
+	public int imageBottomToBottomAxisLabelTopHeight() {
+		return imageBottomToBottomAxisLabelBottomHeight() + this.bottomAxisLabelHeight;
+	}
+
+	public int imageBottomToBottomAxisBottomHeight() {
+		return imageBottomToBottomAxisLabelTopHeight() + this.bottomAxisLabelToBottomAxisHeight;
+	}
+
+	public int imageBottomToBottomAxisMidHeight() {
+		return imageBottomToBottomAxisBottomHeight() + this.bottomAxisHeight / 2;
+	}
+
+	public int imageBottomToBottomAxisTopHeight() {
+		return imageBottomToBottomAxisBottomHeight() + this.bottomAxisHeight;
+	}
+
+	public int imageBottomToBottomTicksEndHeight() {
+		return imageBottomToBottomAxisTopHeight() + this.bottomAxisToBottomTicksHeight;
+	}
+
+	public int imageBottomToPlotBottomHeight() {
+		return imageBottomToBottomTicksEndHeight() + this.bottomTicksHeight;
+	}
+
+	public int imageBottomToPlotMidHeight() {
+		return imageBottomToPlotBottomHeight() + this.plotHeight / 2;
+	}
+
+	public int imageBottomToPlotTopHeight() {
+		return imageBottomToPlotBottomHeight() + this.plotHeight;
+	}
+
+	public int imageBottomToTopTicksEndHeight() {
+		return imageBottomToPlotTopHeight() + this.topTicksHeight;
+	}
+
+	public int imageBottomToTopAxisBottomHeight() {
+		return imageBottomToTopTicksEndHeight() + this.topTicksToTopAxisHeight;
+	}
+
+	public int imageBottomToTopAxisMidHeight() {
+		return imageBottomToTopAxisBottomHeight() + this.topAxisHeight / 2;
+	}
+
+	public int imageBottomToTopAxisTopHeight() {
+		return imageBottomToTopAxisBottomHeight() + this.topAxisHeight;
+	}
+
+	public int imageBottomToTopAxisLabelBottomHeight() {
+		return imageBottomToTopAxisTopHeight() + topAxisToTopAxisLabelHeight;
+	}
+
+	public int imageBottomToTopAxisLabelMidHeight() {
+		return imageBottomToTopAxisLabelBottomHeight() + this.topAxisLabelHeight / 2;
+	}
+
+	public int imageBottomToTopAxisLabelTopHeight() {
+		return imageBottomToTopAxisLabelBottomHeight() + this.topAxisLabelHeight;
+	}
+
+	public int imageBottomToTitleBottomHeight() {
+		return imageBottomToTopAxisLabelTopHeight() + this.topAxisLabelToTitleHeight;
+	}
+
+	public int imageBottomToTitleMidHeight() {
+		return imageBottomToTitleBottomHeight() + this.titleHeight / 2;
+	}
+
+	public int imageBottomToTitleTopHeight() {
+		return imageBottomToTitleBottomHeight() + this.titleHeight;
+	}
+
+	public int imageHeight() {
+		return imageBottomToTitleTopHeight() + this.titleToImageTopHeight;
+	}
+	
+	
 	
 	public int getImageBottomToBottomAxisLabelHeight() {
 		return imageBottomToBottomAxisLabelHeight;
@@ -206,6 +384,11 @@ public class CorrelationChartMeasurements extends ChartMeasurements{
 	}
 	public int getColorBarValuesWidth() {
 		return colorBarValuesWidth;
+	}
+
+	@Override
+	public int imageLeftToLegendLeftWidth() {
+		return 0;
 	}
 	
 
