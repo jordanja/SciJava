@@ -23,7 +23,7 @@ import thesis.Helpers.Palette;
 
 public class BarPlot extends Plot {
 
-	private Color[] barColorPalette = Palette.Fire;
+	private Color[] colorPalette = Palette.Fire;
 	private boolean drawBarOutline = false;
 	private Color barOutlineColour = Color.black;
 	private int barOutlineWidth = 1;
@@ -40,7 +40,7 @@ public class BarPlot extends Plot {
 	// cluster
 	private int multipleBarPixelSpacing = 10;
 
-	private Color barColor = barColorPalette[0];
+	private Color barColor = colorPalette[0];
 
 	private boolean singleColor = true;
 
@@ -65,7 +65,7 @@ public class BarPlot extends Plot {
 	
 				int colorCodeCount = 0;
 				for (String colorCode : colorCodeValues.keySet()) {
-					Color boxColor = this.barColorPalette[colorCodeCount % this.barColorPalette.length];
+					Color boxColor = this.colorPalette[colorCodeCount % this.colorPalette.length];
 					
 					if (orientation == "v") {						
 						int widthOfColorCodeBar = (int) ((((cm.getPlotWidth() / (numCategories)) * this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
@@ -98,7 +98,7 @@ public class BarPlot extends Plot {
 				if (this.singleColor) {
 					boxColor = this.barColor;
 				} else {
-					boxColor = this.barColorPalette[categoryCount % this.barColorPalette.length];
+					boxColor = this.colorPalette[categoryCount % this.colorPalette.length];
 				}
 				
 				if (orientation == "v") {					
@@ -214,12 +214,12 @@ public class BarPlot extends Plot {
 		this.singleColor = true;
 	}
 
-	public Color[] getBarColorPalette() {
-		return this.barColorPalette;
+	public Color[] getColorPalette() {
+		return this.colorPalette;
 	}
 
-	public void setBarColorPalette(Color[] palette) {
-		this.barColorPalette = palette;
+	public void setColorPalette(Color[] palette) {
+		this.colorPalette = palette;
 		this.singleColor = false;
 	}
 }

@@ -194,7 +194,7 @@ public class Main {
 		cm.setPlotWidth(800);
 
 		BoxPlot plot = bc.getPlot();
-		plot.setBoxColorPalette(Palette.generateUniqueColors(10));
+		plot.setColorPalette(Palette.generateUniqueColors(10));
 
 		bc.Create();
 		bc.WriteFile("Chart Images/Box Chart.png");
@@ -216,7 +216,7 @@ public class Main {
 		plot.setMarkerDotColor(Color.WHITE);
 //		plot.setMarkerDotOutlineColor(Color.BLACK);
 
-		plot.setLineColorPalette(Palette.generateUniqueColors(14));
+		plot.setColorPalette(Palette.generateUniqueColors(14));
 
 		lc.colorCode("subject");
 
@@ -262,7 +262,7 @@ public class Main {
 		plot.setBarOutlineWidth(2);
 		plot.setBarWidthPercentage(0.8f);
 
-		plot.setBarColorPalette(Palette.Contrast);
+		plot.setColorPalette(Palette.Contrast);
 
 		cm.setPlotWidth(1200);
 		

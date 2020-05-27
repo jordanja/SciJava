@@ -52,7 +52,7 @@ public class BarChart extends XYChart{
 
 		if (this.legend.getIncludeLegend()) {
 			LegendData legendData = new LegendData();
-			legendData.setColorData(CommonArray.removeDuplicates(this.colorCodeValues), this.plot.getBarColorPalette());
+			legendData.setColorData(CommonArray.removeDuplicates(this.colorCodeValues), this.plot.getColorPalette());
 			legendData.setColorLabel(this.colorCodeLabel);
 			this.legend.setLegendData(legendData);
 			this.legend.calculateLegend();
