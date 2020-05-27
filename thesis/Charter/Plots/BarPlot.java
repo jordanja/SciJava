@@ -74,7 +74,7 @@ public class BarPlot extends Plot {
 						int yBoxStart = yValueToPlotY(0, numericalTicks, cm);
 						int boxWidth = widthOfColorCodeBar;
 						int boxHeight = yValueToPlotY(colorCodeValues.get(colorCode), numericalTicks, cm) - yBoxStart;
-						System.out.println("in v");
+						
 						drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, colorCodeValues.get(colorCode), orientation);
 					} else {
 						int widthOfColorCodeBar = (int) ((((cm.getPlotHeight() / (numCategories)) * this.multipleBarWidthPercentage) - totalSpaceInbetweenBars) / numColorCodeValues);
@@ -90,7 +90,6 @@ public class BarPlot extends Plot {
 	
 					colorCodeCount++;
 				}
-				categoryCount++;
 
 			} else {
 				
@@ -117,10 +116,9 @@ public class BarPlot extends Plot {
 					int boxHeight = 2 * halfWidthOfSingularBar;
 					
 					drawBar(g, xBoxStart, yBoxStart, boxWidth, boxHeight, boxColor, (double) data.get(category), orientation);
-				}
-				categoryCount++;
-				
+				}				
 			}
+			categoryCount++;
 		}
 
 	}
