@@ -58,26 +58,7 @@ public class HistogramPlot extends Plot{
 		}
 		
 	}
-	public static int diffValues(Double[] numArray){
-	    int numOfDifferentVals = 0;
-
-	    ArrayList<Double> diffNum = new ArrayList<>();
-
-	    for(int i=0; i<numArray.length; i++){
-	        if(!diffNum.contains(numArray[i])){
-	            diffNum.add(numArray[i]);
-	        }
-	    }
-
-	    if(diffNum.size()==1){
-	            numOfDifferentVals = 0;
-	    }
-	    else{
-	          numOfDifferentVals = diffNum.size();
-	        } 
-
-	   return numOfDifferentVals;
-	}
+	
 	private int xValueToXPixel(double xPos, double[] xTicks, XYChartMeasurements cm) {
 		return CommonMath.map(xPos, xTicks[0], xTicks[xTicks.length - 1], cm.imageLeftToPlotLeftWidth(),
 				cm.imageLeftToPlotRightWidth());
