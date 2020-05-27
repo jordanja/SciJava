@@ -14,7 +14,7 @@ import thesis.Helpers.Palette;
 
 public class LinePlot extends Plot {
 
-	private Color[] lineColorPalette = Palette.Default;
+	private Color[] colorPalette = Palette.Default;
 
 	private Color lineColor = Color.black;
 	private int lineThickness = 2;
@@ -49,7 +49,7 @@ public class LinePlot extends Plot {
 
 			for (int lineCount = 0; lineCount < colorCodeValues.length; lineCount++) {
 				HashMap<Double, Double> lineData = (HashMap<Double, Double>) data.get(colorCodeValues[lineCount]);
-				Color lineColor = this.lineColorPalette[lineCount % this.lineColorPalette.length];
+				Color lineColor = this.colorPalette[lineCount % this.colorPalette.length];
 				
 				Double[] xValues = lineData.keySet().toArray(new Double[0]);
 				Arrays.sort(xValues);
@@ -228,12 +228,12 @@ public class LinePlot extends Plot {
 		return this.markerDotRadius;
 	}
 
-	public Color[] getLineColorPalette() {
-		return lineColorPalette;
+	public Color[] getColorPalette() {
+		return colorPalette;
 	}
 
-	public void setLineColorPalette(Color[] lineColorPalette) {
-		this.lineColorPalette = lineColorPalette;
+	public void setColorPalette(Color[] lineColorPalette) {
+		this.colorPalette = lineColorPalette;
 	}
 
 	public boolean getDrawMarkerDotOutline() {
