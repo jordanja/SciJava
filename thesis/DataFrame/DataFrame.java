@@ -34,9 +34,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		this.rowNames = new ArrayList<String>();
 	}
 
-	/*
-	 * Create an empty DF with rows and columns and null values
-	 */
+	// Create an empty DF with rows and columns and null values
 	public DataFrame(ArrayList<String> colNames, ArrayList<String> rowNames) {
 		this();
 
@@ -53,16 +51,24 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		this.rowNames = CommonArray.convertStringArrayToArrayList(rowNamesToAdd);
 	}
 
+	// Create an empty DF with rows and columns and null values
+	public DataFrame(String[] colNames, String[] rowNames) {
+		this(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames));
+	}
+
 	/*
-	 * Create a DF object from a HashMap (cols) For example: map = { "one": [1, 2,
-	 * 3], "two": [3, 4, 5] }
+	 * Create a DF object from a HashMap (cols) For example:
+	 * map = {
+	 * "one": [1, 2,3],
+	 * "two": [3, 4, 5]
+	 * }
 	 * 
 	 * Becomes: | one| two --+----+---- 0| 1| 3 1| 2| 4 2| 3| 5
 	 */
 	public DataFrame(HashMap<String, ArrayList<Object>> map) {
 		this();
 
-		appendColumn(map);
+		appendColumns(map);
 
 	}
 
@@ -129,12 +135,12 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	 * Result is: | one| two| three --+----+----+------ 0| 1| 4| 7 1| 2| 5| 8 2| 3|
 	 * 6| 9
 	 * 
-	 * If isRow = true. Result is: 
-	 *       | 0| 1| 2 
-	 * ------+--+--+-- 
-	 *    one| 1| 2| 3 
-	 *    two| 4| 5| 6 
-	 *  three| 7| 8| 9
+	 * If isRow = true. Result is:
+	 * | 0| 1| 2
+	 * ------+--+--+--
+	 * one| 1| 2| 3
+	 * two| 4| 5| 6
+	 * three| 7| 8| 9
 	 */
 	public DataFrame(ArrayList<String> names, ArrayList<ArrayList<Object>> lists, boolean isRow) {
 		this();
@@ -166,22 +172,22 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			while ((line = br.readLine()) != null) {
 				String cleanLine = removeSpecialChars(line);
 				String[] values = cleanLine.split(",");
-				
+
 				// If there are row names, extract the first value and add to list of rows
 				if (hasIndexRow) {
-					if (!((hasHeaderRow) && (rowNum == 0))) {						
+					if (!((hasHeaderRow) && (rowNum == 0))) {
 						rowNames.add(values[0]);
 					}
 					values = Arrays.copyOfRange(values, 1, values.length);
 				}
-				
+
 				// Extract the header row
 				if (rowNum == 0) {
 					String[] mangledColumns = CommonArray.mangle(values);
 					this.colNames = CommonArray.convertStringArrayToArrayList(mangledColumns);
 
 				} else {
-					if (values.length > 0) {						
+					if (values.length > 0) {
 						appendRow(CommonArray.convertStringArrayToObjectArrayList(values));
 					}
 
@@ -190,11 +196,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 				rowNum++;
 
 			}
-			
+
 			// If there were row names specified, mangle and then set them
 			if (hasIndexRow) {
-				String[] mangledRows = CommonArray.mangle(rowNames);
-				this.setRowNames(CommonArray.convertStringArrayToArrayList(mangledRows));
+				this.setRowNames(rowNames);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -202,17 +207,13 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			e.printStackTrace();
 		}
 	}
-	
-	private String removeSpecialChars(String line) { 
+
+	private String removeSpecialChars(String line) {
 		return line.replace("\"", "").replaceAll("[^a-zA-Z0-9, ./<>?;:\"'`!@#$%^&*()\\[\\]{}_+=|\\\\-]", "").trim();
 	}
 
 	// Rename rows
 	public void setRowNames(ArrayList<String> rowNamesToAdd) {
-		if (!CommonArray.valuesUnique(rowNamesToAdd)) {
-			System.out.println("All row names must be unique");
-			return;
-		}
 
 		if (CommonArray.anyNullValues(rowNamesToAdd)) {
 			System.out.println("Cannot have any null values in row names");
@@ -224,10 +225,12 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			return;
 		}
 
-		this.rowNames = rowNamesToAdd;
+		String[] mangledRowNames = CommonArray.mangle(rowNamesToAdd);
+
+		this.rowNames = CommonArray.convertStringArrayToArrayList(mangledRowNames);
 
 	}
-	
+
 	public void setRowNames(String[] rowNamesToAdd) {
 		setRowNames(new ArrayList<String>(Arrays.asList(rowNamesToAdd)));
 	}
@@ -237,11 +240,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public void setColumnNames(ArrayList<String> colNamesToAdd) {
-		if (!CommonArray.valuesUnique(colNamesToAdd)) {
-			System.out.println("All row names must be unique");
-			return;
-		}
-
 		if (CommonArray.anyNullValues(colNamesToAdd)) {
 			System.out.println("Cannot have any null values in row names");
 			return;
@@ -251,10 +249,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			System.out.println("Number of column names must equal number of columns");
 			return;
 		}
-		
-		this.colNames = colNamesToAdd;
+
+		String[] mangledColNames = CommonArray.mangle(colNamesToAdd);
+		this.colNames = CommonArray.convertStringArrayToArrayList(mangledColNames);
 	}
-	
+
 	public void setColumnNames(String[] colNamesToUse) {
 		setColumnNames(new ArrayList<String>(Arrays.asList(colNamesToUse)));
 
@@ -264,6 +263,30 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		this.colNames = CommonArray.generateIncreasingSequence(this.colNames.size());
 	}
 
+	private String generateUnusedColumnName() {
+		String columnName = "";
+		int possibleName = 1;
+		while (columnName == "") {
+			if (!this.colNames.contains(String.valueOf(possibleName))) {
+				columnName = String.valueOf(possibleName);
+			}
+			possibleName++;
+		}
+		return columnName;
+	}
+	
+	private String generateUnusedRowName() {
+		String rowName = "";
+		int possibleName = 1;
+		while (rowName == "") {
+			if (!this.rowNames.contains(String.valueOf(possibleName))) {
+				rowName = String.valueOf(possibleName);
+			}
+			possibleName++;
+		}
+		return rowName;
+	}
+	
 	public void insertColumn(int index, String name, ArrayList<Object> column) {
 		if (index > this.colNames.size()) {
 			System.out.println("Column index too high");
@@ -279,33 +302,67 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			this.rowNames = CommonArray.generateIncreasingSequence(column.size());
 		}
 		this.data.add(index, convertObjectListToItemList(column));
-		this.colNames.add(index, name);
+		String newColumnName = CommonArray.getNewMangleName(this.colNames, name);
+		this.colNames.add(index, newColumnName);
 
 	}
-	
+
 	public void insertColumn(int index, String name, Object[] column) {
 		insertColumn(index, name, new ArrayList<Object>(Arrays.asList(column)));
 	}
 	
+	public void insertColumn(int index, ArrayList<Object> column) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, Object[] column) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, column);
+	}
 
 	public void appendColumn(String name, ArrayList<Object> column) {
 		insertColumn(this.colNames.size(), name, column);
 	}
-	
+
 	public void appendColumn(String name, Object[] column) {
 		appendColumn(name, new ArrayList<Object>(Arrays.asList(column)));
 	}
 
-	public void appendColumn(HashMap<String, ArrayList<Object>> map) {
+	public void appendColumns(HashMap<String, ArrayList<Object>> map) {
 		for (String key : map.keySet()) {
 			this.appendColumn(key, map.get(key));
 		}
 	}
+	
+	public void appendColumn(String columnName, HashMap<String, Object> map) {
+		ArrayList<Object> col = new ArrayList<Object>();
+		for (String rowName : map.keySet()) {
+			int rowIndex = this.rowNames.indexOf(rowName);
+			if (rowIndex == -1) {
+				this.colNames.add(rowName);
 
-	public void appendColumn(ArrayList<Object> column) {
-		appendColumn(String.valueOf(this.colNames.size()), column);
+			}
+			col.add(map.get(rowName));
+
+		}
+		appendColumn(columnName, col);
+	}
+	
+	public void appendColumn(HashMap<String, Object> map) {
+		appendColumn(generateUnusedColumnName(), map);
 	}
 
+	public void appendColumn(ArrayList<Object> column) {
+		String columnName = generateUnusedColumnName();
+		appendColumn(columnName, column);
+	}
+
+	public void appendColumn(Object[] column) {
+		String columnName = generateUnusedColumnName();
+		appendColumn(columnName, column);
+	}
+	
 	public void appendColumns(ArrayList<ArrayList<Object>> columns) {
 		for (ArrayList<Object> column : columns) {
 			appendColumn(column);
@@ -322,8 +379,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void appendRow(String rowName, ArrayList<Object> row) {
 		if (this.rowNames.size() != 0) {
 			if (row.size() != this.colNames.size()) {
-				System.out.println(row);
-				System.out.println(row.size() + " != " + this.colNames.size());
+				System.out.print(row.size() + " != " + this.colNames.size() + ": ");
 				System.out.println("Your row does not have the correct amount of columns");
 				return;
 			}
@@ -337,18 +393,22 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			}
 			this.data.get(colCount).add(new DataItem(row.get(colCount)));
 		}
-
-		this.rowNames.add(rowName);
-
-	}
-
-	public void appendDataItemRow(ArrayList<DataItem> row) {
+		String newRowName = CommonArray.getNewMangleName(this.colNames, rowName);
+		this.rowNames.add(newRowName);
 
 	}
 
+	public void appendRow(String rowName, Object[] row) {
+		appendRow(rowName, new ArrayList<Object>(Arrays.asList(row)));
+	}
+	
 	public void appendRow(ArrayList<Object> row) {
 		String rowName = String.valueOf(this.rowNames.size());
 		appendRow(rowName, row);
+	}
+	
+	public void appendRow(Object[] row) {
+		appendRow(new ArrayList<Object>(Arrays.asList(row)));
 	}
 
 	public void appendRow(HashMap<String, Object> map) {

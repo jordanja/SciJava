@@ -1,6 +1,7 @@
 package thesis.Common;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -226,6 +227,7 @@ public class CommonArray {
 	public static String[] mangle(ArrayList<String> arr) {
 		return mangle(arr.toArray(new String[0]));
 	}
+
 	
 	public static String[] mangle(String[] columnNamesProvided) {
 		int[] numberOfSameValueBefore = CommonArray.initializeIntArrayWithValues(columnNamesProvided.length, 0);
@@ -244,6 +246,27 @@ public class CommonArray {
 			}
 		}
 		return columnNamesProvided;
+	}
+	
+	public static String getNewMangleName(ArrayList<String> arr, String potentialName) {
+		return getNewMangleName(arr.toArray(new String[0]), potentialName);
+	}
+	
+	public static String getNewMangleName(String[] arr, String potentialName) {
+		if (!Arrays.stream(arr).anyMatch(potentialName::equals)) {
+			return potentialName;
+		}
+		boolean found = false;
+		int suffix = 1;
+		while (found == false) {
+			String nameToCheck = potentialName + "." + suffix;
+			
+			if (!Arrays.stream(arr).anyMatch(nameToCheck::equals)) {
+				return nameToCheck;
+			}
+			suffix++;
+		}
+		return "error";
 	}
 
 
