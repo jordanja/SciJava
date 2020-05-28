@@ -150,9 +150,33 @@ public class CommonArray {
 		}
 		return objArr;
 	}
+	
+	public static ArrayList<String> convertStringArrayToArrayList(String[] arr) {
+		ArrayList<String> newArr = new ArrayList<String>();
+		for (String value: arr) {
+			newArr.add(value);
+		}
+		return newArr;
+	}
+	
+	public static ArrayList<Object> convertStringArrayToObjectArrayList(String[] arr) {
+		ArrayList<Object> newArr = new ArrayList<Object>();
+		for (String value: arr) {
+			newArr.add(value);
+		}
+		return newArr;
+	}
 
 	public static double[] initializeArrayWithValues(int length, int value) {
 		double[] arr = new double[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
+	public static int[] initializeIntArrayWithValues(int length, int value) {
+		int[] arr = new int[length];
 		for (int i = 0; i < length; i++) {
 			arr[i] = value;
 		}
@@ -197,6 +221,29 @@ public class CommonArray {
 			}
 		}
 		return list;
+	}
+
+	public static String[] mangle(ArrayList<String> arr) {
+		return mangle(arr.toArray(new String[0]));
+	}
+	
+	public static String[] mangle(String[] columnNamesProvided) {
+		int[] numberOfSameValueBefore = CommonArray.initializeIntArrayWithValues(columnNamesProvided.length, 0);
+		for (int columnCount = 0; columnCount < columnNamesProvided.length; columnCount++) {
+			int countSame = 0;
+			for (int inner = 0; inner < columnCount; inner++) {
+				if (columnNamesProvided[inner].equals(columnNamesProvided[columnCount])) {
+					countSame++;
+				}
+			}
+			numberOfSameValueBefore[columnCount] = countSame;
+		}
+		for (int columnCount = 0; columnCount < columnNamesProvided.length; columnCount++) {
+			if (numberOfSameValueBefore[columnCount] > 0) {
+				columnNamesProvided[columnCount] = columnNamesProvided[columnCount] + "." + numberOfSameValueBefore[columnCount];
+			}
+		}
+		return columnNamesProvided;
 	}
 
 

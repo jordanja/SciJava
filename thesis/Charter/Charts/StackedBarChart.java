@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import thesis.Charter.Axis.StackedBarChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.StackedBarPlot;
@@ -17,7 +18,7 @@ public class StackedBarChart extends XYChart{
 
 	StackedBarChartAxis axis;
 	StackedBarPlot plot;
-	Legend legend;
+	CategoricalLegend legend;
 	
 	private String colorCodeLabel;
 	private String[] colorCodeValues = new String[0]; 
@@ -29,7 +30,7 @@ public class StackedBarChart extends XYChart{
 		
 		this.axis = new StackedBarChartAxis();
 		this.plot = new StackedBarPlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 		
 		this.cm = new XYChartMeasurements();
 		

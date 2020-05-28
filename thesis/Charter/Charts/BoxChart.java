@@ -10,6 +10,7 @@ import java.util.Set;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.BoxPlot;
@@ -22,7 +23,7 @@ public class BoxChart extends XYChart{
 
 	BoxChartAxis axis;
 	BoxPlot plot;
-	Legend legend;
+	CategoricalLegend legend;
 	
 	private String colorCodeLabel;
 	private String[] colorCodeValues = new String[0];
@@ -42,7 +43,7 @@ public class BoxChart extends XYChart{
 	private void initialize() {
 		this.axis = new BoxChartAxis();
 		this.plot = new BoxPlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 		
 		this.cm = new XYChartMeasurements();
 	}
@@ -263,7 +264,7 @@ public class BoxChart extends XYChart{
 	public Legend getLegend() {
 		return legend;
 	}
-	public void setLegend(Legend legend) {
+	public void setLegend(CategoricalLegend legend) {
 		this.legend = legend;
 	}
 	

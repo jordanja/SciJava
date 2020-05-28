@@ -6,6 +6,7 @@ import java.util.HashMap;
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.BarPlot;
@@ -17,7 +18,7 @@ public class BarChart extends XYChart{
 
 	BarChartAxis axis;
 	BarPlot plot;
-	Legend legend;
+	CategoricalLegend legend;
 	
 	private String colorCodeLabel;
 	private String[] colorCodeValues = new String[0]; 
@@ -31,7 +32,7 @@ public class BarChart extends XYChart{
 		
 		this.axis = new BarChartAxis();
 		this.plot = new BarPlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 		
 		this.cm = new XYChartMeasurements();
 

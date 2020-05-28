@@ -9,6 +9,7 @@ import java.util.Set;
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.LinePlot;
@@ -20,7 +21,7 @@ public class LineChart extends XYChart {
 
 	NumericAxis axis;
 	LinePlot plot;
-	Legend legend;
+	CategoricalLegend legend;
 	
 	private String colorCodeLabel;
 	private String[] colorCodeValues = new String[0]; 
@@ -32,7 +33,7 @@ public class LineChart extends XYChart {
 
 		this.axis = new NumericAxis();
 		this.plot = new LinePlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 
 		this.cm = new XYChartMeasurements();
 
@@ -229,7 +230,7 @@ public class LineChart extends XYChart {
 		this.plot = plot;
 	}
 
-	public void setLegend(Legend legend) {
+	public void setLegend(CategoricalLegend legend) {
 		this.legend = legend;
 	}
 

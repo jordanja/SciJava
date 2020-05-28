@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import thesis.Charter.Axis.RadarChartAxis;
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.PiePlot;
@@ -26,7 +27,7 @@ public class RadarChart extends Chart{
 	
 	private RadarChartAxis axis;
 	private RadarPlot plot;
-	private Legend legend;
+	private CategoricalLegend legend;
 	
 	public RadarChart(DataFrame df, String radarCategories, String valueCategories, String values) {
 		this.radarCategories = DataItem.convertToStringList(df.getColumnAsArray(radarCategories));
@@ -37,7 +38,7 @@ public class RadarChart extends Chart{
 		
 		this.axis = new RadarChartAxis();
 		this.plot = new RadarPlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 		this.cm = new NoAxisChartMeasurements();
 	}
 
@@ -115,7 +116,7 @@ public class RadarChart extends Chart{
 	public Legend getLegend() {
 		return legend;
 	}
-	public void setLegend(Legend legend) {
+	public void setLegend(CategoricalLegend legend) {
 		this.legend = legend;
 	}
 	
