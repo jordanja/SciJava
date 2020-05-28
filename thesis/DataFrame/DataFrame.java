@@ -152,26 +152,35 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	/*
-	 * Create a DF object form a csv file
+	 * Create a DF object from a csv file
 	 */
-	public DataFrame(String filePath, boolean hasHeaderRow) {
+	public DataFrame(String filePath, boolean hasHeaderRow, boolean hasIndexRow) {
 		this();
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 			String line;
 			int rowNum = 0;
+			ArrayList<String> rowNames = new ArrayList<String>();
 
 			while ((line = br.readLine()) != null) {
-
-				List<String> values = Arrays.asList(line.replace("\"", "")
-						.replaceAll("[^a-zA-Z0-9, ./<>?;:\"'`!@#$%^&*()\\[\\]{}_+=|\\\\-]", "").trim().split(","));
-
-				if (rowNum == 0) { // Header row
-
-					this.colNames = new ArrayList<String>(values);
+				String cleanLine = removeSpecialChars(line);
+				String[] values = cleanLine.split(",");
+				
+				// If there are row names, extract the first value and add to list of rows
+				if (hasIndexRow) {
+					if (!((hasHeaderRow) && (rowNum == 0))) {						
+						rowNames.add(values[0]);
+					}
+					values = Arrays.copyOfRange(values, 1, values.length);
+				}
+				
+				// Extract the header row
+				if (rowNum == 0) {
+					String[] mangledColumns = CommonArray.mangle(values);
+					this.colNames = CommonArray.convertStringArrayToArrayList(mangledColumns);
 
 				} else {
-					if (values.size() > 0) {
-						appendRow(new ArrayList<Object>(values));
+					if (values.length > 0) {						
+						appendRow(CommonArray.convertStringArrayToObjectArrayList(values));
 					}
 
 				}
@@ -179,11 +188,21 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 				rowNum++;
 
 			}
+			
+			// If there were row names specified, mangle and then set them
+			if (hasIndexRow) {
+				String[] mangledRows = CommonArray.mangle(rowNames);
+				this.setRowNames(CommonArray.convertStringArrayToArrayList(mangledRows));
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private String removeSpecialChars(String line) { 
+		return line.replace("\"", "").replaceAll("[^a-zA-Z0-9, ./<>?;:\"'`!@#$%^&*()\\[\\]{}_+=|\\\\-]", "").trim();
 	}
 
 	// Rename rows
