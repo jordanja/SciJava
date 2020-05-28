@@ -9,6 +9,7 @@ import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.AxisFactory;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.Plot;
@@ -21,7 +22,7 @@ public class ScatterChart extends XYChart {
 
 	protected NumericAxis axis;
 	protected ScatterPlot plot;
-	protected Legend legend;
+	protected CategoricalLegend legend;
 
 	private String colorCodeLabel;
 	private String[] colorCodeValues;
@@ -34,7 +35,7 @@ public class ScatterChart extends XYChart {
 
 		this.axis = new NumericAxis();
 		this.plot = new ScatterPlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 
 		this.cm = new XYChartMeasurements();
 

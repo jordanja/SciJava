@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 import thesis.Charter.Axis.PolarAreaChartAxis;
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.PolarAreaPlot;
@@ -22,7 +23,7 @@ public class PolarAreaChart extends Chart{
 	private NoAxisChartMeasurements cm;
 	private PolarAreaPlot plot;
 	private PolarAreaChartAxis axis;
-	private Legend legend;
+	private CategoricalLegend legend;
 
 	public PolarAreaChart(DataFrame df, String categories, String values) {
 		this.categories = DataItem.convertToStringList(df.getColumnAsArray(categories));
@@ -31,7 +32,7 @@ public class PolarAreaChart extends Chart{
 		this.legendLabel = categories;
 		
 		this.plot = new PolarAreaPlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 		this.axis = new PolarAreaChartAxis();
 		this.cm = new NoAxisChartMeasurements();
 		
@@ -107,7 +108,7 @@ public class PolarAreaChart extends Chart{
 		return legend;
 	}
 
-	public void setLegend(Legend legend) {
+	public void setLegend(CategoricalLegend legend) {
 		this.legend = legend;
 	}
 	
