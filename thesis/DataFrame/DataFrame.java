@@ -47,8 +47,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			}
 			appendRow(row);
 		}
-		this.colNames = colNames;
-		this.rowNames = rowNames;
+		String[] colNamesToAdd = CommonArray.mangle(colNames);
+		String[] rowNamesToAdd = CommonArray.mangle(rowNames);
+		this.colNames = CommonArray.convertStringArrayToArrayList(colNamesToAdd);
+		this.rowNames = CommonArray.convertStringArrayToArrayList(rowNamesToAdd);
 	}
 
 	/*
