@@ -190,6 +190,12 @@ public class CommonArray {
 		}
 		
 	}
+	public static void printArray(ArrayList<Object> arr) {
+		for (int i = 0; i < arr.size(); i++) {
+			System.out.println(i + ": " + arr.get(i));
+		}
+		
+	}
 	
 	public static void printArray(int[] arr) {
 		for (int i = 0; i < arr.length; i++) {

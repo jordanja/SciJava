@@ -287,7 +287,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return rowName;
 	}
 	
-	public void insertColumn(int index, String name, ArrayList<Object> column) {
+	public void insertColumn(int index, String columnName, ArrayList<Object> column) {
 		if (index > this.colNames.size()) {
 			System.out.println("Column index too high");
 			return;
@@ -302,13 +302,15 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			this.rowNames = CommonArray.generateIncreasingSequence(column.size());
 		}
 		this.data.add(index, convertObjectListToItemList(column));
-		String newColumnName = CommonArray.getNewMangleName(this.colNames, name);
+		String newColumnName = CommonArray.getNewMangleName(this.colNames, columnName);
 		this.colNames.add(index, newColumnName);
 
 	}
 
-	public void insertColumn(int index, String name, Object[] column) {
-		insertColumn(index, name, new ArrayList<Object>(Arrays.asList(column)));
+	public void insertColumn(int index, String columnName, Object[] column) {
+		
+		insertColumn(index, columnName, new ArrayList<Object>(Arrays.asList(column)));
+		
 	}
 	
 	public void insertColumn(int index, ArrayList<Object> column) {
@@ -320,22 +322,16 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		String columnName = generateUnusedColumnName();
 		insertColumn(index, columnName, column);
 	}
-
-	public void appendColumn(String name, ArrayList<Object> column) {
-		insertColumn(this.colNames.size(), name, column);
-	}
-
-	public void appendColumn(String name, Object[] column) {
-		appendColumn(name, new ArrayList<Object>(Arrays.asList(column)));
-	}
-
-	public void appendColumns(HashMap<String, ArrayList<Object>> map) {
-		for (String key : map.keySet()) {
-			this.appendColumn(key, map.get(key));
+	
+	public void insertColumns(int index, HashMap<String, ArrayList<Object>> map) {
+		int insertionOffset = 0;
+		for (String columnName : map.keySet()) {
+			this.insertColumn(index + insertionOffset, columnName, map.get(columnName));
+			insertionOffset++;
 		}
 	}
 	
-	public void appendColumn(String columnName, HashMap<String, Object> map) {
+	public void insertColumn(int index, String columnName, HashMap<String, Object> map) {
 		ArrayList<Object> col = new ArrayList<Object>();
 		for (String rowName : map.keySet()) {
 			int rowIndex = this.rowNames.indexOf(rowName);
@@ -346,92 +342,233 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			col.add(map.get(rowName));
 
 		}
-		appendColumn(columnName, col);
+		insertColumn(index, columnName, col);
+	}
+	
+	public void insertColumn(int index, HashMap<String, Object> map) {
+		insertColumn(index, generateUnusedColumnName(), map);
+	}
+	
+	public void insertColumns(int index, ArrayList<String> columnNames, ArrayList<ArrayList<Object>> columns) {
+		int columnOffset = 0;
+		for (ArrayList<Object> column : columns) {
+			insertColumn(index + columnOffset, columnNames.get(columnOffset), column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, Object[][] columns) {
+		int columnOffset = 0;
+		for (Object[] column : columns) {
+			insertColumn(index + columnOffset, columnNames[columnOffset], column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, ArrayList<ArrayList<Object>> columns) {
+		int columnOffset = 0;
+		for (ArrayList<Object> column: columns) {
+			insertColumn(index + columnOffset, column);
+		}
+	}
+	
+	public void insertColumns(int index, Object[][] columns) {
+		int columnOffset = 0;
+		for (Object[] column: columns) {
+			insertColumn(index + columnOffset, column);
+		}
+	}
+
+	public void appendColumn(String columnName, ArrayList<Object> column) {
+		insertColumn(this.colNames.size(), columnName, column);
+	}
+
+	public void appendColumn(String columnName, Object[] column) {
+		insertColumn(this.colNames.size(), columnName, column);
+	}
+	
+	public void appendColumn(ArrayList<Object> column) {
+		insertColumn(this.colNames.size(), column);
+	}
+	
+	public void appendColumn(Object[] column) {
+		insertColumn(this.colNames.size(), column);
+	}
+
+	public void appendColumns(HashMap<String, ArrayList<Object>> map) {
+		insertColumns(this.colNames.size(), map);
+	}
+	
+	public void appendColumn(String columnName, HashMap<String, Object> map) {
+		insertColumn(this.colNames.size(), columnName, map);
 	}
 	
 	public void appendColumn(HashMap<String, Object> map) {
-		appendColumn(generateUnusedColumnName(), map);
+		insertColumn(this.colNames.size(), map);
 	}
 
-	public void appendColumn(ArrayList<Object> column) {
-		String columnName = generateUnusedColumnName();
-		appendColumn(columnName, column);
+	public void appendColumns(ArrayList<String> columnNames, ArrayList<ArrayList<Object>> columns) {
+		insertColumns(this.colNames.size(), columnNames, columns);
 	}
-
-	public void appendColumn(Object[] column) {
-		String columnName = generateUnusedColumnName();
-		appendColumn(columnName, column);
+	
+	public void appendColumns(String[] columnNames, Object[][] columns) {
+		insertColumns(this.colNames.size(), columnNames, columns);
 	}
 	
 	public void appendColumns(ArrayList<ArrayList<Object>> columns) {
-		for (ArrayList<Object> column : columns) {
-			appendColumn(column);
-		}
+		insertColumns(this.colNames.size(), columns);
 	}
 
-	public void appendColumns(ArrayList<String> names, ArrayList<ArrayList<Object>> columns) {
-		int i = 0;
-		for (ArrayList<Object> column : columns) {
-			appendColumn(names.get(i), column);
-		}
+	public void appendColumns(Object[][] columns) {
+		insertColumn(this.getColumnNames().size(), columns);
 	}
-
-	public void appendRow(String rowName, ArrayList<Object> row) {
-		if (this.rowNames.size() != 0) {
-			if (row.size() != this.colNames.size()) {
-				System.out.print(row.size() + " != " + this.colNames.size() + ": ");
-				System.out.println("Your row does not have the correct amount of columns");
-				return;
-			}
+	
+	
+	public void insertRow(int index, String rowName, ArrayList<Object> row) {
+		if (index > this.rowNames.size()) {
+			System.out.println("Row index too high");
+			return;
 		}
+		
+		if ((this.rowNames.size() > 0) && (row.size() != this.colNames.size())) {
+			System.out.print(row.size() + " != " + this.colNames.size() + ": ");
+			System.out.println("Your row does not have the correct amount of columns");
+			return;
+		}
+		
 		for (int colCount = 0; colCount < row.size(); colCount++) {
 			if (this.rowNames.size() == 0) {
 				this.data.add(new ArrayList<DataItem>());
 				if (this.colNames.size() <= colCount) {
-					this.colNames.add(String.valueOf(colCount)); // changed this out for csv. may need to rethink
+					this.colNames.add(generateUnusedColumnName());
 				}
 			}
-			this.data.get(colCount).add(new DataItem(row.get(colCount)));
+			this.data.get(colCount).add(index, new DataItem(row.get(colCount)));
 		}
-		String newRowName = CommonArray.getNewMangleName(this.colNames, rowName);
-		this.rowNames.add(newRowName);
-
-	}
-
-	public void appendRow(String rowName, Object[] row) {
-		appendRow(rowName, new ArrayList<Object>(Arrays.asList(row)));
+		String newRowName = CommonArray.getNewMangleName(this.rowNames, rowName);
+		this.rowNames.add(index, newRowName);
 	}
 	
-	public void appendRow(ArrayList<Object> row) {
-		String rowName = String.valueOf(this.rowNames.size());
-		appendRow(rowName, row);
+	public void insertRow(int index, String rowName, Object[] row) {
+		insertRow(index, rowName, new ArrayList<Object>(Arrays.asList(row)));
 	}
 	
-	public void appendRow(Object[] row) {
-		appendRow(new ArrayList<Object>(Arrays.asList(row)));
+	public void insertRow(int index, ArrayList<Object> row) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, row);
 	}
-
-	public void appendRow(HashMap<String, Object> map) {
-		ArrayList<Object> row = new ArrayList<Object>();
+	
+	public void insertRow(int index, Object[] row) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRows(int index, HashMap<String, ArrayList<Object>> map) {
+		int insertionOffset = 0;
+		for (String rowName: map.keySet()) {
+			this.insertRow(index + insertionOffset, rowName, map.get(rowName));
+			insertionOffset++;
+		}
+	}
+	
+	public void insertRow(int index, String rowName, HashMap<String, Object> map) {
+		ArrayList<Object> row = new ArrayList<Object>(this.colNames.size());
+		for (int i = 0; i < this.colNames.size(); i++) {
+			row.add("");
+		}
 		for (String colName : map.keySet()) {
 			int colIndex = this.colNames.indexOf(colName);
 			if (colIndex == -1) {
 				this.colNames.add(colName);
-
 			}
-			row.add(map.get(colName));
-
+			row.set(colIndex, map.get(colName));
 		}
-		appendRow(row);
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, HashMap<String, Object> map) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, map);
+	}
+	
+	public void insertRows(int index, ArrayList<String> rowNames, ArrayList<ArrayList<Object>> rows) {
+		int rowOffset = 0;
+		for (ArrayList<Object> row : rows) {
+			insertColumn(index + rowOffset, rowNames.get(rowOffset), row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, Object[][] rows) {
+		int rowOffset = 0;
+		for (Object[] row : rows) {
+			insertColumn(index + rowOffset, rowNames[rowOffset], row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, ArrayList<ArrayList<Object>> rows) {
+		int rowOffset = 0;
+		for (ArrayList<Object> row : rows) {
+			String rowName = generateUnusedRowName();
+			insertColumn(index + rowOffset, rowName, row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, Object[][] rows) {
+		int rowOffset = 0;
+		for (Object[] row : rows) {
+			String rowName = generateUnusedRowName();
+			insertColumn(index + rowOffset, rowName, row);
+			rowOffset++;
+		}
+	}
 
+	public void appendRow(String rowName, ArrayList<Object> row) {
+		insertRow(this.rowNames.size(), rowName, row);
+	}
+
+	public void appendRow(String rowName, Object[] row) {
+		insertRow(this.rowNames.size(), rowName, row);
+	}
+	
+	public void appendRow(ArrayList<Object> row) {
+		insertRow(this.rowNames.size(), row);
+	}
+	
+	public void appendRow(Object[] row) {
+		insertRow(this.rowNames.size(), row);
+	}
+	
+	public void appendRows(HashMap<String, ArrayList<Object>> map) {
+		insertRows(this.rowNames.size(), map);
+	}
+	
+	public void appendRow(String name, HashMap<String, Object> map) {
+		insertRow(this.rowNames.size(), name, map);
+	}
+
+	public void appendRow(HashMap<String, Object> map) {
+		insertRow(this.rowNames.size(), map);
 	}
 
 	public void appendRows(ArrayList<ArrayList<Object>> rows) {
-		for (int newRowCount = 0; newRowCount < rows.size(); newRowCount++) {
-			appendRow(rows.get(newRowCount));
-		}
-
+		insertRows(this.rowNames.size(), rows);
 	}
+	
+	public void appendRows(ArrayList<String> names, ArrayList<ArrayList<Object>> rows) {
+		insertRows(this.rowNames.size(), names, rows);
+	}
+
+	public void appendRows(String[] names, Object[][] rows) {
+		insertRows(this.rowNames.size(), names, rows);
+	}
+
+	public void appendRows(Object[][] rows) {
+		insertRows(this.rowNames.size(), rows);
+	}
+
 
 	public void transpose() {
 		ArrayList<ArrayList<DataItem>> transpose = new ArrayList<ArrayList<DataItem>>();
