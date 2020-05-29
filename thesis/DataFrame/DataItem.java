@@ -232,6 +232,14 @@ public class DataItem {
 			return null;
 		}
 	}
+	
+	public int getValueConvertedToInt() {
+		try {			
+			return Integer.parseInt(getObjectValue().toString());
+		} catch (Exception e) {
+			return 0;
+		}
+	}
 
 	public Number getValueConvertedToNumber() {
 		if (this.type == StorageType.Integer) {

@@ -275,6 +275,20 @@ public class CommonArray {
 		return "error";
 	}
 	
+	public static int[] getIndicesOfStringsInArray(String[] arr, String[] elements) {
+		int[] indices = new int[elements.length];
+		
+		for(int elementCount = 0; elementCount < elements.length; elementCount++) {
+			indices[elementCount] = CommonArray.indexOf(arr, elements[elementCount]);
+		}
+		
+		return indices;
+	}
+	
+	public static int[] getIndicesOfStringsInArray(ArrayList<String> arr, String[] elements) {
+		return getIndicesOfStringsInArray(arr.toArray(new String[0]), elements);
+	}
+	
 //	public static Class<? extends Object> typeOfArrayList(ArrayList<Object> arr) {
 //		
 //		return arr.get(0).getClass();
