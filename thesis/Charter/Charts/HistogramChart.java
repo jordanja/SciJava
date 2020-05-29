@@ -21,7 +21,7 @@ public class HistogramChart extends XYChart {
 	
 	
 	public HistogramChart(DataFrame dataFrame, String xAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis));
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis));
 		
 		this.axis = new NumericAxis();
 		this.plot = new HistogramPlot();

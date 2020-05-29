@@ -767,11 +767,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame getColumnAsDataFrame(int col) {
 		return getColumnAsDataFrame(this.colNames.get(col));
 	}
-	
-	public ArrayList<DataItem> getColumnAsDataItemArrayList(String name) {
-		int index = this.colNames.indexOf(name);
-		return this.data.get(index);
-	}
 
 	
 
@@ -797,6 +792,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	
+	public ArrayList<DataItem> getColumnAsDataItemArrayList(String name) {
+		int index = this.colNames.indexOf(name);
+		return this.data.get(index);
+	}
+
 
 	public DataFrame getRows(ArrayList<String> names) {
 		DataFrame newDF = new DataFrame();

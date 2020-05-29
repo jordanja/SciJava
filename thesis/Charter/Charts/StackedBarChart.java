@@ -26,7 +26,7 @@ public class StackedBarChart extends XYChart{
 	private String[] order = new String[0];
 	
 	public StackedBarChart(DataFrame dataFrame, String xAxis, String yAxis, String colorCode) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 		
 		this.axis = new StackedBarChartAxis();
 		this.plot = new StackedBarPlot();
