@@ -274,6 +274,20 @@ public class CommonArray {
 		}
 		return "error";
 	}
+	
+//	public static Class<? extends Object> typeOfArrayList(ArrayList<Object> arr) {
+//		
+//		return arr.get(0).getClass();
+//	}
+//	
+//	public static boolean arrayListAllInteger(ArrayList<Object> arr) {
+//		for (Object element: arr) {
+//			if (!(element instanceof Integer)) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 
 
 }

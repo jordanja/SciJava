@@ -423,7 +423,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(this.getColumnNames().size(), columns);
 	}
 	
-	
 	public void insertRow(int index, String rowName, ArrayList<Object> row) {
 		if (index > this.rowNames.size()) {
 			System.out.println("Row index too high");
@@ -569,7 +568,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertRows(this.rowNames.size(), rows);
 	}
 
-
 	public void transpose() {
 		ArrayList<ArrayList<DataItem>> transpose = new ArrayList<ArrayList<DataItem>>();
 
@@ -590,28 +588,68 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	}
 
+	public void dropColumn(int columnIndexToDrop) {
+		this.data.remove(columnIndexToDrop);
+		this.colNames.remove(columnIndexToDrop);
+	}
+	
 	public void dropColumn(String name) {
-		int colIndex = -1;
-		for (int i = 0; i < this.colNames.size(); i++) {
-			if (this.colNames.get(i) == name) {
-				colIndex = i;
-
-			}
-		}
+		int colIndex = this.colNames.indexOf(name);
 		if (colIndex != -1) {
-			this.data.remove(colIndex);
-			this.colNames.remove(colIndex);
+			dropColumn(colIndex);
 		}
 	}
 
 	public void dropColumns(ArrayList<String> names) {
-
-		for (String name : names) {
-			dropColumn(name);
-
+		for (String columnName: names) {
+			dropColumn(columnName);
 		}
-
 	}
+	
+	public void dropColumns(String[] names) {
+		for (String columnName: names) {
+			dropColumn(columnName);
+		}
+	}
+	
+	public void dropColumns(int[] columnIndicesToDrop) {
+		for (int columnIndex: columnIndicesToDrop) {
+			dropColumn(columnIndex);
+		}
+	}
+	
+	public void dropRow(int rowIndexToDrop) {
+		this.rowNames.remove(rowIndexToDrop);
+		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+			this.data.get(columnCount).remove(rowIndexToDrop);
+		}
+	}
+	
+	public void dropRow(String name) {
+		int rowIndex = this.rowNames.indexOf(name);
+		if (rowIndex >= 0) {
+			dropRow(rowIndex);
+		}
+	}
+
+	public void dropRows(ArrayList<String> names) {
+		for (String rowName: names) {
+			dropRow(rowName);
+		}
+	}
+	
+	public void dropRows(String[] names) {
+		for (String rowName: names) {
+			dropRow(rowName);
+		}
+	}
+	
+	public void dropRows(int[] columnIndicesToDrop) {
+		for (int rowindex: columnIndicesToDrop) {
+			dropRow(rowindex);
+		}
+	}
+	
 
 	public DataItem[] getColumnAsArray(String name) {
 
