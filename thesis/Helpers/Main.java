@@ -488,8 +488,12 @@ public class Main {
 		
 		df.insertRow(1, "blah", colMap);
 		
+		ArrayList<String> colNames = new ArrayList<String>();
+		colNames.add("one");
+		colNames.add("1");
 		
-		
+		DataFrame newDF = df.getColumnsAsDataFrame(colNames);
+		System.out.println(newDF);
 
 		return df;
 	}
