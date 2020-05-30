@@ -289,6 +289,10 @@ public class CommonArray {
 		return getIndicesOfStringsInArray(arr.toArray(new String[0]), elements);
 	}
 	
+	public static int[] getIndicesOfStringsInArray(ArrayList<String> arr, ArrayList<String> elements) {
+		return getIndicesOfStringsInArray(arr.toArray(new String[0]), elements.toArray(new String[0]));
+	}
+	
 	public static boolean contains(String[] arr, String element) {
 		for (String str: arr) {
 			if (str.equals(element)) {
