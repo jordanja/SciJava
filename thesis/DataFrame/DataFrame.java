@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataItem.StorageType;
@@ -643,7 +645,9 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	
 	
-	
+	// -------------------------
+	// ------ Get Columns ------
+	// -------------------------
 	public DataItem[] getColumnAsDataItemArray(int index) {
 		DataItem[] column = new DataItem[this.rowNames.size()];
 		for (int i = 0; i < column.length; i++) {
@@ -694,6 +698,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int index = this.columnNames.indexOf(name);
 		return getColumnAsDoubleArray(index);
 	}
+	
+	public LocalDate[] getColumnAsDateArray(int index) {
+		LocalDate[] column = new LocalDate[this.rowNames.size()];
+		for (int i = 0; i < column.length; i++) {
+			column[i] = this.data.get(index).get(i).getDateValue();
+		}
+		return column;
+	}
+	
+	public LocalDate[] getColumnAsDateArray(String name) {
+		int index = this.columnNames.indexOf(name);
+		return getColumnAsDateArray(index);
+	}
 
 	public DataItem[][] getColumnsAs2DDataItemArray(int[] indices){
 		DataItem[][] columns = new DataItem[indices.length][this.rowNames.size()];
@@ -711,6 +728,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataItem[][] getColumnsAs2DDataItemArray(ArrayList<String> names){
 		return getColumnsAs2DDataItemArray(names.toArray(new String[0]));
+	}
+	
+	public DataItem[][] getColumnsAs2DDataItemArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DDataItemArray(indicesToGet);
 	}
 	
 	public String[][] getColumnsAs2DStringArray(int[] indices) {
@@ -731,6 +753,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getColumnsAs2DStringArray(names.toArray(new String[0]));
 	}
 	
+	public String[][] getColumnsAs2DStringArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DStringArray(indicesToGet);
+	}
+	
 	public int[][] getColumnsAs2DIntArray(int[] indices) {
 		int[][] columns = new int[indices.length][this.rowNames.size()];
 		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
@@ -747,6 +774,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public int[][] getColumnsAs2DIntArray(ArrayList<String> names) {
 		return getColumnsAs2DIntArray(names.toArray(new String[0]));
+	}
+	
+	public int[][] getColumnsAs2DIntArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DIntArray(indicesToGet);
 	}
 	
 	public double[][] getColumnsAs2DDoubleArray(int[] indices) {
@@ -767,15 +799,40 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getColumnsAs2DDoubleArray(names.toArray(new String[0]));
 	}
 	
+	public double[][] getColumnsAs2DDoubleArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DDoubleArray(indicesToGet);
+	}
+	
+	public LocalDate[][] getColumnsAs2DDateArray(int[] indices) {
+		LocalDate[][] columns = new LocalDate[indices.length][this.rowNames.size()];
+		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
+			columns[columnCount] = getColumnAsDateArray(indices[columnCount]);
+		}
+		
+		return columns;
+	}
+	
+	public LocalDate[][] getColumnsAs2DDateArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return getColumnsAs2DDateArray(indices);
+	}
+	
+	public LocalDate[][] getColumnsAs2DDateArray(ArrayList<String> names) {
+		return getColumnsAs2DDateArray(names.toArray(new String[0]));
+	}
+	
+	public LocalDate[][] getColumnsAs2DDateArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DDateArray(indicesToGet);
+	}
 	
 	public DataFrame getColumnAsDataFrame(String name) {
-		ArrayList<String> names = new ArrayList<String>();
-		names.add(name);
-		return getColumnsAsDataFrame(names);
+		return getColumnsAsDataFrame(new String[] { name });
 	}
 	
 	public DataFrame getColumnAsDataFrame(int col) {
-		return getColumnAsDataFrame(this.columnNames.get(col));
+		return getColumnsAsDataFrame(new int[] { col });
 	}
 
 	
@@ -806,14 +863,142 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int[] colIndices = CommonArray.getIndicesOfStringsInArray(this.getColumnNames(), names);
 		return getColumnsAsDataFrame(colIndices);
 	}
-
 	
-	public ArrayList<DataItem> getColumnAsDataItemArrayList(String name) {
-		int index = this.columnNames.indexOf(name);
-		return this.data.get(index);
+	// inclusive lowerBound, inclusive upperBound
+	public DataFrame getColumnsAsDataFrame(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAsDataFrame(indicesToGet);
 	}
 
+	
+	// ----------------------
+	// ------ Get Rows ------
+	// ----------------------
+	
+	public DataItem[] getRowAsDataItemArray(int index) {
+		DataItem[] row = new DataItem[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index);
+		}
+		return row;
+	}
 
+	public DataItem[] getRowAsDataItemArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsDataItemArray(index);
+	}
+
+	public String[] getRowAsStringArray(int index) {
+		String[] row = new String[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).toString();
+		}
+		return row;
+	}
+
+	public String[] getRowAsStringArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsStringArray(index);
+	}
+
+	public int[] getRowAsIntArray(int index) {
+		int[] row = new int[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getValueConvertedToInt();
+		}
+		return row;
+	}
+
+	public int[] getRowAsIntArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsIntArray(index);
+	}
+
+	public double[] getRowAsDoubleArray(int index) {
+		double[] row = new double[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getValueConvertedToInt();
+		}
+		return row;
+	}
+
+	public double[] getRowAsDoubleArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsDoubleArray(index);
+	}
+
+	public LocalDate[] getRowAsDateArray(int index) {
+		LocalDate[] row = new LocalDate[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getDateValue();
+		}
+		return row;
+	}
+	
+	public LocalDate[] getRowAsDateArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsDateArray(index);
+	}
+
+	public DataItem[][] getRowsAs2DDataItemArray(int[] indices) {
+		DataItem[][] rows = new DataItem[indices.length][this.columnNames.size()];
+		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
+			rows[rowCount] = getRowAsDataItemArray(indices[rowCount]);
+		}
+		
+		return rows;
+	}
+	
+	public DataItem[][] getRowsAs2DDataItemArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return getRowsAs2DDataItemArray(indices);
+	}
+	
+	public DataItem[][] getRowsAs2DDataItemArray(ArrayList<String> names) {
+		return getRowsAs2DDataItemArray(names.toArray(new String[0]));
+	}
+
+	public DataItem[][] getRowsAs2DDataItemArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getRowsAs2DDataItemArray(indicesToGet);
+	}
+	
+	
+	public String[][] getRowsAs2DStringArray(int[] indices)	{
+		return null;
+	}
+	
+	public String[][] getRowsAs2DStringArray(String[] names) {
+		return null;
+	}
+	
+	public String[][] getRowsAs2DStringArray(ArrayList<String> names) {
+		return null;
+	}
+	
+	public String[][] getRowsAs2DStringArray(int lowerBound, int upperBound) {
+		return null;
+	}
+	
+	public int[][] getRowsAs2DIntArray(int[] indices) {
+		return null;
+	}
+	
+	public int[][] getRowsAs2DIntArray(String[] names) {
+		return null;
+	}
+	
+	public int[][] getRowsAs2DIntArray(ArrayList<String> names) {
+		return null;
+	}
+	
+	public int[][] getRowsAs2DIntArray(int lowerBound, int upperBound) {
+		return null;
+	}
+	
+	
+	
+	// ------- Old stuff below -------
 	public DataFrame getRows(ArrayList<String> names) {
 		DataFrame newDF = new DataFrame();
 
