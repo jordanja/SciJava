@@ -489,11 +489,11 @@ public class Main {
 		
 		df.setRowNames(new String[] {"row_one", "row_two", "row_three", "row_four", "row_five"});
 		
-//		DataItem[][] list = df.getRowsAs2DDataItemArray(new int[] {0, 2});
-//		for (int i = 0; i < list.length; i++) {			
-//			CommonArray.printArray(list[i]);
-//		}
-
+		DataFrame newDF = df.head(3);
+		System.out.println(newDF);
+		
+		
+		
 		return df;
 	}
 

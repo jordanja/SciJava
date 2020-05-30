@@ -254,5 +254,24 @@ public class DataItem {
 	public String toString() {
 		return getValueConvertedToString();
 	}
+	
+	@Override
+	public DataItem clone() {
+		DataItem newDataItem;
+		
+		if (this.type == StorageType.String) {
+			newDataItem = new DataItem(this.strValue);
+		} else if (this.type == StorageType.Integer) {
+			newDataItem = new DataItem(this.intValue);
+		} else if (this.type == StorageType.Double) {
+			newDataItem = new DataItem(this.doubleValue);
+		} else if (this.type == StorageType.Date) {
+			newDataItem = new DataItem(this.dateValue);
+		} else {
+			newDataItem = new DataItem();
+		}
+		
+		return newDataItem;
+	}
 
 }
