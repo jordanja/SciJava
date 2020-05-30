@@ -25,8 +25,8 @@ public class PieChart extends Chart {
 	CategoricalLegend legend;
 	
 	public PieChart(DataFrame df, String categories, String values) {
-		this.categories = DataItem.convertToStringList(df.getColumnAsArray(categories));
-		this.values = DataItem.convertToDoubleList(df.getColumnAsArray(values));
+		this.categories = df.getColumnAsStringArray(categories);
+		this.values = DataItem.convertToDoubleList(df.getColumnAsDataItemArray(values));
 		
 		this.legendLabel = categories;
 		

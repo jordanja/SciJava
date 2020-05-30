@@ -24,6 +24,7 @@ public class DataItem {
 		StorageType typeOfObject = null;
 		if (value == null) {
 			type = StorageType.Null;
+			typeOfObject = StorageType.Null;
 		} else if (value instanceof Integer) {
 			typeOfObject = StorageType.Integer;
 		} else if (value instanceof Double) {
@@ -84,7 +85,8 @@ public class DataItem {
 			this.doubleValue = (Double) value;
 		} else if (this.type == StorageType.Date) {
 			this.dateValue = LocalDate.parse(value.toString());
-
+		} else if (this.type == StorageType.Null) {
+		
 		} else {
 			System.out.println("You have entered an incompatible type: " + value.getClass());
 		}
@@ -124,7 +126,7 @@ public class DataItem {
 
 	@SuppressWarnings("incomplete-switch")
 	public void setType(StorageType typeToUse) {
-
+		
 		if (this.type == StorageType.String) {
 			switch (typeToUse) {
 				case Integer:
@@ -173,6 +175,11 @@ public class DataItem {
 					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
 			}
 			this.dateValue = null;
+		} else if (this.type == StorageType.Null) {
+			this.strValue = null;
+			this.intValue = null;
+			this.doubleValue = null;
+			this.dateValue = null;
 		}
 		this.type = typeToUse;
 
@@ -192,6 +199,8 @@ public class DataItem {
 			return this.doubleValue;
 		} else if (this.type == StorageType.Date) {
 			return this.dateValue;
+		} else if (this.type == StorageType.Null) {
+			return "null";
 		}
 		return null;
 	}
@@ -221,6 +230,14 @@ public class DataItem {
 			return Double.parseDouble(getObjectValue().toString());
 		} catch (Exception e) {
 			return null;
+		}
+	}
+	
+	public int getValueConvertedToInt() {
+		try {			
+			return Integer.parseInt(getObjectValue().toString());
+		} catch (Exception e) {
+			return 0;
 		}
 	}
 

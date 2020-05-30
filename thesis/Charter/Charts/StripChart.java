@@ -31,14 +31,14 @@ public class StripChart extends XYChart{
 	private String[] order = new String[0];
 	
 	public StripChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 		
 		initialize();
 
 	}
 	
 	public StripChart(DataFrame dataFrame, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(yAxis));
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(yAxis));
 		initialize();
 	}
 	

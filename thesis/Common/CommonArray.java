@@ -1,6 +1,7 @@
 package thesis.Common;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -189,6 +190,12 @@ public class CommonArray {
 		}
 		
 	}
+	public static void printArray(ArrayList<Object> arr) {
+		for (int i = 0; i < arr.size(); i++) {
+			System.out.println(i + ": " + arr.get(i));
+		}
+		
+	}
 	
 	public static void printArray(int[] arr) {
 		for (int i = 0; i < arr.length; i++) {
@@ -226,6 +233,7 @@ public class CommonArray {
 	public static String[] mangle(ArrayList<String> arr) {
 		return mangle(arr.toArray(new String[0]));
 	}
+
 	
 	public static String[] mangle(String[] columnNamesProvided) {
 		int[] numberOfSameValueBefore = CommonArray.initializeIntArrayWithValues(columnNamesProvided.length, 0);
@@ -245,6 +253,86 @@ public class CommonArray {
 		}
 		return columnNamesProvided;
 	}
+	
+	public static String getNewMangleName(ArrayList<String> arr, String potentialName) {
+		return getNewMangleName(arr.toArray(new String[0]), potentialName);
+	}
+	
+	public static String getNewMangleName(String[] arr, String potentialName) {
+		if (!Arrays.stream(arr).anyMatch(potentialName::equals)) {
+			return potentialName;
+		}
+		boolean found = false;
+		int suffix = 1;
+		while (found == false) {
+			String nameToCheck = potentialName + "." + suffix;
+			
+			if (!Arrays.stream(arr).anyMatch(nameToCheck::equals)) {
+				return nameToCheck;
+			}
+			suffix++;
+		}
+		return "error";
+	}
+	
+	public static int[] getIndicesOfStringsInArray(String[] arr, String[] elements) {
+		int[] indices = new int[elements.length];
+		
+		for(int elementCount = 0; elementCount < elements.length; elementCount++) {
+			indices[elementCount] = CommonArray.indexOf(arr, elements[elementCount]);
+		}
+		
+		return indices;
+	}
+	
+	public static int[] getIndicesOfStringsInArray(ArrayList<String> arr, String[] elements) {
+		return getIndicesOfStringsInArray(arr.toArray(new String[0]), elements);
+	}
+	
+	public static int[] getIndicesOfStringsInArray(ArrayList<String> arr, ArrayList<String> elements) {
+		return getIndicesOfStringsInArray(arr.toArray(new String[0]), elements.toArray(new String[0]));
+	}
+	
+	public static boolean contains(String[] arr, String element) {
+		for (String str: arr) {
+			if (str.equals(element)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean contains(int[] arr, int element) {
+		for (int str: arr) {
+			if (str == element) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static int[] reverse(int[] arr) {
+		for(int i = 0; i < arr.length/2; i++) {
+		    int temp = arr[i];
+		    arr[i] = arr[arr.length - i - 1];
+		    arr[arr.length - i - 1] = temp;
+		}
+		return arr;
+	}
+	
+//	public static Class<? extends Object> typeOfArrayList(ArrayList<Object> arr) {
+//		
+//		return arr.get(0).getClass();
+//	}
+//	
+//	public static boolean arrayListAllInteger(ArrayList<Object> arr) {
+//		for (Object element: arr) {
+//			if (!(element instanceof Integer)) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 
 
 }

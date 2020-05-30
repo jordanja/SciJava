@@ -391,7 +391,7 @@ public class Main {
 	}
 
 	private static void dfPlay() {
-//		DataFrame df = play();
+		DataFrame df = play();
 //		DataFrame df = csvConstructor();
 //		DataFrame df = hashColsConstructor();
 //		DataFrame df = hashRowsConstructor();
@@ -399,11 +399,53 @@ public class Main {
 //		DataFrame df = oneColumn();
 //		DataFrame df = multipleColumns();
 //		DataFrame df = arrays();
+//		DataFrame df = rowColNameEmplty();
+//		DataFrame df = rowColNameEmpltyArray();
 
 //		DataFrame df = time();
 		
 		System.out.println(df);
 
+	}
+
+	private static DataFrame rowColNameEmpltyArray() {
+		String[] rowNames = new String[] {"a", "a", "a", "a", "b", "b"};
+		String[] colNames = new String[] {"q", "q", "q", "w", "w", "w"};
+		DataFrame df = new DataFrame(colNames, rowNames);
+
+		return df;
+	}
+
+	private static DataFrame rowColNameEmplty() {
+		ArrayList<String> rowNames = new ArrayList<>();
+		rowNames.add("a");
+		rowNames.add("a");
+		rowNames.add("a");
+		rowNames.add("b");
+		rowNames.add("b");
+		rowNames.add("b");
+		
+		ArrayList<String> colNames = new ArrayList<>();
+		colNames.add("r");
+		colNames.add("r");
+		colNames.add("r");
+		colNames.add("g");
+		colNames.add("g");
+		colNames.add("g");
+		
+		DataFrame df = new DataFrame(colNames, rowNames);
+		df.resetRowNames();
+		
+		rowNames = new ArrayList<>();
+		rowNames.add("a");
+		rowNames.add("a");
+		rowNames.add("a");
+		rowNames.add("b");
+		rowNames.add("b");
+		rowNames.add("b");
+		df.setRowNames(rowNames);
+		
+		return df;
 	}
 
 	public static DataFrame time() {
@@ -425,18 +467,33 @@ public class Main {
 		arr1.add(2);
 		arr1.add(3);
 
-		ArrayList<Object> arr2 = new ArrayList<Object>();
-		arr2.add(LocalDate.now());
-		arr2.add(LocalDate.now().plusDays(1));
-		arr2.add(LocalDate.now().plusDays(2));
 
 		map.put("one", arr1);
-		map.put("two", arr2);
+		
 
 		DataFrame df = new DataFrame(map);
 
 		Integer[] newCol = new Integer[] { 100, 200, 300 };
 		df.insertColumn(1, "newCol", newCol);
+		
+		Integer[] newCol2 = new Integer[] { 1000, 2000, 3000 };
+		df.insertColumn(2, newCol2);
+		
+		HashMap<String, Object> colMap = new HashMap<String, Object>();
+		colMap.put("one", 123);
+		colMap.put("1", 456);
+		colMap.put("newCol", 789);
+		
+		
+		
+		df.insertRow(1, "blah", colMap);
+		
+		ArrayList<String> colNames = new ArrayList<String>();
+		colNames.add("one");
+		colNames.add("1");
+		
+		DataFrame newDF = df.getColumnsAsDataFrame(colNames);
+		System.out.println(newDF);
 
 		return df;
 	}

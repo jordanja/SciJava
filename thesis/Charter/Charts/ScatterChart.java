@@ -31,7 +31,7 @@ public class ScatterChart extends XYChart {
 	private Double[] bubbleSizeValues;
 
 	public ScatterChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 
 		this.axis = new NumericAxis();
 		this.plot = new ScatterPlot();
@@ -42,11 +42,11 @@ public class ScatterChart extends XYChart {
 	}
 
 	public void setXAxis(String xAxis) {
-		this.xData = this.dataFrame.getColumnAsArray(xAxis);
+		this.xData = this.dataFrame.getColumnAsDataItemArray(xAxis);
 	}
 
 	public void setYAxis(String yAxis) {
-		this.yData = this.dataFrame.getColumnAsArray(yAxis);
+		this.yData = this.dataFrame.getColumnAsDataItemArray(yAxis);
 	}
 
 	public void setIncludeLegend(boolean includeLegend) {
@@ -89,7 +89,7 @@ public class ScatterChart extends XYChart {
 	
 	public void setBubbleSize(String bubbleSizeLabel) {
 		this.bubbleSizeLabel = bubbleSizeLabel;
-		this.bubbleSizeValues = DataItem.convertToDoubleList(dataFrame.getColumnAsArray(this.bubbleSizeLabel));
+		this.bubbleSizeValues = DataItem.convertToDoubleList(dataFrame.getColumnAsDataItemArray(this.bubbleSizeLabel));
 		this.legend.setIncludeLegend(true);
 	}
 

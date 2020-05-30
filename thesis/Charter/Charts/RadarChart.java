@@ -30,9 +30,9 @@ public class RadarChart extends Chart{
 	private CategoricalLegend legend;
 	
 	public RadarChart(DataFrame df, String radarCategories, String valueCategories, String values) {
-		this.radarCategories = DataItem.convertToStringList(df.getColumnAsArray(radarCategories));
-		this.valueCategories = DataItem.convertToStringList(df.getColumnAsArray(valueCategories));
-		this.values = DataItem.convertToDoubleList(df.getColumnAsArray(values));
+		this.radarCategories = df.getColumnAsStringArray(radarCategories);
+		this.valueCategories = df.getColumnAsStringArray(valueCategories);
+		this.values = DataItem.convertToDoubleList(df.getColumnAsDataItemArray(values));
 		
 		this.legendLabel = radarCategories;
 		

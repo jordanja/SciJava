@@ -29,7 +29,7 @@ public class LineChart extends XYChart {
 	
 
 	public LineChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 
 		this.axis = new NumericAxis();
 		this.plot = new LinePlot();

@@ -26,8 +26,8 @@ public class PolarAreaChart extends Chart{
 	private CategoricalLegend legend;
 
 	public PolarAreaChart(DataFrame df, String categories, String values) {
-		this.categories = DataItem.convertToStringList(df.getColumnAsArray(categories));
-		this.values = DataItem.convertToDoubleList(df.getColumnAsArray(values));
+		this.categories = DataItem.convertToStringList(df.getColumnAsDataItemArray(categories));
+		this.values = DataItem.convertToDoubleList(df.getColumnAsDataItemArray(values));
 		
 		this.legendLabel = categories;
 		
