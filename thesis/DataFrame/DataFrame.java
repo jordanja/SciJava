@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -221,7 +223,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 
 		if (rowNamesToAdd.size() != this.rowNames.size()) {
-			System.out.println("Number of row names must equal number of rows");
+			System.out.println("Number of row names (" + rowNamesToAdd.size() + ") must equal number of rows (" + this.rowNames.size() + ")");
 			return;
 		}
 
@@ -233,6 +235,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public void setRowNames(String[] rowNamesToAdd) {
 		setRowNames(new ArrayList<String>(Arrays.asList(rowNamesToAdd)));
+	}
+	
+	public void setData(ArrayList<ArrayList<DataItem>> data) {
+		this.data = data;
 	}
 
 	public void resetRowNames() {
@@ -593,6 +599,8 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void dropColumns(int[] columnIndicesToDrop) {
+		Arrays.sort(columnIndicesToDrop);
+		columnIndicesToDrop = CommonArray.reverse(columnIndicesToDrop);
 		for (int columnIndex: columnIndicesToDrop) {
 			dropColumn(columnIndex);
 		}
@@ -624,8 +632,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
-	public void dropRows(int[] columnIndicesToDrop) {
-		for (int rowindex: columnIndicesToDrop) {
+	public void dropRows(int[] rowIndicesToDrop) {
+		Arrays.sort(rowIndicesToDrop);
+		rowIndicesToDrop = CommonArray.reverse(rowIndicesToDrop);
+		for (int rowindex: rowIndicesToDrop) {
 			dropRow(rowindex);
 		}
 	}
@@ -769,7 +779,22 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	
-
+	public DataFrame getColumnsAsDataFrame(int[] colIndices) {
+		DataFrame newDF = this.clone();
+		
+		int numCols = newDF.getColumnNames().size();
+		int[] indicesToDrop = new int[numCols - colIndices.length];
+		int numAdded = 0;
+		for (int colCount = 0; colCount < numCols; colCount++) {
+			if (!CommonArray.contains(colIndices, colCount)) {
+				indicesToDrop[numAdded] = colCount;
+				numAdded++;
+			}
+		}
+		newDF.dropColumns(indicesToDrop);
+		
+		return newDF;
+	}
 	
 	
 	
@@ -1181,6 +1206,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		for (int charCount = 0; charCount < currentItem.length(); charCount++) {
 			writeChar(gridRowNum, currentItem.charAt(charCount));
 		}
+	}
+	
+	@Override
+	public DataFrame clone() {
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.getColumnNames().clone(), (ArrayList<String>)this.getRowNames().clone());
+		newDF.setData((ArrayList<ArrayList<DataItem>>)this.getData().clone());
+				
+		return newDF;
 	}
 
 	@Override

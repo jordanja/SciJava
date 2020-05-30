@@ -289,6 +289,33 @@ public class CommonArray {
 		return getIndicesOfStringsInArray(arr.toArray(new String[0]), elements);
 	}
 	
+	public static boolean contains(String[] arr, String element) {
+		for (String str: arr) {
+			if (str.equals(element)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean contains(int[] arr, int element) {
+		for (int str: arr) {
+			if (str == element) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static int[] reverse(int[] arr) {
+		for(int i = 0; i < arr.length/2; i++) {
+		    int temp = arr[i];
+		    arr[i] = arr[arr.length - i - 1];
+		    arr[arr.length - i - 1] = temp;
+		}
+		return arr;
+	}
+	
 //	public static Class<? extends Object> typeOfArrayList(ArrayList<Object> arr) {
 //		
 //		return arr.get(0).getClass();
