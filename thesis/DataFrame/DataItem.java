@@ -417,6 +417,42 @@ public class DataItem {
 		}
 	}
 	
+	public void intFloor() {
+		if (this.type == StorageType.Double) {
+			this.intValue = this.doubleValue.intValue();
+			this.doubleValue = 0.0;
+			this.type = StorageType.Integer;
+		}
+	}
+	
+	public void doubleFloor() {
+		if (this.type == StorageType.Integer) {
+			this.doubleValue = this.intValue.doubleValue();
+			this.intValue = 0;
+			this.type = StorageType.Double;
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue = Math.floor(this.doubleValue);
+		}
+	}
+	
+	public void intCeiling() {
+		if (this.type == StorageType.Double) {
+			this.intValue = (int) Math.ceil(this.doubleValue);
+			this.doubleValue = 0.0;
+			this.type = StorageType.Integer;
+		}
+	}
+	
+	public void doubleCeiling() {
+		if (this.type == StorageType.Integer) {
+			this.doubleValue = this.intValue.doubleValue();
+			this.intValue = 0;
+			this.type = StorageType.Double;
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue = Math.ceil(this.doubleValue);
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return getValueConvertedToString();

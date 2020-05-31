@@ -1361,6 +1361,77 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.divide((double) value);
 	}
 
+	public DataFrame intFloor() {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).intFloor();
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame doubleFloor() {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).doubleFloor();
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame intCeiling() {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).intCeiling();
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame doubleCeiling() {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).doubleCeiling();
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame negate() {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).multiply(-1);;
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame lessThan(DataFrame df) {
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+//				newDF.setValue(colCount, rowCount, );
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame lessThan(DataItem value) {
+		return null;
+	}
+	
+	public DataFrame lessThan(int value) {
+		return null;
+	}
+	
+	public DataFrame lessThan(double value) {
+		return null;
+	}
+	
+	public DataFrame lessThan(float value) {
+		return null;
+	}
+	
 	
 	
 	public boolean sameShape(DataFrame df) {
