@@ -7,11 +7,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.stream.IntStream;
 
 import thesis.Common.CommonArray;
@@ -1400,7 +1397,13 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame negate() {
 		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
-				this.getValue(colCount, rowCount).multiply(-1);;
+				DataItem value = this.getValue(colCount, rowCount);
+				if (value.type == StorageType.Boolean) {
+					value.flip();
+				} else {
+					value.multiply(-1);
+				}
+				
 			}	
 		}
 		return this;
@@ -1408,6 +1411,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame lessThan(DataFrame df) {
 		if (this.sameShape(df)) { 			
+			@SuppressWarnings("unchecked")
 			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
 			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
 				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
@@ -1429,6 +1433,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public DataFrame lessThan(double value) {
+		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
 		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
@@ -1445,7 +1450,8 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	
 	public DataFrame lessThanOrEqual(DataFrame df) {
-		if (this.sameShape(df)) { 			
+		if (this.sameShape(df)) { 
+			@SuppressWarnings("unchecked")
 			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
 			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
 				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
@@ -1468,6 +1474,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public DataFrame lessThanOrEqual(double value) {
+		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
 		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
@@ -1480,11 +1487,12 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public DataFrame lessThanOrEqual(float value) {
-		return lessThanOrEqual(value);
+		return lessThanOrEqual((double) value);
 	}
 	
 	public DataFrame greaterThan(DataFrame df) {
-		if (this.sameShape(df)) { 			
+		if (this.sameShape(df)) { 	
+			@SuppressWarnings("unchecked")
 			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
 			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
 				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
@@ -1506,6 +1514,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public DataFrame greaterThan(double value) {
+		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
 		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
@@ -1520,6 +1529,105 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return greaterThan((double) value);
 	}
 	
+	public DataFrame greaterThanOrEqual(DataFrame df) {
+		if (this.sameShape(df)) { 		
+			@SuppressWarnings("unchecked")
+			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+					boolean greaterThan = this.getValue(colCount, rowCount).greaterThan(df.getValue(colCount, rowCount));
+					boolean equal = this.getValue(colCount, rowCount).equal(df.getValue(colCount, rowCount));
+					newDF.setValue(colCount, rowCount, greaterThan || equal);
+				}	
+			}
+			return newDF;
+		}
+		return null;
+	}
+	
+	public DataFrame greaterThanOrEqual(DataItem value) {
+		return greaterThanOrEqual(value.getValueConvertedToDouble());
+	}
+	
+	public DataFrame greaterThanOrEqual(int value) {
+		return greaterThanOrEqual((double) value);
+	}
+	
+	public DataFrame greaterThanOrEqual(double value) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean greaterThan = this.getValue(colCount, rowCount).greaterThan(value);
+				boolean equal = this.getValue(colCount, rowCount).equal(value);
+				newDF.setValue(colCount, rowCount, greaterThan || equal);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame greaterThanOrEqual(float value) {
+		return greaterThanOrEqual((double) value);
+	}
+	
+	public DataFrame elementwiseEqual(DataFrame df) {
+		if (this.sameShape(df)) { 		
+			@SuppressWarnings("unchecked")
+			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+					boolean equal = this.getValue(colCount, rowCount).equal(df.getValue(colCount, rowCount));
+					newDF.setValue(colCount, rowCount, equal);
+				}	
+			}
+			return newDF;
+		}
+		return null;
+	}
+	
+	public DataFrame elementwiseEqual(DataItem value) {
+		return elementwiseEqual(value.getValueConvertedToDouble());
+	}
+	
+	public DataFrame elementwiseEqual(int value) {
+		return elementwiseEqual((double) value);
+	}
+	
+	public DataFrame elementwiseEqual(double value) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean equal = this.getValue(colCount, rowCount).equal(value);
+				newDF.setValue(colCount, rowCount, equal);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame elementwiseEqual(float value) {
+		return elementwiseEqual((double) value);
+	}
+	
+	public DataFrame elementwiseNotEqual(DataFrame df) {
+		return elementwiseEqual(df).negate();
+	}
+	
+	public DataFrame elementwiseNotEqual(DataItem value) {
+		return elementwiseEqual(value).negate();
+	}
+	
+	public DataFrame elementwiseNotEqual(int value) {
+		return elementwiseEqual(value).negate();
+	}
+	
+	public DataFrame elementwiseNotEqual(double value) {
+		return elementwiseEqual(value).negate();
+	}
+	
+	public DataFrame elementwiseNotEqual(float value) {
+		return elementwiseEqual(value).negate();
+	}
 	
 	
 	public boolean sameShape(DataFrame df) {
@@ -1693,13 +1801,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return list;
 	}
 
-	private ArrayList<Object> convertItemToObject(ArrayList<DataItem> arrayList) {
-		ArrayList<Object> list = new ArrayList<Object>();
-		for (DataItem item : arrayList) {
-			list.add(item);
-		}
-		return list;
-	}
 
 	/*
 	 * 
@@ -1842,6 +1943,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	@Override
 	public DataFrame clone() {
+		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.getColumnNames().clone(), (ArrayList<String>)this.getRowNames().clone());
 		ArrayList<ArrayList<DataItem>> newData = new ArrayList<ArrayList<DataItem>>();
 		for (int colCount = 0; colCount < this.data.size(); colCount++) {

@@ -484,7 +484,7 @@ public class Main {
 		Integer[] newCol3 = new Integer[] { 15, 16, 17, 18, 19 };
 		df.appendColumn("col_four", newCol3);
 		
-		Integer[] newCol4 = new Integer[] { 20, 21, 22, 23, 24 };
+		Double[] newCol4 = new Double[] { 20.1, 21.2, 22.3, 23.4, 24.5 };
 		df.appendColumn("col_five", newCol4);
 		
 		df.setRowNames(new String[] {"row_one", "row_two", "row_three", "row_four", "row_five"});
@@ -492,8 +492,9 @@ public class Main {
 		System.out.println(df);
 //		DataFrame newDF = df.clone();
 //		newDF.transpose();
-		System.out.println(df.power(2));
+		DataFrame newDF = df.clone().add(-2);
 		
+		System.out.println(df.elementwiseNotEqual(newDF));
 		
 		return df;
 	}

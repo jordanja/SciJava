@@ -576,6 +576,12 @@ public class DataItem {
 		return false;
 	}
 	
+	public void flip() {
+		if (this.type == StorageType.Boolean) {
+			this.booleanValue = !this.booleanValue;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return getValueConvertedToString();
