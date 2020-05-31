@@ -1407,29 +1407,117 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public DataFrame lessThan(DataFrame df) {
+		if (this.sameShape(df)) { 			
+			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+					boolean lessThan = this.getValue(colCount, rowCount).lessThan(df.getValue(colCount, rowCount));
+					newDF.setValue(colCount, rowCount, lessThan);
+				}	
+			}
+			return newDF;
+		}
+		return null;
+	}
+	
+	public DataFrame lessThan(DataItem value) {
+		return lessThan(value.getValueConvertedToDouble());
+	}
+	
+	public DataFrame lessThan(int value) {
+		return lessThan((double) value);
+	}
+	
+	public DataFrame lessThan(double value) {
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
 		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
-//				newDF.setValue(colCount, rowCount, );
+				boolean lessThan = this.getValue(colCount, rowCount).lessThan(value);
+				newDF.setValue(colCount, rowCount, lessThan);
 			}	
 		}
 		return newDF;
 	}
 	
-	public DataFrame lessThan(DataItem value) {
-		return null;
-	}
-	
-	public DataFrame lessThan(int value) {
-		return null;
-	}
-	
-	public DataFrame lessThan(double value) {
-		return null;
-	}
-	
 	public DataFrame lessThan(float value) {
+		return lessThan((double) value);
+	}
+	
+	
+	public DataFrame lessThanOrEqual(DataFrame df) {
+		if (this.sameShape(df)) { 			
+			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+					boolean lessThan = this.getValue(colCount, rowCount).lessThan(df.getValue(colCount, rowCount));
+					boolean equal = this.getValue(colCount, rowCount).equal(df.getValue(colCount, rowCount));
+					newDF.setValue(colCount, rowCount, lessThan || equal);
+				}	
+			}
+			return newDF;
+		}
 		return null;
+	}
+	
+	public DataFrame lessThanOrEqual(DataItem value) {
+		return lessThanOrEqual(value.getValueConvertedToDouble());
+	}
+	
+	public DataFrame lessThanOrEqual(int value) {
+		return lessThanOrEqual((double) value);
+	}
+	
+	public DataFrame lessThanOrEqual(double value) {
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean lessThan = this.getValue(colCount, rowCount).lessThan(value);
+				boolean equal = this.getValue(colCount, rowCount).equal(value);
+				newDF.setValue(colCount, rowCount, lessThan || equal);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame lessThanOrEqual(float value) {
+		return lessThanOrEqual(value);
+	}
+	
+	public DataFrame greaterThan(DataFrame df) {
+		if (this.sameShape(df)) { 			
+			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+					boolean greaterThan = this.getValue(colCount, rowCount).greaterThan(df.getValue(colCount, rowCount));
+					newDF.setValue(colCount, rowCount, greaterThan);
+				}	
+			}
+			return newDF;
+		}
+		return null;
+	}
+	
+	public DataFrame greaterThan(DataItem value) {
+		return greaterThan(value.getValueConvertedToDouble());
+	}
+	
+	public DataFrame greaterThan(int value) {
+		return greaterThan((double) value);
+	}
+	
+	public DataFrame greaterThan(double value) {
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean greaterThan = this.getValue(colCount, rowCount).greaterThan(value);
+				newDF.setValue(colCount, rowCount, greaterThan);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame greaterThan(float value) {
+		return greaterThan((double) value);
 	}
 	
 	

@@ -8,8 +8,9 @@ public class DataItem {
 	private Integer intValue;
 	private Double doubleValue;
 	private LocalDate dateValue;
+	private Boolean booleanValue;
 
-	public enum StorageType {String, Integer, Double, Null, Date};
+	public enum StorageType { String, Integer, Double, Null, Date, Boolean };
 	StorageType type;
 
 	public DataItem() {
@@ -31,6 +32,8 @@ public class DataItem {
 			typeOfObject = StorageType.Double;
 		} else if (value instanceof LocalDate) {
 			typeOfObject = StorageType.Date;
+		} else if (value instanceof Boolean) {
+			typeOfObject = StorageType.Boolean;
 		} else {
 			typeOfObject = StorageType.String;
 		}
@@ -66,9 +69,21 @@ public class DataItem {
 		this.type = StorageType.Double;
 	}
 
+	// Date Value
 	public DataItem(LocalDate value) {
 		this.dateValue = value;
 		this.type = StorageType.Date;
+	}
+	
+	// Boolean Value
+	public DataItem(Boolean value) {
+		this.booleanValue = value;
+		this.type = StorageType.Boolean;
+	}
+	
+	public DataItem(boolean value) {
+		this.booleanValue = value;
+		this.type = StorageType.Boolean;
 	}
 
 	public DataItem(StorageType typeToUse, Object value) {
@@ -85,11 +100,17 @@ public class DataItem {
 			this.doubleValue = (Double) value;
 		} else if (this.type == StorageType.Date) {
 			this.dateValue = LocalDate.parse(value.toString());
+		} else if (this.type == StorageType.Boolean) {
+			this.booleanValue = parseBoolean(value.toString());
 		} else if (this.type == StorageType.Null) {
 		
 		} else {
 			System.out.println("You have entered an incompatible type: " + value.getClass());
 		}
+	}
+
+	private Boolean parseBoolean(String str) {
+		return (str.equals("True") || str.equals("true"));
 	}
 
 	public static DataItem[] convertToDataItemList(Object[] values) {
@@ -137,6 +158,8 @@ public class DataItem {
 					break;
 				case Date:
 					this.dateValue = LocalDate.parse(this.strValue);
+				case Boolean:
+					this.booleanValue = parseBoolean(this.strValue);
 					break;
 				default:
 					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
@@ -175,6 +198,11 @@ public class DataItem {
 					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
 			}
 			this.dateValue = null;
+		} else if (this.type == StorageType.Boolean){
+			switch(typeToUse) {
+				case String:
+					this.strValue = this.booleanValue.toString();
+			}
 		} else if (this.type == StorageType.Null) {
 			this.strValue = null;
 			this.intValue = null;
@@ -199,6 +227,8 @@ public class DataItem {
 			return this.doubleValue;
 		} else if (this.type == StorageType.Date) {
 			return this.dateValue;
+		} else if (this.type == StorageType.Boolean) {
+			return this.booleanValue;
 		} else if (this.type == StorageType.Null) {
 			return "null";
 		}
@@ -220,6 +250,10 @@ public class DataItem {
 	public LocalDate getDateValue() {
 		return this.dateValue;
 	}
+	
+	public Boolean getBooleanValue() {
+		return this.booleanValue;
+	}
 
 	public String getValueConvertedToString() {
 		return getObjectValue().toString();
@@ -239,6 +273,16 @@ public class DataItem {
 		} catch (Exception e) {
 			return 0;
 		}
+	}
+	
+	public Boolean getValueConvertedToBoolean() {
+		if (this.type == StorageType.Boolean) {
+			return this.booleanValue;
+		} else if (this.type == StorageType.String) {
+			return parseBoolean(this.strValue);
+		}
+		
+		return null;
 	}
 
 	public Number getValueConvertedToNumber() {
@@ -453,6 +497,85 @@ public class DataItem {
 		}
 	}
 	
+	public boolean lessThan(int value) {
+		return lessThan((double) value);
+	}
+	
+	public boolean lessThan(double value) {
+		if (this.type == StorageType.Integer) {
+			return this.intValue < value;
+		} else if (this.type == StorageType.Double) {
+			return this.doubleValue < value;
+		}
+		return false;
+	}
+
+	public boolean lessThan(float value) {
+		return lessThan((double) value);
+	}
+	
+	public boolean lessThan(DataItem value) {
+		if (value.getType() == StorageType.Integer) {
+			return lessThan(value.getIntegerValue());
+		} else if (value.getType() == StorageType.Double) {
+			return lessThan(value.getDoubleValue());
+		}
+		return false;
+	}
+	
+	public boolean equal(int value) {
+		return equal((double) value);
+	}
+	
+	public boolean equal(double value) {
+		if (this.type == StorageType.Integer) {
+			return this.intValue == value;
+		} else if (this.type == StorageType.Double) {
+			return this.doubleValue == value;
+		}
+		return false;
+	}
+
+	public boolean equal(float value) {
+		return equal((double) value);
+	}
+	
+	public boolean equal(DataItem value) {
+		if (value.getType() == StorageType.Integer) {
+			return equal(value.getIntegerValue());
+		} else if (value.getType() == StorageType.Double) {
+			return equal(value.getDoubleValue());
+		}
+		return false;
+	}
+	
+	//
+	public boolean greaterThan(int value) {
+		return greaterThan((double) value);
+	}
+	
+	public boolean greaterThan(double value) {
+		if (this.type == StorageType.Integer) {
+			return this.intValue > value;
+		} else if (this.type == StorageType.Double) {
+			return this.doubleValue > value;
+		}
+		return false;
+	}
+
+	public boolean greaterThan(float value) {
+		return greaterThan((double) value);
+	}
+	
+	public boolean greaterThan(DataItem value) {
+		if (value.getType() == StorageType.Integer) {
+			return greaterThan(value.getIntegerValue());
+		} else if (value.getType() == StorageType.Double) {
+			return greaterThan(value.getDoubleValue());
+		}
+		return false;
+	}
+	
 	@Override
 	public String toString() {
 		return getValueConvertedToString();
@@ -470,6 +593,8 @@ public class DataItem {
 			newDataItem = new DataItem(this.doubleValue.doubleValue());
 		} else if (this.type == StorageType.Date) {
 			newDataItem = new DataItem(this.dateValue);
+		} else if (this.type == StorageType.Boolean) {
+			newDataItem = new DataItem(this.booleanValue);
 		} else {
 			newDataItem = new DataItem();
 		}
