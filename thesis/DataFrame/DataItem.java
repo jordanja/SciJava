@@ -249,6 +249,67 @@ public class DataItem {
 		} else
 			return null;
 	}
+	
+	public void add(int value) {
+		if (this.type == StorageType.Integer) {
+			this.intValue += value;
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue += value;
+		}
+	}
+	
+	public void add(double value) {
+		if (this.type == StorageType.Integer) {
+			this.doubleValue = (double) (this.intValue + value);
+			this.intValue = 0;
+			this.type = StorageType.Double;
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue += value;
+		}
+	}
+
+	public void add(float value) {
+		add((double) value);
+	}
+	
+	public void add(DataItem value) {
+		if (value.getType() == StorageType.Integer) {
+			add(value.getIntegerValue());
+		} else if (value.getType() == StorageType.Double) {
+			add(value.getDoubleValue());
+		}
+	}
+	
+//
+	public void subtract(int value) {
+		if (this.type == StorageType.Integer) {
+			this.intValue -= value;
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue -= value;
+		}
+	}
+	
+	public void subtract(double value) {
+		if (this.type == StorageType.Integer) {
+			this.doubleValue = (double) (this.intValue - value);
+			this.intValue = 0;
+			this.type = StorageType.Double;
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue -= value;
+		}
+	}
+
+	public void subtract(float value) {
+		subtract((double) value);
+	}
+	
+	public void subtract(DataItem value) {
+		if (value.getType() == StorageType.Integer) {
+			subtract(value.getIntegerValue());
+		} else if (value.getType() == StorageType.Double) {
+			subtract(value.getDoubleValue());
+		}
+	}
 
 	@Override
 	public String toString() {

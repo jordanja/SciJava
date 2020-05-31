@@ -643,8 +643,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	
-	
-	
 	// -------------------------
 	// ------ Get Columns ------
 	// -------------------------
@@ -1114,6 +1112,103 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getRowsAsDataFrame(this.rowNames.size() - number, this.rowNames.size() - 1);
 	}
 
+	// ------------------------------
+	// ------ Math Operations ------
+	// ------------------------------
+	public DataFrame add(DataFrame df) {
+		if (this.sameShape(df)) {
+			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
+					this.getValue(colCount, rowCount).add(df.getValue(colCount, rowCount));
+				}	
+			}
+		}
+		
+		return this;
+	}
+	
+	public DataFrame add(DataItem value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).add(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame add(int value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).add(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame add(double value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).add(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame add(float value) {
+		return this.add((double) value);
+	}
+	
+	
+	public DataFrame subtract(DataFrame df) {
+		if (this.sameShape(df)) {
+			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
+					this.getValue(colCount, rowCount).subtract(df.getValue(colCount, rowCount));
+				}	
+			}
+		}
+		
+		return this;
+	}
+	
+	public DataFrame subtract(DataItem value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).subtract(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame subtract(int value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).subtract(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame subtract(double value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).subtract(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame subtract(float value) {
+		return this.subtract((double) value);
+	}
+	
+	
+	
+	
+	public boolean sameShape(DataFrame df) {
+		return ((this.getNumCols() == df.getNumCols()) && (this.getNumRows() == df.getNumRows())); 
+	}
+	
 	// Fix duplication of error checks
 	public void setValue(int colNum, int rowNum, Object value, StorageType type) {
 		if (colNum >= this.columnNames.size()) {
@@ -1200,6 +1295,27 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public ArrayList<ArrayList<DataItem>> getData() {
 		return this.data;
 	}
+	
+	public DataItem[][] getDataAs2DDataItemArray() {
+		return getColumnsAs2DDataItemArray(0, this.getNumCols() - 1);
+	}
+	
+	public String[][] getDataAs2DStringArray() {
+		return getColumnsAs2DStringArray(0, this.getNumCols() - 1);
+	}
+	
+	public int[][] getDataAs2DIntArray() {
+		return getColumnsAs2DIntArray(0, this.getNumCols() - 1);
+	}
+	
+	public double[][] getDataAs2DDoubleArray() {
+		return getColumnsAs2DDoubleArray(0, this.getNumCols() - 1);
+	}
+	
+	public LocalDate[][] getDataAs2DDateArray() {
+		return getColumnsAs2DDateArray(0, this.getNumCols() - 1);
+	}
+	
 
 	public int getNumRows() {
 		return this.rowNames.size();

@@ -209,6 +209,32 @@ public class CommonArray {
 			System.out.println(i + ": " + arr[i]);
 		}
 	}
+	
+	public static void print2DArray(Object[][] arr) {
+		for (int outerCount = 0; outerCount < arr.length; outerCount++) {
+			for (int innerCount = 0; innerCount < arr[outerCount].length; innerCount++) {
+				System.out.print(arr[outerCount][innerCount]);
+				if (innerCount < arr[outerCount].length - 1) {
+					System.out.print(", ");
+				}
+			}
+			System.out.println("");
+		}
+		
+	}
+	
+	public static void print2DArray(int[][] arr) {
+		for (int outerCount = 0; outerCount < arr.length; outerCount++) {
+			for (int innerCount = 0; innerCount < arr[outerCount].length; innerCount++) {
+				System.out.print(arr[outerCount][innerCount]);
+				if (innerCount < arr[outerCount].length - 1) {
+					System.out.print(", ");
+				}
+			}
+			System.out.println("");
+		}
+		
+	}
 
 	public static String[] getAllValuesOfKey(Map<String, Object>[] listOfMaps, String key) {
 		String[] list = new String[listOfMaps.length];

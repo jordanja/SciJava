@@ -489,9 +489,9 @@ public class Main {
 		
 		df.setRowNames(new String[] {"row_one", "row_two", "row_three", "row_four", "row_five"});
 		
-		DataFrame newDF = df.head(3);
-		System.out.println(newDF);
+		System.out.println(df);
 		
+		System.out.println(df.subtract(3));
 		
 		
 		return df;
