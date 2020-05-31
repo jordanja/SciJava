@@ -372,7 +372,6 @@ public class DataItem {
 		}
 	}
 	
-	//
 	public int mod(int value, int modulo) {
 		return value % modulo;
 	}
@@ -381,14 +380,43 @@ public class DataItem {
 			this.intValue = mod(this.intValue, modulo);
 		} else if (this.type == StorageType.Double) {
 			this.intValue = this.doubleValue.intValue();
-			
 		}
 	}
 	
 	public void mod(DataItem modulo) {
 		mod(modulo.getValueConvertedToInt());
 	}
+	
+	public void power(int value) {
+		if (this.type == StorageType.Integer) {
+			this.intValue = (int)Math.pow(this.intValue, value);
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue = Math.pow(this.getDoubleValue(), value);
+		}
+	}
+	
+	public void power(double value) {
+		if (this.type == StorageType.Integer) {
+			this.doubleValue = Math.pow(this.intValue, value);
+			this.intValue = 0;
+			this.type = StorageType.Double;
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue = Math.pow(this.doubleValue, value);
+		}
+	}
 
+	public void power(float value) {
+		power((double) value);
+	}
+	
+	public void power(DataItem value) {
+		if (value.getType() == StorageType.Integer) {
+			power(value.getIntegerValue());
+		} else if (value.getType() == StorageType.Double) {
+			power(value.getDoubleValue());
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return getValueConvertedToString();

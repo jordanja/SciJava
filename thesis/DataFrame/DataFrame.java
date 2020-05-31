@@ -1319,6 +1319,49 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this;
 	}
 	
+	public DataFrame power(DataFrame df) {
+		if (this.sameShape(df)) {
+			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
+					this.getValue(colCount, rowCount).power(df.getValue(colCount, rowCount));
+				}	
+			}
+		}
+		return this;
+	}
+
+	public DataFrame power(DataItem value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).power(value);
+			}	
+		}
+		return this;
+	}
+
+	public DataFrame power(int value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).power(value);
+			}	
+		}
+		return this;
+	}
+
+	public DataFrame power(double value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).power(value);
+			}	
+		}
+		return this;
+	}
+
+	public DataFrame power(float value) {
+		return this.divide((double) value);
+	}
+
+	
 	
 	public boolean sameShape(DataFrame df) {
 		return ((this.getNumCols() == df.getNumCols()) && (this.getNumRows() == df.getNumRows())); 

@@ -490,8 +490,9 @@ public class Main {
 		df.setRowNames(new String[] {"row_one", "row_two", "row_three", "row_four", "row_five"});
 		
 		System.out.println(df);
-		
-		System.out.println(df.subtract(3));
+//		DataFrame newDF = df.clone();
+//		newDF.transpose();
+		System.out.println(df.power(2));
 		
 		
 		return df;
