@@ -1246,6 +1246,78 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.multiply((double) value);
 	}
 	
+	public DataFrame divide(DataFrame df) {
+		if (this.sameShape(df)) {
+			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
+					this.getValue(colCount, rowCount).divide(df.getValue(colCount, rowCount));
+				}	
+			}
+		}
+		
+		return this;
+	}
+	
+	public DataFrame divide(DataItem value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).divide(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame divide(int value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).divide(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame divide(double value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).divide(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame divide(float value) {
+		return this.divide((double) value);
+	}
+	
+	public DataFrame mod(DataFrame df) {
+		if (this.sameShape(df)) {
+			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
+					this.getValue(colCount, rowCount).mod(df.getValue(colCount, rowCount));
+				}	
+			}
+		}
+		
+		return this;
+	}
+	
+	public DataFrame mod(DataItem value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).mod(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame mod(int value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).mod(value);
+			}	
+		}
+		return this;
+	}
 	
 	
 	public boolean sameShape(DataFrame df) {

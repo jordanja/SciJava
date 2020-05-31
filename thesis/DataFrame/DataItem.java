@@ -340,6 +340,54 @@ public class DataItem {
 			multiply(value.getDoubleValue());
 		}
 	}
+	
+	
+	public void divide(int value) {
+		if (this.type == StorageType.Integer) {
+			this.intValue /= value;
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue /= value;
+		}
+	}
+	
+	public void divide(double value) {
+		if (this.type == StorageType.Integer) {
+			this.doubleValue = (double) (this.intValue / value);
+			this.intValue = 0;
+			this.type = StorageType.Double;
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue /= value;
+		}
+	}
+
+	public void divide(float value) {
+		divide((double) value);
+	}
+	
+	public void divide(DataItem value) {
+		if (value.getType() == StorageType.Integer) {
+			divide(value.getIntegerValue());
+		} else if (value.getType() == StorageType.Double) {
+			divide(value.getDoubleValue());
+		}
+	}
+	
+	//
+	public int mod(int value, int modulo) {
+		return value % modulo;
+	}
+	public void mod(int modulo) {
+		if (this.type == StorageType.Integer) {
+			this.intValue = mod(this.intValue, modulo);
+		} else if (this.type == StorageType.Double) {
+			this.intValue = this.doubleValue.intValue();
+			
+		}
+	}
+	
+	public void mod(DataItem modulo) {
+		mod(modulo.getValueConvertedToInt());
+	}
 
 	@Override
 	public String toString() {
@@ -351,11 +399,11 @@ public class DataItem {
 		DataItem newDataItem;
 		
 		if (this.type == StorageType.String) {
-			newDataItem = new DataItem(this.strValue);
+			newDataItem = new DataItem(this.strValue.toString());
 		} else if (this.type == StorageType.Integer) {
-			newDataItem = new DataItem(this.intValue);
+			newDataItem = new DataItem(this.intValue.intValue());
 		} else if (this.type == StorageType.Double) {
-			newDataItem = new DataItem(this.doubleValue);
+			newDataItem = new DataItem(this.doubleValue.doubleValue());
 		} else if (this.type == StorageType.Date) {
 			newDataItem = new DataItem(this.dateValue);
 		} else {
