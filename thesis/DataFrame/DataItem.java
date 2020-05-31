@@ -280,7 +280,7 @@ public class DataItem {
 		}
 	}
 	
-//
+
 	public void subtract(int value) {
 		if (this.type == StorageType.Integer) {
 			this.intValue -= value;
@@ -308,6 +308,36 @@ public class DataItem {
 			subtract(value.getIntegerValue());
 		} else if (value.getType() == StorageType.Double) {
 			subtract(value.getDoubleValue());
+		}
+	}
+	
+	public void multiply(int value) {
+		if (this.type == StorageType.Integer) {
+			this.intValue *= value;
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue *= value;
+		}
+	}
+	
+	public void multiply(double value) {
+		if (this.type == StorageType.Integer) {
+			this.doubleValue = (double) (this.intValue * value);
+			this.intValue = 0;
+			this.type = StorageType.Double;
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue *= value;
+		}
+	}
+
+	public void multiply(float value) {
+		multiply((double) value);
+	}
+	
+	public void multiply(DataItem value) {
+		if (value.getType() == StorageType.Integer) {
+			multiply(value.getIntegerValue());
+		} else if (value.getType() == StorageType.Double) {
+			multiply(value.getDoubleValue());
 		}
 	}
 

@@ -1203,6 +1203,49 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	
+	public DataFrame multiply(DataFrame df) {
+		if (this.sameShape(df)) {
+			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
+					this.getValue(colCount, rowCount).multiply(df.getValue(colCount, rowCount));
+				}	
+			}
+		}
+		
+		return this;
+	}
+	
+	public DataFrame multiply(DataItem value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).multiply(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame multiply(int value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).multiply(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame multiply(double value) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).multiply(value);
+			}	
+		}
+		return this;
+	}
+	
+	public DataFrame multiply(float value) {
+		return this.multiply((double) value);
+	}
+	
 	
 	
 	public boolean sameShape(DataFrame df) {
