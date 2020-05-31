@@ -466,35 +466,36 @@ public class Main {
 		arr1.add(1);
 		arr1.add(2);
 		arr1.add(3);
+		arr1.add(4);
+		arr1.add(5);
 
 
-		map.put("one", arr1);
+		map.put("col_one", arr1);
 		
 
 		DataFrame df = new DataFrame(map);
 
-		Integer[] newCol = new Integer[] { 100, 200, 300 };
-		df.insertColumn(1, "newCol", newCol);
+		Integer[] newCol = new Integer[] { 6, 7, 8, 9, 10 };
+		df.appendColumn("col_two", newCol);
 		
-		Integer[] newCol2 = new Integer[] { 1000, 2000, 3000 };
-		df.insertColumn(2, newCol2);
+		Integer[] newCol2 = new Integer[] { 11, 12, 13, 14, 14 };
+		df.appendColumn("col_three", newCol2);
 		
-		HashMap<String, Object> colMap = new HashMap<String, Object>();
-		colMap.put("one", 123);
-		colMap.put("1", 456);
-		colMap.put("newCol", 789);
+		Integer[] newCol3 = new Integer[] { 15, 16, 17, 18, 19 };
+		df.appendColumn("col_four", newCol3);
 		
+		Double[] newCol4 = new Double[] { 20.1, 21.2, 22.3, 23.4, 24.5 };
+		df.appendColumn("col_five", newCol4);
 		
+		df.setRowNames(new String[] {"row_one", "row_two", "row_three", "row_four", "row_five"});
 		
-		df.insertRow(1, "blah", colMap);
+		System.out.println(df);
+//		DataFrame newDF = df.clone();
+//		newDF.transpose();
+		DataFrame newDF = df.clone().add(-2);
 		
-		ArrayList<String> colNames = new ArrayList<String>();
-		colNames.add("one");
-		colNames.add("1");
+		System.out.println(df.elementwiseNotEqual(newDF));
 		
-		DataFrame newDF = df.getColumnsAsDataFrame(colNames);
-		System.out.println(newDF);
-
 		return df;
 	}
 
