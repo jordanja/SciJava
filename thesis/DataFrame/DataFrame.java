@@ -373,9 +373,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public void insertColumn(int index, String columnName, Object[] column) {
-		
 		insertColumn(index, columnName, new ArrayList<Object>(Arrays.asList(column)));
-		
 	}
 	
 	public void insertColumn(int index, ArrayList<Object> column) {
@@ -2510,7 +2508,34 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return nullDF;
 	}
 	
+	private boolean lessThan(String str1, String str2) {
+		return (str1.compareToIgnoreCase(str2) < 0);
+	}
 	
+	public void sortColumnsAlphabetically(boolean ascending) {
+		sortColumnsAlphabetically(ascending, 0, this.getNumCols());
+	}
+	
+	public void sortColumnsAlphabetically(boolean ascending, int lowerBound, int upperBound) {
+//		int innerCounter;
+//	    for (int outerCounter = lowerBound; outerCounter < upperBound; outerCounter++) {
+//	        String savedColumnName = this.columnNames.get(outerCounter);
+//	        DataItem[] savedColumn = this.getColumnAsDataItemArray(outerCounter);
+//	        for(innerCounter = outerCounter; innerCounter > 0 && (ascending ? lessThan(savedColumnName,this.columnNames.get(innerCounter-1)) : !lessThan(savedColumnName,this.columnNames.get(innerCounter-1))); innerCounter--) {
+//	        	this.columnNames.set(innerCounter, this.columnNames.get(innerCounter - 1));
+//	        }
+//	        this.columnNames.set(innerCounter, savedColumnName);
+//	    }
+	    
+	}
+	
+	public void sortRowsAlphabetically(boolean ascending) {
+		
+	}
+	
+	public void sortRowsAlphabetically(boolean ascending, int lowerBound, int upperBound) {
+		
+	}
 
 	public void transpose() {
 		ArrayList<ArrayList<DataItem>> transpose = new ArrayList<ArrayList<DataItem>>();

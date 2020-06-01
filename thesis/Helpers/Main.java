@@ -459,22 +459,34 @@ public class Main {
 	}
 	
 	public static DataFrame play() {
-//		ArrayList<String> columnNames = new ArrayList<String>();
-//		columnNames.add("col_one");
-//		columnNames.add("col_two");
-//		columnNames.add("col_three");
-//		
-//		ArrayList<String> rowNames = new ArrayList<String>();
-//		rowNames.add("row_one");
-//		rowNames.add("row_two");
-//		rowNames.add("row_three");
-//		rowNames.add("row_four");
-//		rowNames.add("row_five");
+		ArrayList<String> columnNames = new ArrayList<String>();
+		columnNames.add("col_f");
+		columnNames.add("col_r");
+		columnNames.add("col_n");
+		columnNames.add("col_w");
+		columnNames.add("col_S");
+		columnNames.add("col_z");
+		columnNames.add("col_A");
+		columnNames.add("col_m");
+		columnNames.add("col_l");
+		columnNames.add("col_t");
 		
-		
-		DataFrame df = new DataFrame(4, 15, Integer.class);
+		ArrayList<String> rowNames = new ArrayList<String>();
+		rowNames.add("row_one");
+		rowNames.add("row_two");
+		rowNames.add("row_three");
+		rowNames.add("row_four");
+		rowNames.add("row_five");
+		rowNames.add("row_six");
+		rowNames.add("row_seven");
+		rowNames.add("row_eight");
+		rowNames.add("row_nine");
+		rowNames.add("row_ten");
+	
+		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
+		System.out.println("origonal");
 		System.out.println(df);
-		df.addSuffixToRowNames(2, 6, "_hello");
+		df.sortColumnsAlphabetically(false);
 		
 		return df;
 	}
