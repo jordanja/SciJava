@@ -13,6 +13,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BarChartAxis;
@@ -483,10 +485,13 @@ public class Main {
 		rowNames.add("row_nine");
 		rowNames.add("row_ten");
 	
-		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
-		System.out.println("origonal");
+		DataFrame df = new DataFrame(3, 3, LocalDate.now());
+		System.out.println("origonal:");
 		System.out.println(df);
-		df.sortColumnsAlphabetically(false);
+		
+		System.out.println("new:");
+		System.out.println(df.differentDate(LocalDate.now()));
+		
 		
 		return df;
 	}

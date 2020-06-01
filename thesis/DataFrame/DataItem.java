@@ -1,6 +1,7 @@
 package thesis.DataFrame;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 import thesis.Common.CommonMath;
 
@@ -43,6 +44,15 @@ public class DataItem {
 		initialize(typeOfObject, value);
 	}
 
+	public DataItem(DataItem item) {
+		this.type = item.getType();
+		this.intValue = item.getIntegerValue();
+		this.doubleValue = item.getDoubleValue();
+		this.strValue = item.getStringValue();
+		this.dateValue = item.getDateValue();
+		this.booleanValue = item.getBooleanValue();
+	}
+	
 	// String Value
 	public DataItem(String value) {
 		this.strValue = value;
@@ -304,6 +314,12 @@ public class DataItem {
 		}
 	}
 	
+	public void add(Period timePeriod) {
+		if (this.type == StorageType.Date) {
+			this.dateValue = this.dateValue.plus(timePeriod);
+		}
+	}
+	
 	public void add(double value) {
 		if (this.type == StorageType.Integer) {
 			this.doubleValue = (double) (this.intValue + value);
@@ -347,6 +363,12 @@ public class DataItem {
 
 	public void subtract(float value) {
 		subtract((double) value);
+	}
+	
+	public void subtract(Period timePeriod) {
+		if (this.type == StorageType.Date) {
+			this.dateValue = this.dateValue.minus(timePeriod);
+		}
 	}
 	
 	public void subtract(DataItem value) {
@@ -525,6 +547,15 @@ public class DataItem {
 		return false;
 	}
 	
+	public boolean before(LocalDate date) {
+		if (this.type == StorageType.Date) {
+			return this.dateValue.isBefore(date);
+		} 
+		return false;
+	}
+	
+	
+	
 	public boolean equal(int value) {
 		return equal((double) value);
 	}
@@ -551,7 +582,13 @@ public class DataItem {
 		return false;
 	}
 	
-	//
+	public boolean sameDate(LocalDate date) {
+		if (this.type == StorageType.Date) {
+			return this.dateValue.equals(date);
+		} 
+		return false;
+	}
+	
 	public boolean greaterThan(int value) {
 		return greaterThan((double) value);
 	}
@@ -575,6 +612,13 @@ public class DataItem {
 		} else if (value.getType() == StorageType.Double) {
 			return greaterThan(value.getDoubleValue());
 		}
+		return false;
+	}
+	
+	public boolean after(LocalDate date) {
+		if (this.type == StorageType.Date) {
+			return this.dateValue.isAfter(date);
+		} 
 		return false;
 	}
 	
