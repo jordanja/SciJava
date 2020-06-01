@@ -459,42 +459,34 @@ public class Main {
 	}
 	
 	public static DataFrame play() {
-
-		HashMap<String, ArrayList<Object>> map = new HashMap<String, ArrayList<Object>>();
-
-		ArrayList<Object> arr1 = new ArrayList<Object>();
-		arr1.add(1);
-		arr1.add(2);
-		arr1.add(3);
-		arr1.add(4);
-		arr1.add(5);
-
-
-		map.put("col_one", arr1);
+		ArrayList<String> columnNames = new ArrayList<String>();
+		columnNames.add("col_f");
+		columnNames.add("col_r");
+		columnNames.add("col_n");
+		columnNames.add("col_w");
+		columnNames.add("col_S");
+		columnNames.add("col_z");
+		columnNames.add("col_A");
+		columnNames.add("col_m");
+		columnNames.add("col_l");
+		columnNames.add("col_t");
 		
-
-		DataFrame df = new DataFrame(map);
-
-		Integer[] newCol = new Integer[] { 6, 7, 8, 9, 10 };
-		df.appendColumn("col_two", newCol);
-		
-		Integer[] newCol2 = new Integer[] { 11, 12, 13, 14, 14 };
-		df.appendColumn("col_three", newCol2);
-		
-		Integer[] newCol3 = new Integer[] { 15, 16, 17, 18, 19 };
-		df.appendColumn("col_four", newCol3);
-		
-		Double[] newCol4 = new Double[] { 20.1, 21.2, 22.3, 23.4, 24.5 };
-		df.appendColumn("col_five", newCol4);
-		
-		df.setRowNames(new String[] {"row_one", "row_two", "row_three", "row_four", "row_five"});
-		
+		ArrayList<String> rowNames = new ArrayList<String>();
+		rowNames.add("row_one");
+		rowNames.add("row_two");
+		rowNames.add("row_three");
+		rowNames.add("row_four");
+		rowNames.add("row_five");
+		rowNames.add("row_six");
+		rowNames.add("row_seven");
+		rowNames.add("row_eight");
+		rowNames.add("row_nine");
+		rowNames.add("row_ten");
+	
+		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
+		System.out.println("origonal");
 		System.out.println(df);
-//		DataFrame newDF = df.clone();
-//		newDF.transpose();
-		DataFrame newDF = df.clone().add(-2);
-		
-		System.out.println(df.elementwiseNotEqual(newDF));
+		df.sortColumnsAlphabetically(false);
 		
 		return df;
 	}

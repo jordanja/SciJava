@@ -2,6 +2,8 @@ package thesis.DataFrame;
 
 import java.time.LocalDate;
 
+import thesis.Common.CommonMath;
+
 
 public class DataItem {
 	private String strValue;
@@ -579,6 +581,28 @@ public class DataItem {
 	public void flip() {
 		if (this.type == StorageType.Boolean) {
 			this.booleanValue = !this.booleanValue;
+		}
+	}
+	
+	public void clamp(int lowerBound, int upperBound) {
+		if (this.type == StorageType.Integer) {
+			this.intValue = CommonMath.clamp(this.intValue, lowerBound, upperBound);
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue = CommonMath.clamp(this.doubleValue, (double) lowerBound, (double) upperBound);
+		}
+	}
+	
+	public void clamp(double lowerBound, double upperBound) {
+		if (this.type == StorageType.Integer) {
+			this.intValue = CommonMath.clamp(this.intValue, (int)lowerBound, (int)upperBound);
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue = CommonMath.clamp(this.doubleValue,lowerBound, upperBound);
+		}
+	}
+	
+	public void clamp(LocalDate lowerBound, LocalDate upperBound) {
+		if (this.type == StorageType.Date) {
+			this.dateValue = CommonMath.clamp(this.dateValue, lowerBound, upperBound);
 		}
 	}
 	

@@ -4,14 +4,19 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 import thesis.Common.CommonArray;
+import thesis.Common.CommonMath;
 import thesis.DataFrame.DataItem.StorageType;
 
 public class DataFrame implements Iterable<ArrayList<DataItem>> {
@@ -35,6 +40,61 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		this.rowNames = new ArrayList<String>();
 	}
 
+	// Create a DF with specified value
+	public DataFrame(int numColumns, int numRows, Object fill) {
+		this.columnNames = CommonArray.generateIncreasingSequence(numColumns);
+		this.rowNames = CommonArray.generateIncreasingSequence(numRows);
+		this.data = new ArrayList<ArrayList<DataItem>>();
+		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
+			ArrayList<DataItem> column = new ArrayList<DataItem>();
+			for (int rowCount = 0; rowCount < numRows; rowCount++) {
+				DataItem item = new DataItem(fill);
+				column.add(item);
+			}
+			this.data.add(column);
+		}
+	}
+	
+	// Create a DF with random values
+	public DataFrame(int numColumns, int numRows, Class<?> cls) {
+		this(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), cls);
+	}
+	
+	public DataFrame(ArrayList<String> columnNames, ArrayList<String> rowNames, Class<?> cls) {
+		this.columnNames = columnNames;
+		this.rowNames = rowNames;
+		this.data = new ArrayList<ArrayList<DataItem>>();
+		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
+			ArrayList<DataItem> column = new ArrayList<DataItem>();
+			for (int rowCount = 0; rowCount < rowNames.size(); rowCount++) {
+				Object fill;
+				if (cls == String.class) {
+					fill = CommonArray.randomString(5);
+				} else if (cls == Integer.class) {
+					fill = ThreadLocalRandom.current().nextInt(-10, 11);
+				} else if (cls == Double.class) {
+					Double doubleValue = ThreadLocalRandom.current().nextDouble(-10, 10);
+					DecimalFormat df = new DecimalFormat("#.####");
+					df.setRoundingMode(RoundingMode.CEILING);
+					fill = Double.parseDouble(df.format(doubleValue));
+				} else if (cls == Boolean.class) {
+					fill = ThreadLocalRandom.current().nextBoolean();
+				} else if (cls == LocalDate.class) {
+					// credit for this logic https://stackoverflow.com/a/34051525/6122201
+					long minDay = LocalDate.of(1970, 1, 1).toEpochDay();
+				    long maxDay = LocalDate.of(2030, 12, 31).toEpochDay();
+				    long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+				    fill = LocalDate.ofEpochDay(randomDay);
+				} else {
+					fill = null;
+				}
+				DataItem item = new DataItem(fill);
+				column.add(item);
+			}
+			this.data.add(column);
+		}
+	}
+	
 	// Create an empty DF with rows and columns and null values
 	public DataFrame(ArrayList<String> colNames, ArrayList<String> rowNames) {
 		this();
@@ -313,9 +373,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public void insertColumn(int index, String columnName, Object[] column) {
-		
 		insertColumn(index, columnName, new ArrayList<Object>(Arrays.asList(column)));
-		
 	}
 	
 	public void insertColumn(int index, ArrayList<Object> column) {
@@ -639,6 +697,34 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
+	// ---------------------
+	// ------ Getters ------
+	// ---------------------
+	
+	public DataItem[][] getDataAs2DDataItemArray() {
+		return getColumnsAs2DDataItemArray(0, this.getNumCols() - 1);
+	}
+	
+	public String[][] getDataAs2DStringArray() {
+		return getColumnsAs2DStringArray(0, this.getNumCols() - 1);
+	}
+	
+	public int[][] getDataAs2DIntArray() {
+		return getColumnsAs2DIntArray(0, this.getNumCols() - 1);
+	}
+	
+	public double[][] getDataAs2DDoubleArray() {
+		return getColumnsAs2DDoubleArray(0, this.getNumCols() - 1);
+	}
+	
+	public LocalDate[][] getDataAs2DDateArray() {
+		return getColumnsAs2DDateArray(0, this.getNumCols() - 1);
+	}
+	
+	public boolean[][] getDataAs2DBooleanArray() {
+		return getColumnsAs2DBooleanArray(0, this.getNumCols() - 1);
+	}
+	
 	
 	// -------------------------
 	// ------ Get Columns ------
@@ -707,6 +793,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getColumnAsDateArray(index);
 	}
 
+	public boolean[] getColumnAsBooleanArray(int index) {
+		boolean[] column = new boolean[this.rowNames.size()];
+		for (int i = 0; i < column.length; i++) {
+			column[i] = this.data.get(index).get(i).getBooleanValue();
+		}
+		return column;
+	}
+	
+	public boolean[] getColumnAsBooleanArray(String name) {
+		int index = this.columnNames.indexOf(name);
+		return getColumnAsBooleanArray(index);
+	}
+	
 	public DataItem[][] getColumnsAs2DDataItemArray(int[] indices){
 		DataItem[][] columns = new DataItem[indices.length][this.rowNames.size()];
 		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
@@ -798,6 +897,31 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
 		return getColumnsAs2DDoubleArray(indicesToGet);
 	}
+	
+	public boolean[][] getColumnsAs2DBooleanArray(int[] indices) {
+		boolean[][] columns = new boolean[indices.length][this.rowNames.size()];
+		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
+			columns[columnCount] = getColumnAsBooleanArray(indices[columnCount]);
+		}
+		
+		return columns;
+	}
+	
+	public boolean[][] getColumnsAs2DBooleanArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return getColumnsAs2DBooleanArray(indices);
+	}
+	
+	public boolean[][] getColumnsAs2DBooleanArray(ArrayList<String> names) {
+		return getColumnsAs2DBooleanArray(names.toArray(new String[0]));
+	}
+	
+	
+	public boolean[][] getColumnsAs2DBooleanArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DBooleanArray(indicesToGet);
+	}
+	
 	
 	public LocalDate[][] getColumnsAs2DDateArray(int[] indices) {
 		LocalDate[][] columns = new LocalDate[indices.length][this.rowNames.size()];
@@ -935,6 +1059,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getRowAsDateArray(index);
 	}
 
+	public boolean[] getRowAsBooleanArray(int index) {
+		boolean[] row = new boolean[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getBooleanValue();
+		}
+		return row;
+	}
+
+	public boolean[] getRowAsBooleanArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsBooleanArray(index);
+	}
+	
 	public DataItem[][] getRowsAs2DDataItemArray(int[] indices) {
 		DataItem[][] rows = new DataItem[indices.length][this.columnNames.size()];
 		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
@@ -1029,6 +1166,28 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getRowsAs2DDoubleArray(indicesToGet);
 	}
 	
+	public boolean[][] getRowsAs2DBooleanArray(int[] indices) {
+		boolean[][] rows = new boolean[indices.length][this.columnNames.size()];
+		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
+			rows[rowCount] = getRowAsBooleanArray(indices[rowCount]);
+		}
+		
+		return rows;
+	}
+	
+	public boolean[][] getRowsAs2DBooleanArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return getRowsAs2DBooleanArray(indices);
+	}
+	
+	public boolean[][] getRowsAs2DBooleanArray(ArrayList<String> names) {
+		return getRowsAs2DBooleanArray(names.toArray(new String[0]));
+	}
+	
+	public boolean[][] getRowsAs2DBooleanArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getRowsAs2DBooleanArray(indicesToGet);
+	}
 
 	public LocalDate[][] getRowsAs2DDateArray(int[] indices) {
 		LocalDate[][] rows = new LocalDate[indices.length][this.columnNames.size()];
@@ -1093,6 +1252,13 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getRowsAsDataFrame(indicesToGet);
 	}
 	
+	public DataFrame first() {
+		return head(1);
+	}
+	public DataFrame last()	{
+		return tail(1);
+	}
+	
 	public DataFrame head() {
 		return head(5);
 	}
@@ -1109,9 +1275,9 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getRowsAsDataFrame(this.rowNames.size() - number, this.rowNames.size() - 1);
 	}
 
-	// ------------------------------
+	// -----------------------------
 	// ------ Math Operations ------
-	// ------------------------------
+	// -----------------------------
 	public DataFrame add(DataFrame df) {
 		if (this.sameShape(df)) {
 			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
@@ -1629,6 +1795,562 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return elementwiseEqual(value).negate();
 	}
 	
+	// ------ Absolute Value ------ 
+	public DataFrame absoluteValue() {
+		return absoluteValueColumns(0, this.getNumCols() - 1);
+	}
+	
+	public DataFrame absoluteValueColumn(int index) {
+		DataItem[] column = this.getColumnAsDataItemArray(index);
+		for (int rowNum = 0; rowNum < column.length; rowNum++) {
+			if (column[rowNum].getValueConvertedToDouble() < 0) {
+				column[rowNum].multiply(-1);
+			}
+		}
+		return this;
+	}
+	
+	public DataFrame absoluteValueColumn(String name) {
+		int index = this.columnNames.indexOf(name);
+		return absoluteValueColumn(index);
+	}
+	
+	public DataFrame absoluteValueColumns(int[] indices) {
+		for (int colCount = 0; colCount < indices.length; colCount++) {
+			absoluteValueColumn(indices[colCount]);
+		}
+		return this;
+	}
+	
+	public DataFrame absoluteValueColumns(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return absoluteValueColumns(indices);
+	}
+	
+	public DataFrame absoluteValueColumns(ArrayList<String> names) {
+		return absoluteValueColumns(names.toArray(new String[0]));
+	}
+	
+	public DataFrame absoluteValueColumns(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return absoluteValueColumns(indicesToGet);
+	}
+	
+	public DataFrame absoluteValueRow(int index) {
+		DataItem[] row = this.getRowAsDataItemArray(index);
+		for (int colNum = 0; colNum < row.length; colNum++) {
+			if (row[colNum].getValueConvertedToDouble() < 0) {
+				row[colNum].multiply(-1);
+			}
+		}
+		return this;
+	}
+	
+	public DataFrame absoluteValueRow(String name) {
+		int index = this.rowNames.indexOf(name);
+		return absoluteValueRow(index);
+	}
+	
+	public DataFrame absoluteValueRows(int[] indices) {
+		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
+			absoluteValueRow(indices[rowCount]);
+		}
+		return this;
+	}
+	
+	public DataFrame absoluteValueRows(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return absoluteValueRows(indices);
+	}
+	
+	public DataFrame absoluteValueRows(ArrayList<String> names) {
+		return absoluteValueRows(names.toArray(new String[0]));
+	}
+	
+	public DataFrame absoluteValueRows(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return absoluteValueRows(indicesToGet);
+	}
+	
+	// ------ Clamp ------  
+	public DataFrame clamp(int lowerBound, int upperBound) { 
+		return clamp((double)lowerBound, (double)upperBound);
+	}
+
+	public DataFrame clamp(double lowerBound, double upperBound) { 
+		return clampColumns(0, this.getNumCols() - 1, lowerBound, upperBound);
+	}
+
+	public DataFrame clamp(LocalDate lowerBound, LocalDate upperBound) { 
+		return clampColumns(0, this.getNumCols() - 1, lowerBound, upperBound);
+	}
+
+	public DataFrame clampColumn(int columnIndex, int lowerBound, int upperBound) { 
+		return clampColumn(columnIndex, (double) lowerBound, (double) upperBound);
+	}
+
+	public DataFrame clampColumn(int columnIndex, double lowerBound, double upperBound) { 
+		DataItem[] column = this.getColumnAsDataItemArray(columnIndex);
+		for (int rowIndex = 0; rowIndex < column.length; rowIndex++) {
+			column[rowIndex].clamp(lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampColumn(int columnIndex, LocalDate lowerBound, LocalDate upperBound) { 
+		DataItem[] column = this.getColumnAsDataItemArray(columnIndex);
+		for (int rowIndex = 0; rowIndex < column.length; rowIndex++) {
+			column[rowIndex].clamp(lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampColumn(String columnName, int lowerBound, int upperBound) { 
+		return clampColumn(columnName, (double)lowerBound, (double)upperBound);
+	}
+
+	public DataFrame clampColumn(String columnName, double lowerBound, double upperBound) { 
+		int columnIndex = this.columnNames.indexOf(columnName);
+		return clampColumn(columnIndex, lowerBound, upperBound);
+	}
+
+	public DataFrame clampColumn(String columnName, LocalDate lowerBound, LocalDate upperBound) { 
+		int columnIndex = this.columnNames.indexOf(columnName);
+		return clampColumn(columnIndex, lowerBound, upperBound);
+	}
+
+	public DataFrame clampColumns(int[] columnIndices, int lowerBound, int upperBound) { 
+		return clampColumns(columnIndices, (double)lowerBound,(double) upperBound);
+	}
+
+	public DataFrame clampColumns(int[] columnIndices, double lowerBound, double upperBound) { 
+		for (int colCount = 0; colCount < columnIndices.length; colCount++) {
+			clampColumn(columnIndices[colCount], lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampColumns(int[] columnIndices, LocalDate lowerBound, LocalDate upperBound) { 
+		for (int colCount = 0; colCount < columnIndices.length; colCount++) {
+			clampColumn(columnIndices[colCount], lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampColumns(String[] columnNames, int lowerBound, int upperBound) { 
+		return clampColumns(columnNames, (double)lowerBound, (double)upperBound);
+	}
+
+	public DataFrame clampColumns(String[] columnNames, double lowerBound, double upperBound) { 
+		for (int colCount = 0; colCount < columnNames.length; colCount++) {
+			clampColumn(columnNames[colCount], lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampColumns(String[] columnNames, LocalDate lowerBound, LocalDate upperBound) { 
+		for (int colCount = 0; colCount < columnNames.length; colCount++) {
+			clampColumn(columnNames[colCount], lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampColumns(ArrayList<String> columnNames, int lowerBound, int upperBound) { 
+		return clampColumns(columnNames.toArray(new String[0]), lowerBound, upperBound);
+	}
+
+	public DataFrame clampColumns(ArrayList<String> columnNames, double lowerBound, double upperBound) { 
+		return clampColumns(columnNames.toArray(new String[0]), lowerBound, upperBound);
+	}
+
+	public DataFrame clampColumns(ArrayList<String> columnNames, LocalDate lowerBound, LocalDate upperBound) { 
+		return clampColumns(columnNames.toArray(new String[0]), lowerBound, upperBound);
+	}
+
+	public DataFrame clampColumns(int lowestColumnIndex, int highestColumnIndex, int lowerBound, int upperBound) {
+		return clampColumns(lowestColumnIndex, highestColumnIndex, (double)lowerBound, (double)upperBound);
+	}
+
+	public DataFrame clampColumns(int lowestColumnIndex, int highestColumnIndex, double lowerBound, double upperBound) { 
+		int[] indicesToGet = IntStream.rangeClosed(lowestColumnIndex, highestColumnIndex).toArray();
+		return clampColumns(indicesToGet, lowerBound, upperBound);
+	}
+
+	public DataFrame clampColumns(int lowestColumnIndex, int highestColumnIndex, LocalDate lowerBound, LocalDate upperBound) { 
+		int[] indicesToGet = IntStream.rangeClosed(lowestColumnIndex, highestColumnIndex).toArray();
+		return clampColumns(indicesToGet, lowerBound, upperBound);
+	}
+	
+	public DataFrame clampRow(int rowIndex, int lowerBound, int upperBound) { 
+		return clampRow(rowIndex, (double)lowerBound, (double)upperBound);
+	}
+
+	public DataFrame clampRow(int rowIndex, double lowerBound, double upperBound) { 
+		DataItem[] row = this.getRowAsDataItemArray(rowIndex);
+		for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
+			row[columnIndex].clamp(lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampRow(int rowIndex, LocalDate lowerBound, LocalDate upperBound) { 
+		DataItem[] row = this.getRowAsDataItemArray(rowIndex);
+		for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
+			row[columnIndex].clamp(lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampRow(String rowName, int lowerBound, int upperBound) { 
+		return clampRow(rowName, (double)lowerBound, (double)upperBound);
+	}
+
+	public DataFrame clampRow(String rowName, double lowerBound, double upperBound) { 
+		int rowIndex = this.rowNames.indexOf(rowName);
+		return clampRow(rowIndex, lowerBound, upperBound);
+	}
+
+	public DataFrame clampRow(String rowName, LocalDate lowerBound, LocalDate upperBound) { 
+		int rowIndex = this.rowNames.indexOf(rowName);
+		return clampRow(rowIndex, lowerBound, upperBound);
+	}
+
+	public DataFrame clampRows(int[] rowIndices, int lowerBound, int upperBound) { 
+		return clampRows(rowIndices, (double)lowerBound, (double)upperBound);
+	}
+
+	public DataFrame clampRows(int[] rowIndices, double lowerBound, double upperBound) { 
+		for (int rowCount = 0; rowCount < rowIndices.length; rowCount++) {
+			clampRow(rowIndices[rowCount], lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampRows(int[] rowIndices, LocalDate lowerBound, LocalDate upperBound) { 
+		for (int rowCount = 0; rowCount < rowIndices.length; rowCount++) {
+			clampRow(rowIndices[rowCount], lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampRows(String[] rowNames, int lowerBound, int upperBound) { 
+		return clampRows(rowNames, (double)lowerBound, (double)upperBound);
+	}
+
+	public DataFrame clampRows(String[] rowNames, double lowerBound, double upperBound) { 
+		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
+			clampRow(rowNames[rowCount], lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampRows(String[] rowNames, LocalDate lowerBound, LocalDate upperBound) { 
+		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
+			clampRow(rowNames[rowCount], lowerBound, upperBound);
+		}
+		return this;
+	}
+
+	public DataFrame clampRows(ArrayList<String> rowNames, int lowerBound, int upperBound) { 
+		return clampRows(rowNames.toArray(new String[0]), lowerBound, upperBound);
+	}
+
+	public DataFrame clampRows(ArrayList<String> rowNames, double lowerBound, double upperBound) { 
+		return clampRows(rowNames.toArray(new String[0]), lowerBound, upperBound);
+	}
+
+	public DataFrame clampRows(ArrayList<String> rowNames, LocalDate lowerBound, LocalDate upperBound) { 
+		return clampRows(rowNames.toArray(new String[0]), lowerBound, upperBound);
+	}
+	
+	public DataFrame clampRows(int lowestRowIndex, int highestRowIndex, int lowerBound, int upperBound) { 
+		return clampRows(lowestRowIndex, highestRowIndex, (double)lowerBound, (double)upperBound);
+	}
+
+	public DataFrame clampRows(int lowestRowIndex, int highestRowIndex, double lowerBound, double upperBound) { 
+		int[] indicesToGet = IntStream.rangeClosed(lowestRowIndex, highestRowIndex).toArray();
+		return clampRows(indicesToGet, lowerBound, upperBound);
+	}
+
+	public DataFrame clampRows(int lowestRowIndex, int highestRowIndex, LocalDate lowerBound, LocalDate upperBound) { 
+		int[] indicesToGet = IntStream.rangeClosed(lowestRowIndex, highestRowIndex).toArray();
+		return clampRows(indicesToGet, lowerBound, upperBound);
+	}
+
+	
+	// ------------------------
+	// ------ True/False ------
+	// ------------------------
+	
+	public Boolean allTrue() {
+		return allTrueInColumns(0, this.getNumCols() - 1);
+	}
+	public Boolean allFalse() {
+		return allFalseInColumns(0, this.getNumCols() - 1);
+	}
+	public Boolean anyTrue() {
+		return anyTrueInColumns(0, this.getNumCols() - 1);
+	}
+	public Boolean anyFalse() {
+		return anyFalseInColumns(0, this.getNumCols() - 1);
+	}
+	
+	// ------ All True in Column ------
+	public Boolean allTrueInColumn(int index) {
+		boolean[] column = this.getColumnAsBooleanArray(index);
+		for (int rowNum = 0; rowNum < column.length; rowNum++) {
+			if (!column[rowNum]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public Boolean allTrueInColumn(String name) {
+		int index = this.columnNames.indexOf(name);
+		return allTrueInColumn(index);
+	}
+	
+	public Boolean allTrueInColumns(int[] indices) {
+		for (int indexCount = 0; indexCount < indices.length; indexCount++) {
+			if (!allTrueInColumn(indices[indexCount])) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public Boolean allTrueInColumns(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return allTrueInColumns(indices);
+	}
+	
+	public Boolean allTrueInColumns(ArrayList<String> names) {
+		return allTrueInColumns(names.toArray(new String[0]));
+	}
+	
+	public Boolean allTrueInColumns(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return allTrueInColumns(indicesToGet);
+	}
+	
+	// ------ Any True in Column ------
+	public Boolean anyTrueInColumn(int index) {
+		boolean[] column = this.getColumnAsBooleanArray(index);
+		for (int rowNum = 0; rowNum < column.length; rowNum++) {
+			if (column[rowNum]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Boolean anyTrueInColumn(String name) {
+		int index = this.columnNames.indexOf(name);
+		return anyTrueInColumn(index);
+	}
+	
+	public Boolean anyTrueInColumns(int[] indices) {
+		for (int indexCount = 0; indexCount < indices.length; indexCount++) {
+			if (anyTrueInColumn(indices[indexCount])) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Boolean anyTrueInColumns(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return anyTrueInColumns(indices);
+	}
+	
+	public Boolean anyTrueInColumns(ArrayList<String> names) {
+		return anyTrueInColumns(names.toArray(new String[0]));
+	}
+	
+	public Boolean anyTrueInColumns(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return anyTrueInColumns(indicesToGet);
+	}
+	
+	// ------ All False in Column ------
+	public Boolean allFalseInColumn(int index) {
+		return !anyTrueInColumn(index);
+	}
+	
+	public Boolean allFalseInColumn(String name) {
+		return !anyTrueInColumn(name);
+	}
+	
+	public Boolean allFalseInColumns(int[] indices) {
+		return !anyTrueInColumns(indices);
+	}
+	
+	public Boolean allFalseInColumns(String[] names) {
+		return !anyTrueInColumns(names);
+	}
+	
+	public Boolean allFalseInColumns(ArrayList<String> names) {
+		return !anyTrueInColumns(names);
+	}
+	
+	public Boolean allFalseInColumns(int lowerBound, int upperBound) {
+		return !anyTrueInColumns(lowerBound, upperBound);
+	}
+	
+	// ------ Any False in Column ------
+	public Boolean anyFalseInColumn(int index) {
+		return !allTrueInColumn(index);
+	}
+	
+	public Boolean anyFalseInColumn(String name) {
+		return !allTrueInColumn(name);
+	}
+	
+	public Boolean anyFalseInColumns(int[] indices) {
+		return !allTrueInColumns(indices);
+	}
+	
+	public Boolean anyFalseInColumns(String[] names) {
+		return !allTrueInColumns(names);
+	}
+	
+	public Boolean anyFalseInColumns(ArrayList<String> names) {
+		return !allTrueInColumns(names);
+	}
+	
+	public Boolean anyFalseInColumns(int lowerBound, int upperBound) {
+		return !allTrueInColumns(lowerBound, upperBound);
+	}
+	
+	// ------ All True in Row ------
+	public Boolean allTrueInRow(int index) {
+		boolean[] row = this.getRowAsBooleanArray(index);
+		for (int colNum = 0; colNum < row.length; colNum++) {
+			if (!row[colNum]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public Boolean allTrueInRow(String name) {
+		int index = this.rowNames.indexOf(name);
+		return allTrueInRow(index);
+	}
+	
+	public Boolean allTrueInRows(int[] indices) {
+		for (int indexCount = 0; indexCount < indices.length; indexCount++) {
+			if (!allTrueInRow(indices[indexCount])) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public Boolean allTrueInRows(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return allTrueInRows(indices);
+	}
+	
+	public Boolean allTrueInRows(ArrayList<String> names) {
+		return allTrueInRows(names.toArray(new String[0]));
+	}
+	
+	public Boolean allTrueInRows(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return allTrueInRows(indicesToGet);
+	}
+	
+	// ------ Any True in Row ------
+	public Boolean anyTrueInRow(int index) {
+		boolean[] row = this.getRowAsBooleanArray(index);
+		for (int colNum = 0; colNum < row.length; colNum++) {
+			if (row[colNum]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Boolean anyTrueInRow(String name) {
+		int index = this.rowNames.indexOf(name);
+		return anyTrueInRow(index);
+	}
+	
+	public Boolean anyTrueInRows(int[] indices) {
+		for (int indexCount = 0; indexCount < indices.length; indexCount++) {
+			if (anyTrueInRow(indices[indexCount])) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Boolean anyTrueInRows(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return anyTrueInRows(indices);
+	}
+	
+	public Boolean anyTrueInRows(ArrayList<String> names) {
+		return anyTrueInRows(names.toArray(new String[0]));
+	}
+	
+	public Boolean anyTrueInRows(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return anyTrueInRows(indicesToGet);
+	}
+	
+	// ------ All False in Row ------
+	public Boolean allFalseInRow(int index) {
+		return !anyTrueInRow(index);
+	}
+	
+	public Boolean allFalseInRow(String name) {
+		return !anyTrueInRow(name);
+	}
+	
+	public Boolean allFalseInRows(int[] indices) {
+		return !anyTrueInRows(indices);
+	}
+	
+	public Boolean allFalseInRows(String[] names) {
+		return !anyTrueInRows(names);
+	}
+	
+	public Boolean allFalseInRows(ArrayList<String> names) {
+		return !anyTrueInRows(names);
+	}
+	
+	public Boolean allFalseInRows(int lowerBound, int upperBound) {
+		return !anyTrueInRows(lowerBound, upperBound);
+	}
+	
+	// ------ Any False in Row ------
+	public Boolean anyFalseInRow(int index) {
+		return !allTrueInRow(index);
+	}
+	
+	public Boolean anyFalseInRow(String name) {
+		return !allTrueInRow(name);
+	}
+	
+	public Boolean anyFalseInRows(int[] indices) {
+		return !allTrueInRows(indices);
+	}
+	
+	public Boolean anyFalseInRows(String[] names) {
+		return !allTrueInRows(names);
+	}
+	
+	public Boolean anyFalseInRows(ArrayList<String> names) {
+		return !allTrueInRows(names);
+	}
+	
+	public Boolean anyFalseInRows(int lowerBound, int upperBound) {
+		return allTrueInRows(lowerBound, upperBound);
+	}
+	
 	
 	public boolean sameShape(DataFrame df) {
 		return ((this.getNumCols() == df.getNumCols()) && (this.getNumRows() == df.getNumRows())); 
@@ -1717,28 +2439,48 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.rowNames;
 	}
 
+	public void addPrefixToColumnNames(String prefix) {
+		addPrefixToColumnNames(0, this.getNumCols() - 1, prefix);
+	}
+	
+	public void addSuffixToColumnNames(String suffix) {
+		addSuffixToColumnNames(0, this.getNumCols() - 1, suffix);
+	}
+	
+	public void addPrefixToColumnNames(int lowestIndex, int highestIndex, String prefix) {
+		for(int colNum = lowestIndex; colNum <= highestIndex; colNum++) {
+			this.columnNames.set(colNum, prefix + this.columnNames.get(colNum));
+		}
+	}
+	
+	public void addSuffixToColumnNames(int lowestIndex, int highestIndex, String suffix) {
+		for(int colNum = lowestIndex; colNum <= highestIndex; colNum++) {
+			this.columnNames.set(colNum, this.columnNames.get(colNum) + suffix);
+		}
+	}
+	
+	public void addPrefixToRowNames(String prefix) {
+		addPrefixToRowNames(0, this.getNumRows() - 1, prefix);
+	}
+	
+	public void addSuffixToRowNames(String suffix) {
+		addSuffixToRowNames(0, this.getNumRows() - 1, suffix);
+	}
+	
+	public void addPrefixToRowNames(int lowestIndex, int highestIndex, String prefix) {
+		for(int rowNum = lowestIndex; rowNum <= highestIndex; rowNum++) {
+			this.rowNames.set(rowNum, prefix + this.rowNames.get(rowNum));
+		}
+	}
+	
+	public void addSuffixToRowNames(int lowestIndex, int highestIndex, String suffix) {
+		for(int rowNum = lowestIndex; rowNum <= highestIndex; rowNum++) {
+			this.rowNames.set(rowNum, this.rowNames.get(rowNum) + suffix);
+		}
+	}
+	
 	public ArrayList<ArrayList<DataItem>> getData() {
 		return this.data;
-	}
-	
-	public DataItem[][] getDataAs2DDataItemArray() {
-		return getColumnsAs2DDataItemArray(0, this.getNumCols() - 1);
-	}
-	
-	public String[][] getDataAs2DStringArray() {
-		return getColumnsAs2DStringArray(0, this.getNumCols() - 1);
-	}
-	
-	public int[][] getDataAs2DIntArray() {
-		return getColumnsAs2DIntArray(0, this.getNumCols() - 1);
-	}
-	
-	public double[][] getDataAs2DDoubleArray() {
-		return getColumnsAs2DDoubleArray(0, this.getNumCols() - 1);
-	}
-	
-	public LocalDate[][] getDataAs2DDateArray() {
-		return getColumnsAs2DDateArray(0, this.getNumCols() - 1);
 	}
 	
 
@@ -1755,7 +2497,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 		for (int colCount = 0; colCount < nullDF.columnNames.size(); colCount++) {
 			for (int rowCount = 0; rowCount < nullDF.rowNames.size(); rowCount++) {
-				if (this.data.get(colCount).get(rowCount).getType() == DataItem.StorageType.Null) {
+				if (this.data.get(colCount).get(rowCount).getType() == StorageType.Null) {
 					nullDF.setValue(colCount, rowCount, true);
 				} else {
 					nullDF.setValue(colCount, rowCount, false);
@@ -1764,6 +2506,35 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 
 		return nullDF;
+	}
+	
+	private boolean lessThan(String str1, String str2) {
+		return (str1.compareToIgnoreCase(str2) < 0);
+	}
+	
+	public void sortColumnsAlphabetically(boolean ascending) {
+		sortColumnsAlphabetically(ascending, 0, this.getNumCols());
+	}
+	
+	public void sortColumnsAlphabetically(boolean ascending, int lowerBound, int upperBound) {
+//		int innerCounter;
+//	    for (int outerCounter = lowerBound; outerCounter < upperBound; outerCounter++) {
+//	        String savedColumnName = this.columnNames.get(outerCounter);
+//	        DataItem[] savedColumn = this.getColumnAsDataItemArray(outerCounter);
+//	        for(innerCounter = outerCounter; innerCounter > 0 && (ascending ? lessThan(savedColumnName,this.columnNames.get(innerCounter-1)) : !lessThan(savedColumnName,this.columnNames.get(innerCounter-1))); innerCounter--) {
+//	        	this.columnNames.set(innerCounter, this.columnNames.get(innerCounter - 1));
+//	        }
+//	        this.columnNames.set(innerCounter, savedColumnName);
+//	    }
+	    
+	}
+	
+	public void sortRowsAlphabetically(boolean ascending) {
+		
+	}
+	
+	public void sortRowsAlphabetically(boolean ascending, int lowerBound, int upperBound) {
+		
 	}
 
 	public void transpose() {

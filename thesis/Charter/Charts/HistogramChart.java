@@ -94,7 +94,7 @@ public class HistogramChart extends XYChart {
 	}
 
 	private int whichBin(double value, Double[] values, double binSize) {
-		return CommonMath.constrain((int) ((value - values[0])/binSize), 0, this.numBins - 1);
+		return CommonMath.clamp((int) ((value - values[0])/binSize), 0, this.numBins - 1);
 		
 	}
 	
