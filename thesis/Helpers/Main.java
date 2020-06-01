@@ -472,20 +472,9 @@ public class Main {
 //		rowNames.add("row_five");
 		
 		
-//		DataFrame df = new DataFrame(4, 15, Integer.class);
-//		System.out.println(df);
-//		System.out.println(df.clampColumns(0, 2, 2.0, 4));
-		
-//		DataFrame df = new DataFrame(4, 15, Double.class);
-//		System.out.println(df);
-//		System.out.println(df.clamp(2.0, 4));
-		
-		
-		
-		
-		DataFrame df = new DataFrame(3, 30, LocalDate.class);
+		DataFrame df = new DataFrame(4, 15, Integer.class);
 		System.out.println(df);
-		System.out.println(df.clamp(LocalDate.now(), LocalDate.now().plusDays(2)));
+		df.addSuffixToRowNames(2, 6, "_hello");
 		
 		return df;
 	}

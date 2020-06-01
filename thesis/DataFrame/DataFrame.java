@@ -1254,6 +1254,13 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getRowsAsDataFrame(indicesToGet);
 	}
 	
+	public DataFrame first() {
+		return head(1);
+	}
+	public DataFrame last()	{
+		return tail(1);
+	}
+	
 	public DataFrame head() {
 		return head(5);
 	}
@@ -2434,6 +2441,46 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.rowNames;
 	}
 
+	public void addPrefixToColumnNames(String prefix) {
+		addPrefixToColumnNames(0, this.getNumCols() - 1, prefix);
+	}
+	
+	public void addSuffixToColumnNames(String suffix) {
+		addSuffixToColumnNames(0, this.getNumCols() - 1, suffix);
+	}
+	
+	public void addPrefixToColumnNames(int lowestIndex, int highestIndex, String prefix) {
+		for(int colNum = lowestIndex; colNum <= highestIndex; colNum++) {
+			this.columnNames.set(colNum, prefix + this.columnNames.get(colNum));
+		}
+	}
+	
+	public void addSuffixToColumnNames(int lowestIndex, int highestIndex, String suffix) {
+		for(int colNum = lowestIndex; colNum <= highestIndex; colNum++) {
+			this.columnNames.set(colNum, this.columnNames.get(colNum) + suffix);
+		}
+	}
+	
+	public void addPrefixToRowNames(String prefix) {
+		addPrefixToRowNames(0, this.getNumRows() - 1, prefix);
+	}
+	
+	public void addSuffixToRowNames(String suffix) {
+		addSuffixToRowNames(0, this.getNumRows() - 1, suffix);
+	}
+	
+	public void addPrefixToRowNames(int lowestIndex, int highestIndex, String prefix) {
+		for(int rowNum = lowestIndex; rowNum <= highestIndex; rowNum++) {
+			this.rowNames.set(rowNum, prefix + this.rowNames.get(rowNum));
+		}
+	}
+	
+	public void addSuffixToRowNames(int lowestIndex, int highestIndex, String suffix) {
+		for(int rowNum = lowestIndex; rowNum <= highestIndex; rowNum++) {
+			this.rowNames.set(rowNum, this.rowNames.get(rowNum) + suffix);
+		}
+	}
+	
 	public ArrayList<ArrayList<DataItem>> getData() {
 		return this.data;
 	}

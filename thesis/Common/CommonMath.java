@@ -119,7 +119,6 @@ public class CommonMath {
 	
 	public static int map (double value, double origLow, double origHigh, double newLow, double newHigh) {
 	    return (int)((value - origLow) / (origHigh - origLow) * (newHigh - newLow) + newLow);
-
 	}
 	
 	public static <T> int elementNumInArray (T[] array, T value) {
