@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 public class CommonArray {
@@ -210,7 +211,26 @@ public class CommonArray {
 		}
 	}
 	
+	public static void printArray(boolean[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			System.out.println(i + ": " + arr[i]);
+		}
+	}
+	
 	public static void print2DArray(Object[][] arr) {
+		for (int outerCount = 0; outerCount < arr.length; outerCount++) {
+			for (int innerCount = 0; innerCount < arr[outerCount].length; innerCount++) {
+				System.out.print(arr[outerCount][innerCount]);
+				if (innerCount < arr[outerCount].length - 1) {
+					System.out.print(", ");
+				}
+			}
+			System.out.println("");
+		}
+		
+	}
+	
+	public static void print2DArray(boolean[][] arr) {
 		for (int outerCount = 0; outerCount < arr.length; outerCount++) {
 			for (int innerCount = 0; innerCount < arr[outerCount].length; innerCount++) {
 				System.out.print(arr[outerCount][innerCount]);
@@ -344,6 +364,18 @@ public class CommonArray {
 		    arr[arr.length - i - 1] = temp;
 		}
 		return arr;
+	}
+
+	// inspiration taken from here https://stackoverflow.com/a/20536597/6122201
+	public static String randomString(int length) {
+		String chars = "qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM";
+        StringBuilder str = new StringBuilder();
+        Random rnd = new Random();
+        while (str.length() < length) { 
+            int index = (int) (rnd.nextFloat() * chars.length());
+            str.append(chars.charAt(index));
+        }
+        return str.toString();
 	}
 	
 //	public static Class<? extends Object> typeOfArrayList(ArrayList<Object> arr) {
