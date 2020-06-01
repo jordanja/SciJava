@@ -191,11 +191,10 @@ public class CommonArray {
 		}
 		
 	}
-	public static void printArray(ArrayList<Object> arr) {
+	public static void printArray(ArrayList<String> arr) {
 		for (int i = 0; i < arr.size(); i++) {
 			System.out.println(i + ": " + arr.get(i));
 		}
-		
 	}
 	
 	public static void printArray(int[] arr) {

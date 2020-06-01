@@ -2,6 +2,7 @@ package thesis.Common;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 
 import thesis.DataFrame.DataItem;
 
@@ -144,8 +145,22 @@ public class CommonMath {
         return (angle >= 0 ? angle : (360 - ((-angle) % 360))) % 360;
     }
 
-	public static int constrain(int value, int min, int max) {
+	public static int clamp(int value, int min, int max) {
 		return Math.min(Math.max(value, min), max);
+	}
+	public static double clamp(double value, double min, double max) {
+		return Math.min(Math.max(value, min), max);
+	}
+	public static LocalDate clamp(LocalDate value, LocalDate min, LocalDate max) {
+		LocalDate newDate = value;
+		if (value.isBefore(min)) {
+			newDate = min;
+		}
+		
+		if (value.isAfter(max)) {
+			newDate = max;
+		}
+		return newDate;
 	}
 	
 }
