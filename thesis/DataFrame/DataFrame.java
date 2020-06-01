@@ -75,7 +75,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 					Double doubleValue = ThreadLocalRandom.current().nextDouble(-10, 10);
 					DecimalFormat df = new DecimalFormat("#.####");
 					df.setRoundingMode(RoundingMode.CEILING);
-					fill = df.format(doubleValue);
+					fill = Double.parseDouble(df.format(doubleValue));
 				} else if (cls == Boolean.class) {
 					fill = ThreadLocalRandom.current().nextBoolean();
 				} else if (cls == LocalDate.class) {
@@ -696,6 +696,34 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		for (int rowindex: rowIndicesToDrop) {
 			dropRow(rowindex);
 		}
+	}
+	
+	// ---------------------
+	// ------ Getters ------
+	// ---------------------
+	
+	public DataItem[][] getDataAs2DDataItemArray() {
+		return getColumnsAs2DDataItemArray(0, this.getNumCols() - 1);
+	}
+	
+	public String[][] getDataAs2DStringArray() {
+		return getColumnsAs2DStringArray(0, this.getNumCols() - 1);
+	}
+	
+	public int[][] getDataAs2DIntArray() {
+		return getColumnsAs2DIntArray(0, this.getNumCols() - 1);
+	}
+	
+	public double[][] getDataAs2DDoubleArray() {
+		return getColumnsAs2DDoubleArray(0, this.getNumCols() - 1);
+	}
+	
+	public LocalDate[][] getDataAs2DDateArray() {
+		return getColumnsAs2DDateArray(0, this.getNumCols() - 1);
+	}
+	
+	public boolean[][] getDataAs2DBooleanArray() {
+		return getColumnsAs2DBooleanArray(0, this.getNumCols() - 1);
 	}
 	
 	
@@ -1761,6 +1789,85 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return elementwiseEqual(value).negate();
 	}
 	
+	// ------ Absolute Values ------ 
+	public DataFrame absoluteValue() {
+		return absoluteValueColumns(0, this.getNumCols() - 1);
+	}
+	
+	public DataFrame absoluteValueColumn(int index) {
+		DataItem[] column = this.getColumnAsDataItemArray(index);
+		for (int rowNum = 0; rowNum < column.length; rowNum++) {
+			if (column[rowNum].getValueConvertedToDouble() < 0) {
+				column[rowNum].multiply(-1);
+			}
+		}
+		return this;
+	}
+	
+	public DataFrame absoluteValueColumn(String name) {
+		int index = this.columnNames.indexOf(name);
+		return absoluteValueColumn(index);
+	}
+	
+	public DataFrame absoluteValueColumns(int[] indices) {
+		for (int colCount = 0; colCount < indices.length; colCount++) {
+			absoluteValueColumn(indices[colCount]);
+		}
+		return this;
+	}
+	
+	public DataFrame absoluteValueColumns(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return absoluteValueColumns(indices);
+	}
+	
+	public DataFrame absoluteValueColumns(ArrayList<String> names) {
+		return absoluteValueColumns(names.toArray(new String[0]));
+	}
+	
+	public DataFrame absoluteValueColumns(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return absoluteValueColumns(indicesToGet);
+	}
+	
+	public DataFrame absoluteValueRow(int index) {
+		DataItem[] row = this.getRowAsDataItemArray(index);
+		for (int colNum = 0; colNum < row.length; colNum++) {
+			if (row[colNum].getValueConvertedToDouble() < 0) {
+				row[colNum].multiply(-1);
+			}
+		}
+		return this;
+	}
+	
+	public DataFrame absoluteValueRow(String name) {
+		int index = this.rowNames.indexOf(name);
+		return absoluteValueRow(index);
+	}
+	
+	public DataFrame absoluteValueRows(int[] indices) {
+		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
+			absoluteValueRow(indices[rowCount]);
+		}
+		return this;
+	}
+	
+	public DataFrame absoluteValueRows(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return absoluteValueRows(indices);
+	}
+	
+	public DataFrame absoluteValueRows(ArrayList<String> names) {
+		return absoluteValueRows(names.toArray(new String[0]));
+	}
+	
+	public DataFrame absoluteValueRows(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return absoluteValueRows(indicesToGet);
+	}
+	
+	
+	
 	// ------------------------
 	// ------ True/False ------
 	// ------------------------
@@ -2126,26 +2233,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.data;
 	}
 	
-	public DataItem[][] getDataAs2DDataItemArray() {
-		return getColumnsAs2DDataItemArray(0, this.getNumCols() - 1);
-	}
-	
-	public String[][] getDataAs2DStringArray() {
-		return getColumnsAs2DStringArray(0, this.getNumCols() - 1);
-	}
-	
-	public int[][] getDataAs2DIntArray() {
-		return getColumnsAs2DIntArray(0, this.getNumCols() - 1);
-	}
-	
-	public double[][] getDataAs2DDoubleArray() {
-		return getColumnsAs2DDoubleArray(0, this.getNumCols() - 1);
-	}
-	
-	public LocalDate[][] getDataAs2DDateArray() {
-		return getColumnsAs2DDateArray(0, this.getNumCols() - 1);
-	}
-	
 
 	public int getNumRows() {
 		return this.rowNames.size();
@@ -2160,7 +2247,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 		for (int colCount = 0; colCount < nullDF.columnNames.size(); colCount++) {
 			for (int rowCount = 0; rowCount < nullDF.rowNames.size(); rowCount++) {
-				if (this.data.get(colCount).get(rowCount).getType() == DataItem.StorageType.Null) {
+				if (this.data.get(colCount).get(rowCount).getType() == StorageType.Null) {
 					nullDF.setValue(colCount, rowCount, true);
 				} else {
 					nullDF.setValue(colCount, rowCount, false);
@@ -2170,6 +2257,8 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 		return nullDF;
 	}
+	
+	
 
 	public void transpose() {
 		ArrayList<ArrayList<DataItem>> transpose = new ArrayList<ArrayList<DataItem>>();
