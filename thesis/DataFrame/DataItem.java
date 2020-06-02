@@ -25,32 +25,46 @@ public class DataItem {
 	}
 
 	public DataItem(Object value) {
-		StorageType typeOfObject = null;
-		if (value == null) {
-			type = StorageType.Null;
-			typeOfObject = StorageType.Null;
-		} else if (value instanceof Integer) {
-			typeOfObject = StorageType.Integer;
-		} else if (value instanceof Double) {
-			typeOfObject = StorageType.Double;
-		} else if (value instanceof LocalDate) {
-			typeOfObject = StorageType.Date;
-		} else if (value instanceof Boolean) {
-			typeOfObject = StorageType.Boolean;
-		} else {
-			typeOfObject = StorageType.String;
+		if (value instanceof DataItem) {
+			replicateProperties((DataItem)value); 
+		} else {			
+			StorageType typeOfObject = null;
+			if (value == null) {
+				type = StorageType.Null;
+				typeOfObject = StorageType.Null;
+			} else if (value instanceof Integer) {
+				typeOfObject = StorageType.Integer;
+			} else if (value instanceof Double) {
+				typeOfObject = StorageType.Double;
+			} else if (value instanceof LocalDate) {
+				typeOfObject = StorageType.Date;
+			} else if (value instanceof Boolean) {
+				typeOfObject = StorageType.Boolean;
+			} else {
+				typeOfObject = StorageType.String;
+			}
+			
+			initialize(typeOfObject, value);
 		}
-
-		initialize(typeOfObject, value);
 	}
 
-	public DataItem(DataItem item) {
+	private void replicateProperties(DataItem item) {
 		this.type = item.getType();
-		this.intValue = item.getIntegerValue();
-		this.doubleValue = item.getDoubleValue();
-		this.strValue = item.getStringValue();
-		this.dateValue = item.getDateValue();
-		this.booleanValue = item.getBooleanValue();
+		if (this.type == StorageType.Integer) {			
+			this.intValue = item.getIntegerValue().intValue();
+		} else if (this.type == StorageType.Double) {			
+			this.doubleValue = item.getDoubleValue();
+		} else if (this.type == StorageType.String) {
+			this.strValue = item.getStringValue();
+		} else if (this.type == StorageType.Date) {
+			this.dateValue = item.getDateValue();
+		} else if (this.type == StorageType.Boolean) {
+			this.booleanValue = item.getBooleanValue().booleanValue();
+		}
+	}
+	
+	public DataItem(DataItem item) {
+		replicateProperties(item);
 	}
 	
 	// String Value
