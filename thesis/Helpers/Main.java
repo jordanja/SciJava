@@ -43,6 +43,7 @@ import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.*;
+import thesis.DataFrame.DataItem.StorageType;
 import thesis.NumJa.NumJa;
 
 @SuppressWarnings("unused")
@@ -464,14 +465,14 @@ public class Main {
 		ArrayList<String> columnNames = new ArrayList<String>();
 		columnNames.add("col_f");
 		columnNames.add("col_r");
-		columnNames.add("col_n");
-		columnNames.add("col_w");
-		columnNames.add("col_S");
-		columnNames.add("col_z");
-		columnNames.add("col_A");
-		columnNames.add("col_m");
-		columnNames.add("col_l");
-		columnNames.add("col_t");
+//		columnNames.add("col_n");
+//		columnNames.add("col_w");
+//		columnNames.add("col_S");
+//		columnNames.add("col_z");
+//		columnNames.add("col_A");
+//		columnNames.add("col_m");
+//		columnNames.add("col_l");
+//		columnNames.add("col_t");
 		
 		ArrayList<String> rowNames = new ArrayList<String>();
 		rowNames.add("row_one");
@@ -479,18 +480,45 @@ public class Main {
 		rowNames.add("row_three");
 		rowNames.add("row_four");
 		rowNames.add("row_five");
-		rowNames.add("row_six");
-		rowNames.add("row_seven");
-		rowNames.add("row_eight");
-		rowNames.add("row_nine");
-		rowNames.add("row_ten");
-	
-		DataFrame df = new DataFrame(3, 3, LocalDate.now());
-		System.out.println("origonal:");
-		System.out.println(df);
+//		rowNames.add("row_six");
+//		rowNames.add("row_seven");
+//		rowNames.add("row_eight");
+//		rowNames.add("row_nine");
+//		rowNames.add("row_ten");
 		
-		System.out.println("new:");
-		System.out.println(df.differentDate(LocalDate.now()));
+		
+		
+		DataFrame df = new DataFrame(columnNames, rowNames, Double.class);
+		String val = "hewefwefllo";
+		df.setRowsValues(2, 4, "d:");
+		System.out.println(df.getValue(1, 3).getType());
+	
+		
+		
+		
+//		DataFrame df1 = new DataFrame(
+//			new String[] {"col_a", "col_b", "col_3"}, 
+//			new String[] {"row_2","row_4", "row_5"}, 
+//			Double.class
+//		);
+//		DataFrame df2 = new DataFrame(
+//			new String[] {"col_a", "col_new1", "col_new2"}, 
+//			new String[] {"row_1","row_2", "row_3", "row_4"}, 
+//			Double.class
+//		);
+//		
+//		System.out.println("1");
+//		System.out.println(df1);
+//		System.out.println("2");
+//		System.out.println(df2);
+//		
+//		df1.joinToTheRight(df2, true, false);
+//		System.out.println(df);
+		
+		
+		
+		
+		
 		
 		
 		return df;

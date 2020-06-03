@@ -97,8 +97,12 @@ public class DataItem {
 
 	// Date Value
 	public DataItem(LocalDate value) {
-		this.dateValue = value;
-		this.type = StorageType.Date;
+		if (value != null) {
+			this.dateValue = value;
+			this.type = StorageType.Date;
+		} else {
+			this.type = StorageType.Null;
+		}
 	}
 	
 	// Boolean Value
@@ -121,9 +125,9 @@ public class DataItem {
 		if (this.type == StorageType.String) {
 			this.strValue = value.toString();
 		} else if (this.type == StorageType.Integer) {
-			this.intValue = (Integer) value;
+			this.intValue = Integer.valueOf(value.toString());
 		} else if (this.type == StorageType.Double) {
-			this.doubleValue = (Double) value;
+			this.doubleValue = Double.valueOf(value.toString());
 		} else if (this.type == StorageType.Date) {
 			this.dateValue = LocalDate.parse(value.toString());
 		} else if (this.type == StorageType.Boolean) {

@@ -1,11 +1,14 @@
 package thesis.Common;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+
+import thesis.DataFrame.DataItem;
 
 public class CommonArray {
 	
@@ -184,6 +187,63 @@ public class CommonArray {
 		}
 		return arr;
 	}
+	
+	public static double[] initializeDoubleArrayWithValues(int length, double value) {
+		double[] arr = new double[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
+	public static float[] initializeFloatArrayWithValues(int length, float value) {
+		float[] arr = new float[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
+	public static boolean[] initializeBooleanArrayWithValues(int length, boolean value) {
+		boolean[] arr = new boolean[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
+	public static String[] initializeStringArrayWithValues(int length, String value) {
+		String[] arr = new String[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
+	public static LocalDate[] initializeLocalDateArrayWithValues(int length, LocalDate value) {
+		LocalDate[] arr = new LocalDate[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
+	public static Object[] initializeObjectArrayWithValues(int length, Object value) {
+		Object[] arr = new Object[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
+	public static DataItem[] initializeDataItemArrayWithValues(int length, DataItem value) {
+		DataItem[] arr = new DataItem[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value.clone();
+		}
+		return arr;
+	}
+	
 
 	public static void printArray(Object[] arr) {
 		for (int i = 0; i < arr.length; i++) {
@@ -375,6 +435,42 @@ public class CommonArray {
             str.append(chars.charAt(index));
         }
         return str.toString();
+	}
+	
+	public static ArrayList<String> removeDuplicates(ArrayList<String> arr1, ArrayList<String> arr2) {
+		ArrayList<String> removedDuplicates = new ArrayList<String>();
+		for (String str: arr1) {
+			if (!removedDuplicates.contains(str)) {
+				removedDuplicates.add(str);
+			}
+		}
+		for (String str: arr2) {
+			if (!removedDuplicates.contains(str)) {
+				removedDuplicates.add(str);
+			}
+		}
+		return removedDuplicates;
+		
+	}
+	
+	public static ArrayList<String> commonStrings(ArrayList<String> arr1, ArrayList<String> arr2) {
+		ArrayList<String> commonElements = new ArrayList<String>();
+
+        for(int arr1Counter = 0; arr1Counter < arr1.size(); arr1Counter++) {
+            for(int arr2Counter = 0; arr2Counter < arr2.size(); arr2Counter++) {
+            	String str = arr1.get(arr1Counter);
+	            if(str.equals(arr2.get(arr2Counter))) {  
+	                if(!commonElements.contains(str)) {
+	                    commonElements.add(str);
+	                }
+	            }
+            }
+        }
+        return commonElements;
+	}
+	
+	public static int numberOfCommonStrings(ArrayList<String> arr1, ArrayList<String> arr2) {
+		return commonStrings(arr1, arr2).size();
 	}
 	
 //	public static Class<? extends Object> typeOfArrayList(ArrayList<Object> arr) {
