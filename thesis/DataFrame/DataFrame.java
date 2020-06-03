@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import thesis.Common.CommonArray;
@@ -280,7 +282,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	
 	
-	public void insertColumn(int index, String columnName, ArrayList<Object> column) {
+	public void insertColumn(int index, String columnName, List<Object> column) {
 		if (index > this.columnNames.size()) {
 			System.out.println("Column index too high");
 			return;
@@ -304,6 +306,31 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(index, columnName, new ArrayList<Object>(Arrays.asList(column)));
 	}
 	
+	public void insertColumn(int index, String columnName, int[] column) {
+		insertColumn(index, columnName, CommonArray.convertArrayToObjectList(column));
+	}
+	
+	public void insertColumn(int index, String columnName, float[] column) {
+		insertColumn(index, columnName, CommonArray.convertFloatArrayToDoubleArray(column));
+	}
+	
+	public void insertColumn(int index, String columnName, double[] column) {
+		insertColumn(index, columnName, CommonArray.convertArrayToObjectList(column));
+	}
+	
+	public void insertColumn(int index, String columnName, boolean[] column) {
+		insertColumn(index, columnName, CommonArray.convertArrayToObjectList(column));
+	}
+	
+	public void insertColumn(int index, String columnName, String[] column) {
+		insertColumn(index, columnName, CommonArray.convertArrayToObjectList(column));
+	}
+	
+	public void insertColumn(int index, String columnName) {
+		Object[] nullArr = new Object[this.getNumRows()];
+		insertColumn(index, columnName, nullArr);
+	}
+	
 	public void insertColumn(int index, String columnName, DataItem[] column) {
 		insertColumn(index, columnName, new ArrayList<Object>(Arrays.asList(column)));
 	}
@@ -316,6 +343,36 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void insertColumn(int index, Object[] column) {
 		String columnName = generateUnusedColumnName();
 		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, int[] column) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, float[] column) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, double[] column) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, boolean[] column) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, column);
+	} 
+	
+	public void insertColumn(int index, String[] column) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName);
 	}
 	
 	public void insertColumn(int index, DataItem[] column) {
@@ -365,6 +422,56 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
+	public void insertColumns(int index, String[] columnNames, int[][] columns) {
+		int columnOffset = 0;
+		for (int[] column : columns) {
+			insertColumn(index + columnOffset, columnNames[columnOffset], column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, float[][] columns) {
+		int columnOffset = 0;
+		for (float[] column : columns) {
+			insertColumn(index + columnOffset, columnNames[columnOffset], column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, double[][] columns) {
+		int columnOffset = 0;
+		for (double[] column : columns) {
+			insertColumn(index + columnOffset, columnNames[columnOffset], column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, boolean[][] columns) {
+		int columnOffset = 0;
+		for (boolean[] column : columns) {
+			insertColumn(index + columnOffset, columnNames[columnOffset], column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, String[][] columns) {
+		int columnOffset = 0;
+		for (String[] column : columns) {
+			insertColumn(index + columnOffset, columnNames[columnOffset], column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames) {
+		Object[][] columns = new Object[columnNames.length][this.getNumRows()];
+		int columnOffset = 0;
+		for (Object[] column : columns) {
+			insertColumn(index + columnOffset, columnNames[columnOffset], column);
+			columnOffset++;
+		}
+	}
+	
+	
 	public void insertColumns(int index, String[] columnNames, DataItem[][] columns) {
 		int columnOffset = 0;
 		for (DataItem[] column : columns) {
@@ -377,6 +484,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int columnOffset = 0;
 		for (ArrayList<Object> column: columns) {
 			insertColumn(index + columnOffset, column);
+			columnOffset++;
 		}
 	}
 	
@@ -384,13 +492,57 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int columnOffset = 0;
 		for (Object[] column: columns) {
 			insertColumn(index + columnOffset, column);
+			columnOffset++;
 		}
 	}
+	
+	public void insertColumns(int index, int[][] columns) {
+		int columnOffset = 0;
+		for (int[] column: columns) {
+			insertColumn(index + columnOffset, column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, float[][] columns) {
+		int columnOffset = 0;
+		for (float[] column: columns) {
+			insertColumn(index + columnOffset, column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, double[][] columns) {
+		int columnOffset = 0;
+		for (double[] column: columns) {
+			insertColumn(index + columnOffset, column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, boolean[][] columns) {
+		int columnOffset = 0;
+		for (boolean[] column: columns) {
+			insertColumn(index + columnOffset, column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, int numColumns) {
+		Object[][] columns = new Object[numColumns][this.getNumRows()];
+		int columnOffset = 0;
+		for (Object[] column: columns) {
+			insertColumn(index + columnOffset, column);
+			columnOffset++;
+		}
+	}
+	
 	
 	public void insertColumns(int index, DataItem[][] columns) {
 		int columnOffset = 0;
 		for (DataItem[] column: columns) {
 			insertColumn(index + columnOffset, column);
+			columnOffset++;
 		}
 	}
 
@@ -401,6 +553,31 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void appendColumn(String columnName, Object[] column) {
 		insertColumn(this.columnNames.size(), columnName, column);
 	}
+	
+	public void appendColumn(String columnName, int[] column) {
+		insertColumn(this.columnNames.size(), columnName, column);
+	}
+	
+	public void appendColumn(String columnName, float[] column) {
+		insertColumn(this.columnNames.size(), columnName, column);
+	}
+	
+	public void appendColumn(String columnName, double[] column) {
+		insertColumn(this.columnNames.size(), columnName, column);
+	}
+	
+	public void appendColumn(String columnName, boolean[] column) {
+		insertColumn(this.columnNames.size(), columnName, column);
+	}
+	
+	public void appendColumn(String columnName, String[] column) {
+		insertColumn(this.columnNames.size(), columnName, column);
+	}
+	
+	public void appendColumn(String columnName) {
+		insertColumn(this.columnNames.size(), columnName);
+	}
+	
 	
 	public void appendColumn(String columnName, DataItem[] column) {
 		insertColumn(this.columnNames.size(), columnName, column);
@@ -413,6 +590,31 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void appendColumn(Object[] column) {
 		insertColumn(this.columnNames.size(), column);
 	}
+	
+	public void appendColumn(int[] column) {
+		insertColumn(this.columnNames.size(), column);
+	}
+	
+	public void appendColumn(float[] column) {
+		insertColumn(this.columnNames.size(), column);
+	}
+	
+	public void appendColumn(double[] column) {
+		insertColumn(this.columnNames.size(), column);
+	}
+	
+	public void appendColumn(boolean[] column) {
+		insertColumn(this.columnNames.size(), column);
+	}
+	
+	public void appendColumn(String[] column) {
+		insertColumn(this.columnNames.size(), column);
+	}
+	
+	public void appendColumn() {
+		insertColumn(this.columnNames.size());
+	}
+	
 	
 	public void appendColumn(DataItem[] column) {
 		insertColumn(this.columnNames.size(), column);
@@ -438,6 +640,31 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumns(this.columnNames.size(), columnNames, columns);
 	}
 	
+	public void appendColumns(String[] columnNames, int[][] columns) {
+		insertColumns(this.columnNames.size(), columnNames, columns);
+	}
+	
+	public void appendColumns(String[] columnNames, float[][] columns) {
+		insertColumns(this.columnNames.size(), columnNames, columns);
+	}
+	
+	public void appendColumns(String[] columnNames, double[][] columns) {
+		insertColumns(this.columnNames.size(), columnNames, columns);
+	}
+	
+	public void appendColumns(String[] columnNames, boolean[][] columns) {
+		insertColumns(this.columnNames.size(), columnNames, columns);
+	}
+	
+	public void appendColumns(String[] columnNames, String[][] columns) {
+		insertColumns(this.columnNames.size(), columnNames, columns);
+	}
+	
+	public void appendColumns(String[] columnNames) {
+		insertColumns(this.columnNames.size(), columnNames);
+	}
+	
+	
 	public void appendColumns(String[] columnNames, DataItem[][] columns) {
 		insertColumns(this.columnNames.size(), columnNames, columns);
 	}
@@ -449,6 +676,31 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void appendColumns(Object[][] columns) {
 		insertColumns(this.getColumnNames().size(), columns);
 	}
+	
+	public void appendColumns(int[][] columns) {
+		insertColumns(this.getColumnNames().size(), columns);
+	}
+	
+	public void appendColumns(float[][] columns) {
+		insertColumns(this.getColumnNames().size(), columns);
+	}
+	
+	public void appendColumns(double[][] columns) {
+		insertColumns(this.getColumnNames().size(), columns);
+	}
+	
+	public void appendColumns(boolean[][] columns) {
+		insertColumns(this.getColumnNames().size(), columns);
+	}
+	
+	public void appendColumns(String[][] columns) {
+		insertColumns(this.getColumnNames().size(), columns);
+	}
+	
+	public void appendColumns(int numColumns) {
+		insertColumns(this.getColumnNames().size(), numColumns);
+	}
+	
 	
 	public void appendColumns(DataItem[][] columns) {
 		insertColumns(this.getColumnNames().size(), columns);
@@ -3425,7 +3677,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 
-	private ArrayList<DataItem> convertObjectListToItemList(ArrayList<Object> column) {
+	private ArrayList<DataItem> convertObjectListToItemList(List<Object> column) {
 		ArrayList<DataItem> list = new ArrayList<DataItem>();
 		for (Object item : column) {
 //			System.out.println("item = " + item + ", class = " + item.getClass());

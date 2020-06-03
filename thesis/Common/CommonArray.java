@@ -1,5 +1,6 @@
 package thesis.Common;
 
+import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import thesis.DataFrame.DataItem;
 
@@ -171,7 +173,41 @@ public class CommonArray {
 		}
 		return newArr;
 	}
+	
+	public static List<Object> convertArrayToObjectList(int[] arr) {
+		return Arrays.stream(arr).boxed().collect(Collectors.toList());
+	}
+	
+	public static List<Object> convertArrayToObjectList(double[] arr) {
+		return Arrays.stream(arr).boxed().collect(Collectors.toList());
+	}
+	
+	public static List<Object> convertArrayToObjectList(boolean[] arr) {
+		ArrayList<Object> list = new ArrayList<Object>();
+		for (boolean element: arr) {
+			list.add(element);
+		}
+		return list;
+	}
 
+	public static List<Object> convertArrayToObjectList(String[] arr) {
+		ArrayList<Object> list = new ArrayList<Object>();
+		for (String element: arr) {
+			list.add(element);
+		}
+		return list;
+	}
+
+	public static double[] convertFloatArrayToDoubleArray(float[] arr) {
+		double[] newArr = new double[arr.length];
+		for (int counter = 0; counter < arr.length; counter++) {
+			newArr[counter] = arr[counter];
+		}
+		return newArr;
+	}
+	
+	
+	
 	public static double[] initializeArrayWithValues(int length, int value) {
 		double[] arr = new double[length];
 		for (int i = 0; i < length; i++) {
@@ -312,7 +348,18 @@ public class CommonArray {
 			}
 			System.out.println("");
 		}
-		
+	}
+	
+	public static void print2DArray(double[][] arr) {
+		for (int outerCount = 0; outerCount < arr.length; outerCount++) {
+			for (int innerCount = 0; innerCount < arr[outerCount].length; innerCount++) {
+				System.out.print(arr[outerCount][innerCount]);
+				if (innerCount < arr[outerCount].length - 1) {
+					System.out.print(", ");
+				}
+			}
+			System.out.println("");
+		}
 	}
 
 	public static String[] getAllValuesOfKey(Map<String, Object>[] listOfMaps, String key) {

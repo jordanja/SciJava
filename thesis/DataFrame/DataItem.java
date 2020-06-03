@@ -298,11 +298,14 @@ public class DataItem {
 	}
 	
 	public int getValueConvertedToInt() {
-		try {			
-			return Integer.parseInt(getObjectValue().toString());
-		} catch (Exception e) {
-			return 0;
+		if (this.type == StorageType.Integer) {
+			return this.intValue;
+		} else if (this.type == StorageType.Double) {
+			return this.doubleValue.intValue();
 		}
+		
+		return 0;
+	
 	}
 	
 	public Boolean getValueConvertedToBoolean() {

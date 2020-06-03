@@ -9,6 +9,7 @@ import java.util.List;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.ObjectInputStream.GetField;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -465,9 +466,9 @@ public class Main {
 		ArrayList<String> columnNames = new ArrayList<String>();
 		columnNames.add("col_f");
 		columnNames.add("col_r");
-//		columnNames.add("col_n");
-//		columnNames.add("col_w");
-//		columnNames.add("col_S");
+		columnNames.add("col_n");
+		columnNames.add("col_w");
+		columnNames.add("col_S");
 //		columnNames.add("col_z");
 //		columnNames.add("col_A");
 //		columnNames.add("col_m");
@@ -477,9 +478,9 @@ public class Main {
 		ArrayList<String> rowNames = new ArrayList<String>();
 		rowNames.add("row_one");
 		rowNames.add("row_two");
-		rowNames.add("row_three");
-		rowNames.add("row_four");
-		rowNames.add("row_five");
+//		rowNames.add("row_three");
+//		rowNames.add("row_four");
+//		rowNames.add("row_five");
 //		rowNames.add("row_six");
 //		rowNames.add("row_seven");
 //		rowNames.add("row_eight");
@@ -488,10 +489,14 @@ public class Main {
 		
 		
 		
-		DataFrame df = new DataFrame(columnNames, rowNames, Double.class);
-		String val = "hewefwefllo";
-		df.setRowsValues(2, 4, "d:");
-		System.out.println(df.getValue(1, 3).getType());
+		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
+		System.out.println(df);
+		
+		
+		int[][] cols = df.getColumnsAs2DIntArray(new int[] {0, 1, 2});
+		CommonArray.print2DArray(cols);
+		
+		df.appendColumns(5);
 	
 		
 		
