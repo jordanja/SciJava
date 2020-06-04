@@ -45,6 +45,46 @@ public class CommonArray {
 
 	}
 	
+	public static double average(double[] arr) {
+		double sum = 0;
+		for (int i = 0; i < arr.length; i++) {
+			sum +=  arr[i];
+		}
+		
+		return sum/arr.length;
+	}
+	
+	public static double average(int[] arr) {
+		double sum = 0;
+		for (int i = 0; i < arr.length; i++) {
+			sum +=  (double)arr[i];
+		}
+		
+		return sum/(double)arr.length;
+	}
+	
+	public static double median(int arr[]) { 
+		int length = arr.length;
+		Arrays.sort(arr);  
+
+		if (length % 2 != 0) { 			
+			return (double)arr[length / 2]; 
+		} else {			
+			return (double)(arr[(length - 1) / 2] + arr[length / 2]) / 2.0; 
+		}
+	}
+	
+	public static double median(double arr[]) { 
+		int length = arr.length;
+		Arrays.sort(arr);  
+
+		if (length % 2 != 0) { 			
+			return arr[length / 2]; 
+		} else {			
+			return (arr[(length - 1) / 2] + arr[length / 2]) / 2.0; 
+		}
+	}
+	
 	public static Double minValue(Double[] arr) {
 		Double min = Double.MAX_VALUE;
 		

@@ -3720,7 +3720,165 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return newDF;	
 	}
 	
+	public Double average() {
+		return null;
+	}
+
+	public DataFrame averageInColumns() {
+		return null;
+	}
+
+	public Double averageInColumn(int columnIndex) {
+		return null;
+	}
+
+	public Double averageInColumn(String columnName) {
+		return null;
+	}
+
+	public DataFrame averageInColumns(int[] columnIndices) {
+		return null;
+	}
+
+	public DataFrame averageInColumns(String[] columnNames) {
+		return null;
+	}
+
+	public DataFrame averageInColumns(ArrayList<String> columnNames) {
+		return null;
+	}
+
+	public DataFrame averageInColumns(int minIndex, int maxIndex) {
+		return null;
+	}
+
+	public DataFrame averageInRows() {
+		return null;
+	}
+
+	public Double averageInRow(int columnIndex) {
+		return null;
+	}
+
+	public Double averageInRow(String columnName) {
+		return null;
+	}
+
+	public DataFrame averageInRows(int[] columnIndices) {
+		return null;
+	}
+
+	public DataFrame averageInRows(String[] columnNames) {
+		return null;
+	}
+
+	public DataFrame averageInRows(ArrayList<String> columnNames) {
+		return null;
+	}
+
+	public DataFrame averageInRows(int minIndex, int maxIndex) {
+		return null;
+	}
+
 	
+	public Double mediun() {
+		DataFrame newDF = this.mediunInColumns();
+		return newDF.mediunInRow(0);
+	}
+
+	public DataFrame mediunInColumns() {
+		return mediunInColumns(0, this.getNumCols() - 1);	
+	}
+
+	public Double mediunInColumn(int columnIndex) {
+		double[] column = this.getColumnAsDoubleArray(columnIndex);
+		return CommonArray.median(column);
+	}
+
+	public Double mediunInColumn(String columnName) {
+		int columnIndex = this.columnNames.indexOf(columnName);
+		return mediunInColumn(columnIndex);
+	}
+
+	public DataFrame mediunInColumns(int[] columnIndices) {
+		ArrayList<String> columns = new ArrayList<String>();
+		for (int columnIndex: columnIndices) {
+			columns.add(this.columnNames.get(columnIndex));
+		}
+		ArrayList<String> row = new ArrayList<String>();
+		row.add("mediun");
+		DataFrame maxDF = new DataFrame(columns, row);
+		
+		for (int columnIndex = 0; columnIndex < columnIndices.length; columnIndex++) {
+			maxDF.setValue(columnIndex, 0, mediunInColumn(columnIndices[columnIndex]));
+		}
+		
+		return maxDF;
+	}
+
+	public DataFrame mediunInColumns(String[] columnNames) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
+		return mediunInColumns(indices);
+	}
+
+	public DataFrame mediunInColumns(ArrayList<String> columnNames) {
+		return mediunInColumns(columnNames.toArray(new String[0]));
+	}
+
+	public DataFrame mediunInColumns(int minIndex, int maxIndex) {
+		int[] indicesToGet = IntStream.rangeClosed(minIndex, maxIndex).toArray();
+		return mediunInColumns(indicesToGet);
+	}
+
+	public DataFrame mediunInRows() {
+		this.transpose();
+		DataFrame value = this.mediunInColumns();
+		this.transpose();
+		return value;
+	}
+
+	public Double mediunInRow(int rowIndex) {
+		this.transpose();
+		Double value = this.mediunInColumn(rowIndex);
+		this.transpose();
+		return value;
+	}
+
+	public Double mediunInRow(String rowName) {
+		this.transpose();
+		Double value = this.mediunInColumn(rowName);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame mediunInRows(int[] rowIndices) {
+		this.transpose();
+		DataFrame value = this.mediunInColumns(rowIndices);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame mediunInRows(String[] rowNames) {
+		this.transpose();
+		DataFrame value = this.mediunInColumns(rowNames);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame mediunInRows(ArrayList<String> rowNames) {
+		this.transpose();
+		DataFrame value = this.mediunInColumns(rowNames);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame mediunInRows(int minIndex, int maxIndex) {
+		this.transpose();
+		DataFrame value = this.mediunInColumns(minIndex, maxIndex);
+		this.transpose();
+		return value;
+	}
+
 	
 	// ---------------------
 	// ------ Setters ------

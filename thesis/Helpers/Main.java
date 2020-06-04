@@ -494,7 +494,7 @@ public class Main {
 //		DataFrame newDF = df.maxInRows();
 //		System.out.println(newDF);
 		
-		System.out.println(df.minInRows(rowNames));
+		System.out.println(df.mediun());
 		
 		
 //		DataFrame df1 = new DataFrame(
