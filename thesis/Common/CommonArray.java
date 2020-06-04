@@ -679,6 +679,84 @@ public class CommonArray {
 		return cumulativeMax;
 	}
 	
+	public static double[] cumulativeMin(double[] arr) {
+		double[] cumulativeMin = new double[arr.length];
+		double currentMin = arr[0];
+		for (int index = 0; index < arr.length; index++) {
+			currentMin = Double.min(currentMin, arr[index]);
+			cumulativeMin[index] = currentMin;
+		}
+		return cumulativeMin;
+	}
+	
+	public static int[] cumulativeMin(int[] arr) {
+		int[] cumulativeMin = new int[arr.length];
+		int currentMin = arr[0];
+		for (int index = 0; index < arr.length; index++) {
+			currentMin = Integer.min(currentMin, arr[index]);
+			cumulativeMin[index] = currentMin;
+		}
+		return cumulativeMin;
+	}
+	
+	public static double[] cumulativeSum(double[] arr) {
+		double[] cumulativeSum = new double[arr.length];
+		double currentSum = 0;
+		for (int index = 0; index < arr.length; index++) {
+			currentSum += arr[index];
+			cumulativeSum[index] += currentSum;
+		}
+		return cumulativeSum;
+	}
+	
+	public static int[] cumulativeSum(int[] arr) {
+		int[] cumulativeSum = new int[arr.length];
+		int currentSum = 0;
+		for (int index = 0; index < arr.length; index++) {
+			currentSum += arr[index];
+			cumulativeSum[index] += currentSum;
+		}
+		return cumulativeSum;
+	}
+	
+	public static double[] cumulativeProduct(double[] arr) {
+		double[] cumulativeProduct = new double[arr.length];
+		double currentProduct = 1;
+		for (int index = 0; index < arr.length; index++) {
+			currentProduct *= arr[index];
+			cumulativeProduct[index] = currentProduct;
+		}
+		return cumulativeProduct;
+	}
+	
+	public static int[] cumulativeProduct(int[] arr) {
+		int[] cumulativeProduct = new int[arr.length];
+		int currentProduct = 1;
+		for (int index = 0; index < arr.length; index++) {
+			currentProduct *= arr[index];
+			cumulativeProduct[index] = currentProduct;
+		}
+		return cumulativeProduct;
+	}
+	
+	public static double[] percentageChange(double[] arr) {
+		double[] percentageChange = new double[arr.length];
+		percentageChange[0] = 0;
+		for (int index = 1; index < arr.length; index++) {
+			percentageChange[index] = (arr[index] - arr[index-1])/arr[index-1];
+		}
+		return percentageChange;
+	}
+	
+	public static double[] percentageChange(int[] arr) {
+		double[] percentageChange = new double[arr.length];
+		percentageChange[0] = 0;
+		for (int index = 1; index < arr.length; index++) {
+			percentageChange[index] = ((double)arr[index] - (double)arr[index-1])/(double)arr[index-1];
+		}
+		return percentageChange;
+	}
+	
 //	public static ArrayList<String>  booleanMinusStringArrays(ArrayList<String>  largeArr, ArrayList<String>  smallArr) {
 //		ArrayList<String> finalArr = new ArrayList<String>();
 //	}

@@ -1,5 +1,7 @@
 package thesis.DataFrame;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -290,11 +292,12 @@ public class DataItem {
 	}
 
 	public Double getValueConvertedToDouble() {
-		try {
-			return Double.parseDouble(getObjectValue().toString());
-		} catch (Exception e) {
-			return null;
+		if (this.type == StorageType.Integer) {
+			return this.intValue.doubleValue();
+		} else if (this.type == StorageType.Double) {
+			return this.doubleValue.doubleValue();
 		}
+		return null;
 	}
 	
 	public int getValueConvertedToInt() {
@@ -671,6 +674,14 @@ public class DataItem {
 		}
 	}
 	
+	public void round(int decimalPlaces) {
+		if (this.type == StorageType.Double) {
+			BigDecimal bd = BigDecimal.valueOf(this.doubleValue);
+		    bd = bd.setScale(decimalPlaces, RoundingMode.HALF_UP);
+		    this.doubleValue = bd.doubleValue();
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return getValueConvertedToString();
@@ -696,5 +707,7 @@ public class DataItem {
 		
 		return newDataItem;
 	}
+
+	
 
 }
