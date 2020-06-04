@@ -4,6 +4,7 @@ import java.util.List;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
@@ -61,6 +62,87 @@ public class CommonArray {
 		}
 		
 		return sum/(double)arr.length;
+	}
+	
+	public static int sum(int[] arr) {
+		int sum = 0;
+		for (int i = 0; i < arr.length; i++) {
+			sum += arr[i];
+		}
+		return sum;
+	}
+	
+	public static double sum(double[] arr) {
+		double sum = 0;
+		for (int i = 0; i < arr.length; i++) {
+			sum += arr[i];
+		}
+		return sum;
+	}
+	
+	public static int product(int[] arr) {
+		int sum = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			sum *= arr[i];
+		}
+		return sum;
+	}
+	
+	public static double product(double[] arr) {
+		double sum = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			sum *= arr[i];
+		}
+		return sum;
+	}
+	
+	// inspirtion taken from here https://stackoverflow.com/a/29373490/6122201
+	public static int mode(int[] arr) {
+	    HashMap<Integer,Integer> countOccourences = new HashMap<Integer,Integer>();
+	    
+	    int maxOccourences  = 1;
+	    int mostCommonValue = 0;
+	    for(int valueCount = 0; valueCount < arr.length; valueCount++) {
+
+	        if (countOccourences.get(arr[valueCount]) != null) {
+
+	            int count = countOccourences.get(arr[valueCount]);
+	            count++;
+	            countOccourences.put(arr[valueCount], count);
+
+	            if(count > maxOccourences) {
+	                maxOccourences  = count;
+	                mostCommonValue = arr[valueCount];
+	            }
+	        } else {	        	
+	        	countOccourences.put(arr[valueCount],1);
+	        }
+	    }
+	    return mostCommonValue;
+	}
+	
+	public static double mode(double[] arr) {
+	    HashMap<Double,Integer> countOccourences = new HashMap<Double,Integer>();
+	    
+	    int maxOccourences  = 1;
+	    double mostCommonValue = 0;
+	    for(int valueCount = 0; valueCount < arr.length; valueCount++) {
+
+	        if (countOccourences.get(arr[valueCount]) != null) {
+
+	            int count = countOccourences.get(arr[valueCount]);
+	            count++;
+	            countOccourences.put(arr[valueCount], count);
+
+	            if(count > maxOccourences) {
+	                maxOccourences  = count;
+	                mostCommonValue = arr[valueCount];
+	            }
+	        } else {	        	
+	        	countOccourences.put(arr[valueCount],1);
+	        }
+	    }
+	    return mostCommonValue;
 	}
 	
 	public static double median(int arr[]) { 
@@ -575,6 +657,26 @@ public class CommonArray {
 	
 	public static int numberOfCommonStrings(ArrayList<String> arr1, ArrayList<String> arr2) {
 		return commonStrings(arr1, arr2).size();
+	}
+
+	public static double[] cumulativeMax(double[] arr) {
+		double[] cumulativeMax = new double[arr.length];
+		double currentMax = arr[0];
+		for (int index = 0; index < arr.length; index++) {
+			currentMax = Double.max(currentMax, arr[index]);
+			cumulativeMax[index] = currentMax;
+		}
+		return cumulativeMax;
+	}
+	
+	public static int[] cumulativeMax(int[] arr) {
+		int[] cumulativeMax = new int[arr.length];
+		int currentMax = arr[0];
+		for (int index = 0; index < arr.length; index++) {
+			currentMax = Integer.max(currentMax, arr[index]);
+			cumulativeMax[index] = currentMax;
+		}
+		return cumulativeMax;
 	}
 	
 //	public static ArrayList<String>  booleanMinusStringArrays(ArrayList<String>  largeArr, ArrayList<String>  smallArr) {

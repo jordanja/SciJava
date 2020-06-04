@@ -479,7 +479,7 @@ public class Main {
 		rowNames.add("row_one");
 		rowNames.add("row_two");
 		rowNames.add("row_three");
-//		rowNames.add("row_four");
+		rowNames.add("row_four");
 //		rowNames.add("row_five");
 //		rowNames.add("row_six");
 //		rowNames.add("row_seven");
@@ -494,7 +494,7 @@ public class Main {
 //		DataFrame newDF = df.maxInRows();
 //		System.out.println(newDF);
 		
-		System.out.println(df.mediun());
+		System.out.println(df.cumulativeMaxInRows(0, 3));
 		
 		
 //		DataFrame df1 = new DataFrame(
