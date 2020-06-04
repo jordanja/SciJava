@@ -90,6 +90,15 @@ public class CommonArray {
 		return max;
 	}
 	
+	public static Double minValue(double[] arr) {
+		Double min = Double.MAX_VALUE;
+		
+		for (Double value : arr) {
+			min = Double.min(min, value);
+		}
+		return min;
+	}
+	
 	public static int indexOf(String[] arr, String element) {
 		for (int i = 0; i < arr.length; i++) {
 			if (arr[i].equals(element)) {
@@ -527,6 +536,10 @@ public class CommonArray {
 	public static int numberOfCommonStrings(ArrayList<String> arr1, ArrayList<String> arr2) {
 		return commonStrings(arr1, arr2).size();
 	}
+	
+//	public static ArrayList<String>  booleanMinusStringArrays(ArrayList<String>  largeArr, ArrayList<String>  smallArr) {
+//		ArrayList<String> finalArr = new ArrayList<String>();
+//	}
 	
 //	public static Class<? extends Object> typeOfArrayList(ArrayList<Object> arr) {
 //		

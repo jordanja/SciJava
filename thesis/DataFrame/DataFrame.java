@@ -74,7 +74,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 				if (cls == String.class) {
 					fill = CommonArray.randomString(5);
 				} else if (cls == Integer.class) {
-					fill = ThreadLocalRandom.current().nextInt(-10, 11);
+					fill = ThreadLocalRandom.current().nextInt(-20, 21);
 				} else if (cls == Double.class) {
 					Double doubleValue = ThreadLocalRandom.current().nextDouble(-10, 10);
 					DecimalFormat df = new DecimalFormat("#.####");
@@ -3527,6 +3527,200 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public boolean sameShape(DataFrame df) {
 		return ((this.getNumCols() == df.getNumCols()) && (this.getNumRows() == df.getNumRows())); 
 	}
+	
+	// ----------------------------------------------
+	// ------ Computations / Descriptive Stats ------
+	// ----------------------------------------------
+	public Double max() {
+		DataFrame newDF = this.maxInColumns();
+		return newDF.maxInRow(0);
+	}
+
+	public DataFrame maxInColumns() {
+		return maxInColumns(0, this.getNumCols() - 1);	
+	}
+
+	public Double maxInColumn(int columnIndex) {
+		double[] column = this.getColumnAsDoubleArray(columnIndex);
+		return CommonArray.maxValue(column);	
+	}
+
+	public Double maxInColumn(String columnName) {
+		return maxInColumn(this.columnNames.indexOf(columnName));	
+	}
+
+	public DataFrame maxInColumns(int[] columnIndices) {
+		ArrayList<String> columns = new ArrayList<String>();
+		for (int columnIndex: columnIndices) {
+			columns.add(this.columnNames.get(columnIndex));
+		}
+		ArrayList<String> row = new ArrayList<String>();
+		row.add("max");
+		DataFrame maxDF = new DataFrame(columns, row);
+		
+		for (int columnIndex = 0; columnIndex < columnIndices.length; columnIndex++) {
+			maxDF.setValue(columnIndex, 0, maxInColumn(columnIndices[columnIndex]));
+		}
+		
+		return maxDF;
+	}
+
+	public DataFrame maxInColumns(String[] columnNames) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
+		return maxInColumns(indices);
+	}
+
+	public DataFrame maxInColumns(ArrayList<String> columnNames) {
+		return maxInColumns(columnNames.toArray(new String[0]));
+	}
+
+	public DataFrame maxInColumns(int minIndex, int maxIndex) {
+		int[] indicesToGet = IntStream.rangeClosed(minIndex, maxIndex).toArray();
+		return maxInColumns(indicesToGet);
+	}
+
+	public DataFrame maxInRows() {
+		this.transpose();
+		DataFrame value = this.maxInColumns();
+		this.transpose();
+		return value;		
+	}
+
+	public Double maxInRow(int rowIndex) {
+		this.transpose();
+		double value = this.maxInColumn(rowIndex);
+		this.transpose();
+		return value;	
+	}
+
+	public Double maxInRow(String columnName) {
+		this.transpose();
+		double value = this.maxInColumn(columnName);
+		this.transpose();
+		return value;	
+	}
+
+	public DataFrame maxInRows(int[] columnIndices) {
+		this.transpose();
+		DataFrame newDF = this.maxInColumns(columnIndices);
+		this.transpose();
+		return newDF;	
+	}
+
+	public DataFrame maxInRows(String[] columnNames) {
+		this.transpose();
+		DataFrame newDF = this.maxInColumns(columnNames);
+		this.transpose();
+		return newDF;	
+	}
+
+	public DataFrame maxInRows(ArrayList<String> columnNames) {
+		return maxInRows(columnNames.toArray(new String[0]));	
+	}
+
+	public DataFrame maxInRows(int minIndex, int maxIndex) {
+		this.transpose();
+		DataFrame newDF = this.maxInColumns(minIndex, maxIndex);
+		this.transpose();
+		return newDF;	
+	}
+
+	
+	public Double min() {
+		DataFrame newDF = this.minInColumns();
+		return newDF.minInRow(0);
+	}
+	
+	public DataFrame minInColumns() {
+		return minInColumns(0, this.getNumCols() - 1);	
+	}
+	
+	public Double minInColumn(int columnIndex) {
+		double[] column = this.getColumnAsDoubleArray(columnIndex);
+		return CommonArray.minValue(column);
+	}
+	
+	public Double minInColumn(String columnName) {
+		return minInColumn(this.columnNames.indexOf(columnName));	
+	}
+	
+	public DataFrame minInColumns(int[] columnIndices) {
+		ArrayList<String> columns = new ArrayList<String>();
+		for (int columnIndex: columnIndices) {
+			columns.add(this.columnNames.get(columnIndex));
+		}
+		ArrayList<String> row = new ArrayList<String>();
+		row.add("max");
+		DataFrame maxDF = new DataFrame(columns, row);
+		
+		for (int columnIndex = 0; columnIndex < columnIndices.length; columnIndex++) {
+			maxDF.setValue(columnIndex, 0, minInColumn(columnIndices[columnIndex]));
+		}
+		
+		return maxDF;
+	}
+	
+	public DataFrame minInColumns(String[] columnNames) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
+		return minInColumns(indices);
+	}
+	
+	public DataFrame minInColumns(ArrayList<String> columnNames) {
+		return minInColumns(columnNames.toArray(new String[0]));
+	}
+	
+	public DataFrame minInColumns(int minIndex, int maxIndex) {
+		int[] indicesToGet = IntStream.rangeClosed(minIndex, maxIndex).toArray();
+		return minInColumns(indicesToGet);
+	}
+	
+	public DataFrame minInRows() {
+		this.transpose();
+		DataFrame value = this.minInColumns();
+		this.transpose();
+		return value;	
+	}
+	
+	public Double minInRow(int rowIndex) {
+		this.transpose();
+		double value = this.minInColumn(rowIndex);
+		this.transpose();
+		return value;
+	}
+	
+	public Double minInRow(String rowName) {
+		this.transpose();
+		double value = this.minInColumn(rowName);
+		this.transpose();
+		return value;
+	}
+	
+	public DataFrame minInRows(int[] rowIndices) {
+		this.transpose();
+		DataFrame newDF = this.minInColumns(rowIndices);
+		this.transpose();
+		return newDF;
+	}
+	
+	public DataFrame minInRows(String[] rowNames) {
+		this.transpose();
+		DataFrame newDF = this.minInColumns(rowNames);
+		this.transpose();
+		return newDF;	
+	}
+	
+	public DataFrame minInRows(ArrayList<String> rowNames) {
+		return minInRows(rowNames.toArray(new String[0]));
+	}
+	
+	public DataFrame minInRows(int minIndex, int maxIndex) {
+		this.transpose();
+		DataFrame newDF = this.minInColumns(minIndex, maxIndex);
+		this.transpose();
+		return newDF;	
+	}
+	
+	
 	
 	// ---------------------
 	// ------ Setters ------
