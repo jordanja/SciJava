@@ -466,9 +466,9 @@ public class Main {
 		ArrayList<String> columnNames = new ArrayList<String>();
 		columnNames.add("col_f");
 		columnNames.add("col_r");
-		columnNames.add("col_n");
-		columnNames.add("col_w");
-		columnNames.add("col_S");
+//		columnNames.add("col_n");
+//		columnNames.add("col_w");
+//		columnNames.add("col_S");
 //		columnNames.add("col_z");
 //		columnNames.add("col_A");
 //		columnNames.add("col_m");
@@ -478,26 +478,23 @@ public class Main {
 		ArrayList<String> rowNames = new ArrayList<String>();
 		rowNames.add("row_one");
 		rowNames.add("row_two");
-//		rowNames.add("row_three");
-//		rowNames.add("row_four");
-//		rowNames.add("row_five");
-//		rowNames.add("row_six");
-//		rowNames.add("row_seven");
+		rowNames.add("row_three");
+		rowNames.add("row_four");
+		rowNames.add("row_five");
+		rowNames.add("row_six");
+		rowNames.add("row_seven");
 //		rowNames.add("row_eight");
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
 		
 		
 		
-		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
+		DataFrame df = new DataFrame(columnNames, rowNames, Double.class);
 		System.out.println(df);
 		
-		
-		int[][] cols = df.getColumnsAs2DIntArray(new int[] {0, 1, 2});
-		CommonArray.print2DArray(cols);
-		
-		df.appendColumns(5);
+		df.appendRows(10, 4);
 	
+		System.out.println(df.getValue(0, 1).getType());
 		
 		
 		

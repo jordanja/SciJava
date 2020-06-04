@@ -190,6 +190,14 @@ public class CommonArray {
 		return list;
 	}
 
+	public static List<Object> convertArrayToObjectList(LocalDate[] arr) {
+		ArrayList<Object> list = new ArrayList<Object>();
+		for (LocalDate element: arr) {
+			list.add(element);
+		}
+		return list;
+	}
+	
 	public static List<Object> convertArrayToObjectList(String[] arr) {
 		ArrayList<Object> list = new ArrayList<Object>();
 		for (String element: arr) {

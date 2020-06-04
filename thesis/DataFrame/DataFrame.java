@@ -326,6 +326,46 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(index, columnName, CommonArray.convertArrayToObjectList(column));
 	}
 	
+	public void insertColumn(int index, String columnName, LocalDate[] column) {
+		insertColumn(index, columnName, CommonArray.convertArrayToObjectList(column));
+	}
+	
+	public void insertColumn(int index, String columnName, Object value) {
+		Object[] column = CommonArray.initializeObjectArrayWithValues(this.getNumRows(), value);
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, String columnName, int value) {
+		int[] column = CommonArray.initializeIntArrayWithValues(this.getNumRows(), value);
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, String columnName, float value) {
+		float[] column = CommonArray.initializeFloatArrayWithValues(this.getNumRows(), value);
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, String columnName, double value) {
+		double[] column = CommonArray.initializeDoubleArrayWithValues(this.getNumRows(), value);
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, String columnName, boolean value) {
+		boolean[] column = CommonArray.initializeBooleanArrayWithValues(this.getNumRows(), value);
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, String columnName, String value) {
+		String[] column = CommonArray.initializeStringArrayWithValues(this.getNumRows(), value);
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, String columnName, LocalDate value) {
+		LocalDate[] column = CommonArray.initializeLocalDateArrayWithValues(this.getNumRows(), value);
+		insertColumn(index, columnName, column);
+	}
+	
+	
 	public void insertColumn(int index, String columnName) {
 		Object[] nullArr = new Object[this.getNumRows()];
 		insertColumn(index, columnName, nullArr);
@@ -369,6 +409,42 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		String columnName = generateUnusedColumnName();
 		insertColumn(index, columnName, column);
 	}
+	
+	public void insertColumn(int index, LocalDate[] column) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, column);
+	}
+	
+	public void insertColumn(int index, Object value) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, value);
+	}
+	
+	public void insertColumn(int index, int value) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, value);
+	}
+	
+	public void insertColumn(int index, float value) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, value);
+	}
+	
+	public void insertColumn(int index, double value) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, value);
+	}
+	
+	public void insertColumn(int index, boolean value) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, value);
+	}
+	
+	public void insertColumn(int index, LocalDate value) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, value);
+	}
+	
 	
 	public void insertColumn(int index) {
 		String columnName = generateUnusedColumnName();
@@ -462,6 +538,57 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
+	public void insertColumns(int index, String[] columnNames, LocalDate[][] columns) {
+		int columnOffset = 0;
+		for (LocalDate[] column : columns) {
+			insertColumn(index + columnOffset, columnNames[columnOffset], column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, Object value) {
+		for (int colCount = 0; colCount < columnNames.length; colCount++) {
+			insertColumn(index + colCount, columnNames[colCount], value);
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, int value) {
+		for (int colCount = 0; colCount < columnNames.length; colCount++) {
+			insertColumn(index + colCount, columnNames[colCount], value);
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, float value) {
+		for (int colCount = 0; colCount < columnNames.length; colCount++) {
+			insertColumn(index + colCount, columnNames[colCount], value);
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, double value) {
+		for (int colCount = 0; colCount < columnNames.length; colCount++) {
+			insertColumn(index + colCount, columnNames[colCount], value);
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, boolean value) {
+		for (int colCount = 0; colCount < columnNames.length; colCount++) {
+			insertColumn(index + colCount, columnNames[colCount], value);
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, String value) {
+		for (int colCount = 0; colCount < columnNames.length; colCount++) {
+			insertColumn(index + colCount, columnNames[colCount], value);
+		}
+	}
+	
+	public void insertColumns(int index, String[] columnNames, LocalDate value) {
+		for (int colCount = 0; colCount < columnNames.length; colCount++) {
+			insertColumn(index + colCount, columnNames[colCount], value);
+		}
+	}
+	
+	
 	public void insertColumns(int index, String[] columnNames) {
 		Object[][] columns = new Object[columnNames.length][this.getNumRows()];
 		int columnOffset = 0;
@@ -528,6 +655,44 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
+	public void insertColumns(int index, LocalDate[][] columns) {
+		int columnOffset = 0;
+		for (LocalDate[] column: columns) {
+			insertColumn(index + columnOffset, column);
+			columnOffset++;
+		}
+	}
+	
+	public void insertColumns(int index, int numColumns, int value) {
+		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
+			insertColumn(index + columnCount, value);
+		}
+	}
+	
+	public void insertColumns(int index, int numColumns, float value) {
+		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
+			insertColumn(index + columnCount, value);
+		}
+	}
+	
+	public void insertColumns(int index, int numColumns, double value) {
+		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
+			insertColumn(index + columnCount, value);
+		}
+	}
+	
+	public void insertColumns(int index, int numColumns, boolean value) {
+		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
+			insertColumn(index + columnCount, value);
+		}
+	}
+	
+	public void insertColumns(int index, int numColumns, LocalDate value) {
+		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
+			insertColumn(index + columnCount, value);
+		}
+	}
+	
 	public void insertColumns(int index, int numColumns) {
 		Object[][] columns = new Object[numColumns][this.getNumRows()];
 		int columnOffset = 0;
@@ -574,6 +739,38 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(this.columnNames.size(), columnName, column);
 	}
 	
+	public void appendColumn(String columnName, LocalDate[] column) {
+		insertColumn(this.columnNames.size(), columnName, column);
+	}
+	
+	public void appendColumn(String columnName, Object value) {
+		insertColumn(this.columnNames.size(), columnName, value);
+	}
+	
+	public void appendColumn(String columnName, int value) {
+		insertColumn(this.columnNames.size(), columnName, value);
+	}
+	
+	public void appendColumn(String columnName, float value) {
+		insertColumn(this.columnNames.size(), columnName, value);
+	}
+	
+	public void appendColumn(String columnName, double value) {
+		insertColumn(this.columnNames.size(), columnName, value);
+	}
+	
+	public void appendColumn(String columnName, boolean value) {
+		insertColumn(this.columnNames.size(), columnName, value);
+	}
+	
+	public void appendColumn(String columnName, String value) {
+		insertColumn(this.columnNames.size(), columnName, value);
+	}
+	
+	public void appendColumn(String columnName, LocalDate value) {
+		insertColumn(this.columnNames.size(), columnName, value);
+	}
+	
 	public void appendColumn(String columnName) {
 		insertColumn(this.columnNames.size(), columnName);
 	}
@@ -611,10 +808,38 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(this.columnNames.size(), column);
 	}
 	
+	public void appendColumn(LocalDate[] column) {
+		insertColumn(this.columnNames.size(), column);
+	}
+	
+	public void appendColumn(Object value) {
+		insertColumn(this.columnNames.size(), value);
+	}
+	
+	public void appendColumn(int value) {
+		insertColumn(this.columnNames.size(), value);
+	}
+	
+	public void appendColumn(float value) {
+		insertColumn(this.columnNames.size(), value);
+	}
+	
+	public void appendColumn(double value) {
+		insertColumn(this.columnNames.size(), value);
+	}
+	
+	public void appendColumn(boolean value) {
+		insertColumn(this.columnNames.size(), value);
+	}
+	
+	public void appendColumn(LocalDate value) {
+		insertColumn(this.columnNames.size(), value);
+	}
+	
+	
 	public void appendColumn() {
 		insertColumn(this.columnNames.size());
 	}
-	
 	
 	public void appendColumn(DataItem[] column) {
 		insertColumn(this.columnNames.size(), column);
@@ -660,6 +885,38 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumns(this.columnNames.size(), columnNames, columns);
 	}
 	
+	public void appendColumns(String[] columnNames, LocalDate[][] columns) {
+		insertColumns(this.columnNames.size(), columnNames, columns);
+	}
+	
+	public void appendColumns(String[] columnNames, Object value) {
+		insertColumns(this.columnNames.size(), columnNames, value);
+	}
+	
+	public void appendColumns(String[] columnNames, int value) {
+		insertColumns(this.columnNames.size(), columnNames, value);
+	}
+	
+	public void appendColumns(String[] columnNames, float value) {
+		insertColumns(this.columnNames.size(), columnNames, value);
+	}
+	
+	public void appendColumns(String[] columnNames, double value) {
+		insertColumns(this.columnNames.size(), columnNames, value);
+	}
+	
+	public void appendColumns(String[] columnNames, boolean value) {
+		insertColumns(this.columnNames.size(), columnNames, value);
+	}
+	
+	public void appendColumns(String[] columnNames, String value) {
+		insertColumns(this.columnNames.size(), columnNames, value);
+	}
+	
+	public void appendColumns(String[] columnNames, LocalDate value) {
+		insertColumns(this.columnNames.size(), columnNames, value);
+	}
+	
 	public void appendColumns(String[] columnNames) {
 		insertColumns(this.columnNames.size(), columnNames);
 	}
@@ -697,6 +954,31 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumns(this.getColumnNames().size(), columns);
 	}
 	
+	public void appendColumns(LocalDate[][] columns) {
+		insertColumns(this.getColumnNames().size(), columns);
+	}
+	
+	public void appendColumns(int numColumns, int value) {
+		insertColumns(this.getColumnNames().size(), numColumns, value);
+	}
+	
+	public void appendColumns(int numColumns, float value) {
+		insertColumns(this.getColumnNames().size(), numColumns, value);
+	}
+	
+	public void appendColumns(int numColumns, double value) {
+		insertColumns(this.getColumnNames().size(), numColumns, value);
+	}
+	
+	public void appendColumns(int numColumns, boolean value) {
+		insertColumns(this.getColumnNames().size(), numColumns, value);
+	}
+	
+	public void appendColumns(int numColumns, LocalDate value) {
+		insertColumns(this.getColumnNames().size(), numColumns, value);
+	}
+	
+	
 	public void appendColumns(int numColumns) {
 		insertColumns(this.getColumnNames().size(), numColumns);
 	}
@@ -706,7 +988,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumns(this.getColumnNames().size(), columns);
 	}
 	
-	public void insertRow(int index, String rowName, ArrayList<Object> row) {
+	public void insertRow(int index, String rowName, List<Object> row) {
 		if (index > this.rowNames.size()) {
 			System.out.println("Row index too high");
 			return;
@@ -735,6 +1017,72 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertRow(index, rowName, new ArrayList<Object>(Arrays.asList(row)));
 	}
 	
+	public void insertRow(int index, String rowName, int[] row) {
+		insertRow(index, rowName, CommonArray.convertArrayToObjectList(row));
+	}
+	
+	public void insertRow(int index, String rowName, float[] row) {
+		insertRow(index, rowName, CommonArray.convertFloatArrayToDoubleArray(row));
+	}
+	
+	public void insertRow(int index, String rowName, double[] row) {
+		insertRow(index, rowName, CommonArray.convertArrayToObjectList(row));
+	}
+	
+	public void insertRow(int index, String rowName, boolean[] row) {
+		insertRow(index, rowName, CommonArray.convertArrayToObjectList(row));
+	}
+	
+	public void insertRow(int index, String rowName, String[] row) {
+		insertRow(index, rowName, CommonArray.convertArrayToObjectList(row));
+	}
+	
+	public void insertRow(int index, String rowName, LocalDate[] row) {
+		insertRow(index, rowName, CommonArray.convertArrayToObjectList(row));
+	}
+	
+	public void insertRow(int index, String rowName, Object value) {
+		Object[] row = CommonArray.initializeObjectArrayWithValues(this.getNumCols(), value);
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, String rowName, int value) {
+		int[] row = CommonArray.initializeIntArrayWithValues(this.getNumCols(), value);
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, String rowName, float value) {
+		float[] row = CommonArray.initializeFloatArrayWithValues(this.getNumCols(), value);
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, String rowName, double value) {
+		double[] row = CommonArray.initializeDoubleArrayWithValues(this.getNumCols(), value);
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, String rowName, boolean value) {
+		boolean[] row = CommonArray.initializeBooleanArrayWithValues(this.getNumCols(), value);
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, String rowName, String value) {
+		String[] row = CommonArray.initializeStringArrayWithValues(this.getNumCols(), value);
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, String rowName, LocalDate value) {
+		LocalDate[] row = CommonArray.initializeLocalDateArrayWithValues(this.getNumCols(), value);
+		insertRow(index, rowName, row);
+	}
+	
+	
+	public void insertRow(int index, String rowName) {
+		Object[] nullArr = new Object[this.getNumCols()];
+		insertRow(index, rowName, nullArr);
+	}
+	
+	
 	public void insertRow(int index, String rowName, DataItem[] row) {
 		insertRow(index, rowName, new ArrayList<Object>(Arrays.asList(row)));
 	}
@@ -748,6 +1096,68 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		String rowName = generateUnusedRowName();
 		insertRow(index, rowName, row);
 	}
+	
+	public void insertRow(int index, int[] row) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, float[] row) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, double[] row) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, boolean[] row) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, String[] row) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, LocalDate[] row) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, row);
+	}
+	
+	public void insertRow(int index, int value) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, value);
+	}
+	
+	public void insertRow(int index, float value) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, value);
+	}
+	
+	public void insertRow(int index, double value) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, value);
+	}
+	
+	public void insertRow(int index, boolean value) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, value);
+	}
+	
+	public void insertRow(int index, LocalDate value) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, value);
+	}
+	
+	public void insertRow(int index) {
+		String rowName = generateUnusedRowName();
+		Object[] nullArr = new Object[this.getNumCols()];
+		insertRow(index, rowName, nullArr);
+	}
+	
 	
 	public void insertRow(int index, DataItem[] row) {
 		String rowName = generateUnusedRowName();
@@ -798,6 +1208,106 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
+	public void insertRows(int index, String[] rowNames, int[][] rows) {
+		int rowOffset = 0;
+		for (int[] row : rows) {
+			insertRow(index + rowOffset, rowNames[rowOffset], row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, float[][] rows) {
+		int rowOffset = 0;
+		for (float[] row : rows) {
+			insertRow(index + rowOffset, rowNames[rowOffset], row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, double[][] rows) {
+		int rowOffset = 0;
+		for (double[] row : rows) {
+			insertRow(index + rowOffset, rowNames[rowOffset], row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, boolean[][] rows) {
+		int rowOffset = 0;
+		for (boolean[] row : rows) {
+			insertRow(index + rowOffset, rowNames[rowOffset], row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, String[][] rows) {
+		int rowOffset = 0;
+		for (String[] row : rows) {
+			insertRow(index + rowOffset, rowNames[rowOffset], row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, LocalDate[][] rows) {
+		int rowOffset = 0;
+		for (LocalDate[] row : rows) {
+			insertRow(index + rowOffset, rowNames[rowOffset], row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, Object value) {
+		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
+			insertRow(index + rowCount, rowNames[rowCount], value);
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, int value) {
+		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
+			insertRow(index + rowCount, rowNames[rowCount], value);
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, float value) {
+		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
+			insertRow(index + rowCount, rowNames[rowCount], value);
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, double value) {
+		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
+			insertRow(index + rowCount, rowNames[rowCount], value);
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, boolean value) {
+		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
+			insertRow(index + rowCount, rowNames[rowCount], value);
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, String value) {
+		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
+			insertRow(index + rowCount, rowNames[rowCount], value);
+		}
+	}
+	
+	public void insertRows(int index, String[] rowNames, LocalDate value) {
+		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
+			insertRow(index + rowCount, rowNames[rowCount], value);
+		}
+	}
+	
+	
+	public void insertRows(int index, String[] rowNames) {
+		int rowOffset = 0;
+		Object[][] rows = new Object[rowNames.length][this.getNumCols()];
+		for (Object[] row : rows) {
+			insertRow(index + rowOffset, rowNames[rowOffset], row);
+			rowOffset++;
+		}
+	}
+	
 	public void insertRows(int index, String[] rowNames, DataItem[][] rows) {
 		int rowOffset = 0;
 		for (DataItem[] row : rows) {
@@ -824,6 +1334,107 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
+	public void insertRows(int index, int[][] rows) {
+		int rowOffset = 0;
+		for (int[] row : rows) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowOffset, rowName, row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, float[][] rows) {
+		int rowOffset = 0;
+		for (float[] row : rows) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowOffset, rowName, row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, double[][] rows) {
+		int rowOffset = 0;
+		for (double[] row : rows) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowOffset, rowName, row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, boolean[][] rows) {
+		int rowOffset = 0;
+		for (boolean[] row : rows) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowOffset, rowName, row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, String[][] rows) {
+		int rowOffset = 0;
+		for (String[] row : rows) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowOffset, rowName, row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, LocalDate[][] rows) {
+		int rowOffset = 0;
+		for (LocalDate[] row : rows) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowOffset, rowName, row);
+			rowOffset++;
+		}
+	}
+	
+	public void insertRows(int index, int numRows, int value) {
+		for (int rowCount = 0; rowCount < numRows; rowCount++) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowCount, rowName, value);
+		}
+	}
+	
+	public void insertRows(int index, int numRows, float value) {
+		for (int rowCount = 0; rowCount < numRows; rowCount++) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowCount, rowName, value);
+		}
+	}
+	
+	public void insertRows(int index, int numRows, double value) {
+		for (int rowCount = 0; rowCount < numRows; rowCount++) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowCount, rowName, value);
+		}
+	}
+	
+	public void insertRows(int index, int numRows, boolean value) {
+		for (int rowCount = 0; rowCount < numRows; rowCount++) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowCount, rowName, value);
+		}
+	}
+	
+	public void insertRows(int index, int numRows, LocalDate value) {
+		for (int rowCount = 0; rowCount < numRows; rowCount++) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowCount, rowName, value);
+		}
+	}
+
+	
+	public void insertRows(int index, int numRows) {
+		int rowOffset = 0;
+		Object[][] rows = new Object[numRows][this.getNumCols()];
+		for (Object[] row : rows) {
+			String rowName = generateUnusedRowName();
+			insertRow(index + rowOffset, rowName, row);
+			rowOffset++;
+		}
+	}
+	
+	
 	public void insertRows(int index, DataItem[][] rows) {
 		int rowOffset = 0;
 		for (DataItem[] row : rows) {
@@ -841,6 +1452,64 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertRow(this.rowNames.size(), rowName, row);
 	}
 	
+	public void appendRow(String rowName, int[] row) {
+		insertRow(this.rowNames.size(), rowName, row);
+	}
+	
+	public void appendRow(String rowName, float[] row) {
+		insertRow(this.rowNames.size(), rowName, row);
+	}
+	
+	public void appendRow(String rowName, double[] row) {
+		insertRow(this.rowNames.size(), rowName, row);
+	}
+	
+	public void appendRow(String rowName, boolean[] row) {
+		insertRow(this.rowNames.size(), rowName, row);
+	}
+	
+	public void appendRow(String rowName, String[] row) {
+		insertRow(this.rowNames.size(), rowName, row);
+	}
+	
+	public void appendRow(String rowName, LocalDate[] row) {
+		insertRow(this.rowNames.size(), rowName, row);
+	}
+	
+	public void appendRow(String rowName, Object value) {
+		insertRow(this.rowNames.size(), rowName, value);
+	}
+	
+	public void appendRow(String rowName, int value) {
+		insertRow(this.rowNames.size(), rowName, value);
+	}
+	
+	public void appendRow(String rowName, float value) {
+		insertRow(this.rowNames.size(), rowName, value);
+	}
+	
+	public void appendRow(String rowName, double value) {
+		insertRow(this.rowNames.size(), rowName, value);
+	}
+	
+	public void appendRow(String rowName, boolean value) {
+		insertRow(this.rowNames.size(), rowName, value);
+	}
+	
+	public void appendRow(String rowName, String value) {
+		insertRow(this.rowNames.size(), rowName, value);
+	}
+	
+	public void appendRow(String rowName, LocalDate value) {
+		insertRow(this.rowNames.size(), rowName, value);
+	}
+	
+	
+	public void appendRow(String rowName) {
+		insertRow(this.rowNames.size(), rowName);
+	}
+	
+	
 	public void appendRow(String rowName, DataItem[] row) {
 		insertRow(this.rowNames.size(), rowName, row);
 	}
@@ -852,6 +1521,56 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void appendRow(Object[] row) {
 		insertRow(this.rowNames.size(), row);
 	}
+	
+	public void appendRow(int[] row) {
+		insertRow(this.rowNames.size(), row);
+	}
+	
+	public void appendRow(float[] row) {
+		insertRow(this.rowNames.size(), row);
+	}
+	
+	public void appendRow(double[] row) {
+		insertRow(this.rowNames.size(), row);
+	}
+	
+	public void appendRow(boolean[] row) {
+		insertRow(this.rowNames.size(), row);
+	}
+	
+	public void appendRow(String[] row) {
+		insertRow(this.rowNames.size(), row);
+	}
+	
+	public void appendRow(LocalDate[] row) {
+		insertRow(this.rowNames.size(), row);
+	}
+
+	public void appendRow(int value) {
+		insertRow(this.rowNames.size(), value);
+	}
+	
+	public void appendRow(float value) {
+		insertRow(this.rowNames.size(), value);
+	}
+	
+	public void appendRow(double value) {
+		insertRow(this.rowNames.size(), value);
+	}
+	
+	public void appendRow(boolean value) {
+		insertRow(this.rowNames.size(), value);
+	}
+	
+	public void appendRow(LocalDate value) {
+		insertRow(this.rowNames.size(), value);
+	}
+	
+	
+	public void appendRow() {
+		insertRow(this.rowNames.size());
+	}
+	
 	
 	public void appendRow(DataItem[] row) {
 		insertRow(this.rowNames.size(), row);
@@ -880,6 +1599,64 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void appendRows(String[] names, Object[][] rows) {
 		insertRows(this.rowNames.size(), names, rows);
 	}
+	
+	public void appendRows(String[] rowNames, int[][] rows) {
+		insertRows(this.rowNames.size(), rowNames, rows);
+	}
+	
+	public void appendRows(String[] rowNames, float[][] rows) {
+		insertRows(this.rowNames.size(), rowNames, rows);
+	}
+	
+	public void appendRows(String[] rowNames, double[][] rows) {
+		insertRows(this.rowNames.size(), rowNames, rows);
+	}
+	
+	public void appendRows(String[] rowNames, boolean[][] rows) {
+		insertRows(this.rowNames.size(), rowNames, rows);
+	}
+	
+	public void appendRows(String[] rowNames, String[][] rows) {
+		insertRows(this.rowNames.size(), rowNames, rows);
+	}
+	
+	public void appendRows(String[] rowNames, LocalDate[][] rows) {
+		insertRows(this.rowNames.size(), rowNames, rows);
+	}
+	
+	public void appendRows(String[] rowNames, Object value) {
+		insertRows(this.rowNames.size(), rowNames, value);
+	}
+	
+	public void appendRows(String[] rowNames, int value) {
+		insertRows(this.rowNames.size(), rowNames, value);
+	}
+	
+	public void appendRows(String[] rowNames, float value) {
+		insertRows(this.rowNames.size(), rowNames, value);
+	}
+	
+	public void appendRows(String[] rowNames, double value) {
+		insertRows(this.rowNames.size(), rowNames, value);
+	}
+	
+	public void appendRows(String[] rowNames, boolean value) {
+		insertRows(this.rowNames.size(), rowNames, value);
+	}
+	
+	public void appendRows(String[] rowNames, String value) {
+		insertRows(this.rowNames.size(), rowNames, value);
+	}
+	
+	public void appendRows(String[] rowNames, LocalDate value) {
+		insertRows(this.rowNames.size(), rowNames, value);
+	}
+	
+	
+	public void appendRows(String[] rowNames) {
+		insertRows(this.rowNames.size(), rowNames);
+	}
+	
 
 	public void appendRows(String[] rowNames, DataItem[][] rows) {
 		insertRows(this.rowNames.size(), rowNames, rows);
@@ -887,6 +1664,55 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public void appendRows(Object[][] rows) {
 		insertRows(this.rowNames.size(), rows);
+	}
+	
+	public void appendRows(int[][] rows) {
+		insertRows(this.rowNames.size(), rows);
+	}
+	
+	public void appendRows(float[][] rows) {
+		insertRows(this.rowNames.size(), rows);
+	}
+	
+	public void appendRows(double[][] rows) {
+		insertRows(this.rowNames.size(), rows);
+	}
+	
+	public void appendRows(boolean[][] rows) {
+		insertRows(this.rowNames.size(), rows);
+	}
+	
+	public void appendRows(String[][] rows) {
+		insertRows(this.rowNames.size(), rows);
+	}
+	
+	public void appendRows(LocalDate[][] rows) {
+		insertRows(this.rowNames.size(), rows);
+	}
+	
+	public void appendRows(int numRows, int value) {
+		insertRows(this.rowNames.size(), numRows, value);
+	}
+	
+	public void appendRows(int numRows, float value) {
+		insertRows(this.rowNames.size(), numRows, value);
+	}
+	
+	public void appendRows(int numRows, double value) {
+		insertRows(this.rowNames.size(), numRows, value);
+	}
+	
+	public void appendRows(int numRows, boolean value) {
+		insertRows(this.rowNames.size(), numRows, value);
+	}
+	
+	public void appendRows(int numRows, LocalDate value) {
+		insertRows(this.rowNames.size(), numRows, value);
+	}
+	
+	
+	public void appendRows(int numRows) {
+		insertRows(this.rowNames.size(), numRows);
 	}
 	
 	public void appendRows(DataItem[][] rows) {
