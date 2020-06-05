@@ -299,6 +299,14 @@ public class CommonArray {
 		return newArr;
 	}
 	
+	public static int[] convertIntegerListArrayToArray(ArrayList<Integer> arr) {
+		int[] newArr = new int[arr.size()];
+		for (int index = 0; index < arr.size(); index++) {
+			newArr[index] = arr.get(index);
+		}
+		return newArr;
+	}
+	
 	public static ArrayList<Object> convertStringArrayToObjectArrayList(String[] arr) {
 		ArrayList<Object> newArr = new ArrayList<Object>();
 		for (String value: arr) {
@@ -765,6 +773,15 @@ public class CommonArray {
 	
 	public static int numUnique(double[] arr) {
 		return (int) DoubleStream.of(arr).distinct().count();
+	}
+
+	public static int[] elementsOfTrues(boolean[] getColumn) {
+		ArrayList<Integer> indicesOfTrues = new ArrayList<Integer>();
+		for (int index = 0; index < getColumn.length; index++) {
+			if (getColumn[index]) indicesOfTrues.add(index);
+		}
+		
+		return CommonArray.convertIntegerListArrayToArray(indicesOfTrues);
 	}
 	
 //	public static ArrayList<String>  booleanMinusStringArrays(ArrayList<String>  largeArr, ArrayList<String>  smallArr) {

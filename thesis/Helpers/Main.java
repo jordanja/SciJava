@@ -463,10 +463,10 @@ public class Main {
 	}
 	
 	public static DataFrame play() {
-		ArrayList<String> columnNames = new ArrayList<String>();
-		columnNames.add("col_f");
-		columnNames.add("col_r");
-		columnNames.add("col_n");
+//		ArrayList<String> columnNames = new ArrayList<String>();
+//		columnNames.add("col_f");
+//		columnNames.add("col_r");
+//		columnNames.add("col_n");
 //		columnNames.add("col_w");
 //		columnNames.add("col_S");
 //		columnNames.add("col_z");
@@ -475,11 +475,11 @@ public class Main {
 //		columnNames.add("col_l");
 //		columnNames.add("col_t");
 		
-		ArrayList<String> rowNames = new ArrayList<String>();
-		rowNames.add("row_one");
-		rowNames.add("row_two");
-		rowNames.add("row_three");
-		rowNames.add("row_four");
+//		ArrayList<String> rowNames = new ArrayList<String>();
+//		rowNames.add("row_one");
+//		rowNames.add("row_two");
+//		rowNames.add("row_three");
+//		rowNames.add("row_four");
 //		rowNames.add("row_five");
 //		rowNames.add("row_six");
 //		rowNames.add("row_seven");
@@ -487,14 +487,11 @@ public class Main {
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
 		
+//		DataFrame df = new DataFrame(columnNames, rowNames, Boolean.class);
+
+		DataFrame df = DataFrame.zeros(4, 3);
 		
-		
-		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
-		
-//		DataFrame newDF = df.maxInRows();
-//		System.out.println(newDF);
-		
-		System.out.println(df.standardDeviationInRows(1));
+		System.out.println(DataFrame.zerosLike(df));
 		
 		
 //		DataFrame df1 = new DataFrame(

@@ -682,6 +682,17 @@ public class DataItem {
 		}
 	}
 	
+
+	public void squareRoot() {
+		if (this.type == StorageType.Double ) {
+			this.doubleValue = Math.sqrt(this.doubleValue);
+		} else if (this.type == StorageType.Integer) {
+			this.doubleValue = Math.sqrt(this.intValue);
+			this.type = StorageType.Double;
+			this.intValue = 0;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return getValueConvertedToString();
@@ -707,6 +718,7 @@ public class DataItem {
 		
 		return newDataItem;
 	}
+
 
 	
 

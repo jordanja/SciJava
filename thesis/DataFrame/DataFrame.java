@@ -58,6 +58,20 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
+	public DataFrame(int numColumns, int numRows, Object fill, StorageType type) {
+		this.columnNames = CommonArray.generateIncreasingSequence(numColumns);
+		this.rowNames = CommonArray.generateIncreasingSequence(numRows);
+		this.data = new ArrayList<ArrayList<DataItem>>();
+		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
+			ArrayList<DataItem> column = new ArrayList<DataItem>();
+			for (int rowCount = 0; rowCount < numRows; rowCount++) {
+				DataItem item = new DataItem(fill, type);
+				column.add(item);
+			}
+			this.data.add(column);
+		}
+	}
+	
 	// Create a DF with random values
 	public DataFrame(int numColumns, int numRows, Class<?> cls) {
 		this(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), cls);
@@ -281,6 +295,59 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	
+	public static DataFrame zeros(int numColumns, int numRows) {
+		return new DataFrame(numColumns, numRows, 0);
+	}
+	
+	public static DataFrame zerosLike(DataFrame otherDF) {
+		return zeros(otherDF.getNumCols(), otherDF.getNumRows());
+	}
+	
+	public static DataFrame zerosLike(Object[][] otherDF) {
+		return zeros(otherDF.length, otherDF[0].length);
+	}
+	
+	public static DataFrame zerosLike(ArrayList<ArrayList<Object>> otherDF) {
+		return zeros(otherDF.size(), otherDF.get(0).size());
+	}
+	
+	public static DataFrame ones(int numColumns, int numRows) {
+		return null;
+	}
+
+	public static DataFrame onesLike(DataFrame otherDF) {
+		return null;
+	}
+
+	public static DataFrame onesLike(Object[][] otherDF) {
+		return null;
+	}
+
+	public static DataFrame onesLike(ArrayList<ArrayList<Object>> otherDF) {
+		return null;
+	}
+
+	public static DataFrame identity(int numColumns, int numRows) {
+		return null;
+	}
+
+	public static DataFrame empty(int numColumns, int numRows) {
+		return null;
+	}
+
+	public static DataFrame emptyLike(DataFrame otherDF) {
+		return null;
+	}
+
+	public static DataFrame emptyLike(Object[][] otherDF) {
+		return null;
+	}
+
+	public static DataFrame emptyLike(ArrayList<ArrayList<Object>> otherDF) {
+		return null;
+	}
+
+
 	
 	public void insertColumn(int index, String columnName, List<Object> column) {
 		if (index > this.columnNames.size()) {
@@ -1917,6 +1984,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getColumnsAs2DDataItemArray(indicesToGet);
 	}
 	
+	public DataItem[][] getColumnsAs2DDataItemArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DDataItemArray(columnIndices);
+	}
+	
 	public String[][] getColumnsAs2DStringArray(int[] indices) {
 		String[][] columns = new String[indices.length][this.rowNames.size()];
 		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
@@ -1938,6 +2010,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public String[][] getColumnsAs2DStringArray(int lowerBound, int upperBound) {
 		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
 		return getColumnsAs2DStringArray(indicesToGet);
+	}
+	
+	public String[][] getColumnsAs2DStringArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DStringArray(columnIndices);
 	}
 	
 	public int[][] getColumnsAs2DIntArray(int[] indices) {
@@ -1963,6 +2040,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getColumnsAs2DIntArray(indicesToGet);
 	}
 	
+	public int[][] getColumnsAs2DIntArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DIntArray(columnIndices);
+	}
+	
 	public double[][] getColumnsAs2DDoubleArray(int[] indices) {
 		double[][] columns = new double[indices.length][this.rowNames.size()];
 		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
@@ -1984,6 +2066,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public double[][] getColumnsAs2DDoubleArray(int lowerBound, int upperBound) {
 		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
 		return getColumnsAs2DDoubleArray(indicesToGet);
+	}
+	
+	public double[][] getColumnsAs2DDoubleArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DDoubleArray(columnIndices);
 	}
 	
 	public boolean[][] getColumnsAs2DBooleanArray(int[] indices) {
@@ -2010,6 +2097,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getColumnsAs2DBooleanArray(indicesToGet);
 	}
 	
+	public boolean[][] getColumnsAs2DBooleanArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DBooleanArray(columnIndices);
+	}
+	
 	
 	public LocalDate[][] getColumnsAs2DDateArray(int[] indices) {
 		LocalDate[][] columns = new LocalDate[indices.length][this.rowNames.size()];
@@ -2032,6 +2124,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public LocalDate[][] getColumnsAs2DDateArray(int lowerBound, int upperBound) {
 		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
 		return getColumnsAs2DDateArray(indicesToGet);
+	}
+	
+	public LocalDate[][] getColumnsAs2DDateArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DDateArray(columnIndices);
 	}
 	
 	public DataFrame getColumnAsDataFrame(String name) {
@@ -2075,6 +2172,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame getColumnsAsDataFrame(int lowerBound, int upperBound) {
 		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
 		return getColumnsAsDataFrame(indicesToGet);
+	}
+	
+	public DataFrame getColumnsAsDataFrame(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAsDataFrame(columnIndices);
 	}
 
 	
@@ -2183,6 +2285,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getRowsAs2DDataItemArray(indicesToGet);
 	}
 	
+	public DataItem[][] getRowsAs2DDataItemArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DDataItemArray(columnIndices);
+	}
+	
 	
 	public String[][] getRowsAs2DStringArray(int[] indices)	{
 		String[][] rows = new String[indices.length][this.columnNames.size()];
@@ -2205,6 +2312,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public String[][] getRowsAs2DStringArray(int lowerBound, int upperBound) {
 		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
 		return getRowsAs2DStringArray(indicesToGet);
+	}
+	
+	public String[][] getRowsAs2DStringArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DStringArray(columnIndices);
 	}
 	
 	public int[][] getRowsAs2DIntArray(int[] indices) {
@@ -2230,6 +2342,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getRowsAs2DIntArray(indicesToGet);
 	}
 	
+	public int[][] getRowsAs2DIntArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DIntArray(columnIndices);
+	}
 	
 	public double[][] getRowsAs2DDoubleArray(int[] indices) {
 		double[][] rows = new double[indices.length][this.columnNames.size()];
@@ -2254,6 +2370,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getRowsAs2DDoubleArray(indicesToGet);
 	}
 	
+	public double[][] getRowsAs2DDoubleArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DDoubleArray(columnIndices);
+	}
+	
 	public boolean[][] getRowsAs2DBooleanArray(int[] indices) {
 		boolean[][] rows = new boolean[indices.length][this.columnNames.size()];
 		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
@@ -2275,6 +2396,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public boolean[][] getRowsAs2DBooleanArray(int lowerBound, int upperBound) {
 		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
 		return getRowsAs2DBooleanArray(indicesToGet);
+	}
+	
+	public boolean[][] getRowsAs2DBooleanArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DBooleanArray(columnIndices);
 	}
 
 	public LocalDate[][] getRowsAs2DDateArray(int[] indices) {
@@ -2298,6 +2424,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public LocalDate[][] getRowsAs2DDateArray(int lowerBound, int upperBound) {
 		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
 		return getRowsAs2DDateArray(indicesToGet);
+	}
+	
+	public LocalDate[][] getRowsAs2DDateArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DDateArray(columnIndices);
 	}
 	
 	public DataFrame getRowAsDataFrame(String name) {
@@ -2338,6 +2469,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame getRowsAsDataFrame(int lowerBound, int upperBound) {
 		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
 		return getRowsAsDataFrame(indicesToGet);
+	}
+	
+	public DataFrame getRowsAsDataFrame(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAsDataFrame(columnIndices);
 	}
 	
 	public DataFrame first() {
@@ -2679,6 +2815,16 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 		return this;
 	}
+	
+	public DataFrame squareRoot() {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				this.getValue(colCount, rowCount).squareRoot();
+			}	
+		}
+		return this;
+	}
+
 	
 	// ------ Absolute Value ------ 
 		public DataFrame absoluteValue() {
