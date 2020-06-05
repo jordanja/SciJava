@@ -4118,6 +4118,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame cumulativeMaxInColumn(int columnIndex) {
+		@SuppressWarnings("unchecked")
 		ArrayList<String> newRowNames = (ArrayList<String>) this.rowNames.clone();
 		ArrayList<String> newColumnNames = new ArrayList<String>();
 		newColumnNames.add(this.columnNames.get(columnIndex));
@@ -4135,6 +4136,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame cumulativeMaxInColumns(int[] columnIndices) {
+		@SuppressWarnings("unchecked")
 		ArrayList<String> newRowNames = (ArrayList<String>) this.rowNames.clone();
 		ArrayList<String> newColumnNames = new ArrayList<String>();
 		for (int columnIndex: columnIndices) {
@@ -4217,6 +4219,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame cumulativeMinInColumn(int columnIndex) {
+		@SuppressWarnings("unchecked")
 		ArrayList<String> newRowNames = (ArrayList<String>) this.rowNames.clone();
 		ArrayList<String> newColumnNames = new ArrayList<String>();
 		newColumnNames.add(this.columnNames.get(columnIndex));
@@ -4234,6 +4237,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame cumulativeMinInColumns(int[] columnIndices) {
+		@SuppressWarnings("unchecked")
 		ArrayList<String> newRowNames = (ArrayList<String>) this.rowNames.clone();
 		ArrayList<String> newColumnNames = new ArrayList<String>();
 		for (int columnIndex: columnIndices) {
@@ -4316,6 +4320,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame cumulativeSumInColumn(int columnIndex) {
+		@SuppressWarnings("unchecked")
 		ArrayList<String> newRowNames = (ArrayList<String>) this.rowNames.clone();
 		ArrayList<String> newColumnNames = new ArrayList<String>();
 		newColumnNames.add(this.columnNames.get(columnIndex));
@@ -4333,6 +4338,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame cumulativeSumInColumns(int[] columnIndices) {
+		@SuppressWarnings("unchecked")
 		ArrayList<String> newRowNames = (ArrayList<String>) this.rowNames.clone();
 		ArrayList<String> newColumnNames = new ArrayList<String>();
 		for (int columnIndex: columnIndices) {
@@ -4415,6 +4421,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame cumulativeProductInColumn(int columnIndex) {
+		@SuppressWarnings("unchecked")
 		ArrayList<String> newRowNames = (ArrayList<String>) this.rowNames.clone();
 		ArrayList<String> newColumnNames = new ArrayList<String>();
 		newColumnNames.add(this.columnNames.get(columnIndex));
@@ -4432,6 +4439,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame cumulativeProductInColumns(int[] columnIndices) {
+		@SuppressWarnings("unchecked")
 		ArrayList<String> newRowNames = (ArrayList<String>) this.rowNames.clone();
 		ArrayList<String> newColumnNames = new ArrayList<String>();
 		for (int columnIndex: columnIndices) {
@@ -4513,6 +4521,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame percentageChangeInColumn(int columnIndex) {
+		@SuppressWarnings("unchecked")
 		ArrayList<String> newRowNames = (ArrayList<String>) this.rowNames.clone();
 		ArrayList<String> newColumnNames = new ArrayList<String>();
 		newColumnNames.add(this.columnNames.get(columnIndex));
@@ -4530,6 +4539,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame percentageChangeInColumns(int[] columnIndices) {
+		@SuppressWarnings("unchecked")
 		ArrayList<String> newRowNames = (ArrayList<String>) this.rowNames.clone();
 		ArrayList<String> newColumnNames = new ArrayList<String>();
 		for (int columnIndex: columnIndices) {
@@ -4707,6 +4717,315 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame roundRows(HashMap<String, Integer> map) {
 		this.transpose();
 		DataFrame value = this.roundColumns(map);
+		this.transpose();
+		return value;
+	}
+
+	public int numUnique() {
+		double[] serializedValues = new double[this.getNumRows() * this.getNumCols()];
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				serializedValues[colCount * this.getNumRows() + rowCount] = this.getValue(colCount, rowCount).getValueConvertedToDouble();
+			}	
+		}
+		return CommonArray.numUnique(serializedValues);
+	}
+	
+	public DataFrame numUniqueInColumns() {
+		return numUniqueInColumns(0, this.getNumCols() - 1);
+	}
+
+	public int numUniqueInColumn(int columnIndex) {
+		double[] column = this.getColumnAsDoubleArray(columnIndex);
+		return CommonArray.numUnique(column);
+	}
+
+	public int numUniqueInColumn(String columnName) {
+		int columnIndex = this.columnNames.indexOf(columnName);
+		return numUniqueInColumn(columnIndex);
+	}
+
+	public DataFrame numUniqueInColumns(int[] columnIndices) {
+		ArrayList<String> columns = new ArrayList<String>();
+		for (int columnIndex: columnIndices) {
+			columns.add(this.columnNames.get(columnIndex));
+		}
+		ArrayList<String> row = new ArrayList<String>();
+		row.add("number_of_unique");
+		DataFrame maxDF = new DataFrame(columns, row);
+		
+		for (int columnIndex = 0; columnIndex < columnIndices.length; columnIndex++) {
+			maxDF.setValue(columnIndex, 0, numUniqueInColumn(columnIndices[columnIndex]));
+		}
+		
+		return maxDF;
+	}
+
+	public DataFrame numUniqueInColumns(String[] columnNames) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
+		return numUniqueInColumns(indices);
+	}
+
+	public DataFrame numUniqueInColumns(ArrayList<String> columnNames) {
+		return numUniqueInColumns(columnNames.toArray(new String[0]));
+	}
+
+	public DataFrame numUniqueInColumns(int minIndex, int maxIndex) {
+		int[] indicesToGet = IntStream.rangeClosed(minIndex, maxIndex).toArray();
+		return numUniqueInColumns(indicesToGet);
+	}
+
+	public DataFrame numUniqueInRows() {
+		this.transpose();
+		DataFrame value = this.numUniqueInColumns();
+		this.transpose();
+		return value;
+	}
+
+	public int numUniqueInRow(int rowIndex) {
+		this.transpose();
+		int value = this.numUniqueInColumn(rowIndex);
+		this.transpose();
+		return value;
+	}
+
+	public int numUniqueInRow(String rowName) {
+		this.transpose();
+		int value = this.numUniqueInColumn(rowName);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame numUniqueInRows(int[] rowIndices) {
+		this.transpose();
+		DataFrame value = this.numUniqueInColumns(rowIndices);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame numUniqueInRows(String[] rowNames) {
+		this.transpose();
+		DataFrame value = this.numUniqueInColumns(rowNames);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame numUniqueInRows(ArrayList<String> rowNames) {
+		this.transpose();
+		DataFrame value = this.numUniqueInColumns(rowNames);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame numUniqueInRows(int minIndex, int maxIndex) {
+		this.transpose();
+		DataFrame value = this.numUniqueInColumns(minIndex, maxIndex);
+		this.transpose();
+		return value;
+	}
+
+	public Double variance(int dof) {
+		double[] serializedValues = new double[this.getNumRows() * this.getNumCols()];
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				serializedValues[colCount * this.getNumRows() + rowCount] = this.getValue(colCount, rowCount).getValueConvertedToDouble();
+			}	
+		}
+		return CommonMath.variance(serializedValues, dof);
+	}
+
+	public DataFrame varianceInColumns(int dof) {
+		return varianceInColumns(dof, 0, this.getNumCols() - 1);
+	}
+
+	public Double varianceInColumn(int dof, int columnIndex) {
+		double[] column = this.getColumnAsDoubleArray(columnIndex);
+		return CommonMath.variance(column, dof);
+	}
+
+	public Double varianceInColumn(int dof, String columnName) {
+		int columnIndex = this.columnNames.indexOf(columnName);
+		return varianceInColumn(dof, columnIndex);
+	}
+
+	public DataFrame varianceInColumns(int dof, int[] columnIndices) {
+		ArrayList<String> columns = new ArrayList<String>();
+		for (int columnIndex: columnIndices) {
+			columns.add(this.columnNames.get(columnIndex));
+		}
+		ArrayList<String> row = new ArrayList<String>();
+		row.add("variance");
+		DataFrame maxDF = new DataFrame(columns, row);
+		
+		for (int columnIndex = 0; columnIndex < columnIndices.length; columnIndex++) {
+			maxDF.setValue(columnIndex, 0, varianceInColumn(dof, columnIndices[columnIndex]));
+		}
+		
+		return maxDF;
+	}
+
+	public DataFrame varianceInColumns(int dof, String[] columnNames) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
+		return varianceInColumns(dof, indices);
+	}
+
+	public DataFrame varianceInColumns(int dof, ArrayList<String> columnNames) {
+		return varianceInColumns(dof, columnNames.toArray(new String[0]));
+	}
+
+	public DataFrame varianceInColumns(int dof, int minIndex, int maxIndex) {
+		int[] indicesToGet = IntStream.rangeClosed(minIndex, maxIndex).toArray();
+		return varianceInColumns(dof, indicesToGet);
+	}
+
+	public DataFrame varianceInRows(int dof) {
+		this.transpose();
+		DataFrame value = this.varianceInColumns(dof);
+		this.transpose();
+		return value;
+	}
+
+	public Double varianceInRow(int dof, int rowIndex) {
+		this.transpose();
+		Double value = this.varianceInColumn(dof, rowIndex);
+		this.transpose();
+		return value;
+	}
+
+	public Double varianceInRow(int dof, String rowName) {
+		this.transpose();
+		Double value = this.varianceInColumn(dof, rowName);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame varianceInRows(int dof, int[] rowIndices) {
+		this.transpose();
+		DataFrame value = this.varianceInColumns(dof, rowIndices);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame varianceInRows(int dof, String[] rowNames) {
+		this.transpose();
+		DataFrame value = this.varianceInColumns(dof, rowNames);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame varianceInRows(int dof, ArrayList<String> rowNames) {
+		this.transpose();
+		DataFrame value = this.varianceInColumns(dof, rowNames);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame varianceInRows(int dof, int minIndex, int maxIndex) {
+		this.transpose();
+		DataFrame value = this.varianceInColumns(dof, minIndex, maxIndex);
+		this.transpose();
+		return value;
+	}
+	
+	public Double standardDeviation(int dof) {
+		double[] serializedValues = new double[this.getNumRows() * this.getNumCols()];
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				serializedValues[colCount * this.getNumRows() + rowCount] = this.getValue(colCount, rowCount).getValueConvertedToDouble();
+			}	
+		}
+		return CommonMath.standardDeviation(serializedValues, dof);
+	}
+
+	public DataFrame standardDeviationInColumns(int dof) {
+		return standardDeviationInColumns(dof, 0, this.getNumCols() - 1);
+	}
+
+	public Double standardDeviationInColumn(int dof, int columnIndex) {
+		double[] column = this.getColumnAsDoubleArray(columnIndex);
+		return CommonMath.standardDeviation(column, dof);
+	}
+
+	public Double standardDeviationInColumn(int dof, String columnName) {
+		int columnIndex = this.columnNames.indexOf(columnName);
+		return standardDeviationInColumn(dof, columnIndex);
+	}
+
+	public DataFrame standardDeviationInColumns(int dof, int[] columnIndices) {
+		ArrayList<String> columns = new ArrayList<String>();
+		for (int columnIndex: columnIndices) {
+			columns.add(this.columnNames.get(columnIndex));
+		}
+		ArrayList<String> row = new ArrayList<String>();
+		row.add("standard_deviation");
+		DataFrame maxDF = new DataFrame(columns, row);
+		
+		for (int columnIndex = 0; columnIndex < columnIndices.length; columnIndex++) {
+			maxDF.setValue(columnIndex, 0, standardDeviationInColumn(dof, columnIndices[columnIndex]));
+		}
+		
+		return maxDF;
+	}
+
+	public DataFrame standardDeviationInColumns(int dof, String[] columnNames) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
+		return standardDeviationInColumns(dof, indices);
+	}
+
+	public DataFrame standardDeviationInColumns(int dof, ArrayList<String> columnNames) {
+		return standardDeviationInColumns(dof, columnNames.toArray(new String[0]));
+	}
+
+	public DataFrame standardDeviationInColumns(int dof, int minIndex, int maxIndex) {
+		int[] indicesToGet = IntStream.rangeClosed(minIndex, maxIndex).toArray();
+		return standardDeviationInColumns(dof, indicesToGet);
+	}
+
+	public DataFrame standardDeviationInRows(int dof) {
+		this.transpose();
+		DataFrame value = this.standardDeviationInColumns(dof);
+		this.transpose();
+		return value;
+	}
+
+	public Double standardDeviationInRow(int dof, int rowIndex) {
+		this.transpose();
+		Double value = this.standardDeviationInColumn(dof, rowIndex);
+		this.transpose();
+		return value;
+	}
+
+	public Double standardDeviationInRow(int dof, String rowName) {
+		this.transpose();
+		Double value = this.standardDeviationInColumn(dof, rowName);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame standardDeviationInRows(int dof, int[] rowIndices) {
+		this.transpose();
+		DataFrame value = this.standardDeviationInColumns(dof, rowIndices);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame standardDeviationInRows(int dof, String[] rowNames) {
+		this.transpose();
+		DataFrame value = this.standardDeviationInColumns(dof, rowNames);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame standardDeviationInRows(int dof, ArrayList<String> rowNames) {
+		this.transpose();
+		DataFrame value = this.standardDeviationInColumns(dof, rowNames);
+		this.transpose();
+		return value;
+	}
+
+	public DataFrame standardDeviationInRows(int dof, int minIndex, int maxIndex) {
+		this.transpose();
+		DataFrame value = this.standardDeviationInColumns(dof, minIndex, maxIndex);
 		this.transpose();
 		return value;
 	}

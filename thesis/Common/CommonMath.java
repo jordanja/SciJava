@@ -24,6 +24,16 @@ public class CommonMath {
 		
 	}
 	
+	public static double average(double[] dataPoints) {
+		double sum = 0;
+		for (int i = 0; i < dataPoints.length; i++) {
+			sum += dataPoints[i];
+		}
+		
+		return sum/dataPoints.length;
+		
+	}
+	
 	public static double average(DataItem[] dataPoints) {
 		double sum = 0;
 		for (int i = 0; i < dataPoints.length; i++) {
@@ -49,6 +59,21 @@ public class CommonMath {
 			total += value;
 		}
 		return total;
+	}
+	
+	public static double variance(double arr[], int dof) {
+        double sum = 0;
+                
+        double average = average(arr);
+        for (double num: arr) {
+        	sum += Math.pow(num - average, 2);
+        }
+
+        return sum / (arr.length - dof);
+    }
+	
+	public static double standardDeviation(double arr[], int dof) {
+		return Math.sqrt(variance(arr, dof));
 	}
 	
 	public static double standardDeviation(Double arr[]) {

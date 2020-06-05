@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 import thesis.DataFrame.DataItem;
 
@@ -755,6 +757,14 @@ public class CommonArray {
 			percentageChange[index] = ((double)arr[index] - (double)arr[index-1])/(double)arr[index-1];
 		}
 		return percentageChange;
+	}
+	
+	public static int numUnique(int[] arr) {
+		return (int) IntStream.of(arr).distinct().count();
+	}
+	
+	public static int numUnique(double[] arr) {
+		return (int) DoubleStream.of(arr).distinct().count();
 	}
 	
 //	public static ArrayList<String>  booleanMinusStringArrays(ArrayList<String>  largeArr, ArrayList<String>  smallArr) {

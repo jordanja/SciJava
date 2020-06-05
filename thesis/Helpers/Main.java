@@ -489,13 +489,12 @@ public class Main {
 		
 		
 		
-		DataFrame df = new DataFrame(columnNames, rowNames, Double.class);
+		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
 		
 //		DataFrame newDF = df.maxInRows();
 //		System.out.println(newDF);
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("col_f", 2);
-		System.out.println(df.roundRows(2, 3, 2));
+		
+		System.out.println(df.standardDeviationInRows(1));
 		
 		
 //		DataFrame df1 = new DataFrame(
