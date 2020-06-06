@@ -454,7 +454,7 @@ public class Main {
 
 	public static DataFrame time() {
 		DataFrame df = new DataFrame("Datasets/time.csv", true, false);
-		df.setColumnType(0, DataItem.StorageType.Date);
+		df.setColumnType(0, DataItem.StorageType.LocalDate);
 		df.setColumnType(1, DataItem.StorageType.Integer);
 		System.out.println(df.getValue(0, 0).getType());
 		System.out.println(df.getValue(1, 0).getType());
@@ -463,6 +463,14 @@ public class Main {
 	}
 	
 	public static DataFrame play() {
+
+		DataItem di = new DataItem(1);
+		
+		DataItem ndi = new DataItem(di);
+		
+		
+		
+		
 //		ArrayList<String> columnNames = new ArrayList<String>();
 //		columnNames.add("col_f");
 //		columnNames.add("col_r");
@@ -489,10 +497,6 @@ public class Main {
 		
 //		DataFrame df = new DataFrame(columnNames, rowNames, Boolean.class);
 
-		DataFrame df = DataFrame.zeros(4, 3);
-		
-		System.out.println(DataFrame.zerosLike(df));
-		
 		
 //		DataFrame df1 = new DataFrame(
 //			new String[] {"col_a", "col_b", "col_3"}, 
@@ -519,7 +523,7 @@ public class Main {
 		
 		
 		
-		return df;
+		return null;
 	}
 
 	private static DataFrame hashColsConstructor() {
@@ -544,7 +548,7 @@ public class Main {
 
 	private static DataFrame csvConstructor() {
 		DataFrame df = new DataFrame("Datasets/date_data.csv", true, false);
-		df.setColumnType(0, DataItem.StorageType.Date);
+		df.setColumnType(0, DataItem.StorageType.LocalDate);
 		return df;
 	}
 

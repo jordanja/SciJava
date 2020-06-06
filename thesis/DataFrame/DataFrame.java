@@ -2805,7 +2805,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				DataItem value = this.getValue(colCount, rowCount);
-				if (value.type == StorageType.Boolean) {
+				if (value.getType() == StorageType.Boolean) {
 					value.flip();
 				} else {
 					value.multiply(-1);
@@ -5281,7 +5281,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			return;
 		}
 
-		this.data.get(colNum).set(rowNum, new DataItem(type, value));
+		this.data.get(colNum).set(rowNum, new DataItem(value, type));
 
 	}
 

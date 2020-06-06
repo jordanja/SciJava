@@ -2,21 +2,38 @@ package thesis.DataFrame;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 
 import thesis.Common.CommonMath;
 
 
 public class DataItem {
-	private String strValue;
+
+	public enum StorageType { 
+		String, 
+		Integer, 
+		Double, 
+		Null, 
+		Boolean, 
+		LocalDate,
+		LocalDateTime, 
+		Period, 
+		Duration 
+	};
+	
+	private StorageType type;
+
+	private String stringValue;
 	private Integer intValue;
 	private Double doubleValue;
-	private LocalDate dateValue;
 	private Boolean booleanValue;
-
-	public enum StorageType { String, Integer, Double, Null, Date, Boolean };
-	StorageType type;
+	private LocalDate localDateValue;
+	private LocalDateTime localDateTimeValue;
+	private Period periodValue;
+	private Duration durationValue;
 
 	public DataItem() {
 		this.type = StorageType.Null;
@@ -27,43 +44,31 @@ public class DataItem {
 	}
 
 	public DataItem(Object value) {
-		if (value instanceof DataItem) {
-			replicateProperties((DataItem)value); 
-		} else {			
-			StorageType typeOfObject = null;
-			if (value == null) {
-				type = StorageType.Null;
-				typeOfObject = StorageType.Null;
-			} else if (value instanceof Integer) {
-				typeOfObject = StorageType.Integer;
-			} else if (value instanceof Double) {
-				typeOfObject = StorageType.Double;
-			} else if (value instanceof LocalDate) {
-				typeOfObject = StorageType.Date;
-			} else if (value instanceof Boolean) {
-				typeOfObject = StorageType.Boolean;
-			} else {
-				typeOfObject = StorageType.String;
-			}
-			
-			initialize(typeOfObject, value);
+		StorageType typeOfObject = null;
+		if (value == null) {
+			this.type = StorageType.Null;
+			typeOfObject = StorageType.Null;
+		} else if (value instanceof Integer) {
+			typeOfObject = StorageType.Integer;
+		} else if (value instanceof Double) {
+			typeOfObject = StorageType.Double;
+		} else if (value instanceof Boolean) {
+			typeOfObject = StorageType.Boolean;
+		} else if (value instanceof LocalDate) {
+			typeOfObject = StorageType.LocalDate;
+		} else if (value instanceof LocalDateTime) {
+			typeOfObject = StorageType.LocalDateTime;
+		} else if (value instanceof Period) {
+			typeOfObject = StorageType.Period;
+		} else if (value instanceof Duration) {
+			typeOfObject = StorageType.Duration;
+		} else {
+			typeOfObject = StorageType.String;
 		}
+		
+		initialize(typeOfObject, value);
 	}
 
-	private void replicateProperties(DataItem item) {
-		this.type = item.getType();
-		if (this.type == StorageType.Integer) {			
-			this.intValue = item.getIntegerValue().intValue();
-		} else if (this.type == StorageType.Double) {			
-			this.doubleValue = item.getDoubleValue();
-		} else if (this.type == StorageType.String) {
-			this.strValue = item.getStringValue();
-		} else if (this.type == StorageType.Date) {
-			this.dateValue = item.getDateValue();
-		} else if (this.type == StorageType.Boolean) {
-			this.booleanValue = item.getBooleanValue().booleanValue();
-		}
-	}
 	
 	public DataItem(DataItem item) {
 		replicateProperties(item);
@@ -71,7 +76,7 @@ public class DataItem {
 	
 	// String Value
 	public DataItem(String value) {
-		this.strValue = value;
+		this.stringValue = value;
 		this.type = StorageType.String;
 	}
 
@@ -96,16 +101,6 @@ public class DataItem {
 		this.doubleValue = value;
 		this.type = StorageType.Double;
 	}
-
-	// Date Value
-	public DataItem(LocalDate value) {
-		if (value != null) {
-			this.dateValue = value;
-			this.type = StorageType.Date;
-		} else {
-			this.type = StorageType.Null;
-		}
-	}
 	
 	// Boolean Value
 	public DataItem(Boolean value) {
@@ -117,28 +112,289 @@ public class DataItem {
 		this.booleanValue = value;
 		this.type = StorageType.Boolean;
 	}
-
-	public DataItem(StorageType typeToUse, Object value) {
-		initialize(typeToUse, value.toString());
+	
+	// Date Value
+	public DataItem(LocalDate value) {
+		if (value != null) {
+			this.localDateValue = value;
+			this.type = StorageType.LocalDate;
+		} else {
+			this.type = StorageType.Null;
+		}
+	}
+	
+	// DateTime Value
+	public DataItem(LocalDateTime value) {
+		if (value != null) {
+			this.localDateTimeValue = value;
+			this.type = StorageType.LocalDateTime;
+		} else {
+			this.type = StorageType.Null;
+		}
 	}
 
+	// DateTime Value
+	public DataItem(Period value) {
+		if (value != null) {
+			this.periodValue = value;
+			this.type = StorageType.Period;
+		} else {
+			this.type = StorageType.Null;
+		}
+	}
+	
+	// DateTime Value
+	public DataItem(Duration value) {
+		if (value != null) {
+			this.durationValue = value;
+			this.type = StorageType.Duration;
+		} else {
+			this.type = StorageType.Null;
+		}
+	}
+	
+
+	private void replicateProperties(DataItem item) {
+		this.type = item.getType();
+		if (this.type == StorageType.Integer) {			
+			this.intValue = item.getIntegerValue().intValue();
+		} else if (this.type == StorageType.Double) {			
+			this.doubleValue = item.getDoubleValue();
+		} else if (this.type == StorageType.String) {
+			this.stringValue = item.getStringValue();
+		} else if (this.type == StorageType.Boolean) {
+			this.booleanValue = item.getBooleanValue().booleanValue();
+		} else if (this.type == StorageType.LocalDate) {
+			this.localDateValue = item.getDateValue();
+		} else if (this.type == StorageType.LocalDateTime) {
+			this.localDateTimeValue = item.getDateTimeValue();
+		} else if (this.type == StorageType.Period) {
+			this.periodValue = item.getPeriodValue();
+		} else if (this.type == StorageType.Duration) {
+			this.durationValue = item.getDurationValue();
+		}
+	}
+	
 	private void initialize(StorageType typeToUse, Object value) {
-		setType(typeToUse);
+		this.type = typeToUse;
 		if (this.type == StorageType.String) {
-			this.strValue = value.toString();
+			this.stringValue = value.toString();
 		} else if (this.type == StorageType.Integer) {
 			this.intValue = Integer.valueOf(value.toString());
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue = Double.valueOf(value.toString());
-		} else if (this.type == StorageType.Date) {
-			this.dateValue = LocalDate.parse(value.toString());
 		} else if (this.type == StorageType.Boolean) {
 			this.booleanValue = parseBoolean(value.toString());
+		} else if (this.type == StorageType.LocalDate) {
+			this.localDateValue = LocalDate.parse(value.toString());
+		} else if (this.type == StorageType.LocalDateTime) {
+			this.localDateTimeValue = LocalDateTime.parse(value.toString());
+		} else if (this.type == StorageType.Period) {
+			this.periodValue = Period.parse(value.toString());
+		} else if (this.type == StorageType.Duration) {
+			this.durationValue = Duration.parse(value.toString());
 		} else if (this.type == StorageType.Null) {
 		
 		} else {
 			System.out.println("You have entered an incompatible type: " + value.getClass());
 		}
+	}
+
+	@SuppressWarnings("incomplete-switch")
+	public void setType(StorageType typeToUse) {
+		
+		if (this.type == typeToUse) {
+			return;
+		}
+		
+		if (this.type == StorageType.String) {
+			// Current type is String
+			switch (typeToUse) {
+				case Integer:
+					// Convert String to Integer
+					this.intValue = Integer.parseInt(this.stringValue);
+					this.stringValue = null;
+					break;
+				case Double:
+					// Convert String to Double
+					this.doubleValue = Double.parseDouble(this.stringValue);
+					this.stringValue = null;
+					break;
+				case Boolean:
+					// Convert String to Boolean
+					this.booleanValue = parseBoolean(this.stringValue);
+					this.stringValue = null;
+					break;
+				case LocalDate:
+					// Convert String to LocalDate
+					this.localDateValue = LocalDate.parse(this.stringValue);
+					this.stringValue = null;
+					break;
+				case LocalDateTime:
+					// Convert String to LocalDateTime
+					this.localDateTimeValue = LocalDateTime.parse(this.stringValue);
+					this.stringValue = null;
+					break;
+				case Period:
+					// Convert String to Period
+					this.periodValue = Period.parse(this.stringValue);
+					this.stringValue = null;
+					break;
+				case Duration:
+					// Convert String to LocalDateTime
+					this.durationValue = Duration.parse(this.stringValue);
+					this.stringValue = null;
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+			
+		} else if (this.type == StorageType.Integer) {
+			// Current type is Integer
+			switch(typeToUse) {
+				case String:
+					// Convert from Integer to String
+					this.stringValue = this.intValue.toString();
+					this.intValue = null;
+					break;
+				case Double:
+					// Convert from Integer to Double
+					this.doubleValue = this.intValue.doubleValue();
+					this.intValue = null;
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+		} else if (this.type == StorageType.Double) {
+			// Current type is Double
+			switch(typeToUse) {
+				case String:
+					// Convert from Double to String
+					this.stringValue = this.doubleValue.toString();
+					this.doubleValue = null;
+					break;
+				case Integer:
+					// Convert from Double to Integer
+					this.intValue = this.doubleValue.intValue();
+					this.doubleValue = null;
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+		} else if (this.type == StorageType.Boolean) {
+			// Current type is Boolean
+			switch(typeToUse) {
+				case Integer:
+					// Convert from Boolean to Integer
+					this.intValue = this.booleanValue ? 1 : 0;
+					this.booleanValue = null;
+					break;
+				case Double:
+					// Convert from Boolean to Double
+					this.doubleValue = this.booleanValue ? 1.0 : 0.0;
+					this.booleanValue = null;
+					break;
+				case String:
+					// Convert from Boolean to String
+					this.stringValue = this.booleanValue.toString();
+					this.booleanValue = null;
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+		} else if (this.type == StorageType.LocalDate) {
+			// Current type is LocalDate
+			switch(typeToUse) {
+				case String:
+					// Convert LocalDate to String
+					this.stringValue = this.localDateValue.toString();
+					this.localDateValue = null;
+					break;
+				case LocalDateTime:
+					// Convert LocalDate to LocalDateTime
+					this.localDateTimeValue = this.localDateValue.atStartOfDay();
+					this.localDateValue = null;
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+		} else if (this.type == StorageType.LocalDateTime) {
+			// Current type is LocalDateTime
+			switch(typeToUse) {
+				case String:
+					// Convert LocalDateTime to String
+					this.stringValue = this.localDateTimeValue.toString();
+					this.localDateTimeValue = null;
+					break;
+				case LocalDate:
+					// Convert LocalDateTime to LocalDate
+					this.localDateValue = this.localDateTimeValue.toLocalDate();
+					this.localDateTimeValue = null;
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+		} else if (this.type == StorageType.Period) {
+			// Current type is Period
+			switch(typeToUse) {
+				case String:
+					// Convert from Period to String;
+					this.stringValue = this.periodValue.toString();
+					this.periodValue = null;
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+		} else if (this.type == StorageType.Duration) {
+			// Current type is Duration
+			switch(typeToUse) {
+				case String:
+					// Convert from Duration to String;
+					this.stringValue = this.durationValue.toString();
+					this.durationValue = null;
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
+		} else if (this.type == StorageType.Null) {
+			this.stringValue = null;
+			this.intValue = null;
+			this.doubleValue = null;
+			this.booleanValue = null;
+			this.localDateValue = null;
+			this.localDateTimeValue = null;
+			this.periodValue = null;
+			this.durationValue = null;
+		}
+		this.type = typeToUse;
+
+	}
+
+	public StorageType getType() {
+		return this.type;
+	}
+
+	public Object getObjectValue() {
+		if (this.type == StorageType.String) {
+			return this.stringValue;
+		} else if (this.type == StorageType.Integer) {
+			return this.intValue;
+		} else if (this.type == StorageType.Double) {
+			return this.doubleValue;
+		} else if (this.type == StorageType.Boolean) {
+			return this.booleanValue;
+		} else if (this.type == StorageType.LocalDate) {
+			return this.localDateValue;
+		} else if (this.type == StorageType.LocalDateTime) {
+			return this.localDateTimeValue;
+		} else if (this.type == StorageType.Period) {
+			return this.periodValue;
+		} else if (this.type == StorageType.Duration) {
+			return this.durationValue;
+		} else if (this.type == StorageType.Null) {
+			return "null";
+		}
+		return null;
 	}
 
 	private Boolean parseBoolean(String str) {
@@ -168,107 +424,9 @@ public class DataItem {
 		}
 		return stringList;
 	}
-
-	public static Object[] convertToObjectList(DataItem[] dataItemList) {
-		Object[] stringList = new String[dataItemList.length];
-		for (int i = 0; i < dataItemList.length; i++) {
-			stringList[i] = dataItemList[i].getObjectValue();
-		}
-		return stringList;
-	}
-
-	@SuppressWarnings("incomplete-switch")
-	public void setType(StorageType typeToUse) {
-		
-		if (this.type == StorageType.String) {
-			switch (typeToUse) {
-				case Integer:
-					this.intValue = Integer.parseInt(this.strValue);
-					break;
-				case Double:
-					this.doubleValue = Double.parseDouble(this.strValue);
-					break;
-				case Date:
-					this.dateValue = LocalDate.parse(this.strValue);
-				case Boolean:
-					this.booleanValue = parseBoolean(this.strValue);
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-			this.strValue = null;
-		} else if (this.type == StorageType.Integer) {
-			switch(typeToUse) {
-				case String:
-					this.strValue = this.intValue.toString();
-					break;
-				case Double:
-					this.doubleValue = this.intValue.doubleValue();
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-			this.intValue = null;
-		} else if (this.type == StorageType.Double) {
-			switch(typeToUse) {
-				case String:
-					this.strValue = this.doubleValue.toString();
-					break;
-				case Integer:
-					this.intValue = this.doubleValue.intValue();
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-			this.doubleValue = null;
-		} else if (this.type == StorageType.Date) {
-			switch(typeToUse) {
-				case String:
-					this.strValue = this.dateValue.toString();
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-			this.dateValue = null;
-		} else if (this.type == StorageType.Boolean){
-			switch(typeToUse) {
-				case String:
-					this.strValue = this.booleanValue.toString();
-			}
-		} else if (this.type == StorageType.Null) {
-			this.strValue = null;
-			this.intValue = null;
-			this.doubleValue = null;
-			this.dateValue = null;
-		}
-		this.type = typeToUse;
-
-	}
-
-	public StorageType getType() {
-		return this.type;
-	}
-
-	public Object getObjectValue() {
-
-		if (this.type == StorageType.String) {
-			return this.strValue;
-		} else if (this.type == StorageType.Integer) {
-			return this.intValue;
-		} else if (this.type == StorageType.Double) {
-			return this.doubleValue;
-		} else if (this.type == StorageType.Date) {
-			return this.dateValue;
-		} else if (this.type == StorageType.Boolean) {
-			return this.booleanValue;
-		} else if (this.type == StorageType.Null) {
-			return "null";
-		}
-		return null;
-	}
-
+	
 	public String getStringValue() {
-		return this.strValue;
+		return this.stringValue;
 	}
 
 	public Integer getIntegerValue() {
@@ -279,14 +437,26 @@ public class DataItem {
 		return this.doubleValue;
 	}
 
-	public LocalDate getDateValue() {
-		return this.dateValue;
-	}
-	
 	public Boolean getBooleanValue() {
 		return this.booleanValue;
 	}
+	
+	public LocalDate getDateValue() {
+		return this.localDateValue;
+	}
+	
+	public LocalDateTime getDateTimeValue() {
+		return this.localDateTimeValue;
+	}
 
+	public Period getPeriodValue() {
+		return this.periodValue;
+	}
+	
+	public Duration getDurationValue() {
+		return this.durationValue;
+	}
+	
 	public String getValueConvertedToString() {
 		return getObjectValue().toString();
 	}
@@ -300,14 +470,14 @@ public class DataItem {
 		return null;
 	}
 	
-	public int getValueConvertedToInt() {
+	public Integer getValueConvertedToInt() {
 		if (this.type == StorageType.Integer) {
 			return this.intValue;
 		} else if (this.type == StorageType.Double) {
 			return this.doubleValue.intValue();
 		}
 		
-		return 0;
+		return null;
 	
 	}
 	
@@ -315,7 +485,7 @@ public class DataItem {
 		if (this.type == StorageType.Boolean) {
 			return this.booleanValue;
 		} else if (this.type == StorageType.String) {
-			return parseBoolean(this.strValue);
+			return parseBoolean(this.stringValue);
 		}
 		
 		return null;
@@ -339,8 +509,18 @@ public class DataItem {
 	}
 	
 	public void add(Period timePeriod) {
-		if (this.type == StorageType.Date) {
-			this.dateValue = this.dateValue.plus(timePeriod);
+		if (this.type == StorageType.LocalDate) {
+			this.localDateValue = this.localDateValue.plus(timePeriod);
+		} else if (this.type == StorageType.LocalDateTime) {
+			this.localDateTimeValue = this.localDateTimeValue.plus(timePeriod);
+		}
+	}
+	
+	public void add(Duration timePeriod) {
+		if (this.type == StorageType.LocalDate) {
+			this.localDateValue = this.localDateValue.plus(timePeriod);
+		} else if (this.type == StorageType.LocalDate) {
+			this.localDateTimeValue = this.localDateTimeValue.plus(timePeriod);
 		}
 	}
 	
@@ -365,7 +545,6 @@ public class DataItem {
 			add(value.getDoubleValue());
 		}
 	}
-	
 
 	public void subtract(int value) {
 		if (this.type == StorageType.Integer) {
@@ -390,8 +569,18 @@ public class DataItem {
 	}
 	
 	public void subtract(Period timePeriod) {
-		if (this.type == StorageType.Date) {
-			this.dateValue = this.dateValue.minus(timePeriod);
+		if (this.type == StorageType.LocalDate) {
+			this.localDateValue = this.localDateValue.minus(timePeriod);
+		} else if (this.type == StorageType.LocalDateTime) {
+			this.localDateTimeValue = this.localDateTimeValue.minus(timePeriod);
+		}
+	}
+	
+	public void subtract(Duration timePeriod) {
+		if (this.type == StorageType.LocalDate) {
+			this.localDateValue = this.localDateValue.minus(timePeriod);
+		} else if (this.type == StorageType.LocalDateTime) {
+			this.localDateTimeValue = this.localDateTimeValue.minus(timePeriod);
 		}
 	}
 	
@@ -572,12 +761,22 @@ public class DataItem {
 	}
 	
 	public boolean before(LocalDate date) {
-		if (this.type == StorageType.Date) {
-			return this.dateValue.isBefore(date);
-		} 
+		if (this.type == StorageType.LocalDate) {
+			return this.localDateValue.isBefore(date);
+		} else if (this.type == StorageType.LocalDateTime) {
+			return this.localDateTimeValue.isBefore(date.atStartOfDay());
+		}
 		return false;
 	}
 	
+	public boolean before(LocalDateTime date) {
+		if (this.type == StorageType.LocalDate) {
+			return this.localDateValue.isBefore(date.toLocalDate());
+		} else if (this.type == StorageType.LocalDateTime) {
+			return this.localDateTimeValue.isBefore(date);
+		}
+		return false;
+	}
 	
 	
 	public boolean equal(int value) {
@@ -607,9 +806,11 @@ public class DataItem {
 	}
 	
 	public boolean sameDate(LocalDate date) {
-		if (this.type == StorageType.Date) {
-			return this.dateValue.equals(date);
-		} 
+		if (this.type == StorageType.LocalDate) {
+			return this.localDateValue.equals(date);
+		} else if (this.type == StorageType.LocalDateTime) {
+			return this.localDateTimeValue.toLocalDate().equals(date);
+		}
 		return false;
 	}
 	
@@ -640,9 +841,20 @@ public class DataItem {
 	}
 	
 	public boolean after(LocalDate date) {
-		if (this.type == StorageType.Date) {
-			return this.dateValue.isAfter(date);
-		} 
+		if (this.type == StorageType.LocalDate) {
+			return this.localDateValue.isAfter(date);
+		} else if (this.type == StorageType.LocalDateTime) {
+			return this.localDateTimeValue.isAfter(date.atStartOfDay());
+		}
+		return false;
+	}
+	
+	public boolean after(LocalDateTime date) {
+		if (this.type == StorageType.LocalDate) {
+			return this.localDateValue.isAfter(date.toLocalDate());
+		} else if (this.type == StorageType.LocalDateTime) {
+			return this.localDateTimeValue.isAfter(date);
+		}
 		return false;
 	}
 	
@@ -669,8 +881,18 @@ public class DataItem {
 	}
 	
 	public void clamp(LocalDate lowerBound, LocalDate upperBound) {
-		if (this.type == StorageType.Date) {
-			this.dateValue = CommonMath.clamp(this.dateValue, lowerBound, upperBound);
+		if (this.type == StorageType.LocalDate) {
+			this.localDateValue = CommonMath.clamp(this.localDateValue, lowerBound, upperBound);
+		} else if (this.type == StorageType.LocalDateTime) {
+			this.localDateTimeValue = CommonMath.clamp(this.localDateTimeValue, lowerBound.atStartOfDay(), upperBound.atStartOfDay());
+		}
+	}
+	
+	public void clamp(LocalDateTime lowerBound, LocalDateTime upperBound) {
+		if (this.type == StorageType.LocalDate) {
+			this.localDateValue = CommonMath.clamp(this.localDateValue, lowerBound.toLocalDate(), upperBound.toLocalDate());
+		} else if (this.type == StorageType.LocalDateTime) {
+			this.localDateTimeValue = CommonMath.clamp(this.localDateTimeValue, lowerBound, upperBound);
 		}
 	}
 	
@@ -703,15 +925,21 @@ public class DataItem {
 		DataItem newDataItem;
 		
 		if (this.type == StorageType.String) {
-			newDataItem = new DataItem(this.strValue.toString());
+			newDataItem = new DataItem(this.stringValue.toString());
 		} else if (this.type == StorageType.Integer) {
 			newDataItem = new DataItem(this.intValue.intValue());
 		} else if (this.type == StorageType.Double) {
 			newDataItem = new DataItem(this.doubleValue.doubleValue());
-		} else if (this.type == StorageType.Date) {
-			newDataItem = new DataItem(this.dateValue);
 		} else if (this.type == StorageType.Boolean) {
-			newDataItem = new DataItem(this.booleanValue);
+			newDataItem = new DataItem(this.booleanValue.booleanValue());
+		} else if (this.type == StorageType.LocalDate) {
+			newDataItem = new DataItem(this.localDateValue);
+		} else if (this.type == StorageType.LocalDateTime) {
+			newDataItem = new DataItem(this.localDateTimeValue);
+		} else if (this.type == StorageType.Period) {
+			newDataItem = new DataItem(this.periodValue);
+		} else if (this.type == StorageType.Duration) {
+			newDataItem = new DataItem(this.durationValue);
 		} else {
 			newDataItem = new DataItem();
 		}
