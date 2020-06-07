@@ -6,8 +6,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Period;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,6 +20,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
 import thesis.Common.CommonArray;
@@ -102,6 +107,20 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 				    long maxDay = LocalDate.of(2030, 12, 31).toEpochDay();
 				    long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
 				    fill = LocalDate.ofEpochDay(randomDay);
+				} else if (cls == LocalDateTime.class) {
+					long minDay = LocalDateTime.of(1970, 1, 1, 1, 1).toEpochSecond(ZoneOffset.UTC);
+				    long maxDay =  LocalDateTime.of(2030, 1, 1, 1, 1).toEpochSecond(ZoneOffset.UTC);
+				    long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+				    fill = LocalDateTime.ofEpochSecond(randomDay, 0, ZoneOffset.UTC);
+				} else if (cls == LocalTime.class) {
+					long minTime = LocalTime.of(0, 0, 0).toSecondOfDay();
+				    long maxTime = LocalTime.of(23, 59, 59).toSecondOfDay();
+				    long randomTime = ThreadLocalRandom.current().nextLong(minTime, maxTime);
+				    fill = LocalTime.ofSecondOfDay(randomTime);
+				} else if (cls == Duration.class) {
+				    fill = null;
+				} else if (cls == Period.class) {
+				    fill = null;
 				} else {
 					fill = null;
 				}
@@ -2805,7 +2824,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				DataItem value = this.getValue(colCount, rowCount);
-				if (value.type == StorageType.Boolean) {
+				if (value.getType() == StorageType.Boolean) {
 					value.flip();
 				} else {
 					value.multiply(-1);
@@ -3147,18 +3166,267 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return lessThan((double) value);
 	}
 	
-	public DataFrame before(LocalDate date) {
+
+	
+	public DataFrame columnLessThan(int columnIndex, DataItem value) {
+		return columnLessThan(columnIndex, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame columnLessThan(int columnIndex, int value) {
+		return columnLessThan(columnIndex, (double) value);
+	}
+
+	public DataFrame columnLessThan(int columnIndex, double value) {
+		ArrayList<String> newColumnNames = new ArrayList<String>();
+		newColumnNames.add(this.columnNames.get(columnIndex));
 		@SuppressWarnings("unchecked")
-		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
-			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
-				boolean before = this.getValue(colCount, rowCount).before(date);
-				newDF.setValue(colCount, rowCount, before);
+		DataFrame newDF = new DataFrame(newColumnNames, (ArrayList<String>)this.rowNames.clone());
+		for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+			newDF.setValue(0, rowCount, this.getValue(columnIndex, rowCount).lessThan(value));
+		}
+		return newDF;
+	}
+
+	public DataFrame columnLessThan(int columnIndex, float value) {
+		return columnLessThan(columnIndex, (double) value);
+	}
+
+
+	public DataFrame columnLessThan(String columnName, DataItem value) {
+		return columnLessThan(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnLessThan(String columnName, int value) {
+		return columnLessThan(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnLessThan(String columnName, double value) {
+		return columnLessThan(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnLessThan(String columnName, float value) {
+		return columnLessThan(this.columnNames.indexOf(columnName), value);
+	}
+
+
+	public DataFrame columnsLessThan(int[] columnIndices, DataItem value) {
+		return columnsLessThan(columnIndices, value.getValueConvertedToDouble());
+		
+	}
+
+	public DataFrame columnsLessThan(int[] columnIndices, int value) {
+		return columnsLessThan(columnIndices,(double) value);
+	}
+
+	public DataFrame columnsLessThan(int[] columnIndices, double value) {
+		DataFrame newDF = getColumnsAsDataFrame(columnIndices);
+		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
+				newDF.setValue(columnCount, rowCount, newDF.getValue(columnCount, rowCount).lessThan(value));
 			}	
 		}
 		return newDF;
 	}
-	
+
+	public DataFrame columnsLessThan(int[] columnIndices, float value) {
+		return columnsLessThan(columnIndices,(double) value);
+	}
+
+
+	public DataFrame columnsLessThan(String[] columnNames, DataItem value) {
+		return columnsLessThan(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsLessThan(String[] columnNames, int value) {
+		return columnsLessThan(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsLessThan(String[] columnNames, double value) {
+		return columnsLessThan(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsLessThan(String[] columnNames, float value) {
+		return columnsLessThan(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+
+	public DataFrame columnsLessThan(ArrayList<String> columnNames, DataItem value) {
+		return columnsLessThan(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsLessThan(ArrayList<String> columnNames, int value) {
+		return columnsLessThan(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsLessThan(ArrayList<String> columnNames, double value) {
+		return columnsLessThan(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsLessThan(ArrayList<String> columnNames, float value) {
+		return columnsLessThan(columnNames.toArray(new String[0]), value);
+	}
+
+
+	public DataFrame columnLessThan(int columnIndex, DataItem[] values) {
+		return columnLessThan(columnIndex, DataItem.convertToPrimitiveDoubleList(values));
+	}
+
+	public DataFrame columnLessThan(int columnIndex, int[] values) {
+		double[] doubleArr = IntStream.of(values).asDoubleStream().toArray();
+		return columnLessThan(columnIndex, doubleArr);
+	}
+
+	public DataFrame columnLessThan(int columnIndex, double[] values) {
+		ArrayList<String> newColumnNames = new ArrayList<String>();
+		newColumnNames.add(this.columnNames.get(columnIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame(newColumnNames, (ArrayList<String>)this.rowNames.clone());
+		for (int rowCount = 0; rowCount < values.length; rowCount++) {
+			newDF.setValue(0, rowCount, this.getValue(columnIndex, rowCount).lessThan(values[rowCount]));
+		}
+		return newDF;
+	}
+
+	public DataFrame columnLessThan(int columnIndex, float[] values) {
+		return columnLessThan(columnIndex, CommonArray.convertFloatArrayToDoubleArray(values));
+	}
+
+
+	public DataFrame columnLessThan(int columnIndexInSelf, int columnIndexInOtherDF, DataFrame otherDF) {
+		double[] otherColumn = otherDF.getColumnAsDoubleArray(columnIndexInOtherDF);
+		return columnLessThan(columnIndexInSelf, otherColumn);
+	}
+
+	public DataFrame rowLessThan(int rowIndex, DataItem value) {
+		return rowLessThan(rowIndex, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame rowLessThan(int rowIndex, int value) {
+		return rowLessThan(rowIndex, (double) value);
+	}
+
+	public DataFrame rowLessThan(int rowIndex, double value) {
+		ArrayList<String> newRowNames = new ArrayList<String>();
+		newRowNames.add(this.rowNames.get(rowIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
+		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+			
+			newDF.setValue(columnCount, 0, this.getValue(columnCount, rowIndex).lessThan(value));
+		}
+		return newDF;
+	}
+
+	public DataFrame rowLessThan(int rowIndex, float value) {
+		return rowLessThan(rowIndex, (double) value);
+	}
+
+
+	public DataFrame rowLessThan(String rowName, DataItem value) {
+		return rowLessThan(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowLessThan(String rowName, int value) {
+		return rowLessThan(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowLessThan(String rowName, double value) {
+		return rowLessThan(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowLessThan(String rowName, float value) {
+		return rowLessThan(this.rowNames.indexOf(rowName), value);
+	}
+
+
+	public DataFrame rowsLessThan(int[] rowIndices, DataItem value) {
+		return rowsLessThan(rowIndices, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame rowsLessThan(int[] rowIndices, int value) {
+		return rowsLessThan(rowIndices, (double)value);
+	}
+
+	public DataFrame rowsLessThan(int[] rowIndices, double value) {
+		DataFrame newDF = getRowsAsDataFrame(rowIndices);
+		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
+				newDF.setValue(columnCount, rowCount, newDF.getValue(columnCount, rowCount).lessThan(value));
+			}	
+		}
+		return newDF;
+	}
+
+	public DataFrame rowsLessThan(int[] rowIndices, float value) {
+		return rowsLessThan(rowIndices, (double)value);
+	}
+
+
+	public DataFrame rowsLessThan(String[] rowNames, DataItem value) {
+		return rowsLessThan(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsLessThan(String[] rowNames, int value) {
+		return rowsLessThan(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsLessThan(String[] rowNames, double value) {
+		return rowsLessThan(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsLessThan(String[] rowNames, float value) {
+		return rowsLessThan(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+
+	public DataFrame rowsLessThan(ArrayList<String> rowNames, DataItem value) {
+		return rowsLessThan(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsLessThan(ArrayList<String> rowNames, int value) {
+		return rowsLessThan(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsLessThan(ArrayList<String> rowNames, double value) {
+		return rowsLessThan(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsLessThan(ArrayList<String> rowNames, float value) {
+		return rowsLessThan(rowNames.toArray(new String[0]), value);
+	}
+
+
+	public DataFrame rowLessThan(int rowIndex, DataItem[] values) {
+		return rowLessThan(rowIndex, DataItem.convertToPrimitiveDoubleList(values));
+	}
+
+	public DataFrame rowLessThan(int rowIndex, int[] values) {
+		double[] doubleArr = IntStream.of(values).asDoubleStream().toArray();
+		return rowLessThan(rowIndex, doubleArr);
+	}
+
+	public DataFrame rowLessThan(int rowIndex, double[] values) {
+		ArrayList<String> newRowNames = new ArrayList<String>();
+		newRowNames.add(this.columnNames.get(rowIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
+		for (int columnCount = 0; columnCount < values.length; columnCount++) {
+			newDF.setValue(columnCount, 0, this.getValue(columnCount, rowIndex).lessThan(values[columnCount]));
+		}
+		return newDF;
+	}
+
+	public DataFrame rowLessThan(int rowIndex, float[] values) {
+		return rowLessThan(rowIndex, CommonArray.convertFloatArrayToDoubleArray(values));
+	}
+
+
+	public DataFrame rowLessThan(int rowIndexInSelf, int rowIndexInOtherDF, DataFrame otherDF) {
+		double[] otherRow = otherDF.getRowAsDoubleArray(rowIndexInOtherDF);
+		return rowLessThan(rowIndexInSelf, otherRow);
+	}
+
+
 	public DataFrame lessThanOrEqual(DataFrame df) {
 		if (this.sameShape(df)) { 
 			@SuppressWarnings("unchecked")
@@ -3200,18 +3468,276 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return lessThanOrEqual((double) value);
 	}
 	
-	public DataFrame beforeOrSame(LocalDate date) {
+
+	
+	public DataFrame columnLessThanOrEqual(int columnIndex, DataItem value) {
+		return columnLessThanOrEqual(columnIndex, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame columnLessThanOrEqual(int columnIndex, int value) {
+		return columnLessThanOrEqual(columnIndex, (double)value);
+	}
+
+	public DataFrame columnLessThanOrEqual(int columnIndex, double value) {
+		ArrayList<String> newColumnNames = new ArrayList<String>();
+		newColumnNames.add(this.columnNames.get(columnIndex));
 		@SuppressWarnings("unchecked")
-		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
-			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
-				boolean before = this.getValue(colCount, rowCount).before(date);
-				boolean sameDate = this.getValue(colCount, rowCount).sameDate(date);
-				newDF.setValue(colCount, rowCount, before || sameDate);
+		DataFrame newDF = new DataFrame(newColumnNames, (ArrayList<String>)this.rowNames.clone());
+		for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+			boolean lessThan = this.getValue(columnIndex, rowCount).lessThan(value);
+			boolean equals = this.getValue(columnIndex, rowCount).equal(value);
+			newDF.setValue(0, rowCount, lessThan || equals);
+		}
+		return newDF;
+	}
+
+	public DataFrame columnLessThanOrEqual(int columnIndex, float value) {
+		return columnLessThanOrEqual(columnIndex, (double)value);
+	}
+
+
+	public DataFrame columnLessThanOrEqual(String columnName, DataItem value) {
+		return columnLessThanOrEqual(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnLessThanOrEqual(String columnName, int value) {
+		return columnLessThanOrEqual(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnLessThanOrEqual(String columnName, double value) {
+		return columnLessThanOrEqual(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnLessThanOrEqual(String columnName, float value) {
+		return columnLessThanOrEqual(this.columnNames.indexOf(columnName), value);
+	}
+
+
+	public DataFrame columnsLessThanOrEqual(int[] columnIndices, DataItem value) {
+		return columnsLessThanOrEqual(columnIndices, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame columnsLessThanOrEqual(int[] columnIndices, int value) {
+		return columnsLessThanOrEqual(columnIndices, (double) value);
+	}
+
+	public DataFrame columnsLessThanOrEqual(int[] columnIndices, double value) {
+		DataFrame newDF = getColumnsAsDataFrame(columnIndices);
+		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
+				boolean lessThan = newDF.getValue(columnCount, rowCount).lessThan(value);
+				boolean equals = newDF.getValue(columnCount, rowCount).equal(value);
+				newDF.setValue(columnCount, rowCount, lessThan || equals);
 			}	
 		}
 		return newDF;
 	}
+
+	public DataFrame columnsLessThanOrEqual(int[] columnIndices, float value) {
+		return columnsLessThanOrEqual(columnIndices, (double) value);
+	}
+
+
+	public DataFrame columnsLessThanOrEqual(String[] columnNames, DataItem value) {
+		return columnsLessThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsLessThanOrEqual(String[] columnNames, int value) {
+		return columnsLessThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsLessThanOrEqual(String[] columnNames, double value) {
+		return columnsLessThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsLessThanOrEqual(String[] columnNames, float value) {
+		return columnsLessThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+
+	public DataFrame columnsLessThanOrEqual(ArrayList<String> columnNames, DataItem value) {
+		return columnsLessThanOrEqual(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsLessThanOrEqual(ArrayList<String> columnNames, int value) {
+		return columnsLessThanOrEqual(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsLessThanOrEqual(ArrayList<String> columnNames, double value) {
+		return columnsLessThanOrEqual(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsLessThanOrEqual(ArrayList<String> columnNames, float value) {
+		return columnsLessThanOrEqual(columnNames.toArray(new String[0]), value);
+	}
+
+
+	public DataFrame columnLessThanOrEqual(int columnIndex, DataItem[] value) {
+		return columnLessThanOrEqual(columnIndex, DataItem.convertToPrimitiveDoubleList(value));
+	}
+
+	public DataFrame columnLessThanOrEqual(int columnIndex, int[] values) {
+		double[] doubleArr = IntStream.of(values).asDoubleStream().toArray();
+		return columnLessThanOrEqual(columnIndex, doubleArr);
+	}
+
+	public DataFrame columnLessThanOrEqual(int columnIndex, double[] values) {
+		ArrayList<String> newColumnNames = new ArrayList<String>();
+		newColumnNames.add(this.columnNames.get(columnIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame(newColumnNames, (ArrayList<String>)this.rowNames.clone());
+		for (int rowCount = 0; rowCount < values.length; rowCount++) {
+			boolean lessThan = this.getValue(columnIndex, rowCount).lessThan(values[rowCount]);
+			boolean equal = this.getValue(columnIndex, rowCount).equal(values[rowCount]);
+			newDF.setValue(0, rowCount, lessThan || equal);
+		}
+		return newDF;
+	}
+
+	public DataFrame columnLessThanOrEqual(int columnIndex, float[] values) {
+		return columnLessThanOrEqual(columnIndex, CommonArray.convertFloatArrayToDoubleArray(values));
+	}
+
+
+	public DataFrame columnLessThanOrEqual(int columnIndexInSelf, int columnIndexInOtherDF, DataFrame otherDF) {
+		double[] otherColumn = otherDF.getColumnAsDoubleArray(columnIndexInOtherDF);
+		return columnLessThanOrEqual(columnIndexInSelf, otherColumn);
+	}
+
+	public DataFrame rowLessThanOrEqual(int rowIndex, DataItem value) {
+		return rowLessThanOrEqual(rowIndex, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame rowLessThanOrEqual(int rowIndex, int value) {
+		return rowLessThanOrEqual(rowIndex, (double) value);
+	}
+
+	public DataFrame rowLessThanOrEqual(int rowIndex, double value) {
+		ArrayList<String> newRowNames = new ArrayList<String>();
+		newRowNames.add(this.rowNames.get(rowIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
+		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+			boolean lessThan = this.getValue(columnCount, rowIndex).lessThan(value);
+			boolean equal = this.getValue(columnCount, rowIndex).equal(value);
+			newDF.setValue(columnCount, 0, lessThan || equal);
+		}
+		return newDF;
+	}
+
+	public DataFrame rowLessThanOrEqual(int rowIndex, float value) {
+		return rowLessThanOrEqual(rowIndex, (double) value);
+	}
+
+
+	public DataFrame rowLessThanOrEqual(String rowName, DataItem value) {
+		return rowLessThanOrEqual(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowLessThanOrEqual(String rowName, int value) {
+		return rowLessThanOrEqual(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowLessThanOrEqual(String rowName, double value) {
+		return rowLessThanOrEqual(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowLessThanOrEqual(String rowName, float value) {
+		return rowLessThanOrEqual(this.rowNames.indexOf(rowName), value);
+	}
+
+
+	public DataFrame rowsLessThanOrEqual(int[] rowIndices, DataItem value) {
+		return rowsLessThanOrEqual(rowIndices, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame rowsLessThanOrEqual(int[] rowIndices, int value) {
+		return rowsLessThanOrEqual(rowIndices, (double)value);
+	}
+
+	public DataFrame rowsLessThanOrEqual(int[] rowIndices, double value) {
+		DataFrame newDF = getRowsAsDataFrame(rowIndices);
+		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
+				boolean lessThan = newDF.getValue(columnCount, rowCount).lessThan(value);
+				boolean equal = newDF.getValue(columnCount, rowCount).equal(value);
+				newDF.setValue(columnCount, rowCount, lessThan || equal);
+			}	
+		}
+		return newDF;
+	}
+
+	public DataFrame rowsLessThanOrEqual(int[] rowIndices, float value) {
+		return rowsLessThanOrEqual(rowIndices, (double)value);
+	}
+
+
+	public DataFrame rowsLessThanOrEqual(String[] rowNames, DataItem value) {
+		return rowsLessThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsLessThanOrEqual(String[] rowNames, int value) {
+		return rowsLessThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsLessThanOrEqual(String[] rowNames, double value) {
+		return rowsLessThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsLessThanOrEqual(String[] rowNames, float value) {
+		return rowsLessThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+
+	public DataFrame rowsLessThanOrEqual(ArrayList<String> rowNames, DataItem value) {
+		return rowsLessThanOrEqual(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsLessThanOrEqual(ArrayList<String> rowNames, int value) {
+		return rowsLessThanOrEqual(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsLessThanOrEqual(ArrayList<String> rowNames, double value) {
+		return rowsLessThanOrEqual(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsLessThanOrEqual(ArrayList<String> rowNames, float value) {
+		return rowsLessThanOrEqual(rowNames.toArray(new String[0]), value);
+	}
+
+
+	public DataFrame rowLessThanOrEqual(int rowIndex, DataItem[] values) {
+		return rowLessThanOrEqual(rowIndex, DataItem.convertToPrimitiveDoubleList(values));
+	}
+
+	public DataFrame rowLessThanOrEqual(int rowIndex, int[] values) {
+		double[] doubleArr = IntStream.of(values).asDoubleStream().toArray();
+		return rowLessThanOrEqual(rowIndex, doubleArr);
+	}
+
+	public DataFrame rowLessThanOrEqual(int rowIndex, double[] values) {
+		ArrayList<String> newRowNames = new ArrayList<String>();
+		newRowNames.add(this.columnNames.get(rowIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
+		for (int columnCount = 0; columnCount < values.length; columnCount++) {
+			boolean lessThan = this.getValue(columnCount, rowIndex).lessThan(values[columnCount]);
+			boolean equal = this.getValue(columnCount, rowIndex).equal(values[columnCount]);
+			newDF.setValue(columnCount, 0, lessThan || equal);
+		}
+		return newDF;
+	}
+
+	public DataFrame rowLessThanOrEqual(int rowIndex, float[] values) {
+		return rowLessThanOrEqual(rowIndex, CommonArray.convertFloatArrayToDoubleArray(values));
+	}
+
+
+	public DataFrame rowLessThanOrEqual(int rowIndexInSelf, int rowIndexInOtherDF, DataFrame otherDF) {
+		double[] otherRow = otherDF.getRowAsDoubleArray(rowIndexInOtherDF);
+		return rowLessThanOrEqual(rowIndexInSelf, otherRow);
+	}
+
 	
 	public DataFrame greaterThan(DataFrame df) {
 		if (this.sameShape(df)) { 	
@@ -3252,17 +3778,268 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return greaterThan((double) value);
 	}
 	
-	public DataFrame after(LocalDate date) {
+
+	
+	
+	public DataFrame columnGreaterThan(int columnIndex, DataItem value) {
+		return columnGreaterThan(columnIndex, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame columnGreaterThan(int columnIndex, int value) {
+		return columnGreaterThan(columnIndex, (double) value);
+	}
+
+	public DataFrame columnGreaterThan(int columnIndex, double value) {
+		ArrayList<String> newColumnNames = new ArrayList<String>();
+		newColumnNames.add(this.columnNames.get(columnIndex));
 		@SuppressWarnings("unchecked")
-		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
-			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
-				boolean before = this.getValue(colCount, rowCount).after(date);
-				newDF.setValue(colCount, rowCount, before);
+		DataFrame newDF = new DataFrame(newColumnNames, (ArrayList<String>)this.rowNames.clone());
+		for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+			newDF.setValue(0, rowCount, this.getValue(columnIndex, rowCount).greaterThan(value));
+		}
+		return newDF;
+	}
+
+	public DataFrame columnGreaterThan(int columnIndex, float value) {
+		return columnGreaterThan(columnIndex, (double) value);
+	}
+
+
+	public DataFrame columnGreaterThan(String columnName, DataItem value) {
+		return columnGreaterThan(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnGreaterThan(String columnName, int value) {
+		return columnGreaterThan(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnGreaterThan(String columnName, double value) {
+		return columnGreaterThan(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnGreaterThan(String columnName, float value) {
+		return columnGreaterThan(this.columnNames.indexOf(columnName), value);
+	}
+
+
+	public DataFrame columnsGreaterThan(int[] columnIndices, DataItem value) {
+		return columnsGreaterThan(columnIndices, value.getValueConvertedToDouble());
+		
+	}
+
+	public DataFrame columnsGreaterThan(int[] columnIndices, int value) {
+		return columnsGreaterThan(columnIndices,(double) value);
+	}
+
+	public DataFrame columnsGreaterThan(int[] columnIndices, double value) {
+		DataFrame newDF = getColumnsAsDataFrame(columnIndices);
+		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
+				newDF.setValue(columnCount, rowCount, newDF.getValue(columnCount, rowCount).greaterThan(value));
 			}	
 		}
 		return newDF;
 	}
+
+	public DataFrame columnsGreaterThan(int[] columnIndices, float value) {
+		return columnsGreaterThan(columnIndices,(double) value);
+	}
+
+
+	public DataFrame columnsGreaterThan(String[] columnNames, DataItem value) {
+		return columnsGreaterThan(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsGreaterThan(String[] columnNames, int value) {
+		return columnsGreaterThan(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsGreaterThan(String[] columnNames, double value) {
+		return columnsGreaterThan(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsGreaterThan(String[] columnNames, float value) {
+		return columnsGreaterThan(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+
+	public DataFrame columnsGreaterThan(ArrayList<String> columnNames, DataItem value) {
+		return columnsGreaterThan(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsGreaterThan(ArrayList<String> columnNames, int value) {
+		return columnsGreaterThan(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsGreaterThan(ArrayList<String> columnNames, double value) {
+		return columnsGreaterThan(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsGreaterThan(ArrayList<String> columnNames, float value) {
+		return columnsGreaterThan(columnNames.toArray(new String[0]), value);
+	}
+
+
+	public DataFrame columnGreaterThan(int columnIndex, DataItem[] values) {
+		return columnGreaterThan(columnIndex, DataItem.convertToPrimitiveDoubleList(values));
+	}
+
+	public DataFrame columnGreaterThan(int columnIndex, int[] values) {
+		double[] doubleArr = IntStream.of(values).asDoubleStream().toArray();
+		return columnGreaterThan(columnIndex, doubleArr);
+	}
+
+	public DataFrame columnGreaterThan(int columnIndex, double[] values) {
+		ArrayList<String> newColumnNames = new ArrayList<String>();
+		newColumnNames.add(this.columnNames.get(columnIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame(newColumnNames, (ArrayList<String>)this.rowNames.clone());
+		for (int rowCount = 0; rowCount < values.length; rowCount++) {
+			newDF.setValue(0, rowCount, this.getValue(columnIndex, rowCount).greaterThan(values[rowCount]));
+		}
+		return newDF;
+	}
+
+	public DataFrame columnGreaterThan(int columnIndex, float[] values) {
+		return columnGreaterThan(columnIndex, CommonArray.convertFloatArrayToDoubleArray(values));
+	}
+
+
+	public DataFrame columnGreaterThan(int columnIndexInSelf, int columnIndexInOtherDF, DataFrame otherDF) {
+		double[] otherColumn = otherDF.getColumnAsDoubleArray(columnIndexInOtherDF);
+		return columnGreaterThan(columnIndexInSelf, otherColumn);
+	}
+
+	public DataFrame rowGreaterThan(int rowIndex, DataItem value) {
+		return rowGreaterThan(rowIndex, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame rowGreaterThan(int rowIndex, int value) {
+		return rowGreaterThan(rowIndex, (double) value);
+	}
+
+	public DataFrame rowGreaterThan(int rowIndex, double value) {
+		ArrayList<String> newRowNames = new ArrayList<String>();
+		newRowNames.add(this.rowNames.get(rowIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
+		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+			
+			newDF.setValue(columnCount, 0, this.getValue(columnCount, rowIndex).greaterThan(value));
+		}
+		return newDF;
+	}
+
+	public DataFrame rowGreaterThan(int rowIndex, float value) {
+		return rowGreaterThan(rowIndex, (double) value);
+	}
+
+
+	public DataFrame rowGreaterThan(String rowName, DataItem value) {
+		return rowGreaterThan(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowGreaterThan(String rowName, int value) {
+		return rowGreaterThan(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowGreaterThan(String rowName, double value) {
+		return rowGreaterThan(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowGreaterThan(String rowName, float value) {
+		return rowGreaterThan(this.rowNames.indexOf(rowName), value);
+	}
+
+
+	public DataFrame rowsGreaterThan(int[] rowIndices, DataItem value) {
+		return rowsGreaterThan(rowIndices, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame rowsGreaterThan(int[] rowIndices, int value) {
+		return rowsGreaterThan(rowIndices, (double)value);
+	}
+
+	public DataFrame rowsGreaterThan(int[] rowIndices, double value) {
+		DataFrame newDF = getRowsAsDataFrame(rowIndices);
+		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
+				newDF.setValue(columnCount, rowCount, newDF.getValue(columnCount, rowCount).greaterThan(value));
+			}	
+		}
+		return newDF;
+	}
+
+	public DataFrame rowsGreaterThan(int[] rowIndices, float value) {
+		return rowsGreaterThan(rowIndices, (double)value);
+	}
+
+
+	public DataFrame rowsGreaterThan(String[] rowNames, DataItem value) {
+		return rowsGreaterThan(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsGreaterThan(String[] rowNames, int value) {
+		return rowsGreaterThan(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsGreaterThan(String[] rowNames, double value) {
+		return rowsGreaterThan(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsGreaterThan(String[] rowNames, float value) {
+		return rowsGreaterThan(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+
+	public DataFrame rowsGreaterThan(ArrayList<String> rowNames, DataItem value) {
+		return rowsGreaterThan(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsGreaterThan(ArrayList<String> rowNames, int value) {
+		return rowsGreaterThan(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsGreaterThan(ArrayList<String> rowNames, double value) {
+		return rowsGreaterThan(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsGreaterThan(ArrayList<String> rowNames, float value) {
+		return rowsGreaterThan(rowNames.toArray(new String[0]), value);
+	}
+
+
+	public DataFrame rowGreaterThan(int rowIndex, DataItem[] values) {
+		return rowGreaterThan(rowIndex, DataItem.convertToPrimitiveDoubleList(values));
+	}
+
+	public DataFrame rowGreaterThan(int rowIndex, int[] values) {
+		double[] doubleArr = IntStream.of(values).asDoubleStream().toArray();
+		return rowGreaterThan(rowIndex, doubleArr);
+	}
+
+	public DataFrame rowGreaterThan(int rowIndex, double[] values) {
+		ArrayList<String> newRowNames = new ArrayList<String>();
+		newRowNames.add(this.columnNames.get(rowIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
+		for (int columnCount = 0; columnCount < values.length; columnCount++) {
+			newDF.setValue(columnCount, 0, this.getValue(columnCount, rowIndex).greaterThan(values[columnCount]));
+		}
+		return newDF;
+	}
+
+	public DataFrame rowGreaterThan(int rowIndex, float[] values) {
+		return rowGreaterThan(rowIndex, CommonArray.convertFloatArrayToDoubleArray(values));
+	}
+
+
+	public DataFrame rowGreaterThan(int rowIndexInSelf, int rowIndexInOtherDF, DataFrame otherDF) {
+		double[] otherRow = otherDF.getRowAsDoubleArray(rowIndexInOtherDF);
+		return rowGreaterThan(rowIndexInSelf, otherRow);
+	}
+
+	
 	
 	public DataFrame greaterThanOrEqual(DataFrame df) {
 		if (this.sameShape(df)) { 		
@@ -3305,17 +4082,274 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return greaterThanOrEqual((double) value);
 	}
 	
-	public DataFrame afterOrSame(LocalDate date) {
+
+	
+	public DataFrame columnGreaterThanOrEqual(int columnIndex, DataItem value) {
+		return columnGreaterThanOrEqual(columnIndex, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame columnGreaterThanOrEqual(int columnIndex, int value) {
+		return columnGreaterThanOrEqual(columnIndex, (double)value);
+	}
+
+	public DataFrame columnGreaterThanOrEqual(int columnIndex, double value) {
+		ArrayList<String> newColumnNames = new ArrayList<String>();
+		newColumnNames.add(this.columnNames.get(columnIndex));
 		@SuppressWarnings("unchecked")
-		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
-			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
-				boolean after = this.getValue(colCount, rowCount).after(date);
-				boolean sameDate = this.getValue(colCount, rowCount).sameDate(date);
-				newDF.setValue(colCount, rowCount, after || sameDate);
+		DataFrame newDF = new DataFrame(newColumnNames, (ArrayList<String>)this.rowNames.clone());
+		for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+			boolean greaterThan = this.getValue(columnIndex, rowCount).greaterThan(value);
+			boolean equals = this.getValue(columnIndex, rowCount).equal(value);
+			newDF.setValue(0, rowCount, greaterThan || equals);
+		}
+		return newDF;
+	}
+
+	public DataFrame columnGreaterThanOrEqual(int columnIndex, float value) {
+		return columnGreaterThanOrEqual(columnIndex, (double)value);
+	}
+
+
+	public DataFrame columnGreaterThanOrEqual(String columnName, DataItem value) {
+		return columnGreaterThanOrEqual(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnGreaterThanOrEqual(String columnName, int value) {
+		return columnGreaterThanOrEqual(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnGreaterThanOrEqual(String columnName, double value) {
+		return columnGreaterThanOrEqual(this.columnNames.indexOf(columnName), value);
+	}
+
+	public DataFrame columnGreaterThanOrEqual(String columnName, float value) {
+		return columnGreaterThanOrEqual(this.columnNames.indexOf(columnName), value);
+	}
+
+
+	public DataFrame columnsGreaterThanOrEqual(int[] columnIndices, DataItem value) {
+		return columnsGreaterThanOrEqual(columnIndices, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame columnsGreaterThanOrEqual(int[] columnIndices, int value) {
+		return columnsGreaterThanOrEqual(columnIndices, (double) value);
+	}
+
+	public DataFrame columnsGreaterThanOrEqual(int[] columnIndices, double value) {
+		DataFrame newDF = getColumnsAsDataFrame(columnIndices);
+		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
+				boolean greaterThan = newDF.getValue(columnCount, rowCount).greaterThan(value);
+				boolean equals = newDF.getValue(columnCount, rowCount).equal(value);
+				newDF.setValue(columnCount, rowCount, greaterThan || equals);
 			}	
 		}
 		return newDF;
+	}
+
+	public DataFrame columnsGreaterThanOrEqual(int[] columnIndices, float value) {
+		return columnsGreaterThanOrEqual(columnIndices, (double) value);
+	}
+
+
+	public DataFrame columnsGreaterThanOrEqual(String[] columnNames, DataItem value) {
+		return columnsGreaterThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsGreaterThanOrEqual(String[] columnNames, int value) {
+		return columnsGreaterThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsGreaterThanOrEqual(String[] columnNames, double value) {
+		return columnsGreaterThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+	public DataFrame columnsGreaterThanOrEqual(String[] columnNames, float value) {
+		return columnsGreaterThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames), value);
+	}
+
+
+	public DataFrame columnsGreaterThanOrEqual(ArrayList<String> columnNames, DataItem value) {
+		return columnsGreaterThanOrEqual(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsGreaterThanOrEqual(ArrayList<String> columnNames, int value) {
+		return columnsGreaterThanOrEqual(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsGreaterThanOrEqual(ArrayList<String> columnNames, double value) {
+		return columnsGreaterThanOrEqual(columnNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame columnsGreaterThanOrEqual(ArrayList<String> columnNames, float value) {
+		return columnsGreaterThanOrEqual(columnNames.toArray(new String[0]), value);
+	}
+
+
+	public DataFrame columnGreaterThanOrEqual(int columnIndex, DataItem[] value) {
+		return columnGreaterThanOrEqual(columnIndex, DataItem.convertToPrimitiveDoubleList(value));
+	}
+
+	public DataFrame columnGreaterThanOrEqual(int columnIndex, int[] values) {
+		double[] doubleArr = IntStream.of(values).asDoubleStream().toArray();
+		return columnGreaterThanOrEqual(columnIndex, doubleArr);
+	}
+
+	public DataFrame columnGreaterThanOrEqual(int columnIndex, double[] values) {
+		ArrayList<String> newColumnNames = new ArrayList<String>();
+		newColumnNames.add(this.columnNames.get(columnIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame(newColumnNames, (ArrayList<String>)this.rowNames.clone());
+		for (int rowCount = 0; rowCount < values.length; rowCount++) {
+			boolean greaterThan = this.getValue(columnIndex, rowCount).greaterThan(values[rowCount]);
+			boolean equal = this.getValue(columnIndex, rowCount).equal(values[rowCount]);
+			newDF.setValue(0, rowCount, greaterThan || equal);
+		}
+		return newDF;
+	}
+
+	public DataFrame columnGreaterThanOrEqual(int columnIndex, float[] values) {
+		return columnGreaterThanOrEqual(columnIndex, CommonArray.convertFloatArrayToDoubleArray(values));
+	}
+
+
+	public DataFrame columnGreaterThanOrEqual(int columnIndexInSelf, int columnIndexInOtherDF, DataFrame otherDF) {
+		double[] otherColumn = otherDF.getColumnAsDoubleArray(columnIndexInOtherDF);
+		return columnGreaterThanOrEqual(columnIndexInSelf, otherColumn);
+	}
+
+	public DataFrame rowGreaterThanOrEqual(int rowIndex, DataItem value) {
+		return rowGreaterThanOrEqual(rowIndex, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame rowGreaterThanOrEqual(int rowIndex, int value) {
+		return rowGreaterThanOrEqual(rowIndex, (double) value);
+	}
+
+	public DataFrame rowGreaterThanOrEqual(int rowIndex, double value) {
+		ArrayList<String> newRowNames = new ArrayList<String>();
+		newRowNames.add(this.rowNames.get(rowIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
+		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+			boolean greaterThan = this.getValue(columnCount, rowIndex).greaterThan(value);
+			boolean equal = this.getValue(columnCount, rowIndex).equal(value);
+			newDF.setValue(columnCount, 0, greaterThan || equal);
+		}
+		return newDF;
+	}
+
+	public DataFrame rowGreaterThanOrEqual(int rowIndex, float value) {
+		return rowGreaterThanOrEqual(rowIndex, (double) value);
+	}
+
+
+	public DataFrame rowGreaterThanOrEqual(String rowName, DataItem value) {
+		return rowGreaterThanOrEqual(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowGreaterThanOrEqual(String rowName, int value) {
+		return rowGreaterThanOrEqual(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowGreaterThanOrEqual(String rowName, double value) {
+		return rowGreaterThanOrEqual(this.rowNames.indexOf(rowName), value);
+	}
+
+	public DataFrame rowGreaterThanOrEqual(String rowName, float value) {
+		return rowGreaterThanOrEqual(this.rowNames.indexOf(rowName), value);
+	}
+
+
+	public DataFrame rowsGreaterThanOrEqual(int[] rowIndices, DataItem value) {
+		return rowsGreaterThanOrEqual(rowIndices, value.getValueConvertedToDouble());
+	}
+
+	public DataFrame rowsGreaterThanOrEqual(int[] rowIndices, int value) {
+		return rowsGreaterThanOrEqual(rowIndices, (double)value);
+	}
+
+	public DataFrame rowsGreaterThanOrEqual(int[] rowIndices, double value) {
+		DataFrame newDF = getRowsAsDataFrame(rowIndices);
+		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
+				boolean greaterThan = newDF.getValue(columnCount, rowCount).greaterThan(value);
+				boolean equal = newDF.getValue(columnCount, rowCount).equal(value);
+				newDF.setValue(columnCount, rowCount, greaterThan || equal);
+			}	
+		}
+		return newDF;
+	}
+
+	public DataFrame rowsGreaterThanOrEqual(int[] rowIndices, float value) {
+		return rowsGreaterThanOrEqual(rowIndices, (double)value);
+	}
+
+
+	public DataFrame rowsGreaterThanOrEqual(String[] rowNames, DataItem value) {
+		return rowsGreaterThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsGreaterThanOrEqual(String[] rowNames, int value) {
+		return rowsGreaterThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsGreaterThanOrEqual(String[] rowNames, double value) {
+		return rowsGreaterThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+	public DataFrame rowsGreaterThanOrEqual(String[] rowNames, float value) {
+		return rowsGreaterThanOrEqual(CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames), value);
+	}
+
+
+	public DataFrame rowsGreaterThanOrEqual(ArrayList<String> rowNames, DataItem value) {
+		return rowsGreaterThanOrEqual(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsGreaterThanOrEqual(ArrayList<String> rowNames, int value) {
+		return rowsGreaterThanOrEqual(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsGreaterThanOrEqual(ArrayList<String> rowNames, double value) {
+		return rowsGreaterThanOrEqual(rowNames.toArray(new String[0]), value);
+	}
+
+	public DataFrame rowsGreaterThanOrEqual(ArrayList<String> rowNames, float value) {
+		return rowsGreaterThanOrEqual(rowNames.toArray(new String[0]), value);
+	}
+
+
+	public DataFrame rowGreaterThanOrEqual(int rowIndex, DataItem[] values) {
+		return rowGreaterThanOrEqual(rowIndex, DataItem.convertToPrimitiveDoubleList(values));
+	}
+
+	public DataFrame rowGreaterThanOrEqual(int rowIndex, int[] values) {
+		double[] doubleArr = IntStream.of(values).asDoubleStream().toArray();
+		return rowGreaterThanOrEqual(rowIndex, doubleArr);
+	}
+
+	public DataFrame rowGreaterThanOrEqual(int rowIndex, double[] values) {
+		ArrayList<String> newRowNames = new ArrayList<String>();
+		newRowNames.add(this.columnNames.get(rowIndex));
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
+		for (int columnCount = 0; columnCount < values.length; columnCount++) {
+			boolean greaterThan = this.getValue(columnCount, rowIndex).greaterThan(values[columnCount]);
+			boolean equal = this.getValue(columnCount, rowIndex).equal(values[columnCount]);
+			newDF.setValue(columnCount, 0, greaterThan || equal);
+		}
+		return newDF;
+	}
+
+	public DataFrame rowGreaterThanOrEqual(int rowIndex, float[] values) {
+		return rowGreaterThanOrEqual(rowIndex, CommonArray.convertFloatArrayToDoubleArray(values));
+	}
+
+
+	public DataFrame rowGreaterThanOrEqual(int rowIndexInSelf, int rowIndexInOtherDF, DataFrame otherDF) {
+		double[] otherRow = otherDF.getRowAsDoubleArray(rowIndexInOtherDF);
+		return rowGreaterThanOrEqual(rowIndexInSelf, otherRow);
 	}
 	
 	public DataFrame elementwiseEqual(DataFrame df) {
@@ -3357,17 +4391,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return elementwiseEqual((double) value);
 	}
 	
-	public DataFrame sameDate(LocalDate date) {
-		@SuppressWarnings("unchecked")
-		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
-			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
-				boolean equal = this.getValue(colCount, rowCount).sameDate(date);
-				newDF.setValue(colCount, rowCount, equal);
-			}	
-		}
-		return newDF;
-	}
+
 	
 	public DataFrame elementwiseNotEqual(DataFrame df) {
 		return elementwiseEqual(df).negate();
@@ -3389,12 +4413,212 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return elementwiseEqual(value).negate();
 	}
 	
+
+	
+	// -----------------------------------------------
+	// ------ Elementwise Date/Time Comparisons ------
+	// -----------------------------------------------
+	public DataFrame before(LocalDate date) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean before = this.getValue(colCount, rowCount).before(date);
+				newDF.setValue(colCount, rowCount, before);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame before(LocalDateTime dateTime) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean before = this.getValue(colCount, rowCount).before(dateTime);
+				newDF.setValue(colCount, rowCount, before);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame before(LocalTime time) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean before = this.getValue(colCount, rowCount).before(time);
+				newDF.setValue(colCount, rowCount, before);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame beforeOrSame(LocalDate date) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean before = this.getValue(colCount, rowCount).before(date);
+				boolean sameDate = this.getValue(colCount, rowCount).sameDate(date);
+				newDF.setValue(colCount, rowCount, before || sameDate);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame beforeOrSame(LocalDateTime dateTime) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean before = this.getValue(colCount, rowCount).before(dateTime);
+				boolean sameDateTime = this.getValue(colCount, rowCount).sameDate(dateTime);
+				newDF.setValue(colCount, rowCount, before || sameDateTime);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame beforeOrSame(LocalTime time) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean before = this.getValue(colCount, rowCount).before(time);
+				boolean sameTime = this.getValue(colCount, rowCount).sameTime(time);
+				newDF.setValue(colCount, rowCount, before || sameTime);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame after(LocalDate date) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean before = this.getValue(colCount, rowCount).after(date);
+				newDF.setValue(colCount, rowCount, before);
+			}	
+		}
+		return newDF;
+	}
+	public DataFrame after(LocalDateTime dateTime) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean before = this.getValue(colCount, rowCount).after(dateTime);
+				newDF.setValue(colCount, rowCount, before);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame after(LocalTime time) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean before = this.getValue(colCount, rowCount).after(time);
+				newDF.setValue(colCount, rowCount, before);
+			}	
+		}
+		return newDF;
+	}
+	
+
+	
+	public DataFrame afterOrSame(LocalDate date) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean after = this.getValue(colCount, rowCount).after(date);
+				boolean sameDate = this.getValue(colCount, rowCount).sameDate(date);
+				newDF.setValue(colCount, rowCount, after || sameDate);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame afterOrSame(LocalDateTime dateTime) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean after = this.getValue(colCount, rowCount).after(dateTime);
+				boolean sameDateTime = this.getValue(colCount, rowCount).sameDate(dateTime);
+				newDF.setValue(colCount, rowCount, after || sameDateTime);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame afterOrSame(LocalTime time) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean after = this.getValue(colCount, rowCount).after(time);
+				boolean sameTime = this.getValue(colCount, rowCount).sameTime(time);
+				newDF.setValue(colCount, rowCount, after || sameTime);
+			}	
+		}
+		return newDF;
+	}
+	
+
+	
+	public DataFrame sameDate(LocalDate date) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean equal = this.getValue(colCount, rowCount).sameDate(date);
+				newDF.setValue(colCount, rowCount, equal);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame sameDate(LocalDateTime dateTime) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean equal = this.getValue(colCount, rowCount).sameDate(dateTime);
+				newDF.setValue(colCount, rowCount, equal);
+			}	
+		}
+		return newDF;
+	}
+	
+	public DataFrame sameTime(LocalTime time) {
+		@SuppressWarnings("unchecked")
+		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				boolean equal = this.getValue(colCount, rowCount).sameTime(time);
+				newDF.setValue(colCount, rowCount, equal);
+			}	
+		}
+		return newDF;
+	}
+	
 	public DataFrame differentDate(LocalDate date) {
 		return sameDate(date).negate();
 	}
 	
+	public DataFrame differentDate(LocalDateTime dateTime) {
+		return sameDate(dateTime).negate();
+	}
 	
-
+	public DataFrame differentTime(LocalTime time) {
+		return sameTime(time).negate();
+	}
+	
 	
 	// ------------------------
 	// ------ True/False ------
@@ -5281,7 +6505,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			return;
 		}
 
-		this.data.get(colNum).set(rowNum, new DataItem(type, value));
+		this.data.get(colNum).set(rowNum, new DataItem(value, type));
 
 	}
 
@@ -5307,6 +6531,30 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 
 		this.data.get(colNum).set(rowNum, new DataItem(value));
+	}
+	
+	public void setValue(String columnName, String rowName, DataItem value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
+	}
+	
+	public void setValue(String columnName, String rowName, int value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
+	}
+	
+	public void setValue(String columnName, String rowName, float value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
+	}
+	
+	public void setValue(String columnName, String rowName, double value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
+	}
+	
+	public void setValue(String columnName, String rowName, boolean value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
+	}
+	
+	public void setValue(String columnName, String rowName, LocalDate value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
 	}
 	
 	public void setValue(int columnIndex, int rowIndex, DataItem value) {
@@ -6026,9 +7274,32 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.isNull().negate();
 	}
 	
+	public DataFrame joinToTheRight(DataFrame newDF, boolean outerJoin, boolean keepDuplicateColumns) {
+		setNewColumnNames(newDF, keepDuplicateColumns);
+		correctRowsForJoin(newDF, outerJoin);
+		
+		this.appendColumns(newDF.getColumnNames().toArray(new String[0]));
+		
+		setValuesInNewDF(newDF);
+			
+		return this;
+	}
+
 
 	
-	public DataFrame joinToTheRight(DataFrame newDF, boolean outerJoin, boolean keepDuplicateColumns) {
+	public DataFrame joinToTheLeft(DataFrame newDF, boolean outerJoin, boolean keepDuplicateColumns) {
+		setNewColumnNames(newDF, keepDuplicateColumns);
+		correctRowsForJoin(newDF, outerJoin);
+		
+		this.insertColumns(0, newDF.getColumnNames().toArray(new String[0]));
+		
+		setValuesInNewDF(newDF);
+			
+		return this;
+	}
+
+
+	private void setNewColumnNames(DataFrame newDF, boolean keepDuplicateColumns) {
 		ArrayList<String> newColumnNames = newDF.getColumnNames();
 		
 		if (keepDuplicateColumns) {			
@@ -6050,53 +7321,57 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			}
 		
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void correctRowsForJoin(DataFrame newDF, boolean outerJoin) {
+		// Rows in current DF
+		ArrayList<String> currentRows = (ArrayList<String>)this.rowNames.clone();
+		// Rows in new DF
+		ArrayList<String> newRows = (ArrayList<String>)newDF.getRowNames().clone();
 		
 		// order new rows to be same as other rows (same as charting library)
-		
 		if (outerJoin) {
-			ArrayList<String> currentRows = (ArrayList<String>)this.rowNames.clone();
-			ArrayList<String> newRows = (ArrayList<String>)newDF.getRowNames().clone();
-			ArrayList<String> finalRowNames = CommonArray.removeDuplicates(currentRows, newRows);
-			
-			DataFrame dfToAttach = new DataFrame(newColumnNames, finalRowNames);
-			
-			
-			// append rows of null
-			// append columns
-			
-			// for each existing row, if not in newDF.rows then insert (correct position) it and fill row with null values
-			// for each newDF row, if not in existingDF.rows then insert (correct position) it and fill row with null values
+			// Rows in new DF but not in current DF
+			ArrayList<String> rowsToAddToCurrentDF = CommonArray.doesntContain(newRows, currentRows);
+			this.appendRows(rowsToAddToCurrentDF.toArray(new String[0]));
+				
+		} else {
+			// Rows in the first array but not in the second
+			ArrayList<String> rowsToDropInFirst = CommonArray.uncommonStrings(currentRows, newRows);
+			this.dropRows(rowsToDropInFirst);
+			// Rows in the second array but not in the first
+			ArrayList<String> rowsToDropInSecond = CommonArray.uncommonStrings(newRows, currentRows);
+			newDF.dropRows(rowsToDropInSecond);
 		}
-			
-//		for (int colCount = 0; colCount < newDF.getNumCols(); colCount++) {
-//			DataItem[] column = newDF.getColumnAsDataItemArray(colCount);
-//			this.appendColumn(newColumnNames.get(colCount), column);
-//		}
-		
-		
+	}
+	
+	private void setValuesInNewDF(DataFrame newDF) {
+		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
+				DataItem value = newDF.getValue(columnCount, rowCount).clone();
+				this.setValue(newDF.getColumnNames().get(columnCount), newDF.getRowNames().get(rowCount), value);
+			}	
+		}
+	}
+	
+	public DataFrame joinBelow(DataFrame newDF, boolean outerJoin, boolean keepDuplicateColumns) {
+		this.transpose();
+		newDF.transpose();
+		this.joinToTheRight(newDF, outerJoin, keepDuplicateColumns);
+		this.transpose();
 		return this;
 	}
 	
-	public DataFrame joinToTheLeft(DataFrame newDF, boolean preserveRows, boolean outerJoin) {
-		return null;
+	public DataFrame joinAbove(DataFrame newDF, boolean outerJoin, boolean keepDuplicateColumns) {
+		this.transpose();
+		newDF.transpose();
+		this.joinToTheLeft(newDF, outerJoin, keepDuplicateColumns);
+		this.transpose();
+		return this;
 	}
 	
-	public DataFrame joinBelow(DataFrame newDF, boolean preserveColumns, boolean outerJoin) {
-		// transpose -> joinLeft/Right -> transpose back
-		return null;
-	}
-	
-	public DataFrame joinAbove(DataFrame newDF, boolean preserveColumns, boolean outerJoin) {
-		return null;
-	}
-	
-	public static DataFrame joinHorizontally(DataFrame[] dfs, boolean preserveRows, boolean outerJoin) {
-		return null;
-	}
-	
-	public static DataFrame joinVertically(DataFrame[] dfs, boolean preserveColumns, boolean outerJoin) {
-		return null;
-	}
+
 	
 	private boolean lessThan(String str1, String str2) {
 		return (str1.compareToIgnoreCase(str2) < 0);
