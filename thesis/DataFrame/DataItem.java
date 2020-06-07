@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Period;
 
 import thesis.Common.CommonMath;
@@ -19,6 +20,7 @@ public class DataItem {
 		Null, 
 		Boolean, 
 		LocalDate,
+		LocalTime,
 		LocalDateTime, 
 		Period, 
 		Duration 
@@ -31,6 +33,7 @@ public class DataItem {
 	private Double doubleValue;
 	private Boolean booleanValue;
 	private LocalDate localDateValue;
+	private LocalTime localTimeValue;
 	private LocalDateTime localDateTimeValue;
 	private Period periodValue;
 	private Duration durationValue;
@@ -56,6 +59,8 @@ public class DataItem {
 			typeOfObject = StorageType.Boolean;
 		} else if (value instanceof LocalDate) {
 			typeOfObject = StorageType.LocalDate;
+		} else if (value instanceof LocalTime) {
+			typeOfObject = StorageType.LocalTime;
 		} else if (value instanceof LocalDateTime) {
 			typeOfObject = StorageType.LocalDateTime;
 		} else if (value instanceof Period) {
@@ -123,6 +128,16 @@ public class DataItem {
 		}
 	}
 	
+	// Time Value
+	public DataItem(LocalTime value) {
+		if (value != null) {
+			this.localTimeValue = value;
+			this.type = StorageType.LocalTime;
+		} else {
+			this.type = StorageType.Null;
+		}
+	}
+	
 	// DateTime Value
 	public DataItem(LocalDateTime value) {
 		if (value != null) {
@@ -166,6 +181,8 @@ public class DataItem {
 			this.booleanValue = item.getBooleanValue().booleanValue();
 		} else if (this.type == StorageType.LocalDate) {
 			this.localDateValue = item.getDateValue();
+		} else if (this.type == StorageType.LocalTime) {
+			this.localTimeValue = item.getTimeValue();
 		} else if (this.type == StorageType.LocalDateTime) {
 			this.localDateTimeValue = item.getDateTimeValue();
 		} else if (this.type == StorageType.Period) {
@@ -187,6 +204,8 @@ public class DataItem {
 			this.booleanValue = parseBoolean(value.toString());
 		} else if (this.type == StorageType.LocalDate) {
 			this.localDateValue = LocalDate.parse(value.toString());
+		} else if (this.type == StorageType.LocalTime) {
+			this.localTimeValue = LocalTime.parse(value.toString());
 		} else if (this.type == StorageType.LocalDateTime) {
 			this.localDateTimeValue = LocalDateTime.parse(value.toString());
 		} else if (this.type == StorageType.Period) {
@@ -228,6 +247,11 @@ public class DataItem {
 				case LocalDate:
 					// Convert String to LocalDate
 					this.localDateValue = LocalDate.parse(this.stringValue);
+					this.stringValue = null;
+					break;
+				case LocalTime:
+					// Convert String to LocalTime
+					this.localTimeValue = LocalTime.parse(this.stringValue);
 					this.stringValue = null;
 					break;
 				case LocalDateTime:
@@ -318,6 +342,17 @@ public class DataItem {
 				default:
 					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
 			}
+		} else if (this.type == StorageType.LocalTime) {
+			// Current type is LocalTime
+			switch(typeToUse) {
+				case String:
+					// Convert LocalTime to String
+					this.stringValue = this.localTimeValue.toString();
+					this.localTimeValue = null;
+					break;
+				default:
+					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+			}
 		} else if (this.type == StorageType.LocalDateTime) {
 			// Current type is LocalDateTime
 			switch(typeToUse) {
@@ -362,6 +397,7 @@ public class DataItem {
 			this.doubleValue = null;
 			this.booleanValue = null;
 			this.localDateValue = null;
+			this.localTimeValue = null;
 			this.localDateTimeValue = null;
 			this.periodValue = null;
 			this.durationValue = null;
@@ -385,6 +421,8 @@ public class DataItem {
 			return this.booleanValue;
 		} else if (this.type == StorageType.LocalDate) {
 			return this.localDateValue;
+		} else if (this.type == StorageType.LocalTime) {
+			return this.localTimeValue;
 		} else if (this.type == StorageType.LocalDateTime) {
 			return this.localDateTimeValue;
 		} else if (this.type == StorageType.Period) {
@@ -411,6 +449,14 @@ public class DataItem {
 
 	public static Double[] convertToDoubleList(DataItem[] dataItemList) {
 		Double[] doubleList = new Double[dataItemList.length];
+		for (int i = 0; i < dataItemList.length; i++) {
+			doubleList[i] = dataItemList[i].getValueConvertedToDouble();
+		}
+		return doubleList;
+	}
+	
+	public static double[] convertToPrimitiveDoubleList(DataItem[] dataItemList) {
+		double[] doubleList = new double[dataItemList.length];
 		for (int i = 0; i < dataItemList.length; i++) {
 			doubleList[i] = dataItemList[i].getValueConvertedToDouble();
 		}
@@ -443,6 +489,10 @@ public class DataItem {
 	
 	public LocalDate getDateValue() {
 		return this.localDateValue;
+	}
+	
+	public LocalTime getTimeValue() {
+		return this.localTimeValue;
 	}
 	
 	public LocalDateTime getDateTimeValue() {
@@ -513,6 +563,8 @@ public class DataItem {
 			this.localDateValue = this.localDateValue.plus(timePeriod);
 		} else if (this.type == StorageType.LocalDateTime) {
 			this.localDateTimeValue = this.localDateTimeValue.plus(timePeriod);
+		} else if (this.type == StorageType.LocalTime) {
+			this.localTimeValue = this.localTimeValue.plus(timePeriod);
 		}
 	}
 	
@@ -521,6 +573,8 @@ public class DataItem {
 			this.localDateValue = this.localDateValue.plus(timePeriod);
 		} else if (this.type == StorageType.LocalDate) {
 			this.localDateTimeValue = this.localDateTimeValue.plus(timePeriod);
+		} else if (this.type == StorageType.LocalTime) {
+			this.localTimeValue = this.localTimeValue.plus(timePeriod);
 		}
 	}
 	
@@ -543,6 +597,10 @@ public class DataItem {
 			add(value.getIntegerValue());
 		} else if (value.getType() == StorageType.Double) {
 			add(value.getDoubleValue());
+		} else if (value.getType() == StorageType.Period) {
+			add(value.getPeriodValue());
+		} else if (value.getType() == StorageType.Duration) {
+			add(value.getDurationValue());
 		}
 	}
 
@@ -573,6 +631,8 @@ public class DataItem {
 			this.localDateValue = this.localDateValue.minus(timePeriod);
 		} else if (this.type == StorageType.LocalDateTime) {
 			this.localDateTimeValue = this.localDateTimeValue.minus(timePeriod);
+		} else if (this.type == StorageType.LocalTime) {
+			this.localTimeValue = this.localTimeValue.minus(timePeriod);
 		}
 	}
 	
@@ -581,6 +641,8 @@ public class DataItem {
 			this.localDateValue = this.localDateValue.minus(timePeriod);
 		} else if (this.type == StorageType.LocalDateTime) {
 			this.localDateTimeValue = this.localDateTimeValue.minus(timePeriod);
+		} else if (this.type == StorageType.LocalTime) {
+			this.localTimeValue = this.localTimeValue.minus(timePeriod);
 		}
 	}
 	
@@ -589,6 +651,10 @@ public class DataItem {
 			subtract(value.getIntegerValue());
 		} else if (value.getType() == StorageType.Double) {
 			subtract(value.getDoubleValue());
+		} else if (value.getType() == StorageType.Period) {
+			subtract(value.getPeriodValue());
+		} else if (value.getType() == StorageType.Duration) {
+			subtract(value.getDurationValue());
 		}
 	}
 	
@@ -778,6 +844,14 @@ public class DataItem {
 		return false;
 	}
 	
+	public boolean before(LocalTime time) {
+		if (this.type == StorageType.LocalDateTime) {
+			return this.localDateTimeValue.toLocalTime().isBefore(time);
+		} else if (this.type == StorageType.LocalTime) {
+			return this.localTimeValue.isBefore(time);
+		}
+		return false;
+	}
 	
 	public boolean equal(int value) {
 		return equal((double) value);
@@ -814,6 +888,24 @@ public class DataItem {
 		return false;
 	}
 	
+	public boolean sameDate(LocalDateTime date) {
+		if (this.type == StorageType.LocalDate) {
+			return this.localDateValue.equals(date.toLocalDate());
+		} else if (this.type == StorageType.LocalDateTime) {
+			return this.localDateTimeValue.equals(date);
+		}
+		return false;
+	}
+	
+	public boolean sameTime(LocalTime time) {
+		if (this.type == StorageType.LocalDateTime) {
+			return this.localDateTimeValue.toLocalTime().equals(time);
+		} else if (this.type == StorageType.LocalTime) {
+			return this.localTimeValue.equals(time);
+		}
+		return false;
+	}
+	
 	public boolean greaterThan(int value) {
 		return greaterThan((double) value);
 	}
@@ -845,6 +937,15 @@ public class DataItem {
 			return this.localDateValue.isAfter(date);
 		} else if (this.type == StorageType.LocalDateTime) {
 			return this.localDateTimeValue.isAfter(date.atStartOfDay());
+		}
+		return false;
+	}
+
+	public boolean after(LocalTime time) {
+		if (this.type == StorageType.LocalDateTime) {
+			return this.localDateTimeValue.toLocalTime().isAfter(time);
+		} else if (this.type == StorageType.LocalTime) {
+			return this.localTimeValue.isAfter(time);
 		}
 		return false;
 	}
@@ -896,6 +997,12 @@ public class DataItem {
 		}
 	}
 	
+	public void clamp(LocalTime lowerBound, LocalTime upperBound) {
+		if (this.type == StorageType.LocalTime) {
+			this.localTimeValue = CommonMath.clamp(this.localTimeValue, lowerBound, upperBound);
+		}
+	}
+	
 	public void round(int decimalPlaces) {
 		if (this.type == StorageType.Double) {
 			BigDecimal bd = BigDecimal.valueOf(this.doubleValue);
@@ -906,7 +1013,7 @@ public class DataItem {
 	
 
 	public void squareRoot() {
-		if (this.type == StorageType.Double ) {
+		if (this.type == StorageType.Double) {
 			this.doubleValue = Math.sqrt(this.doubleValue);
 		} else if (this.type == StorageType.Integer) {
 			this.doubleValue = Math.sqrt(this.intValue);
@@ -946,8 +1053,5 @@ public class DataItem {
 		
 		return newDataItem;
 	}
-
-
-	
 
 }

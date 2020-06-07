@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import thesis.DataFrame.DataItem;
 
@@ -190,6 +191,18 @@ public class CommonMath {
 
 	public static LocalDateTime clamp(LocalDateTime value, LocalDateTime min, LocalDateTime max) {
 		LocalDateTime newDate = value;
+		if (value.isBefore(min)) {
+			newDate = min;
+		}
+		
+		if (value.isAfter(max)) {
+			newDate = max;
+		}
+		return newDate;
+	}
+
+	public static LocalTime clamp(LocalTime value, LocalTime min, LocalTime max) {
+		LocalTime newDate = value;
 		if (value.isBefore(min)) {
 			newDate = min;
 		}

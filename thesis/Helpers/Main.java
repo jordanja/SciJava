@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
@@ -463,12 +464,6 @@ public class Main {
 	}
 	
 	public static DataFrame play() {
-
-		DataItem di = new DataItem(1);
-		
-		DataItem ndi = new DataItem(di);
-		
-		
 		
 		
 //		ArrayList<String> columnNames = new ArrayList<String>();
@@ -498,32 +493,30 @@ public class Main {
 //		DataFrame df = new DataFrame(columnNames, rowNames, Boolean.class);
 
 		
-//		DataFrame df1 = new DataFrame(
-//			new String[] {"col_a", "col_b", "col_3"}, 
-//			new String[] {"row_2","row_4", "row_5"}, 
-//			Double.class
-//		);
-//		DataFrame df2 = new DataFrame(
-//			new String[] {"col_a", "col_new1", "col_new2"}, 
-//			new String[] {"row_1","row_2", "row_3", "row_4"}, 
-//			Double.class
-//		);
-//		
-//		System.out.println("1");
-//		System.out.println(df1);
-//		System.out.println("2");
-//		System.out.println(df2);
-//		
-//		df1.joinToTheRight(df2, true, false);
-//		System.out.println(df);
+		DataFrame df1 = new DataFrame(
+			new String[] {"col_a", "col_b", "col_3"}, 
+			new String[] {"row_2","row_4", "row_5"}, 
+			Double.class
+		);
+		DataFrame df2 = new DataFrame(
+			new String[] {"col_a", "col_new1", "col_new2"}, 
+			new String[] {"row_1","row_4", "row_3", "row_2"}, 
+			Double.class
+		);
+		
+		System.out.println("1");
+		System.out.println(df1);
+		
+
+		System.out.println("2");
+		System.out.println(df2);
+		
+		df1.joinAbove(df2, true, true);
 		
 		
 		
 		
-		
-		
-		
-		return null;
+		return df1;
 	}
 
 	private static DataFrame hashColsConstructor() {

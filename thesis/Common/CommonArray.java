@@ -665,6 +665,19 @@ public class CommonArray {
         return commonElements;
 	}
 	
+	public static ArrayList<String> uncommonStrings(ArrayList<String> arr1, ArrayList<String> arr2) {
+		ArrayList<String> uncommonElements = new ArrayList<String>();
+
+		for (String str: arr1) {
+			if (!arr2.contains(str)) {
+				if (!uncommonElements.contains(str)) {
+					uncommonElements.add(str);
+				}
+			}
+		}
+        return uncommonElements;
+	}
+	
 	public static int numberOfCommonStrings(ArrayList<String> arr1, ArrayList<String> arr2) {
 		return commonStrings(arr1, arr2).size();
 	}
@@ -782,6 +795,18 @@ public class CommonArray {
 		}
 		
 		return CommonArray.convertIntegerListArrayToArray(indicesOfTrues);
+	}
+	
+	public static ArrayList<String> doesntContain(ArrayList<String> arr1, ArrayList<String> arr2) {
+		// Strings present in arr1, but not arr2
+		ArrayList<String> finalArr = new ArrayList<String>();
+		for (String element: arr1) {
+			if (!arr2.contains(element)) {
+				finalArr.add(element);
+			}
+		}
+		
+		return finalArr;
 	}
 	
 //	public static ArrayList<String>  booleanMinusStringArrays(ArrayList<String>  largeArr, ArrayList<String>  smallArr) {
