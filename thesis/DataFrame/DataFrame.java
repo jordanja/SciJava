@@ -7372,36 +7372,94 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 
+	public void swapTwoColumns(int columnIndex1, int columnIndex2) {
+		DataItem[] tempColumn = this.getColumnAsDataItemArray(columnIndex1);
+		String tempColumnName = this.columnNames.get(columnIndex1);
+		
+		this.setColumnValues(columnIndex1, this.getColumnAsDataItemArray(columnIndex2));
+		this.columnNames.set(columnIndex1, this.columnNames.get(columnIndex2));
+		
+		this.setColumnValues(columnIndex2, tempColumn);
+		this.columnNames.set(columnIndex2, tempColumnName);
+		
+	}
+	
+	public void swapTwoColumns(String columnName1, String columnName2) {
+		swapTwoColumns(this.columnNames.indexOf(columnName1), this.columnNames.indexOf(columnName2));
+	}
+	
+	public void swapTwoRows(int rowIndex1, int rowIndex2) {
+		DataItem[] tempRow = this.getRowAsDataItemArray(rowIndex1);
+		String tempRowName = this.rowNames.get(rowIndex1);
+		
+		this.setRowValues(rowIndex1, this.getRowAsDataItemArray(rowIndex2));
+		this.rowNames.set(rowIndex1, this.rowNames.get(rowIndex2));
+		
+		this.setRowValues(rowIndex2, tempRow);
+		this.rowNames.set(rowIndex2, tempRowName);
+	}
+	
+	public void swapTwoRows(String rowName1, String rowName2) {
+		swapTwoColumns(this.rowNames.indexOf(rowName1), this.rowNames.indexOf(rowName2));
+	}
+	
 	
 	private boolean lessThan(String str1, String str2) {
 		return (str1.compareToIgnoreCase(str2) < 0);
 	}
-	
+
 	public void sortColumnsAlphabetically(boolean ascending) {
-		sortColumnsAlphabetically(ascending, 0, this.getNumCols());
-	}
-	
-	public void sortColumnsAlphabetically(boolean ascending, int lowerBound, int upperBound) {
-//		int innerCounter;
-//	    for (int outerCounter = lowerBound; outerCounter < upperBound; outerCounter++) {
-//	        String savedColumnName = this.columnNames.get(outerCounter);
-//	        DataItem[] savedColumn = this.getColumnAsDataItemArray(outerCounter);
-//	        for(innerCounter = outerCounter; innerCounter > 0 && (ascending ? lessThan(savedColumnName,this.columnNames.get(innerCounter-1)) : !lessThan(savedColumnName,this.columnNames.get(innerCounter-1))); innerCounter--) {
-//	        	this.columnNames.set(innerCounter, this.columnNames.get(innerCounter - 1));
-//	        }
-//	        this.columnNames.set(innerCounter, savedColumnName);
-//	    }
-	    
+
+		int n = this.getNumCols(); 
+        for (int i = 1; i < n; ++i) { 
+            String columnName = this.columnNames.get(i); 
+            DataItem[] column = this.getColumnAsDataItemArray(i);
+            int j = i - 1;
+           
+            if (ascending) {            	
+            	while (j >= 0 && lessThan(columnName, this.columnNames.get(j))) { 
+            		this.columnNames.set(j + 1, this.columnNames.get(j));
+            		this.setColumnValues(j + 1, this.getColumnAsDataItemArray(j));
+            		j = j - 1; 
+            	} 
+            } else {
+            	while (j >= 0 && !lessThan(columnName, this.columnNames.get(j))) { 
+            		this.columnNames.set(j + 1, this.columnNames.get(j));
+            		this.setColumnValues(j + 1, this.getColumnAsDataItemArray(j));
+            		j = j - 1; 
+            	}
+            }
+            this.columnNames.set(j + 1, columnName);
+            this.setColumnValues(j + 1, column);
+        } 
 	}
 	
 	public void sortRowsAlphabetically(boolean ascending) {
-		
+		int n = this.getNumRows(); 
+        for (int i = 1; i < n; ++i) { 
+            String rowName = this.rowNames.get(i); 
+            DataItem[] row = this.getRowAsDataItemArray(i);
+            int j = i - 1;
+           
+            if (ascending) {            	
+            	while (j >= 0 && lessThan(rowName, this.rowNames.get(j))) { 
+            		this.rowNames.set(j + 1, this.rowNames.get(j));
+            		this.setRowValues(j + 1, this.getRowAsDataItemArray(j));
+            		j = j - 1; 
+            	} 
+            } else {
+            	while (j >= 0 && !lessThan(rowName, this.rowNames.get(j))) { 
+            		this.rowNames.set(j + 1, this.rowNames.get(j));
+            		this.setRowValues(j + 1, this.getRowAsDataItemArray(j));
+            		j = j - 1; 
+            	}
+            }
+            this.rowNames.set(j + 1, rowName);
+            this.setRowValues(j + 1, row);
+        } 
 	}
 	
-	public void sortRowsAlphabetically(boolean ascending, int lowerBound, int upperBound) {
-		
-	}
-
+	
 	public void transpose() {
 		ArrayList<ArrayList<DataItem>> transpose = new ArrayList<ArrayList<DataItem>>();
 
