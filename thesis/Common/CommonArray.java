@@ -876,6 +876,45 @@ public class CommonArray {
 		
 		return finalArr;
 	}
+
+	public static boolean dataItemInList(ArrayList<DataItem> arr, DataItem item) {
+		for (DataItem element: arr) {
+			if (element.equals(item)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static DataItem[] getUniqueValues(DataItem[] arr) {
+		ArrayList<DataItem> uniqueValues = new ArrayList<DataItem>();
+		for (DataItem value: arr) {
+			if (!dataItemInList(uniqueValues, value)) {
+				uniqueValues.add(value);
+			}
+		}
+		return uniqueValues.toArray(new DataItem[0]);
+	}
+	
+	public static String[] getUniqueValues(String[] arr) {
+		ArrayList<String> uniqueValues = new ArrayList<String>();
+		for (String value: arr) {
+			if (!uniqueValues.contains(value)) {
+				uniqueValues.add(value);
+			}
+		}
+		return uniqueValues.toArray(new String[0]);
+	}
+
+	public static int[] indicesOf(String[] column, String value) {
+		ArrayList<Integer> indices = new ArrayList<Integer>();
+		for (int index = 0; index < column.length; index++) {
+			if (column[index].equals(value)) {
+				indices.add(index);
+			}
+		}
+		return indices.stream().mapToInt(Integer::intValue).toArray();
+	}
 	
 //	public static ArrayList<String>  booleanMinusStringArrays(ArrayList<String>  largeArr, ArrayList<String>  smallArr) {
 //		ArrayList<String> finalArr = new ArrayList<String>();

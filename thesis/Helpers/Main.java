@@ -467,9 +467,9 @@ public class Main {
 	public static DataFrame play() {
 		
 		
-		ArrayList<String> columnNames = new ArrayList<String>();
-		columnNames.add("col_n");
-		columnNames.add("col_f");
+//		ArrayList<String> columnNames = new ArrayList<String>();
+//		columnNames.add("col_n");
+//		columnNames.add("col_f");
 //		columnNames.add("col_z");
 //		columnNames.add("col_r");
 //		columnNames.add("col_w");
@@ -479,9 +479,9 @@ public class Main {
 //		columnNames.add("col_l");
 //		columnNames.add("col_t");
 		
-		ArrayList<String> rowNames = new ArrayList<String>();
-		rowNames.add("row_one");
-		rowNames.add("row_two");
+//		ArrayList<String> rowNames = new ArrayList<String>();
+//		rowNames.add("row_one");
+//		rowNames.add("row_two");
 //		rowNames.add("row_three");
 //		rowNames.add("row_four");
 //		rowNames.add("row_five");
@@ -491,33 +491,25 @@ public class Main {
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
 		
-		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
 		
-//		df.insertRows(0, new int[][] {new int[] {1, 2}, new int[] {2, 3}});
-		df.insertRows(1, 2);
+		DataFrame df = new DataFrame(2, 12, null);
+		String[] cities = new String[] {
+				"new york", "new york", "new york", "new york", 
+				"mumbai", "mumbai", "mumbai", "mumbai", 
+				"paris", "paris", "paris", "paris"};
+		int[] temperatures = new int[] {
+				32, 36, 28, 33,
+				90, 85, 87, 92,
+				45, 50, 54, 42};
 		
-//		DataFrame df1 = new DataFrame(
-//			new String[] {"col_a", "col_b", "col_3"}, 
-//			new String[] {"row_2","row_4", "row_5"}, 
-//			Double.class
-//		);
-//		DataFrame df2 = new DataFrame(
-//			new String[] {"col_a", "col_new1", "col_new2"}, 
-//			new String[] {"row_1","row_4", "row_3", "row_2"}, 
-//			Double.class
-//		);
-//		
-//		System.out.println("1");
-//		System.out.println(df1);
-//		
-//
-//		System.out.println("2");
-//		System.out.println(df2);
-//		
-//		df1.joinAbove(df2, true, true);
+		df.setColumnNames(new String[] {"city", "temperature"});
 		
+		df.setColumnValues(0, cities);
+		df.setColumnValues(1, temperatures);
+
+		GroupBy gb = df.groupBy("city");
 		
-		
+		System.out.println(gb);
 		
 		return df;
 	}
