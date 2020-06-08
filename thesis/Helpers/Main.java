@@ -12,6 +12,7 @@ import java.awt.Font;
 import java.io.ObjectInputStream.GetField;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -491,9 +492,8 @@ public class Main {
 		rowNames.add("row_ten");
 		
 		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
-		System.out.println(df);
 		
-		df.sortRowsAlphabetically(true);
+		df.insertRows(0, 2, Duration.ofSeconds(4));
 		
 //		DataFrame df1 = new DataFrame(
 //			new String[] {"col_a", "col_b", "col_3"}, 

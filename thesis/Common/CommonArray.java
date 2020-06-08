@@ -1,7 +1,11 @@
 package thesis.Common;
 
 import java.util.List;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -339,6 +343,38 @@ public class CommonArray {
 		return list;
 	}
 	
+	public static List<Object> convertArrayToObjectList(LocalDateTime[] arr) {
+		ArrayList<Object> list = new ArrayList<Object>();
+		for (LocalDateTime element: arr) {
+			list.add(element);
+		}
+		return list;
+	}
+	
+	public static List<Object> convertArrayToObjectList(LocalTime[] arr) {
+		ArrayList<Object> list = new ArrayList<Object>();
+		for (LocalTime element: arr) {
+			list.add(element);
+		}
+		return list;
+	}
+	
+	public static List<Object> convertArrayToObjectList(Period[] arr) {
+		ArrayList<Object> list = new ArrayList<Object>();
+		for (Period element: arr) {
+			list.add(element);
+		}
+		return list;
+	}
+	
+	public static List<Object> convertArrayToObjectList(Duration[] arr) {
+		ArrayList<Object> list = new ArrayList<Object>();
+		for (Duration element: arr) {
+			list.add(element);
+		}
+		return list;
+	}
+	
 	public static List<Object> convertArrayToObjectList(String[] arr) {
 		ArrayList<Object> list = new ArrayList<Object>();
 		for (String element: arr) {
@@ -407,6 +443,38 @@ public class CommonArray {
 	
 	public static LocalDate[] initializeLocalDateArrayWithValues(int length, LocalDate value) {
 		LocalDate[] arr = new LocalDate[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
+	public static LocalDateTime[] initializeLocalDateTimeArrayWithValues(int length, LocalDateTime value) {
+		LocalDateTime[] arr = new LocalDateTime[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
+	public static LocalTime[] initializeLocalTimeArrayWithValues(int length, LocalTime value) {
+		LocalTime[] arr = new LocalTime[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
+	public static Period[] initializePeriodArrayWithValues(int length, Period value) {
+		Period[] arr = new Period[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
+	public static Duration[] initializeDurationArrayWithValues(int length, Duration value) {
+		Duration[] arr = new Duration[length];
 		for (int i = 0; i < length; i++) {
 			arr[i] = value;
 		}
