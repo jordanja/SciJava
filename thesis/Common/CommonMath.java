@@ -3,6 +3,8 @@ package thesis.Common;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import thesis.DataFrame.DataItem;
 
@@ -15,6 +17,16 @@ public class CommonMath {
 	}
 	
 	public static double average(float[] dataPoints) {
+		double sum = 0;
+		for (int i = 0; i < dataPoints.length; i++) {
+			sum += dataPoints[i];
+		}
+		
+		return sum/dataPoints.length;
+		
+	}
+	
+	public static double average(double[] dataPoints) {
 		double sum = 0;
 		for (int i = 0; i < dataPoints.length; i++) {
 			sum += dataPoints[i];
@@ -49,6 +61,21 @@ public class CommonMath {
 			total += value;
 		}
 		return total;
+	}
+	
+	public static double variance(double arr[], int dof) {
+        double sum = 0;
+                
+        double average = average(arr);
+        for (double num: arr) {
+        	sum += Math.pow(num - average, 2);
+        }
+
+        return sum / (arr.length - dof);
+    }
+	
+	public static double standardDeviation(double arr[], int dof) {
+		return Math.sqrt(variance(arr, dof));
 	}
 	
 	public static double standardDeviation(Double arr[]) {
@@ -152,6 +179,30 @@ public class CommonMath {
 	}
 	public static LocalDate clamp(LocalDate value, LocalDate min, LocalDate max) {
 		LocalDate newDate = value;
+		if (value.isBefore(min)) {
+			newDate = min;
+		}
+		
+		if (value.isAfter(max)) {
+			newDate = max;
+		}
+		return newDate;
+	}
+
+	public static LocalDateTime clamp(LocalDateTime value, LocalDateTime min, LocalDateTime max) {
+		LocalDateTime newDate = value;
+		if (value.isBefore(min)) {
+			newDate = min;
+		}
+		
+		if (value.isAfter(max)) {
+			newDate = max;
+		}
+		return newDate;
+	}
+
+	public static LocalTime clamp(LocalTime value, LocalTime min, LocalTime max) {
+		LocalTime newDate = value;
 		if (value.isBefore(min)) {
 			newDate = min;
 		}

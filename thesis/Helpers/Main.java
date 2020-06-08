@@ -9,10 +9,15 @@ import java.util.List;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.ObjectInputStream.GetField;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BarChartAxis;
@@ -41,6 +46,7 @@ import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.*;
+import thesis.DataFrame.DataItem.StorageType;
 import thesis.NumJa.NumJa;
 
 @SuppressWarnings("unused")
@@ -450,7 +456,7 @@ public class Main {
 
 	public static DataFrame time() {
 		DataFrame df = new DataFrame("Datasets/time.csv", true, false);
-		df.setColumnType(0, DataItem.StorageType.Date);
+		df.setColumnType(0, DataItem.StorageType.LocalDate);
 		df.setColumnType(1, DataItem.StorageType.Integer);
 		System.out.println(df.getValue(0, 0).getType());
 		System.out.println(df.getValue(1, 0).getType());
@@ -459,17 +465,19 @@ public class Main {
 	}
 	
 	public static DataFrame play() {
+		
+		
 		ArrayList<String> columnNames = new ArrayList<String>();
-		columnNames.add("col_f");
-		columnNames.add("col_r");
 		columnNames.add("col_n");
-		columnNames.add("col_w");
-		columnNames.add("col_S");
-		columnNames.add("col_z");
-		columnNames.add("col_A");
-		columnNames.add("col_m");
-		columnNames.add("col_l");
-		columnNames.add("col_t");
+		columnNames.add("col_f");
+//		columnNames.add("col_z");
+//		columnNames.add("col_r");
+//		columnNames.add("col_w");
+//		columnNames.add("col_A");
+//		columnNames.add("col_S");
+//		columnNames.add("col_m");
+//		columnNames.add("col_l");
+//		columnNames.add("col_t");
 		
 		ArrayList<String> rowNames = new ArrayList<String>();
 		rowNames.add("row_one");
@@ -482,11 +490,33 @@ public class Main {
 		rowNames.add("row_eight");
 		rowNames.add("row_nine");
 		rowNames.add("row_ten");
-	
+		
 		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
-		System.out.println("origonal");
-		System.out.println(df);
-		df.sortColumnsAlphabetically(false);
+		
+		df.insertRows(0, 2, Duration.ofSeconds(4));
+		
+//		DataFrame df1 = new DataFrame(
+//			new String[] {"col_a", "col_b", "col_3"}, 
+//			new String[] {"row_2","row_4", "row_5"}, 
+//			Double.class
+//		);
+//		DataFrame df2 = new DataFrame(
+//			new String[] {"col_a", "col_new1", "col_new2"}, 
+//			new String[] {"row_1","row_4", "row_3", "row_2"}, 
+//			Double.class
+//		);
+//		
+//		System.out.println("1");
+//		System.out.println(df1);
+//		
+//
+//		System.out.println("2");
+//		System.out.println(df2);
+//		
+//		df1.joinAbove(df2, true, true);
+		
+		
+		
 		
 		return df;
 	}
@@ -513,7 +543,7 @@ public class Main {
 
 	private static DataFrame csvConstructor() {
 		DataFrame df = new DataFrame("Datasets/date_data.csv", true, false);
-		df.setColumnType(0, DataItem.StorageType.Date);
+		df.setColumnType(0, DataItem.StorageType.LocalDate);
 		return df;
 	}
 
