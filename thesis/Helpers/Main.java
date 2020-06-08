@@ -482,18 +482,19 @@ public class Main {
 		ArrayList<String> rowNames = new ArrayList<String>();
 		rowNames.add("row_one");
 		rowNames.add("row_two");
-		rowNames.add("row_three");
-		rowNames.add("row_four");
-		rowNames.add("row_five");
-		rowNames.add("row_six");
-		rowNames.add("row_seven");
-		rowNames.add("row_eight");
-		rowNames.add("row_nine");
-		rowNames.add("row_ten");
+//		rowNames.add("row_three");
+//		rowNames.add("row_four");
+//		rowNames.add("row_five");
+//		rowNames.add("row_six");
+//		rowNames.add("row_seven");
+//		rowNames.add("row_eight");
+//		rowNames.add("row_nine");
+//		rowNames.add("row_ten");
 		
 		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
 		
-		df.insertRows(0, 2, Duration.ofSeconds(4));
+//		df.insertRows(0, new int[][] {new int[] {1, 2}, new int[] {2, 3}});
+		df.insertRows(1, 2);
 		
 //		DataFrame df1 = new DataFrame(
 //			new String[] {"col_a", "col_b", "col_3"}, 

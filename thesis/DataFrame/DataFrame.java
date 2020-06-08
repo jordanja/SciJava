@@ -652,368 +652,208 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void insertColumns(int index, ArrayList<String> columnNames, ArrayList<ArrayList<Object>> columns) {
-		int columnOffset = 0;
-		for (ArrayList<Object> column : columns) {
-			insertColumn(index + columnOffset, columnNames.get(columnOffset), column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.size()).forEachOrdered(i -> insertColumn(index + i, columnNames.get(i), columns.get(i)));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, Object[][] columns) {
-		int columnOffset = 0;
-		for (Object[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, DataItem[][] columns) {
-		int columnOffset = 0;
-		for (DataItem[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, int[][] columns) {
-		int columnOffset = 0;
-		for (int[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, float[][] columns) {
-		int columnOffset = 0;
-		for (float[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, double[][] columns) {
-		int columnOffset = 0;
-		for (double[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, boolean[][] columns) {
-		int columnOffset = 0;
-		for (boolean[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, String[][] columns) {
-		int columnOffset = 0;
-		for (String[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, LocalDate[][] columns) {
-		int columnOffset = 0;
-		for (LocalDate[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, LocalDateTime[][] columns) {
-		int columnOffset = 0;
-		for (LocalDateTime[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, LocalTime[][] columns) {
-		int columnOffset = 0;
-		for (LocalTime[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, Period[][] columns) {
-		int columnOffset = 0;
-		for (Period[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, Duration[][] columns) {
-		int columnOffset = 0;
-		for (Duration[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, Object value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, DataItem value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, int value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, float value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, double value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, boolean value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, String value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, LocalDate value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, LocalDateTime value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, LocalTime value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, Period value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	public void insertColumns(int index, String[] columnNames, Duration value) {
-		for (int colCount = 0; colCount < columnNames.length; colCount++) {
-			insertColumn(index + colCount, columnNames[colCount], value);
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
 	
 	public void insertColumns(int index, String[] columnNames) {
-		Object[][] columns = new Object[columnNames.length][this.getNumRows()];
-		int columnOffset = 0;
-		for (Object[] column : columns) {
-			insertColumn(index + columnOffset, columnNames[columnOffset], column);
-			columnOffset++;
-		}
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], new Object[this.getNumRows()]));
 	}
 	
 	public void insertColumns(int index, ArrayList<ArrayList<Object>> columns) {
-		int columnOffset = 0;
-		for (ArrayList<Object> column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.size()).forEachOrdered(i -> insertColumn(index + i, columns.get(i)));
 	}
 	
 	public void insertColumns(int index, Object[][] columns) {
-		int columnOffset = 0;
-		for (Object[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, DataItem[][] columns) {
-		int columnOffset = 0;
-		for (DataItem[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, int[][] columns) {
-		int columnOffset = 0;
-		for (int[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, float[][] columns) {
-		int columnOffset = 0;
-		for (float[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, double[][] columns) {
-		int columnOffset = 0;
-		for (double[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, boolean[][] columns) {
-		int columnOffset = 0;
-		for (boolean[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, String[][] columns) {
-		int columnOffset = 0;
-		for (String[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, LocalDate[][] columns) {
-		int columnOffset = 0;
-		for (LocalDate[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, LocalDateTime[][] columns) {
-		int columnOffset = 0;
-		for (LocalDateTime[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, LocalTime[][] columns) {
-		int columnOffset = 0;
-		for (LocalTime[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, Period[][] columns) {
-		int columnOffset = 0;
-		for (Period[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, Duration[][] columns) {
-		int columnOffset = 0;
-		for (Duration[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
 	
 	public void insertColumns(int index, int numColumns, Object value) {
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			insertColumn(index + columnCount, value);
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
 	public void insertColumns(int index, int numColumns, DataItem value) {
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			insertColumn(index + columnCount, value);
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
 	public void insertColumns(int index, int numColumns, int value) {
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			insertColumn(index + columnCount, value);
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
 	public void insertColumns(int index, int numColumns, float value) {
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			insertColumn(index + columnCount, value);
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
 	public void insertColumns(int index, int numColumns, double value) {
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			insertColumn(index + columnCount, value);
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
 	public void insertColumns(int index, int numColumns, boolean value) {
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			insertColumn(index + columnCount, value);
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
 	public void insertColumns(int index, int numColumns, LocalDate value) {
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			insertColumn(index + columnCount, value);
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
 	public void insertColumns(int index, int numColumns, LocalDateTime value) {
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			insertColumn(index + columnCount, value);
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
 	public void insertColumns(int index, int numColumns, LocalTime value) {
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			insertColumn(index + columnCount, value);
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
 	public void insertColumns(int index, int numColumns, Period value) {
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			insertColumn(index + columnCount, value);
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
 	public void insertColumns(int index, int numColumns, Duration value) {
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			insertColumn(index + columnCount, value);
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
 	public void insertColumns(int index, int numColumns) {
-		Object[][] columns = new Object[numColumns][this.getNumRows()];
-		int columnOffset = 0;
-		for (Object[] column: columns) {
-			insertColumn(index + columnOffset, column);
-			columnOffset++;
-		}
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, new Object[this.getNumRows()]));
 	}
 	
 
@@ -1741,384 +1581,203 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void insertRows(int index, String[] rowNames, Object[][] rows) {
-		int rowOffset = 0;
-		for (Object[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, DataItem[][] rows) {
-		int rowOffset = 0;
-		for (Object[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, int[][] rows) {
-		int rowOffset = 0;
-		for (int[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, float[][] rows) {
-		int rowOffset = 0;
-		for (float[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, double[][] rows) {
-		int rowOffset = 0;
-		for (double[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, boolean[][] rows) {
-		int rowOffset = 0;
-		for (boolean[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, String[][] rows) {
-		int rowOffset = 0;
-		for (String[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, LocalDate[][] rows) {
-		int rowOffset = 0;
-		for (LocalDate[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, LocalDateTime[][] rows) {
-		int rowOffset = 0;
-		for (LocalDateTime[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, LocalTime[][] rows) {
-		int rowOffset = 0;
-		for (LocalTime[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, Period[][] rows) {
-		int rowOffset = 0;
-		for (Period[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, Duration[][] rows) {
-		int rowOffset = 0;
-		for (Duration[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
 	
 	public void insertRows(int index, String[] rowNames, Object value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames, DataItem value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames, int value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames, float value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames, double value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames, boolean value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames, String value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames, LocalDate value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames, LocalDateTime value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames, LocalTime value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames, Period value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames, Duration value) {
-		for (int rowCount = 0; rowCount < rowNames.length; rowCount++) {
-			insertRow(index + rowCount, rowNames[rowCount], value);
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
 	public void insertRows(int index, String[] rowNames) {
-		int rowOffset = 0;
-		Object[][] rows = new Object[rowNames.length][this.getNumCols()];
-		for (Object[] row : rows) {
-			insertRow(index + rowOffset, rowNames[rowOffset], row);
-			rowOffset++;
-		}
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], new Object[this.getNumCols()]));
 	}
 	
 	public void insertRows(int index, ArrayList<ArrayList<Object>> rows) {
-		int rowOffset = 0;
-		for (ArrayList<Object> row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.size()).forEachOrdered(i -> insertRow(index + i, rows.get(i)));
 	}
 	
 	public void insertRows(int index, Object[][] rows) {
-		int rowOffset = 0;
-		for (Object[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, DataItem[][] rows) {
-		int rowOffset = 0;
-		for (Object[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, int[][] rows) {
-		int rowOffset = 0;
-		for (int[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, float[][] rows) {
-		int rowOffset = 0;
-		for (float[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, double[][] rows) {
-		int rowOffset = 0;
-		for (double[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, boolean[][] rows) {
-		int rowOffset = 0;
-		for (boolean[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, String[][] rows) {
-		int rowOffset = 0;
-		for (String[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, LocalDate[][] rows) {
-		int rowOffset = 0;
-		for (LocalDate[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, LocalDateTime[][] rows) {
-		int rowOffset = 0;
-		for (LocalDateTime[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, LocalTime[][] rows) {
-		int rowOffset = 0;
-		for (LocalTime[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, Period[][] rows) {
-		int rowOffset = 0;
-		for (Period[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, Duration[][] rows) {
-		int rowOffset = 0;
-		for (Duration[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
 	
 	public void insertRows(int index, int numRows, Object value) {
-		for (int rowCount = 0; rowCount < numRows; rowCount++) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowCount, rowName, value);
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 	
 	public void insertRows(int index, int numRows, DataItem value) {
-		for (int rowCount = 0; rowCount < numRows; rowCount++) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowCount, rowName, value);
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 	
 	public void insertRows(int index, int numRows, int value) {
-		for (int rowCount = 0; rowCount < numRows; rowCount++) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowCount, rowName, value);
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 	
 	public void insertRows(int index, int numRows, float value) {
-		for (int rowCount = 0; rowCount < numRows; rowCount++) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowCount, rowName, value);
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 	
 	public void insertRows(int index, int numRows, double value) {
-		for (int rowCount = 0; rowCount < numRows; rowCount++) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowCount, rowName, value);
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 	
 	public void insertRows(int index, int numRows, boolean value) {
-		for (int rowCount = 0; rowCount < numRows; rowCount++) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowCount, rowName, value);
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 	
 	public void insertRows(int index, int numRows, LocalDate value) {
-		for (int rowCount = 0; rowCount < numRows; rowCount++) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowCount, rowName, value);
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 
 	public void insertRows(int index, int numRows, LocalDateTime value) {
-		for (int rowCount = 0; rowCount < numRows; rowCount++) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowCount, rowName, value);
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 	
 	public void insertRows(int index, int numRows, LocalTime value) {
-		for (int rowCount = 0; rowCount < numRows; rowCount++) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowCount, rowName, value);
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 	
 	public void insertRows(int index, int numRows, Period value) {
-		for (int rowCount = 0; rowCount < numRows; rowCount++) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowCount, rowName, value);
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 	
 	public void insertRows(int index, int numRows, Duration value) {
-		for (int rowCount = 0; rowCount < numRows; rowCount++) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowCount, rowName, value);
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 	
 	public void insertRows(int index, int numRows) {
-		int rowOffset = 0;
-		Object[][] rows = new Object[numRows][this.getNumCols()];
-		for (Object[] row : rows) {
-			String rowName = generateUnusedRowName();
-			insertRow(index + rowOffset, rowName, row);
-			rowOffset++;
-		}
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i));
 	}
 
 
