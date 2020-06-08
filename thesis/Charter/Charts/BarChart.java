@@ -1,15 +1,12 @@
 package thesis.Charter.Charts;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.BarPlot;
@@ -21,7 +18,7 @@ public class BarChart extends XYChart{
 
 	BarChartAxis axis;
 	BarPlot plot;
-	Legend legend;
+	CategoricalLegend legend;
 	
 	private String colorCodeLabel;
 	private String[] colorCodeValues = new String[0]; 
@@ -31,11 +28,11 @@ public class BarChart extends XYChart{
 	private String orient = "v";
 
 	public BarChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 		
 		this.axis = new BarChartAxis();
 		this.plot = new BarPlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 		
 		this.cm = new XYChartMeasurements();
 
@@ -56,7 +53,7 @@ public class BarChart extends XYChart{
 
 		if (this.legend.getIncludeLegend()) {
 			LegendData legendData = new LegendData();
-			legendData.setColorData(CommonArray.removeDuplicates(this.colorCodeValues), this.plot.getBarColorPalette());
+			legendData.setColorData(CommonArray.removeDuplicates(this.colorCodeValues), this.plot.getColorPalette());
 			legendData.setColorLabel(this.colorCodeLabel);
 			this.legend.setLegendData(legendData);
 			this.legend.calculateLegend();

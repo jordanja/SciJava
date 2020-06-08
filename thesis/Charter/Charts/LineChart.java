@@ -9,6 +9,7 @@ import java.util.Set;
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.LinePlot;
@@ -20,7 +21,7 @@ public class LineChart extends XYChart {
 
 	NumericAxis axis;
 	LinePlot plot;
-	Legend legend;
+	CategoricalLegend legend;
 	
 	private String colorCodeLabel;
 	private String[] colorCodeValues = new String[0]; 
@@ -28,11 +29,11 @@ public class LineChart extends XYChart {
 	
 
 	public LineChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 
 		this.axis = new NumericAxis();
 		this.plot = new LinePlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 
 		this.cm = new XYChartMeasurements();
 
@@ -59,7 +60,7 @@ public class LineChart extends XYChart {
 
 		if (this.legend.getIncludeLegend()) {
 			LegendData legendData = new LegendData();
-			legendData.setColorData(CommonArray.removeDuplicates(this.colorCodeValues), this.plot.getLineColorPalette());
+			legendData.setColorData(CommonArray.removeDuplicates(this.colorCodeValues), this.plot.getColorPalette());
 			legendData.setColorLabel(this.colorCodeLabel);
 			this.legend.setLegendData(legendData);
 			this.legend.calculateLegend();
@@ -229,7 +230,7 @@ public class LineChart extends XYChart {
 		this.plot = plot;
 	}
 
-	public void setLegend(Legend legend) {
+	public void setLegend(CategoricalLegend legend) {
 		this.legend = legend;
 	}
 

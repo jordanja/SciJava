@@ -17,12 +17,12 @@ import thesis.Helpers.Palette;
 
 public class BoxPlot extends Plot {
 
-	private Color[] boxColorPalette = Palette.Default;
+	private Color[] colorPalette = Palette.Default;
 
 	private Color outlineColor = Color.black;
 	private int barOutlineWidth = 3;
 
-	private Color barColor = boxColorPalette[0];
+	private Color barColor = colorPalette[0];
 
 	// When there are no categories, this is the width of a bar relative to the plot
 	private double singluarBarLengthPercentage = 0.8f;
@@ -90,7 +90,7 @@ public class BoxPlot extends Plot {
 			
 			int catagoryCount = 0;
 			for (String category : categoryOrder) {
-				Color fillColor = this.boxColorPalette[catagoryCount % this.boxColorPalette.length];
+				Color fillColor = this.colorPalette[catagoryCount % this.colorPalette.length];
 				HashMap<Object, Double> map = (HashMap<Object, Double>) data.get(category);
 
 				double[] numericTicks = axis.getNumericTicksValues();
@@ -163,7 +163,7 @@ public class BoxPlot extends Plot {
 
 				int colorCodeCount = 0;
 				for (Object colorCode : categoryMap.keySet()) {
-					Color fillColor = this.boxColorPalette[colorCodeCount % this.boxColorPalette.length];
+					Color fillColor = this.colorPalette[colorCodeCount % this.colorPalette.length];
 
 					HashMap<Object, Double> map = categoryMap.get(colorCode);
 
@@ -282,12 +282,12 @@ public class BoxPlot extends Plot {
 				cm.imageBottomToPlotTopHeight());
 	}
 
-	public Color[] getBoxColorPalette() {
-		return this.boxColorPalette;
+	public Color[] getColorPalette() {
+		return this.colorPalette;
 	}
 
-	public void setBoxColorPalette(Color[] boxColorPalette) {
-		this.boxColorPalette = boxColorPalette;
+	public void setColorPalette(Color[] boxColorPalette) {
+		this.colorPalette = boxColorPalette;
 	}
 
 	public Color getOutlineColor() {

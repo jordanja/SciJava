@@ -2,6 +2,9 @@ package thesis.Common;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import thesis.DataFrame.DataItem;
 
@@ -23,6 +26,16 @@ public class CommonMath {
 		
 	}
 	
+	public static double average(double[] dataPoints) {
+		double sum = 0;
+		for (int i = 0; i < dataPoints.length; i++) {
+			sum += dataPoints[i];
+		}
+		
+		return sum/dataPoints.length;
+		
+	}
+	
 	public static double average(DataItem[] dataPoints) {
 		double sum = 0;
 		for (int i = 0; i < dataPoints.length; i++) {
@@ -33,6 +46,15 @@ public class CommonMath {
 		
 	}
 	
+	public static double average(Double[] dataPoints) {
+		double sum = 0;
+		for (int i = 0; i < dataPoints.length; i++) {
+			sum +=  dataPoints[i];
+		}
+		
+		return sum/dataPoints.length;
+	}
+	
 	public static double total(Double[] arr) {
 		double total = 0;
 		for (Double value: arr) {
@@ -40,6 +62,33 @@ public class CommonMath {
 		}
 		return total;
 	}
+	
+	public static double variance(double arr[], int dof) {
+        double sum = 0;
+                
+        double average = average(arr);
+        for (double num: arr) {
+        	sum += Math.pow(num - average, 2);
+        }
+
+        return sum / (arr.length - dof);
+    }
+	
+	public static double standardDeviation(double arr[], int dof) {
+		return Math.sqrt(variance(arr, dof));
+	}
+	
+	public static double standardDeviation(Double arr[]) {
+        double std = 0;
+                
+        double average = average(arr);
+
+        for (double num: arr) {
+        	std += Math.pow(num - average, 2);
+        }
+
+        return Math.sqrt(std / arr.length);
+    }
 
 	public static double variance(DataItem[] dataPoints, double average) {	
 		return covariance(dataPoints, dataPoints, average, average);
@@ -97,7 +146,6 @@ public class CommonMath {
 	
 	public static int map (double value, double origLow, double origHigh, double newLow, double newHigh) {
 	    return (int)((value - origLow) / (origHigh - origLow) * (newHigh - newLow) + newLow);
-
 	}
 	
 	public static <T> int elementNumInArray (T[] array, T value) {
@@ -123,4 +171,46 @@ public class CommonMath {
         return (angle >= 0 ? angle : (360 - ((-angle) % 360))) % 360;
     }
 
+	public static int clamp(int value, int min, int max) {
+		return Math.min(Math.max(value, min), max);
+	}
+	public static double clamp(double value, double min, double max) {
+		return Math.min(Math.max(value, min), max);
+	}
+	public static LocalDate clamp(LocalDate value, LocalDate min, LocalDate max) {
+		LocalDate newDate = value;
+		if (value.isBefore(min)) {
+			newDate = min;
+		}
+		
+		if (value.isAfter(max)) {
+			newDate = max;
+		}
+		return newDate;
+	}
+
+	public static LocalDateTime clamp(LocalDateTime value, LocalDateTime min, LocalDateTime max) {
+		LocalDateTime newDate = value;
+		if (value.isBefore(min)) {
+			newDate = min;
+		}
+		
+		if (value.isAfter(max)) {
+			newDate = max;
+		}
+		return newDate;
+	}
+
+	public static LocalTime clamp(LocalTime value, LocalTime min, LocalTime max) {
+		LocalTime newDate = value;
+		if (value.isBefore(min)) {
+			newDate = min;
+		}
+		
+		if (value.isAfter(max)) {
+			newDate = max;
+		}
+		return newDate;
+	}
+	
 }

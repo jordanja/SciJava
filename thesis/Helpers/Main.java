@@ -9,10 +9,15 @@ import java.util.List;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.ObjectInputStream.GetField;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BarChartAxis;
@@ -21,6 +26,7 @@ import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Charts.BarChart;
 import thesis.Charter.Charts.BoxChart;
 import thesis.Charter.Charts.GaugeChart;
+import thesis.Charter.Charts.HistogramChart;
 import thesis.Charter.Charts.LineChart;
 import thesis.Charter.Charts.PieChart;
 import thesis.Charter.Charts.PolarAreaChart;
@@ -40,27 +46,49 @@ import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.*;
+import thesis.DataFrame.DataItem.StorageType;
 import thesis.NumJa.NumJa;
 
 @SuppressWarnings("unused")
 public class Main {
 
 	public static void main(String[] args) {
-		stackedAreaChart();
-		pieChart();
-		stripCharting();
-		boxCharting();
-		lineCharting();
-		barCharting();
-		scatterCharting();
-		bubbleChart();
-		radarChart();
-		polarAreaChart();
-		gaugeChart();
+//		correlationChart();
+//		histogram();
+//		stackedAreaChart();
+//		pieChart();
+//		stripCharting();
+//		boxCharting();
+//		lineCharting();
+//		barCharting();
+//		scatterCharting();
+//		bubbleChart();
+//		radarChart();
+//		polarAreaChart();
+//		gaugeChart();
+//		scatterChartingDiamond();
 		dfPlay();
-		scatterChartingDiamond();
 
 		System.out.println("\n\nFINISHED EXECUTION");
+	}
+
+	private static void correlationChart() {
+//		DataFrame df = new DataFrame("Datasets/correlation.csv", true, true);
+		DataFrame df = new DataFrame("Datasets/duplColNames.csv", true, false);
+		
+		
+		System.out.println(df);
+	}
+
+	private static void histogram() {
+		DataFrame df = new DataFrame("Datasets/histogram.csv", true, false);
+		HistogramChart hc = new HistogramChart(df, "tree_heights");
+		
+		hc.getXYChartMeasurements().setPlotWidth(1000);
+		
+		hc.Create();
+		hc.WriteFile("Chart Images/Histogram Chart.png");
+		
 	}
 
 	private static void gaugeChart() {
@@ -85,7 +113,7 @@ public class Main {
 	}
 
 	private static void polarAreaChart() {
-		DataFrame df = new DataFrame("Datasets/own.csv", true);
+		DataFrame df = new DataFrame("Datasets/own.csv", true, false);
 		PolarAreaChart pac = new PolarAreaChart(df, "Fruit", "Quantity");
 		
 		pac.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
@@ -98,7 +126,7 @@ public class Main {
 	}
 
 	private static void radarChart() {
-		DataFrame df = new DataFrame("Datasets/radarchart.csv", true);
+		DataFrame df = new DataFrame("Datasets/radarchart.csv", true, false);
 		
 		RadarChart rc = new RadarChart(df, "Fruit", "Supermarket", "Quantity");
 		
@@ -113,7 +141,7 @@ public class Main {
 	}
 
 	private static void stackedAreaChart() {
-		DataFrame df = new DataFrame("Datasets/stacked.csv", true);
+		DataFrame df = new DataFrame("Datasets/stacked.csv", true, false);
 		System.out.println(df);
 		
 		StackedBarChart sbc = new StackedBarChart(df, "Quarter", "Sales", "Region");
@@ -125,7 +153,7 @@ public class Main {
 	}
 
 	public static void pieChart() {
-		DataFrame df = new DataFrame("Datasets/own.csv", true);
+		DataFrame df = new DataFrame("Datasets/own.csv", true, false);
 		PieChart pc = new PieChart(df, "Fruit", "Quantity");
 		PiePlot plot = pc.getPlot();
 		
@@ -143,7 +171,7 @@ public class Main {
 	
 	
 	public static void stripCharting() {
-		DataFrame df = new DataFrame("Datasets/tips.csv", true);
+		DataFrame df = new DataFrame("Datasets/tips.csv", true, false);
 
 //		StripChart sc = new StripChart(df,  "total_bill");
 		StripChart sc = new StripChart(df, "day", "total_bill");
@@ -167,7 +195,7 @@ public class Main {
 	}
 
 	public static void boxCharting() {
-		DataFrame df = new DataFrame("Datasets/tips.csv", true);
+		DataFrame df = new DataFrame("Datasets/tips.csv", true, false);
 
 //		BoxChart bc = new BoxChart(df,  "total_bill");
 		BoxChart bc = new BoxChart(df, "day", "total_bill");
@@ -181,14 +209,14 @@ public class Main {
 		cm.setPlotWidth(800);
 
 		BoxPlot plot = bc.getPlot();
-		plot.setBoxColorPalette(Palette.generateUniqueColors(10));
+		plot.setColorPalette(Palette.generateUniqueColors(10));
 
 		bc.Create();
 		bc.WriteFile("Chart Images/Box Chart.png");
 	}
 
 	public static void lineCharting() {
-		DataFrame df = new DataFrame("Datasets/fmri.csv", true);
+		DataFrame df = new DataFrame("Datasets/fmri.csv", true, false);
 		System.out.println(df);
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
@@ -203,7 +231,7 @@ public class Main {
 		plot.setMarkerDotColor(Color.WHITE);
 //		plot.setMarkerDotOutlineColor(Color.BLACK);
 
-		plot.setLineColorPalette(Palette.generateUniqueColors(14));
+		plot.setColorPalette(Palette.generateUniqueColors(14));
 
 		lc.colorCode("subject");
 
@@ -219,7 +247,7 @@ public class Main {
 	}
 
 	private static void barCharting() {
-		DataFrame df = new DataFrame("Datasets/tips_mod.csv", true);
+		DataFrame df = new DataFrame("Datasets/tips_mod.csv", true, false);
 
 		BarChart bc = new BarChart(df, "day", "total_bill");
 
@@ -249,11 +277,11 @@ public class Main {
 		plot.setBarOutlineWidth(2);
 		plot.setBarWidthPercentage(0.8f);
 
-		plot.setBarColorPalette(Palette.Contrast);
+		plot.setColorPalette(Palette.Contrast);
 
 		cm.setPlotWidth(1200);
 		
-		axis.setOrientation("h");
+//		axis.setOrientation("h");
 		
 
 		bc.Create();
@@ -261,7 +289,7 @@ public class Main {
 	}
 	
 	private static void scatterChartingDiamond() {
-		DataFrame dfDiamonds = new DataFrame("Datasets/diamonds.csv", true);
+		DataFrame dfDiamonds = new DataFrame("Datasets/diamonds.csv", true, false);
 
 		ScatterChart themeCategorical = new ScatterChart(dfDiamonds, "carat", "price");
 
@@ -275,7 +303,7 @@ public class Main {
 	}
 	
 	private static void bubbleChart() {
-		DataFrame df = new DataFrame("Datasets/bubble.csv", true);
+		DataFrame df = new DataFrame("Datasets/bubble.csv", true, false);
 
 		ScatterChart sc = new ScatterChart(df, "age", "height");
 
@@ -293,7 +321,7 @@ public class Main {
 
 	private static void scatterCharting() {
 
-		DataFrame df = new DataFrame("Datasets/tips.csv", true);
+		DataFrame df = new DataFrame("Datasets/tips.csv", true, false);
 
 		ScatterChart sc = new ScatterChart(df, "total_bill", "tip");
 
@@ -369,7 +397,7 @@ public class Main {
 	}
 
 	private static void dfPlay() {
-//		DataFrame df = play();
+		DataFrame df = play();
 //		DataFrame df = csvConstructor();
 //		DataFrame df = hashColsConstructor();
 //		DataFrame df = hashRowsConstructor();
@@ -377,16 +405,58 @@ public class Main {
 //		DataFrame df = oneColumn();
 //		DataFrame df = multipleColumns();
 //		DataFrame df = arrays();
+//		DataFrame df = rowColNameEmplty();
+//		DataFrame df = rowColNameEmpltyArray();
 
-		DataFrame df = time();
+//		DataFrame df = time();
 		
 		System.out.println(df);
 
 	}
 
+	private static DataFrame rowColNameEmpltyArray() {
+		String[] rowNames = new String[] {"a", "a", "a", "a", "b", "b"};
+		String[] colNames = new String[] {"q", "q", "q", "w", "w", "w"};
+		DataFrame df = new DataFrame(colNames, rowNames);
+
+		return df;
+	}
+
+	private static DataFrame rowColNameEmplty() {
+		ArrayList<String> rowNames = new ArrayList<>();
+		rowNames.add("a");
+		rowNames.add("a");
+		rowNames.add("a");
+		rowNames.add("b");
+		rowNames.add("b");
+		rowNames.add("b");
+		
+		ArrayList<String> colNames = new ArrayList<>();
+		colNames.add("r");
+		colNames.add("r");
+		colNames.add("r");
+		colNames.add("g");
+		colNames.add("g");
+		colNames.add("g");
+		
+		DataFrame df = new DataFrame(colNames, rowNames);
+		df.resetRowNames();
+		
+		rowNames = new ArrayList<>();
+		rowNames.add("a");
+		rowNames.add("a");
+		rowNames.add("a");
+		rowNames.add("b");
+		rowNames.add("b");
+		rowNames.add("b");
+		df.setRowNames(rowNames);
+		
+		return df;
+	}
+
 	public static DataFrame time() {
-		DataFrame df = new DataFrame("Datasets/time.csv", true);
-		df.setColumnType(0, DataItem.StorageType.Date);
+		DataFrame df = new DataFrame("Datasets/time.csv", true, false);
+		df.setColumnType(0, DataItem.StorageType.LocalDate);
 		df.setColumnType(1, DataItem.StorageType.Integer);
 		System.out.println(df.getValue(0, 0).getType());
 		System.out.println(df.getValue(1, 0).getType());
@@ -395,27 +465,59 @@ public class Main {
 	}
 	
 	public static DataFrame play() {
-
-		HashMap<String, ArrayList<Object>> map = new HashMap<String, ArrayList<Object>>();
-
-		ArrayList<Object> arr1 = new ArrayList<Object>();
-		arr1.add(1);
-		arr1.add(2);
-		arr1.add(3);
-
-		ArrayList<Object> arr2 = new ArrayList<Object>();
-		arr2.add(LocalDate.now());
-		arr2.add(LocalDate.now().plusDays(1));
-		arr2.add(LocalDate.now().plusDays(2));
-
-		map.put("one", arr1);
-		map.put("two", arr2);
-
-		DataFrame df = new DataFrame(map);
-
-		Integer[] newCol = new Integer[] { 100, 200, 300 };
-		df.insertColumn(1, "newCol", newCol);
-
+		
+		
+		ArrayList<String> columnNames = new ArrayList<String>();
+		columnNames.add("col_n");
+		columnNames.add("col_f");
+//		columnNames.add("col_z");
+//		columnNames.add("col_r");
+//		columnNames.add("col_w");
+//		columnNames.add("col_A");
+//		columnNames.add("col_S");
+//		columnNames.add("col_m");
+//		columnNames.add("col_l");
+//		columnNames.add("col_t");
+		
+		ArrayList<String> rowNames = new ArrayList<String>();
+		rowNames.add("row_one");
+		rowNames.add("row_two");
+		rowNames.add("row_three");
+		rowNames.add("row_four");
+		rowNames.add("row_five");
+		rowNames.add("row_six");
+		rowNames.add("row_seven");
+		rowNames.add("row_eight");
+		rowNames.add("row_nine");
+		rowNames.add("row_ten");
+		
+		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
+		
+		df.insertRows(0, 2, Duration.ofSeconds(4));
+		
+//		DataFrame df1 = new DataFrame(
+//			new String[] {"col_a", "col_b", "col_3"}, 
+//			new String[] {"row_2","row_4", "row_5"}, 
+//			Double.class
+//		);
+//		DataFrame df2 = new DataFrame(
+//			new String[] {"col_a", "col_new1", "col_new2"}, 
+//			new String[] {"row_1","row_4", "row_3", "row_2"}, 
+//			Double.class
+//		);
+//		
+//		System.out.println("1");
+//		System.out.println(df1);
+//		
+//
+//		System.out.println("2");
+//		System.out.println(df2);
+//		
+//		df1.joinAbove(df2, true, true);
+		
+		
+		
+		
 		return df;
 	}
 
@@ -440,8 +542,8 @@ public class Main {
 	}
 
 	private static DataFrame csvConstructor() {
-		DataFrame df = new DataFrame("Datasets/date_data.csv", true);
-		df.setColumnType(0, DataItem.StorageType.Date);
+		DataFrame df = new DataFrame("Datasets/date_data.csv", true, false);
+		df.setColumnType(0, DataItem.StorageType.LocalDate);
 		return df;
 	}
 

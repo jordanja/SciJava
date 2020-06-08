@@ -9,6 +9,7 @@ import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.AxisFactory;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.Plot;
@@ -21,7 +22,7 @@ public class ScatterChart extends XYChart {
 
 	protected NumericAxis axis;
 	protected ScatterPlot plot;
-	protected Legend legend;
+	protected CategoricalLegend legend;
 
 	private String colorCodeLabel;
 	private String[] colorCodeValues;
@@ -30,22 +31,22 @@ public class ScatterChart extends XYChart {
 	private Double[] bubbleSizeValues;
 
 	public ScatterChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 
 		this.axis = new NumericAxis();
 		this.plot = new ScatterPlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 
 		this.cm = new XYChartMeasurements();
 
 	}
 
 	public void setXAxis(String xAxis) {
-		this.xData = this.dataFrame.getColumnAsArray(xAxis);
+		this.xData = this.dataFrame.getColumnAsDataItemArray(xAxis);
 	}
 
 	public void setYAxis(String yAxis) {
-		this.yData = this.dataFrame.getColumnAsArray(yAxis);
+		this.yData = this.dataFrame.getColumnAsDataItemArray(yAxis);
 	}
 
 	public void setIncludeLegend(boolean includeLegend) {
@@ -88,7 +89,7 @@ public class ScatterChart extends XYChart {
 	
 	public void setBubbleSize(String bubbleSizeLabel) {
 		this.bubbleSizeLabel = bubbleSizeLabel;
-		this.bubbleSizeValues = DataItem.convertToDoubleList(dataFrame.getColumnAsArray(this.bubbleSizeLabel));
+		this.bubbleSizeValues = DataItem.convertToDoubleList(dataFrame.getColumnAsDataItemArray(this.bubbleSizeLabel));
 		this.legend.setIncludeLegend(true);
 	}
 

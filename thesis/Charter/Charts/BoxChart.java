@@ -10,6 +10,7 @@ import java.util.Set;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.BoxPlot;
@@ -22,7 +23,7 @@ public class BoxChart extends XYChart{
 
 	BoxChartAxis axis;
 	BoxPlot plot;
-	Legend legend;
+	CategoricalLegend legend;
 	
 	private String colorCodeLabel;
 	private String[] colorCodeValues = new String[0];
@@ -30,19 +31,19 @@ public class BoxChart extends XYChart{
 	private String[] order = new String[0];
 	
 	public BoxChart(DataFrame dataFrame, String yAxis) {
-		super(dataFrame,dataFrame.getColumnAsArray(yAxis), "Box");
+		super(dataFrame,dataFrame.getColumnAsDataItemArray(yAxis));
 		initialize();
 	}
 	
 	public BoxChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 		initialize();
 	}
 	
 	private void initialize() {
 		this.axis = new BoxChartAxis();
 		this.plot = new BoxPlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 		
 		this.cm = new XYChartMeasurements();
 	}
@@ -60,7 +61,7 @@ public class BoxChart extends XYChart{
 		
 		if (this.legend.getIncludeLegend()) {
 			LegendData legendData = new LegendData();
-			legendData.setColorData(CommonArray.removeDuplicates(this.colorCodeValues), this.plot.getBoxColorPalette());
+			legendData.setColorData(CommonArray.removeDuplicates(this.colorCodeValues), this.plot.getColorPalette());
 			legendData.setColorLabel(this.colorCodeLabel);
 			this.legend.setLegendData(legendData);
 			this.legend.calculateLegend();
@@ -263,7 +264,7 @@ public class BoxChart extends XYChart{
 	public Legend getLegend() {
 		return legend;
 	}
-	public void setLegend(Legend legend) {
+	public void setLegend(CategoricalLegend legend) {
 		this.legend = legend;
 	}
 	

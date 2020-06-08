@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.PiePlot;
@@ -21,16 +22,16 @@ public class PieChart extends Chart {
 	NoAxisChartMeasurements cm;
 	
 	PiePlot plot;
-	Legend legend;
+	CategoricalLegend legend;
 	
 	public PieChart(DataFrame df, String categories, String values) {
-		this.categories = DataItem.convertToStringList(df.getColumnAsArray(categories));
-		this.values = DataItem.convertToDoubleList(df.getColumnAsArray(values));
+		this.categories = df.getColumnAsStringArray(categories);
+		this.values = DataItem.convertToDoubleList(df.getColumnAsDataItemArray(values));
 		
 		this.legendLabel = categories;
 		
 		this.plot = new PiePlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 		this.cm = new NoAxisChartMeasurements();
 		
 	}
@@ -90,7 +91,7 @@ public class PieChart extends Chart {
 	}
 
 
-	public void setLegend(Legend legend) {
+	public void setLegend(CategoricalLegend legend) {
 		this.legend = legend;
 	}
 

@@ -10,6 +10,7 @@ import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.Axis.StripChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.StripPlot;
@@ -22,7 +23,7 @@ public class StripChart extends XYChart{
 
 	StripChartAxis axis;
 	StripPlot plot;
-	Legend legend;
+	CategoricalLegend legend;
 	
 	private String colorCodeLabel;
 	private String[] colorCodeValues = new String[0]; 
@@ -30,21 +31,21 @@ public class StripChart extends XYChart{
 	private String[] order = new String[0];
 	
 	public StripChart(DataFrame dataFrame, String xAxis, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(xAxis), dataFrame.getColumnAsArray(yAxis));
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 		
 		initialize();
 
 	}
 	
 	public StripChart(DataFrame dataFrame, String yAxis) {
-		super(dataFrame, dataFrame.getColumnAsArray(yAxis), "Strip");
+		super(dataFrame, dataFrame.getColumnAsDataItemArray(yAxis));
 		initialize();
 	}
 	
 	private void initialize() {
 		this.axis = new StripChartAxis();
 		this.plot = new StripPlot();
-		this.legend = new Legend();
+		this.legend = new CategoricalLegend();
 		
 		this.cm = new XYChartMeasurements();
 	}
