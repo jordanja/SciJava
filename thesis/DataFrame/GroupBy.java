@@ -24,49 +24,40 @@ public class GroupBy {
 	
 	public DataFrame average() {
 		
-		String[] keys = groups.keySet().toArray(new String[0]);
-		String[] rowNames = CommonArray.generateIncreasingSequence(keys.length).toArray(new String[0]);
-		ArrayList<String> columnNames = new ArrayList<String>();
-		columnNames.add(columnNameToSplitOn);
-
-		DataFrame dfToReturn = new DataFrame(columnNames.toArray(new String[0]), rowNames);
-		dfToReturn.setColumnValues(0, keys);
-		
-		
-		for (int columnCount = 1; columnCount < groups.get(keys[0]).getNumCols(); columnCount++) {
-			HashMap<String, Object> averagesForColumn = new HashMap<String, Object>();
-			for (String key: groups.keySet()) {
-				if (groups.get(key).columnAllNumbers(columnCount)) {
-					String columnName = groups.get(key).getColumnNames().get(columnCount);
-					if (!columnNames.contains(columnName)) {
-						columnNames.add(columnName);
-					}
-					double[] column = (groups.get(key).getColumnAsDoubleArray(columnCount));
-					double average = CommonArray.average(column);
-					averagesForColumn.put(key, average);
-					
-				}
-				
-			}
-			
-			dfToReturn.appendColumn(columnNames.get(columnNames.size() - 1));
-			for (String key: averagesForColumn.keySet()) {
-				int rowIndex = dfToReturn.indexOfInColumn(0, key);
-				dfToReturn.setValue(dfToReturn.getNumCols() - 1, rowIndex, averagesForColumn.get(key));
-			}
-			
-			
+		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
+		for (String key: groups.keySet()) {
+			DataFrame newDF = groups.get(key).clone();
+			newDF.dropColumn(0);
+			DataFrame avg = newDF.averageInColumns();
+			avgs.put(key, avg);
 		}
 		
-		
-		
-		
-		
-		
-		
+		DataFrame dfToReturn = combine(avgs);
 		
 		return dfToReturn;
+	}
+
+	private DataFrame combine(HashMap<String, DataFrame> avgs) {
+		String[] keys = groups.keySet().toArray(new String[0]);
+		ArrayList<String> columnNames = new ArrayList<String>();
+		columnNames.add(columnNameToSplitOn);
+		String[] rowNames = CommonArray.generateIncreasingSequence(keys.length).toArray(new String[0]);
 		
+		DataFrame dfToReturn = new DataFrame(columnNames.toArray(new String[0]), rowNames);
+		dfToReturn.setColumnValues(0, keys);
+		DataFrame combinedAvgs = null;
+		String[] groupByOrder = dfToReturn.getColumnAsStringArray(0);
+		for (String element: groupByOrder) {
+			if (combinedAvgs == null) {
+				combinedAvgs = avgs.get(element);
+			} else {
+				combinedAvgs.joinBelow(avgs.get(element), true, true);
+			}
+		}
+		combinedAvgs.resetRowNames();
+		
+		dfToReturn.joinToTheRight(combinedAvgs, true, true);
+		return dfToReturn;
 	}
 	
 	
