@@ -6956,6 +6956,22 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
 	}
 	
+	public void setValue(String columnName, String rowName, LocalDateTime value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
+	}
+	
+	public void setValue(String columnName, String rowName, LocalTime value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
+	}
+	
+	public void setValue(String columnName, String rowName, Period value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
+	}
+	
+	public void setValue(String columnName, String rowName, Duration value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
+	}
+	
 	public void setValue(int columnIndex, int rowIndex, DataItem value) {
 		this.data.get(columnIndex).set(rowIndex, value);
 	}
@@ -6980,144 +6996,177 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		this.data.get(columnIndex).set(rowIndex, new DataItem(value));
 	}
 
+	public void setValue(int columnIndex, int rowIndex, LocalDateTime value) {
+		this.data.get(columnIndex).set(rowIndex, new DataItem(value));
+	}
+	
+	public void setValue(int columnIndex, int rowIndex, LocalTime value) {
+		this.data.get(columnIndex).set(rowIndex, new DataItem(value));
+	}
+	
+	public void setValue(int columnIndex, int rowIndex, Period value) {
+		this.data.get(columnIndex).set(rowIndex, new DataItem(value));
+	}
+	
+	public void setValue(int columnIndex, int rowIndex, Duration value) {
+		this.data.get(columnIndex).set(rowIndex, new DataItem(value));
+	}
 
 	public void setColumnValues(int columnIndex, DataItem[] column) {
-		for (int rowIndex = 0; rowIndex < this.getNumRows(); rowIndex++) {
-			setValue(columnIndex, rowIndex, column[rowIndex]);
-		}
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
 	}
 
 	public void setColumnValues(int columnIndex, Object[] column) {
-		for (int rowIndex = 0; rowIndex < this.getNumRows(); rowIndex++) {
-			setValue(columnIndex, rowIndex, column[rowIndex]);
-		}
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
 	}
 
 	public void setColumnValues(int columnIndex, Object[] column, StorageType type) {
-		for (int rowIndex = 0; rowIndex < this.getNumRows(); rowIndex++) {
-			setValue(columnIndex, rowIndex, column[rowIndex], type);
-		}
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i], type));
 	}
 
 	public void setColumnValues(int columnIndex, int[] column) {
-		for (int rowIndex = 0; rowIndex < this.getNumRows(); rowIndex++) {
-			setValue(columnIndex, rowIndex, column[rowIndex]);
-		}
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
 	}
 
 	public void setColumnValues(int columnIndex, float[] column) {
-		for (int rowIndex = 0; rowIndex < this.getNumRows(); rowIndex++) {
-			setValue(columnIndex, rowIndex, column[rowIndex]);
-		}
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
 	}
 
 	public void setColumnValues(int columnIndex, double[] column) {
-		for (int rowIndex = 0; rowIndex < this.getNumRows(); rowIndex++) {
-			setValue(columnIndex, rowIndex, column[rowIndex]);
-		}
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
 	}
 
 	public void setColumnValues(int columnIndex, boolean[] column) {
-		for (int rowIndex = 0; rowIndex < this.getNumRows(); rowIndex++) {
-			setValue(columnIndex, rowIndex, column[rowIndex]);
-		}
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
 	}
 
 	public void setColumnValues(int columnIndex, String[] column) {
-		for (int rowIndex = 0; rowIndex < this.getNumRows(); rowIndex++) {
-			setValue(columnIndex, rowIndex, column[rowIndex]);
-		}
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
+	}
+	
+	public void setColumnValues(int columnIndex, LocalDate[] column) {
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
+	}
+	
+	public void setColumnValues(int columnIndex, LocalDateTime[] column) {
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
 	}
 
+	public void setColumnValues(int columnIndex, LocalTime[] column) {
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
+	}
+	
+	public void setColumnValues(int columnIndex, Duration[] column) {
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
+	}
+	
+	public void setColumnValues(int columnIndex, Period[] column) {
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
+	}
 
 	public void setColumnValues(int columnIndex, DataItem value) {
-		DataItem[] column = CommonArray.initializeDataItemArrayWithValues(this.getNumRows(), value);
-		setColumnValues(columnIndex, column);
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
 	}
 
 	public void setColumnValues(int columnIndex, Object value) {
-		Object[] column = CommonArray.initializeObjectArrayWithValues(this.getNumRows(), value);
-		setColumnValues(columnIndex, column);
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
 	}
 
 	public void setColumnValues(int columnIndex, Object value, StorageType type) {
-		Object[] column = CommonArray.initializeObjectArrayWithValues(this.getNumRows(), value);
-		setColumnValues(columnIndex, column, type);
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value, type));
 	}
 
 	public void setColumnValues(int columnIndex, int value) {
-		int[] column = CommonArray.initializeIntArrayWithValues(this.getNumRows(), value);
-		setColumnValues(columnIndex, column);
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
 	}
 
 	public void setColumnValues(int columnIndex, float value) {
-		float[] column = CommonArray.initializeFloatArrayWithValues(this.getNumRows(), value);
-		setColumnValues(columnIndex, column);
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
 	}
 
 	public void setColumnValues(int columnIndex, double value) {
-		double[] column = CommonArray.initializeDoubleArrayWithValues(this.getNumRows(), value);
-		setColumnValues(columnIndex, column);
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
 	}
 
 	public void setColumnValues(int columnIndex, boolean value) {
-		boolean[] column = CommonArray.initializeBooleanArrayWithValues(this.getNumRows(), value);
-		setColumnValues(columnIndex, column);
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
 	}
 
 	public void setColumnValues(int columnIndex, String value) {
-		String[] column = CommonArray.initializeStringArrayWithValues(this.getNumRows(), value);
-		setColumnValues(columnIndex, column);
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
+	}
+	
+	public void setColumnValues(int columnIndex, LocalDate value) {
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
+	}
+	
+	public void setColumnValues(int columnIndex, LocalDateTime value) {
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
+	}
+	
+	public void setColumnValues(int columnIndex, LocalTime value) {
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
+	}
+	
+	public void setColumnValues(int columnIndex, Period value) {
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
+	}
+	
+	public void setColumnValues(int columnIndex, Duration value) {
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
 	}
 	
 	public void setColumnsValues(int[] columnIndices, DataItem value) {
-		for (int columnIndex: columnIndices) {
-			setColumnValues(columnIndex, value);
-		}
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
 	}
 
 	public void setColumnsValues(int[] columnIndices, Object value) {
-		for (int columnIndex: columnIndices) {
-			setColumnValues(columnIndex, value);
-		}
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
 	}
 
 	public void setColumnsValues(int[] columnIndices, Object value, StorageType type) {
-		for (int columnIndex: columnIndices) {
-			setColumnValues(columnIndex, value, type);
-		}
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value, type));
 	}
 
 	public void setColumnsValues(int[] columnIndices, int value) {
-		for (int columnIndex: columnIndices) {
-			setColumnValues(columnIndex, value);
-		}
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
 	}
 
 	public void setColumnsValues(int[] columnIndices, float value) {
-		for (int columnIndex: columnIndices) {
-			setColumnValues(columnIndex, value);
-		}
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
 	}
 
 	public void setColumnsValues(int[] columnIndices, double value) {
-		for (int columnIndex: columnIndices) {
-			setColumnValues(columnIndex, value);
-		}
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
 	}
 
 	public void setColumnsValues(int[] columnIndices, boolean value) {
-		for (int columnIndex: columnIndices) {
-			setColumnValues(columnIndex, value);
-		}
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
 	}
 
 	public void setColumnsValues(int[] columnIndices, String value) {
-		for (int columnIndex: columnIndices) {
-			setColumnValues(columnIndex, value);
-		}
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
 	}
 
+	public void setColumnsValues(int[] columnIndices, LocalDate value) {
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
+	}
+	
+	public void setColumnsValues(int[] columnIndices, LocalDateTime value) {
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
+	}
+	
+	public void setColumnsValues(int[] columnIndices, LocalTime value) {
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
+	}
+	
+	public void setColumnsValues(int[] columnIndices, Period value) {
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
+	}
+	
+	public void setColumnsValues(int[] columnIndices, Duration value) {
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
+	}
 
 	public void setColumnValues(String columnName, DataItem value) {
 		int columnIndex = this.columnNames.indexOf(columnName);
@@ -7158,49 +7207,84 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int columnIndex = this.columnNames.indexOf(columnName);
 		setColumnValues(columnIndex, value);
 	}
+	
+	public void setColumnValues(String columnName, LocalDate value) {
+		int columnIndex = this.columnNames.indexOf(columnName);
+		setColumnValues(columnIndex, value);
+	}
+	
+	public void setColumnValues(String columnName, LocalDateTime value) {
+		int columnIndex = this.columnNames.indexOf(columnName);
+		setColumnValues(columnIndex, value);
+	}
 
+	public void setColumnValues(String columnName, LocalTime value) {
+		int columnIndex = this.columnNames.indexOf(columnName);
+		setColumnValues(columnIndex, value);
+	}
+	
+	public void setColumnValues(String columnName, Period value) {
+		int columnIndex = this.columnNames.indexOf(columnName);
+		setColumnValues(columnIndex, value);
+	}
 
+	public void setColumnValues(String columnName, Duration value) {
+		int columnIndex = this.columnNames.indexOf(columnName);
+		setColumnValues(columnIndex, value);
+	}
+	
 	public void setColumnsValues(String[] columnNames, DataItem value) {
-		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
-		setColumnsValues(indices, value);
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
 	}
 
 	public void setColumnsValues(String[] columnNames, Object value) {
-		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
-		setColumnsValues(indices, value);
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
 	}
 
 	public void setColumnsValues(String[] columnNames, Object value, StorageType type) {
-		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
-		setColumnsValues(indices, value, type);
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value, type));
 	}
 
 	public void setColumnsValues(String[] columnNames, int value) {
-		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
-		setColumnsValues(indices, value);
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
 	}
 
 	public void setColumnsValues(String[] columnNames, float value) {
-		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
-		setColumnsValues(indices, value);
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
 	}
 
 	public void setColumnsValues(String[] columnNames, double value) {
-		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
-		setColumnsValues(indices, value);
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
 	}
 
 	public void setColumnsValues(String[] columnNames, boolean value) {
-		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
-		setColumnsValues(indices, value);
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
 	}
 
 	public void setColumnsValues(String[] columnNames, String value) {
-		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames);
-		setColumnsValues(indices, value);
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
+	}
+	
+	public void setColumnsValues(String[] columnNames, LocalDate value) {
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
 	}
 
-
+	public void setColumnsValues(String[] columnNames, LocalDateTime value) {
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
+	}
+	
+	public void setColumnsValues(String[] columnNames, LocalTime value) {
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
+	}
+	
+	public void setColumnsValues(String[] columnNames, Period value) {
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
+	}
+	
+	public void setColumnsValues(String[] columnNames, Duration value) {
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
+	}
+	
 	public void setColumnsValues(ArrayList<String> columnNames, DataItem value) {
 		setColumnsValues(columnNames.toArray(new String[0]), value);
 	}
@@ -7233,6 +7317,25 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		setColumnsValues(columnNames.toArray(new String[0]), value);
 	}
 
+	public void setColumnsValues(ArrayList<String> columnNames, LocalDate value) {
+		setColumnsValues(columnNames.toArray(new String[0]), value);
+	}
+	
+	public void setColumnsValues(ArrayList<String> columnNames, LocalDateTime value) {
+		setColumnsValues(columnNames.toArray(new String[0]), value);
+	}
+	
+	public void setColumnsValues(ArrayList<String> columnNames, LocalTime value) {
+		setColumnsValues(columnNames.toArray(new String[0]), value);
+	}
+	
+	public void setColumnsValues(ArrayList<String> columnNames, Period value) {
+		setColumnsValues(columnNames.toArray(new String[0]), value);
+	}
+	
+	public void setColumnsValues(ArrayList<String> columnNames, Duration value) {
+		setColumnsValues(columnNames.toArray(new String[0]), value);
+	}
 
 	public void setColumnsValues(int lowestIndex, int highestIndex, DataItem value) {
 		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
@@ -7273,147 +7376,188 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
 		setColumnsValues(indicesToGet, value);
 	}
+	
+	public void setColumnsValues(int lowestIndex, int highestIndex, LocalDate value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setColumnsValues(indicesToGet, value);
+	}
+	
+	public void setColumnsValues(int lowestIndex, int highestIndex, LocalDateTime value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setColumnsValues(indicesToGet, value);
+	}
 
+	public void setColumnsValues(int lowestIndex, int highestIndex, LocalTime value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setColumnsValues(indicesToGet, value);
+	}
+	
+	public void setColumnsValues(int lowestIndex, int highestIndex, Period value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setColumnsValues(indicesToGet, value);
+	}
+	
+	public void setColumnsValues(int lowestIndex, int highestIndex, Duration value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setColumnsValues(indicesToGet, value);
+	}
 	
 	public void setRowValues(int rowIndex, DataItem[] row) {
-		for (int columnIndex = 0; columnIndex < this.getNumCols(); columnIndex++) {
-			setValue(columnIndex, rowIndex, row[columnIndex]);
-		}
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
 	}
 
 	public void setRowValues(int rowIndex, Object[] row) {
-		for (int columnIndex = 0; columnIndex < this.getNumCols(); columnIndex++) {
-			setValue(columnIndex, rowIndex, row[columnIndex]);
-		}
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
 	}
 
 	public void setRowValues(int rowIndex, Object[] row, StorageType type) {
-		for (int columnIndex = 0; columnIndex < this.getNumCols(); columnIndex++) {
-			setValue(columnIndex, rowIndex, row[columnIndex], type);
-		}
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i], type));
 	}
 
 	public void setRowValues(int rowIndex, int[] row) {
-		for (int columnIndex = 0; columnIndex < this.getNumCols(); columnIndex++) {
-			setValue(columnIndex, rowIndex, row[columnIndex]);
-		}
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
 	}
 
 	public void setRowValues(int rowIndex, float[] row) {
-		for (int columnIndex = 0; columnIndex < this.getNumCols(); columnIndex++) {
-			setValue(columnIndex, rowIndex, row[columnIndex]);
-		}
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
 	}
 
 	public void setRowValues(int rowIndex, double[] row) {
-		for (int columnIndex = 0; columnIndex < this.getNumCols(); columnIndex++) {
-			setValue(columnIndex, rowIndex, row[columnIndex]);
-		}
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
 	}
 
 	public void setRowValues(int rowIndex, boolean[] row) {
-		for (int columnIndex = 0; columnIndex < this.getNumCols(); columnIndex++) {
-			setValue(columnIndex, rowIndex, row[columnIndex]);
-		}
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
 	}
 
 	public void setRowValues(int rowIndex, String[] row) {
-		for (int columnIndex = 0; columnIndex < this.getNumCols(); columnIndex++) {
-			setValue(columnIndex, rowIndex, row[columnIndex]);
-		}
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
 	}
 
+	public void setRowValues(int rowIndex, LocalDate[] row) {
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
+	}
+	
+	public void setRowValues(int rowIndex, LocalDateTime[] row) {
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
+	}
+	
+	public void setRowValues(int rowIndex, LocalTime[] row) {
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
+	}
+	
+	public void setRowValues(int rowIndex, Period[] row) {
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
+	}
+	
+	public void setRowValues(int rowIndex, Duration[] row) {
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
+	}
 
 	public void setRowValues(int rowIndex, DataItem value) {
-		DataItem[] row = CommonArray.initializeDataItemArrayWithValues(this.getNumCols(), value);
-		setRowValues(rowIndex, row);
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, Object value) {
-		Object[] row = CommonArray.initializeObjectArrayWithValues(this.getNumCols(), value);
-		setRowValues(rowIndex, row);
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, Object value, StorageType type) {
-		Object[] row = CommonArray.initializeObjectArrayWithValues(this.getNumCols(), value);
-		setRowValues(rowIndex, row, type);
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value, type));
 	}
 
 	public void setRowValues(int rowIndex, int value) {
-		int[] row = CommonArray.initializeIntArrayWithValues(this.getNumCols(), value);
-		setRowValues(rowIndex, row);
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, float value) {
-		float[] row = CommonArray.initializeFloatArrayWithValues(this.getNumCols(), value);
-		setRowValues(rowIndex, row);
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, double value) {
-		double[] row = CommonArray.initializeDoubleArrayWithValues(this.getNumCols(), value);
-		setRowValues(rowIndex, row);
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, boolean value) {
-		boolean[] row = CommonArray.initializeBooleanArrayWithValues(this.getNumCols(), value);
-		setRowValues(rowIndex, row);
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, String value) {
-		String[] row = CommonArray.initializeStringArrayWithValues(this.getNumCols(), value);
-		setRowValues(rowIndex, row);
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
+	public void setRowValues(int rowIndex, LocalDate value) {
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+	}
+	
+	public void setRowValues(int rowIndex, LocalDateTime value) {
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+	}
+	
+	public void setRowValues(int rowIndex, LocalTime value) {
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+	}
+	
+	public void setRowValues(int rowIndex, Period value) {
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+	}
+	
+	public void setRowValues(int rowIndex, Duration value) {
+		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+	}
 
 	public void setRowsValues(int[] rowIndices, DataItem value) {
-		for (int rowIndex: rowIndices) {
-			setRowValues(rowIndex, value);
-		}
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
 	}
 
 	public void setRowsValues(int[] rowIndices, Object value) {
-		for (int rowIndex: rowIndices) {
-			setRowValues(rowIndex, value);
-		}
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
 	}
 
 	public void setRowsValues(int[] rowIndices, Object value, StorageType type) {
-		for (int rowIndex: rowIndices) {
-			setRowValues(rowIndex, value, type);
-		}
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value, type));
 	}
 
 	public void setRowsValues(int[] rowIndices, int value) {
-		for (int rowIndex: rowIndices) {
-			setRowValues(rowIndex, value);
-		}
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
 	}
 
 	public void setRowsValues(int[] rowIndices, float value) {
-		for (int rowIndex: rowIndices) {
-			setRowValues(rowIndex, value);
-		}
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
 	}
 
 	public void setRowsValues(int[] rowIndices, double value) {
-		for (int rowIndex: rowIndices) {
-			setRowValues(rowIndex, value);
-		}
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
 	}
 
 	public void setRowsValues(int[] rowIndices, boolean value) {
-		for (int rowIndex: rowIndices) {
-			setRowValues(rowIndex, value);
-		}
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
 	}
 
 	public void setRowsValues(int[] rowIndices, String value) {
-		for (int rowIndex: rowIndices) {
-			setRowValues(rowIndex, value);
-		}
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
+	}
+	
+	public void setRowsValues(int[] rowIndices, LocalDate value) {
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
+	}
+	
+	public void setRowsValues(int[] rowIndices, LocalDateTime value) {
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
 	}
 
+	public void setRowsValues(int[] rowIndices, LocalTime value) {
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
+	}
+	
+	public void setRowsValues(int[] rowIndices, Period value) {
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
+	}
 
+	public void setRowsValues(int[] rowIndices, Duration value) {
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
+	}
+	
 	public void setRowValues(String rowName, DataItem value) {
 		int rowIndex = this.rowNames.indexOf(rowName);
 		setRowValues(rowIndex, value);
@@ -7454,47 +7598,83 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		setRowValues(rowIndex, value);
 	}
 
-
+	public void setRowValues(String rowName, LocalDate value) {
+		int rowIndex = this.rowNames.indexOf(rowName);
+		setRowValues(rowIndex, value);
+	}
+	
+	public void setRowValues(String rowName, LocalDateTime value) {
+		int rowIndex = this.rowNames.indexOf(rowName);
+		setRowValues(rowIndex, value);
+	}
+	
+	public void setRowValues(String rowName, LocalTime value) {
+		int rowIndex = this.rowNames.indexOf(rowName);
+		setRowValues(rowIndex, value);
+	}
+	
+	public void setRowValues(String rowName, Period value) {
+		int rowIndex = this.rowNames.indexOf(rowName);
+		setRowValues(rowIndex, value);
+	}
+	
+	public void setRowValues(String rowName, Duration value) {
+		int rowIndex = this.rowNames.indexOf(rowName);
+		setRowValues(rowIndex, value);
+	}
+	
 	public void setRowsValues(String[] rowNames, DataItem value) {
-		int[] rowIndices = CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames);
-		setRowsValues(rowIndices, value);
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
 	}
 
 	public void setRowsValues(String[] rowNames, Object value) {
-		int[] rowIndices = CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames);
-		setRowsValues(rowIndices, value);
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
 	}
 
 	public void setRowsValues(String[] rowNames, Object value, StorageType type) {
-		int[] rowIndices = CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames);
-		setRowsValues(rowIndices, value, type);
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value, type));
 	}
 
 	public void setRowsValues(String[] rowNames, int value) {
-		int[] rowIndices = CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames);
-		setRowsValues(rowIndices, value);
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
+		
 	}
 
 	public void setRowsValues(String[] rowNames, float value) {
-		int[] rowIndices = CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames);
-		setRowsValues(rowIndices, value);
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
 	}
 
 	public void setRowsValues(String[] rowNames, double value) {
-		int[] rowIndices = CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames);
-		setRowsValues(rowIndices, value);
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
 	}
 
 	public void setRowsValues(String[] rowNames, boolean value) {
-		int[] rowIndices = CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames);
-		setRowsValues(rowIndices, value);
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
 	}
 
 	public void setRowsValues(String[] rowNames, String value) {
-		int[] rowIndices = CommonArray.getIndicesOfStringsInArray(this.rowNames, rowNames);
-		setRowsValues(rowIndices, value);
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
 	}
 
+	public void setRowsValues(String[] rowNames, LocalDate value) {
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
+	}
+	
+	public void setRowsValues(String[] rowNames, LocalDateTime value) {
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
+	}
+	
+	public void setRowsValues(String[] rowNames, LocalTime value) {
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
+	}
+	
+	public void setRowsValues(String[] rowNames, Period value) {
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
+	}
+	
+	public void setRowsValues(String[] rowNames, Duration value) {
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
+	}
 
 	public void setRowsValues(ArrayList<String> rowNames, DataItem value) {
 		setRowsValues(rowNames.toArray(new String[0]), value);
@@ -7527,7 +7707,26 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void setRowsValues(ArrayList<String> rowNames, String value) {
 		setRowsValues(rowNames.toArray(new String[0]), value);
 	}
-
+	
+	public void setRowsValues(ArrayList<String> rowNames, LocalDate value) {
+		setRowsValues(rowNames.toArray(new String[0]), value);
+	}
+	
+	public void setRowsValues(ArrayList<String> rowNames, LocalDateTime value) {
+		setRowsValues(rowNames.toArray(new String[0]), value);
+	}
+	
+	public void setRowsValues(ArrayList<String> rowNames, LocalTime value) {
+		setRowsValues(rowNames.toArray(new String[0]), value);
+	}
+	
+	public void setRowsValues(ArrayList<String> rowNames, Period value) {
+		setRowsValues(rowNames.toArray(new String[0]), value);
+	}
+	
+	public void setRowsValues(ArrayList<String> rowNames, Duration value) {
+		setRowsValues(rowNames.toArray(new String[0]), value);
+	}
 
 	public void setRowsValues(int lowestIndex, int highestIndex, DataItem value) {
 		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
@@ -7568,7 +7767,31 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
 		setRowsValues(indicesToGet, value);
 	}
-
+	
+	public void setRowsValues(int lowestIndex, int highestIndex, LocalDate value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setRowsValues(indicesToGet, value);
+	}
+	
+	public void setRowsValues(int lowestIndex, int highestIndex, LocalDateTime value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setRowsValues(indicesToGet, value);
+	}
+	
+	public void setRowsValues(int lowestIndex, int highestIndex, LocalTime value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setRowsValues(indicesToGet, value);
+	}
+	
+	public void setRowsValues(int lowestIndex, int highestIndex, Period value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setRowsValues(indicesToGet, value);
+	}
+	
+	public void setRowsValues(int lowestIndex, int highestIndex, Duration value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setRowsValues(indicesToGet, value);
+	}
 
 
 	public DataItem getValue(int colNum, int rowNum) {
