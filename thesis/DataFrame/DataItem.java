@@ -511,6 +511,10 @@ public class DataItem {
 		return getObjectValue().toString();
 	}
 
+	public boolean isNumber() {
+		return this.type == StorageType.Integer || this.type == StorageType.Double;
+	}
+	
 	public Double getValueConvertedToDouble() {
 		if (this.type == StorageType.Integer) {
 			return this.intValue.doubleValue();
@@ -1052,6 +1056,36 @@ public class DataItem {
 		}
 		
 		return newDataItem;
+	}
+	@Override
+	public boolean equals(Object otherItem) {
+		if (otherItem instanceof DataItem) {
+			DataItem formatted = (DataItem)otherItem;
+			if (this.getType() == formatted.getType()) {
+				if (this.getType() == StorageType.Integer) {
+					return this.intValue.intValue() == formatted.intValue.intValue();
+				} else if (this.getType() == StorageType.Double) {
+					return this.doubleValue.doubleValue() == formatted.doubleValue.doubleValue();
+				} else if (this.getType() == StorageType.Boolean) {
+					return this.booleanValue.booleanValue() == formatted.booleanValue.booleanValue();
+				} else if (this.getType() == StorageType.String) {
+					return this.stringValue.equals(formatted.stringValue);
+				} else if (this.getType() == StorageType.LocalDate) {
+					return this.sameDate(formatted.localDateValue);
+				} else if (this.getType() == StorageType.LocalDateTime) {
+					return this.sameDate(formatted.localDateTimeValue);
+				} else if (this.getType() == StorageType.LocalTime) {
+					return this.sameTime(formatted.localTimeValue);
+				} else if (this.getType() == StorageType.Period) {
+					return this.periodValue.equals(formatted.periodValue);
+				} else if (this.getType() == StorageType.Duration) {
+					return this.durationValue.equals(formatted.durationValue);
+				} else if (this.getType() == StorageType.Null) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

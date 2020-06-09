@@ -7884,6 +7884,46 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			this.setValue(colNum, rowNum, getValue(colNum, rowNum).getObjectValue(), type);
 		}
 	}
+	
+	public DataItem[] getUniqueValuesInColumnAsDataItemArray(int columnIndex) {
+		DataItem[] column = this.getColumnAsDataItemArray(columnIndex);
+		return CommonArray.getUniqueValues(column);
+	}
+	
+	public String[] getUniqueValuesInColumnAsStringArray(int columnIndex) {
+		String[] column = this.getColumnAsStringArray(columnIndex);
+		return CommonArray.getUniqueValues(column);
+	}
+	
+	public DataItem[] getUniqueValuesInColumnAsDataItemArray(String columnName) {
+		return getUniqueValuesInColumnAsDataItemArray(this.columnNames.indexOf(columnName));
+	}
+	
+	public String[] getUniqueValuesInColumnAsStringArray(String columnName) {
+		return getUniqueValuesInColumnAsStringArray(this.columnNames.indexOf(columnName));
+	}
+	
+	public DataFrame getDataFrameWhereColumnValueEquals(int columnIndex, String value) {
+		DataFrame newDF = this.clone();
+		String[] column = this.getColumnAsStringArray(columnIndex);
+		int[] indicesToKeep = CommonArray.indicesOf(column, value);
+		int[] indicesToDrop = new int[this.getNumRows() - indicesToKeep.length];
+		int index = 0;
+		for (int i = 0; i < this.getNumRows(); i++) {
+			if (!CommonArray.contains(indicesToKeep, i)) {
+				indicesToDrop[index] = i;
+				index++;
+			}
+		}
+		newDF.dropRows(indicesToDrop);
+		return newDF;
+	}
+	
+	public GroupBy groupBy(String columnName) {
+		GroupBy groupBy = new GroupBy(this, columnName);
+		
+		return groupBy;
+	}
 
 	private ArrayList<DataItem> convertObjectListToItemList(List<Object> column) {
 		ArrayList<DataItem> list = new ArrayList<DataItem>();
@@ -7892,6 +7932,25 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			list.add(new DataItem(item));
 		}
 		return list;
+	}
+	
+	public boolean columnAllNumbers(int columnIndex) {
+		DataItem[] column = this.getColumnAsDataItemArray(columnIndex);
+		for (DataItem value: column) {
+			if (!value.isNumber()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public int indexOfInColumn(int columnIndex, String value) {
+		String[] column = this.getColumnAsStringArray(columnIndex);
+		return CommonArray.indexOf(column, value);
+	}
+	
+	public int indexOfInColumn(String columnName, String value) {
+		return indexOfInColumn(this.columnNames.indexOf(columnName), value);
 	}
 
 
