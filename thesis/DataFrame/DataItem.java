@@ -511,6 +511,10 @@ public class DataItem {
 		return getObjectValue().toString();
 	}
 
+	public boolean isNumber() {
+		return this.type == StorageType.Integer || this.type == StorageType.Double;
+	}
+	
 	public Double getValueConvertedToDouble() {
 		if (this.type == StorageType.Integer) {
 			return this.intValue.doubleValue();

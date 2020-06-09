@@ -492,7 +492,7 @@ public class Main {
 //		rowNames.add("row_ten");
 		
 		
-		DataFrame df = new DataFrame(2, 12, null);
+		DataFrame df = new DataFrame(3, 12, null);
 		String[] cities = new String[] {
 				"new york", "new york", "new york", "new york", 
 				"mumbai", "mumbai", "mumbai", "mumbai", 
@@ -502,14 +502,23 @@ public class Main {
 				90, 85, 87, 92,
 				45, 50, 54, 42};
 		
-		df.setColumnNames(new String[] {"city", "temperature"});
+		int[] humidity = new int[] {
+				12, 43, 25, 74,
+				52, 23, 75, 45,
+				98, 34, 52, 15};
+		
+		df.setColumnNames(new String[] {"city", "temperature", "humitidy"});
 		
 		df.setColumnValues(0, cities);
 		df.setColumnValues(1, temperatures);
+		df.setColumnValues(2, humidity);
 
 		GroupBy gb = df.groupBy("city");
 		
-		System.out.println(gb);
+		
+		DataFrame ave = gb.average();
+		System.out.println("average:");
+		System.out.println(ave);
 		
 		return df;
 	}

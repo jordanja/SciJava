@@ -7933,6 +7933,25 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 		return list;
 	}
+	
+	public boolean columnAllNumbers(int columnIndex) {
+		DataItem[] column = this.getColumnAsDataItemArray(columnIndex);
+		for (DataItem value: column) {
+			if (!value.isNumber()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public int indexOfInColumn(int columnIndex, String value) {
+		String[] column = this.getColumnAsStringArray(columnIndex);
+		return CommonArray.indexOf(column, value);
+	}
+	
+	public int indexOfInColumn(String columnName, String value) {
+		return indexOfInColumn(this.columnNames.indexOf(columnName), value);
+	}
 
 
 	/*
