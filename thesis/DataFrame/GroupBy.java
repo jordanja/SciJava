@@ -23,20 +23,105 @@ public class GroupBy {
 	}
 	
 	public DataFrame average() {
-		
 		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
 		for (String key: groups.keySet()) {
 			DataFrame newDF = groups.get(key).clone();
 			newDF.dropColumn(0);
-			DataFrame avg = newDF.averageInColumns();
-			avgs.put(key, avg);
+			avgs.put(key, newDF.averageInColumns());
 		}
 		
-		DataFrame dfToReturn = combine(avgs);
-		
-		return dfToReturn;
+		return combine(avgs);
 	}
 
+	public DataFrame max() {
+		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
+		for (String key: groups.keySet()) {
+			DataFrame newDF = groups.get(key).clone();
+			newDF.dropColumn(0);
+			avgs.put(key, newDF.maxInColumns());
+		}
+		
+		return combine(avgs);
+	}
+	
+	public DataFrame min() {
+		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
+		for (String key: groups.keySet()) {
+			DataFrame newDF = groups.get(key).clone();
+			newDF.dropColumn(0);
+			avgs.put(key, newDF.minInColumns());
+		}
+		
+		return combine(avgs);
+	}
+	
+	public DataFrame mediun() {
+		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
+		for (String key: groups.keySet()) {
+			DataFrame newDF = groups.get(key).clone();
+			newDF.dropColumn(0);
+			avgs.put(key, newDF.mediunInColumns());
+		}
+		
+		return combine(avgs);
+	}
+	
+	public DataFrame sum() {
+		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
+		for (String key: groups.keySet()) {
+			DataFrame newDF = groups.get(key).clone();
+			newDF.dropColumn(0);
+			avgs.put(key, newDF.sumInColumns());
+		}
+		
+		return combine(avgs);
+	}
+
+	public DataFrame product() {
+		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
+		for (String key: groups.keySet()) {
+			DataFrame newDF = groups.get(key).clone();
+			newDF.dropColumn(0);
+			avgs.put(key, newDF.productInColumns());
+		}
+		
+		return combine(avgs);
+	}
+	
+	public DataFrame numUnique() {
+		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
+		for (String key: groups.keySet()) {
+			DataFrame newDF = groups.get(key).clone();
+			newDF.dropColumn(0);
+			avgs.put(key, newDF.numUniqueInColumns());
+		}
+		
+		return combine(avgs);
+	}
+	
+	public DataFrame variance(int dof) {
+		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
+		for (String key: groups.keySet()) {
+			DataFrame newDF = groups.get(key).clone();
+			newDF.dropColumn(0);
+			avgs.put(key, newDF.varianceInColumns(dof));
+		}
+		
+		return combine(avgs);
+	}
+	
+	
+	public DataFrame standardDeviation(int dof) {
+		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
+		for (String key: groups.keySet()) {
+			DataFrame newDF = groups.get(key).clone();
+			newDF.dropColumn(0);
+			avgs.put(key, newDF.standardDeviationInColumns(dof));
+		}
+		
+		return combine(avgs);
+	}
+	
 	private DataFrame combine(HashMap<String, DataFrame> avgs) {
 		String[] keys = groups.keySet().toArray(new String[0]);
 		ArrayList<String> columnNames = new ArrayList<String>();

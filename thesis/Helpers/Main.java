@@ -515,10 +515,41 @@ public class Main {
 
 		GroupBy gb = df.groupBy("city");
 		
-		
 		DataFrame ave = gb.average();
 		System.out.println("average:");
 		System.out.println(ave);
+		
+		DataFrame max = gb.max();
+		System.out.println("max:");
+		System.out.println(max);
+		
+		DataFrame min = gb.min();
+		System.out.println("min:");
+		System.out.println(min);
+		
+		DataFrame mediun = gb.mediun();
+		System.out.println("mediun:");
+		System.out.println(mediun);
+		
+		DataFrame sum = gb.sum();
+		System.out.println("sum:");
+		System.out.println(sum);
+		
+		DataFrame product = gb.product();
+		System.out.println("product:");
+		System.out.println(product);
+		
+		DataFrame numUnique = gb.numUnique();
+		System.out.println("numUnique:");
+		System.out.println(numUnique);
+		
+		DataFrame variance = gb.variance(1);
+		System.out.println("variance:");
+		System.out.println(variance);
+		
+		DataFrame std = gb.standardDeviation(1);
+		System.out.println("standardDeviation:");
+		System.out.println(std);
 		
 		return df;
 	}
