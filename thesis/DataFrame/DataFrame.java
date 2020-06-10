@@ -2290,13 +2290,15 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getColumnsAs2DDoubleArray(0, this.getNumCols() - 1);
 	}
 	
-	public LocalDate[][] getDataAs2DDateArray() {
-		return getColumnsAs2DDateArray(0, this.getNumCols() - 1);
-	}
-	
 	public boolean[][] getDataAs2DBooleanArray() {
 		return getColumnsAs2DBooleanArray(0, this.getNumCols() - 1);
 	}
+	
+	public LocalDate[][] getDataAs2DLocalDateArray() {
+		return getColumnsAs2DLocalDateArray(0, this.getNumCols() - 1);
+	}
+	
+	
 	
 	
 	// -------------------------
@@ -2353,19 +2355,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getColumnAsDoubleArray(index);
 	}
 	
-	public LocalDate[] getColumnAsDateArray(int index) {
-		LocalDate[] column = new LocalDate[this.rowNames.size()];
-		for (int i = 0; i < column.length; i++) {
-			column[i] = this.data.get(index).get(i).getDateValue();
-		}
-		return column;
-	}
-	
-	public LocalDate[] getColumnAsDateArray(String name) {
-		int index = this.columnNames.indexOf(name);
-		return getColumnAsDateArray(index);
-	}
-
 	public boolean[] getColumnAsBooleanArray(int index) {
 		boolean[] column = new boolean[this.rowNames.size()];
 		for (int i = 0; i < column.length; i++) {
@@ -2378,6 +2367,73 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int index = this.columnNames.indexOf(name);
 		return getColumnAsBooleanArray(index);
 	}
+	
+	public LocalDate[] getColumnAsLocalDateArray(int index) {
+		LocalDate[] column = new LocalDate[this.rowNames.size()];
+		for (int i = 0; i < column.length; i++) {
+			column[i] = this.data.get(index).get(i).getDateValue();
+		}
+		return column;
+	}
+	
+	public LocalDate[] getColumnAsLocalDateArray(String name) {
+		int index = this.columnNames.indexOf(name);
+		return getColumnAsLocalDateArray(index);
+	}
+	
+	public LocalDateTime[] getColumnAsLocalDateTimeArray(int index) {
+		LocalDateTime[] column = new LocalDateTime[this.rowNames.size()];
+		for (int i = 0; i < column.length; i++) {
+			column[i] = this.data.get(index).get(i).getDateTimeValue();
+		}
+		return column;
+	}
+	
+	public LocalDateTime[] getColumnAsLocalDateTimeArray(String name) {
+		int index = this.columnNames.indexOf(name);
+		return getColumnAsLocalDateTimeArray(index);
+	}
+	
+	public LocalTime[] getColumnAsLocalTimeArray(int index) {
+		LocalTime[] column = new LocalTime[this.rowNames.size()];
+		for (int i = 0; i < column.length; i++) {
+			column[i] = this.data.get(index).get(i).getTimeValue();
+		}
+		return column;
+	}
+	
+	public LocalTime[] getColumnAsLocalTimeArray(String name) {
+		int index = this.columnNames.indexOf(name);
+		return getColumnAsLocalTimeArray(index);
+	}
+	
+	public Period[] getColumnAsPeriodArray(int index) {
+		Period[] column = new Period[this.rowNames.size()];
+		for (int i = 0; i < column.length; i++) {
+			column[i] = this.data.get(index).get(i).getPeriodValue();
+		}
+		return column;
+	}
+	
+	public Period[] getColumnAsPeriodArray(String name) {
+		int index = this.columnNames.indexOf(name);
+		return getColumnAsPeriodArray(index);
+	}
+	
+	public Duration[] getColumnAsDurationArray(int index) {
+		Duration[] column = new Duration[this.rowNames.size()];
+		for (int i = 0; i < column.length; i++) {
+			column[i] = this.data.get(index).get(i).getDurationValue();
+		}
+		return column;
+	}
+	
+	public Duration[] getColumnAsDurationArray(String name) {
+		int index = this.columnNames.indexOf(name);
+		return getColumnAsDurationArray(index);
+	}
+
+	
 	
 	public DataItem[][] getColumnsAs2DDataItemArray(int[] indices){
 		DataItem[][] columns = new DataItem[indices.length][this.rowNames.size()];
@@ -2521,33 +2577,146 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	
-	public LocalDate[][] getColumnsAs2DDateArray(int[] indices) {
+	public LocalDate[][] getColumnsAs2DLocalDateArray(int[] indices) {
 		LocalDate[][] columns = new LocalDate[indices.length][this.rowNames.size()];
 		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
-			columns[columnCount] = getColumnAsDateArray(indices[columnCount]);
+			columns[columnCount] = getColumnAsLocalDateArray(indices[columnCount]);
 		}
 		
 		return columns;
 	}
 	
-	public LocalDate[][] getColumnsAs2DDateArray(String[] names) {
+	public LocalDate[][] getColumnsAs2DLocalDateArray(String[] names) {
 		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
-		return getColumnsAs2DDateArray(indices);
+		return getColumnsAs2DLocalDateArray(indices);
 	}
 	
-	public LocalDate[][] getColumnsAs2DDateArray(ArrayList<String> names) {
-		return getColumnsAs2DDateArray(names.toArray(new String[0]));
+	public LocalDate[][] getColumnsAs2DLocalDateArray(ArrayList<String> names) {
+		return getColumnsAs2DLocalDateArray(names.toArray(new String[0]));
 	}
 	
-	public LocalDate[][] getColumnsAs2DDateArray(int lowerBound, int upperBound) {
+	public LocalDate[][] getColumnsAs2DLocalDateArray(int lowerBound, int upperBound) {
 		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
-		return getColumnsAs2DDateArray(indicesToGet);
+		return getColumnsAs2DLocalDateArray(indicesToGet);
 	}
 	
-	public LocalDate[][] getColumnsAs2DDateArray(boolean[] getColumn) {
+	public LocalDate[][] getColumnsAs2DLocalDateArray(boolean[] getColumn) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
-		return this.getColumnsAs2DDateArray(columnIndices);
+		return this.getColumnsAs2DLocalDateArray(columnIndices);
 	}
+	
+	public LocalDateTime[][] getColumnsAs2DLocalDateTimeArray(int[] indices) {
+		LocalDateTime[][] columns = new LocalDateTime[indices.length][this.rowNames.size()];
+		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
+			columns[columnCount] = getColumnAsLocalDateTimeArray(indices[columnCount]);
+		}
+		
+		return columns;
+	}
+	
+	public LocalDateTime[][] getColumnsAs2DLocalDateTimeArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return getColumnsAs2DLocalDateTimeArray(indices);
+	}
+	
+	public LocalDateTime[][] getColumnsAs2DLocalDateTimeArray(ArrayList<String> names) {
+		return getColumnsAs2DLocalDateTimeArray(names.toArray(new String[0]));
+	}
+	
+	public LocalDateTime[][] getColumnsAs2DLocalDateTimeArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DLocalDateTimeArray(indicesToGet);
+	}
+	
+	public LocalDateTime[][] getColumnsAs2DLocalDateTimeArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DLocalDateTimeArray(columnIndices);
+	}
+	
+	public LocalTime[][] getColumnsAs2DLocalTimeArray(int[] indices) {
+		LocalTime[][] columns = new LocalTime[indices.length][this.rowNames.size()];
+		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
+			columns[columnCount] = getColumnAsLocalTimeArray(indices[columnCount]);
+		}
+		
+		return columns;
+	}
+	
+	public LocalTime[][] getColumnsAs2DLocalTimeArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return getColumnsAs2DLocalTimeArray(indices);
+	}
+	
+	public LocalTime[][] getColumnsAs2DLocalTimeArray(ArrayList<String> names) {
+		return getColumnsAs2DLocalTimeArray(names.toArray(new String[0]));
+	}
+	
+	public LocalTime[][] getColumnsAs2DLocalTimeArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DLocalTimeArray(indicesToGet);
+	}
+	
+	public LocalTime[][] getColumnsAs2DLocalTimeArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DLocalTimeArray(columnIndices);
+	}
+	
+	public Period[][] getColumnsAs2DPeriodArray(int[] indices) {
+		Period[][] columns = new Period[indices.length][this.rowNames.size()];
+		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
+			columns[columnCount] = getColumnAsPeriodArray(indices[columnCount]);
+		}
+		
+		return columns;
+	}
+	
+	public Period[][] getColumnsAs2DPeriodArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return getColumnsAs2DPeriodArray(indices);
+	}
+	
+	public Period[][] getColumnsAs2DPeriodArray(ArrayList<String> names) {
+		return getColumnsAs2DPeriodArray(names.toArray(new String[0]));
+	}
+	
+	public Period[][] getColumnsAs2DPeriodArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DPeriodArray(indicesToGet);
+	}
+	
+	public Period[][] getColumnsAs2DPeriodArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DPeriodArray(columnIndices);
+	}
+	
+	public Duration[][] getColumnsAs2DDurationArray(int[] indices) {
+		Duration[][] columns = new Duration[indices.length][this.rowNames.size()];
+		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
+			columns[columnCount] = getColumnAsDurationArray(indices[columnCount]);
+		}
+		
+		return columns;
+	}
+	
+	public Duration[][] getColumnsAs2DDurationArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return getColumnsAs2DDurationArray(indices);
+	}
+	
+	public Duration[][] getColumnsAs2DDurationArray(ArrayList<String> names) {
+		return getColumnsAs2DDurationArray(names.toArray(new String[0]));
+	}
+	
+	public Duration[][] getColumnsAs2DDurationArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DDurationArray(indicesToGet);
+	}
+	
+	public Duration[][] getColumnsAs2DDurationArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DDurationArray(columnIndices);
+	}
+	
 	
 	public DataFrame getColumnAsDataFrame(String name) {
 		return getColumnsAsDataFrame(new String[] { name });
@@ -2653,20 +2822,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int index = this.rowNames.indexOf(name);
 		return getRowAsDoubleArray(index);
 	}
-
-	public LocalDate[] getRowAsDateArray(int index) {
-		LocalDate[] row = new LocalDate[this.columnNames.size()];
-		for (int i = 0; i < row.length; i++) {
-			row[i] = this.data.get(i).get(index).getDateValue();
-		}
-		return row;
-	}
 	
-	public LocalDate[] getRowAsDateArray(String name) {
-		int index = this.rowNames.indexOf(name);
-		return getRowAsDateArray(index);
-	}
-
 	public boolean[] getRowAsBooleanArray(int index) {
 		boolean[] row = new boolean[this.columnNames.size()];
 		for (int i = 0; i < row.length; i++) {
@@ -2679,6 +2835,73 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int index = this.rowNames.indexOf(name);
 		return getRowAsBooleanArray(index);
 	}
+
+	public LocalDate[] getRowAsLocalDateArray(int index) {
+		LocalDate[] row = new LocalDate[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getDateValue();
+		}
+		return row;
+	}
+	
+	public LocalDate[] getRowAsLocalDateArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsLocalDateArray(index);
+	}
+
+	
+	public LocalDateTime[] getRowAsLocalDateTimeArray(int index) {
+		LocalDateTime[] row = new LocalDateTime[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getDateTimeValue();
+		}
+		return row;
+	}
+
+	public LocalDateTime[] getRowAsLocalDateTimeArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsLocalDateTimeArray(index);
+	}
+
+	public LocalTime[] getRowAsLocalTimeArray(int index) {
+		LocalTime[] row = new LocalTime[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getTimeValue();
+		}
+		return row;
+	}
+
+	public LocalTime[] getRowAsLocalTimeArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsLocalTimeArray(index);
+	}
+
+	public Period[] getRowAsPeriodArray(int index) {
+		Period[] row = new Period[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getPeriodValue();
+		}
+		return row;
+	}
+
+	public Period[] getRowAsPeriodArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsPeriodArray(index);
+	}
+
+	public Duration[] getRowAsDurationArray(int index) {
+		Duration[] row = new Duration[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getDurationValue();
+		}
+		return row;
+	}
+
+	public Duration[] getRowAsDurationArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsDurationArray(index);
+	}
+
 	
 	public DataItem[][] getRowsAs2DDataItemArray(int[] indices) {
 		DataItem[][] rows = new DataItem[indices.length][this.columnNames.size()];
@@ -2821,33 +3044,146 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getRowsAs2DBooleanArray(columnIndices);
 	}
 
-	public LocalDate[][] getRowsAs2DDateArray(int[] indices) {
+	public LocalDate[][] getRowsAs2DLocalDateArray(int[] indices) {
 		LocalDate[][] rows = new LocalDate[indices.length][this.columnNames.size()];
 		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
-			rows[rowCount] = getRowAsDateArray(indices[rowCount]);
+			rows[rowCount] = getRowAsLocalDateArray(indices[rowCount]);
 		}
 		
 		return rows;
 	}
 	
-	public LocalDate[][] getRowsAs2DDateArray(String[] names) {
+	public LocalDate[][] getRowsAs2DLocalDateArray(String[] names) {
 		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
-		return getRowsAs2DDateArray(indices);
+		return getRowsAs2DLocalDateArray(indices);
 	}
 	
-	public LocalDate[][] getRowsAs2DDateArray(ArrayList<String> names) {
-		return getRowsAs2DDateArray(names.toArray(new String[0]));
+	public LocalDate[][] getRowsAs2DLocalDateArray(ArrayList<String> names) {
+		return getRowsAs2DLocalDateArray(names.toArray(new String[0]));
 	}
 	
-	public LocalDate[][] getRowsAs2DDateArray(int lowerBound, int upperBound) {
+	public LocalDate[][] getRowsAs2DLocalDateArray(int lowerBound, int upperBound) {
 		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
-		return getRowsAs2DDateArray(indicesToGet);
+		return getRowsAs2DLocalDateArray(indicesToGet);
 	}
 	
-	public LocalDate[][] getRowsAs2DDateArray(boolean[] getRow) {
+	public LocalDate[][] getRowsAs2DLocalDateArray(boolean[] getRow) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
-		return this.getRowsAs2DDateArray(columnIndices);
+		return this.getRowsAs2DLocalDateArray(columnIndices);
 	}
+	
+	public LocalDateTime[][] getRowsAs2DLocalDateTimeArray(int[] indices) {
+		LocalDateTime[][] rows = new LocalDateTime[indices.length][this.columnNames.size()];
+		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
+			rows[rowCount] = getRowAsLocalDateTimeArray(indices[rowCount]);
+		}
+		
+		return rows;
+	}
+
+	public LocalDateTime[][] getRowsAs2DLocalDateTimeArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return getRowsAs2DLocalDateTimeArray(indices);
+	}
+
+	public LocalDateTime[][] getRowsAs2DLocalDateTimeArray(ArrayList<String> names) {
+		return getRowsAs2DLocalDateTimeArray(names.toArray(new String[0]));
+	}
+
+	public LocalDateTime[][] getRowsAs2DLocalDateTimeArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getRowsAs2DLocalDateTimeArray(indicesToGet);
+	}
+
+	public LocalDateTime[][] getRowsAs2DLocalDateTimeArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DLocalDateTimeArray(columnIndices);
+	}
+
+	public LocalTime[][] getRowsAs2DLocalTimeArray(int[] indices) {
+		LocalTime[][] rows = new LocalTime[indices.length][this.columnNames.size()];
+		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
+			rows[rowCount] = getRowAsLocalTimeArray(indices[rowCount]);
+		}
+		
+		return rows;
+	}
+
+	public LocalTime[][] getRowsAs2DLocalTimeArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return getRowsAs2DLocalTimeArray(indices);
+	}
+
+	public LocalTime[][] getRowsAs2DLocalTimeArray(ArrayList<String> names) {
+		return getRowsAs2DLocalTimeArray(names.toArray(new String[0]));
+	}
+
+	public LocalTime[][] getRowsAs2DLocalTimeArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getRowsAs2DLocalTimeArray(indicesToGet);
+	}
+
+	public LocalTime[][] getRowsAs2DLocalTimeArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DLocalTimeArray(columnIndices);
+	}
+
+	public Period[][] getRowsAs2DPeriodArray(int[] indices) {
+		Period[][] rows = new Period[indices.length][this.columnNames.size()];
+		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
+			rows[rowCount] = getRowAsPeriodArray(indices[rowCount]);
+		}
+		
+		return rows;
+	}
+
+	public Period[][] getRowsAs2DPeriodArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return getRowsAs2DPeriodArray(indices);
+	}
+
+	public Period[][] getRowsAs2DPeriodArray(ArrayList<String> names) {
+		return getRowsAs2DPeriodArray(names.toArray(new String[0]));
+	}
+
+	public Period[][] getRowsAs2DPeriodArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getRowsAs2DPeriodArray(indicesToGet);
+	}
+
+	public Period[][] getRowsAs2DPeriodArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DPeriodArray(columnIndices);
+	}
+
+	public Duration[][] getRowsAs2DDurationArray(int[] indices) {
+		Duration[][] rows = new Duration[indices.length][this.columnNames.size()];
+		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
+			rows[rowCount] = getRowAsDurationArray(indices[rowCount]);
+		}
+		
+		return rows;
+	}
+
+	public Duration[][] getRowsAs2DDurationArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return getRowsAs2DDurationArray(indices);
+	}
+
+	public Duration[][] getRowsAs2DDurationArray(ArrayList<String> names) {
+		return getRowsAs2DDurationArray(names.toArray(new String[0]));
+	}
+
+	public Duration[][] getRowsAs2DDurationArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getRowsAs2DDurationArray(indicesToGet);
+	}
+
+	public Duration[][] getRowsAs2DDurationArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DDurationArray(columnIndices);
+	}
+
 	
 	public DataFrame getRowAsDataFrame(String name) {
 		return getRowsAsDataFrame(new String[] { name });
@@ -6848,6 +7184,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		String[] mangledColNames = CommonArray.mangle(colNamesToAdd);
 		this.columnNames = CommonArray.convertStringArrayToArrayList(mangledColNames);
 	}
+	
 
 	public void setColumnNames(String[] colNamesToUse) {
 		setColumnNames(new ArrayList<String>(Arrays.asList(colNamesToUse)));

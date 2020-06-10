@@ -121,6 +121,7 @@ public class GroupBy {
 		
 		return combine(avgs);
 	}
+
 	
 	private DataFrame combine(HashMap<String, DataFrame> avgs) {
 		String[] keys = groups.keySet().toArray(new String[0]);

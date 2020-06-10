@@ -16,6 +16,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.MonthDay;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
@@ -493,6 +494,9 @@ public class Main {
 		
 		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
 		df.setRowsValues(new String[] {"row_three", "row_four"}, 1000.3);
+		
+		MonthDay md = MonthDay.now();
+//		System.out.println(md.);
 		
 		return df;
 	}
