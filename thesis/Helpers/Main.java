@@ -493,10 +493,14 @@ public class Main {
 //		rowNames.add("row_ten");
 		
 		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
-		df.setRowsValues(new String[] {"row_three", "row_four"}, 1000.3);
+		System.out.println("1");
+		System.out.println(df);
+		System.out.println("2");
+		DataFrame newDF = df.absoluteValueColumn(0);
+		System.out.println(newDF);
+		System.out.println("3");
+//		System.out.println(df);
 		
-		MonthDay md = MonthDay.now();
-//		System.out.println(md.);
 		
 		return df;
 	}

@@ -748,7 +748,7 @@ public class DataItem {
 	
 	public void power(double value) {
 		if (this.type == StorageType.Integer) {
-			this.doubleValue = Math.pow(this.intValue, value);
+			this.doubleValue = Math.pow((double)this.intValue, value);
 			this.intValue = 0;
 			this.type = StorageType.Double;
 		} else if (this.type == StorageType.Double) {
