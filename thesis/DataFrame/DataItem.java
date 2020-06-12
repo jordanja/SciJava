@@ -2,12 +2,17 @@ package thesis.DataFrame;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
+import java.time.ZoneOffset;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
+import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 
 
@@ -47,31 +52,34 @@ public class DataItem {
 	}
 
 	public DataItem(Object value) {
-		StorageType typeOfObject = null;
-		if (value == null) {
-			this.type = StorageType.Null;
-			typeOfObject = StorageType.Null;
-		} else if (value instanceof Integer) {
-			typeOfObject = StorageType.Integer;
-		} else if (value instanceof Double) {
-			typeOfObject = StorageType.Double;
-		} else if (value instanceof Boolean) {
-			typeOfObject = StorageType.Boolean;
-		} else if (value instanceof LocalDate) {
-			typeOfObject = StorageType.LocalDate;
-		} else if (value instanceof LocalTime) {
-			typeOfObject = StorageType.LocalTime;
-		} else if (value instanceof LocalDateTime) {
-			typeOfObject = StorageType.LocalDateTime;
-		} else if (value instanceof Period) {
-			typeOfObject = StorageType.Period;
-		} else if (value instanceof Duration) {
-			typeOfObject = StorageType.Duration;
-		} else {
-			typeOfObject = StorageType.String;
-		}
+		StorageType typeOfObject = DataItem.getStorageTypeOfObject(value);
 		
 		initialize(typeOfObject, value);
+	}
+	
+	public static StorageType getStorageTypeOfObject(Object value) {
+		
+		if (value == null) {
+			return StorageType.Null;
+		} else if (value == Integer.class) {
+			return StorageType.Integer;
+		} else if (value == Double.class) {
+			return StorageType.Double;
+		} else if (value == Boolean.class) {
+			return StorageType.Boolean;
+		} else if (value == LocalDate.class) {
+			return StorageType.LocalDate;
+		} else if (value == LocalTime.class) {
+			return StorageType.LocalTime;
+		} else if (value == LocalDateTime.class) {
+			return StorageType.LocalDateTime;
+		} else if (value == Period.class) {
+			return StorageType.Period;
+		} else if (value == Duration.class) {
+			return StorageType.Duration;
+		} else {
+			return StorageType.String;
+		}
 	}
 
 	
@@ -511,6 +519,10 @@ public class DataItem {
 		return getObjectValue().toString();
 	}
 
+	public boolean isNumber() {
+		return this.type == StorageType.Integer || this.type == StorageType.Double;
+	}
+	
 	public Double getValueConvertedToDouble() {
 		if (this.type == StorageType.Integer) {
 			return this.intValue.doubleValue();
@@ -744,7 +756,7 @@ public class DataItem {
 	
 	public void power(double value) {
 		if (this.type == StorageType.Integer) {
-			this.doubleValue = Math.pow(this.intValue, value);
+			this.doubleValue = Math.pow((double)this.intValue, value);
 			this.intValue = 0;
 			this.type = StorageType.Double;
 		} else if (this.type == StorageType.Double) {
@@ -1022,6 +1034,294 @@ public class DataItem {
 		}
 	}
 	
+	public static DataItem randomDataItem() {
+		int typeVal = ThreadLocalRandom.current().nextInt(0, 8);
+		if (typeVal == 0) {
+			return DataItem.randomInt(0, 20);
+		} else if (typeVal == 1) {
+			return DataItem.randomDouble(0, 20);
+		} else if (typeVal == 2) {
+			return DataItem.randomString();
+		} else if (typeVal == 3) {
+			return DataItem.randomBoolean();
+		} else if (typeVal == 4) {
+			return DataItem.randomLocalDate();
+		} else if (typeVal == 5) {
+			return DataItem.randomLocalDateTime();
+		} else if (typeVal == 6) {
+			return DataItem.randomLocalTime();
+		} else if (typeVal == 7) {
+			return DataItem.randomDuration();
+		} else if (typeVal == 8) {
+			return DataItem.randomPeriod();
+		}
+		return null;
+	}
+	
+	public static DataItem randomDataItem(Class<?> cls) {
+		return DataItem.randomDataItem(DataItem.javaClassToStorageType(cls));
+	}
+	
+	public static StorageType javaClassToStorageType (Class<?> cls) {
+		if (cls == String.class) {
+			return StorageType.String;
+		} else if (cls == Integer.class) {
+			return StorageType.Integer;
+		} else if (cls == Double.class) {
+			return StorageType.Double;
+		} else if (cls == Boolean.class) {
+			return StorageType.Boolean;
+		} else if (cls == LocalDate.class) {
+			return StorageType.LocalDate;
+		} else if (cls == LocalDateTime.class) {
+			return StorageType.LocalDateTime;
+		} else if (cls == LocalTime.class) {
+			return StorageType.LocalTime;
+		} else if (cls == Duration.class) {
+			return StorageType.Duration;
+		} else if (cls == Period.class) {
+			return StorageType.Period;
+		} else {
+			return StorageType.Null;
+		}
+	}
+	
+	public static DataItem randomDataItem(StorageType typeToGet) {
+		if (typeToGet == StorageType.String) {
+			return DataItem.randomString();
+		} else if (typeToGet == StorageType.Integer) {
+			return DataItem.randomInt(0, 20);
+		} else if (typeToGet == StorageType.Double) {
+			return DataItem.randomDouble(0, 20);
+		} else if (typeToGet == StorageType.Boolean) {
+			return DataItem.randomBoolean();
+		} else if (typeToGet == StorageType.LocalDate) {
+			return DataItem.randomLocalDate();
+		} else if (typeToGet == StorageType.LocalDateTime) {
+			return DataItem.randomLocalDateTime();
+		} else if (typeToGet == StorageType.LocalTime) {
+			return DataItem.randomLocalTime();
+		} else if (typeToGet == StorageType.Duration) {
+			return DataItem.randomDuration();
+		} else if (typeToGet == StorageType.Period) {
+			return DataItem.randomPeriod();
+		} else {
+			return DataItem.randomNull();
+		}
+	}
+	
+	public static DataItem[] randomDataItemSeries(int numValues, StorageType typeToGet) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomDataItem(typeToGet));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemIntSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomInt());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemIntSeries(int numValues, int minValue, int maxValue) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomInt(minValue, maxValue));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemDoubleSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomDouble());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemDoubleSeries(int numValues, double minValue, double maxValue) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomDouble(minValue, maxValue));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemStringSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomString());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemStringSeries(int numValues, int numCharacters) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomString(numCharacters));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemBooleanSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomBoolean());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalDateSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalDate());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalDateSeries(int numValues, LocalDate minDate, LocalDate maxDate) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalDate(minDate, maxDate));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalDateTimeSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalDateTime());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalDateTimeSeries(int numValues, LocalDateTime minDateTime, LocalDateTime maxDateTime) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalDateTime(minDateTime, maxDateTime));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalTimeSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalTime());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalTimeSeries(int numValues, LocalTime minTime, LocalTime maxTime) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalTime(minTime, maxTime));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemPeriodSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomPeriod());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemPeriodSeries(int numValues, Period minPeriod, Period maxPeriod) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomPeriod(minPeriod, maxPeriod));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemDurationSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomDuration());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemDurationSeries(int numValues, Duration minDuration, Duration maxDuration) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomDuration(minDuration, maxDuration));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemSeries(int numValues, Class<?> cls) {
+		return randomDataItemSeries(numValues, DataItem.javaClassToStorageType(cls));
+	}
+	
+	public static DataItem randomInt() {
+		return DataItem.randomInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	public static DataItem randomInt(int inclusiveMin, int exclusiveMax) {
+		return new DataItem(ThreadLocalRandom.current().nextInt(inclusiveMin, exclusiveMax));
+	}
+	
+	public static DataItem randomDouble() {
+		return DataItem.randomDouble(-10000, 10000);
+	}
+	
+	public static DataItem randomDouble(double inclusiveMin, double exclusiveMax) {
+		Double doubleValue = ThreadLocalRandom.current().nextDouble(inclusiveMin, exclusiveMax);
+		DecimalFormat df = new DecimalFormat("#.####");
+		df.setRoundingMode(RoundingMode.CEILING);
+		return new DataItem(Double.parseDouble(df.format(doubleValue)));
+	}
+	
+	public static DataItem randomString() {
+		return randomString(5);
+	}
+	
+	public static DataItem randomString(int stringLength) {
+		return new DataItem(CommonArray.randomString(stringLength));
+	}
+	
+	public static DataItem randomBoolean() {
+		return new DataItem(ThreadLocalRandom.current().nextBoolean());
+	}
+	
+	public static DataItem randomLocalDate() {
+		LocalDate minDay = LocalDate.of(1970, 1, 1);
+		LocalDate maxDay = LocalDate.of(2030, 12, 31);
+	    return DataItem.randomLocalDate(minDay, maxDay);
+	}
+	
+	public static DataItem randomLocalDate(LocalDate earliestDate, LocalDate latestDate) {
+		long minDay = earliestDate.toEpochDay();
+	    long maxDay = latestDate.toEpochDay();
+	    long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+	    return new DataItem(LocalDate.ofEpochDay(randomDay));
+	}
+	
+	public static DataItem randomLocalDateTime() {
+		LocalDateTime minDateTime = LocalDateTime.of(1970, 1, 1, 1, 1);
+		LocalDateTime maxDateTime =  LocalDateTime.of(2030, 1, 1, 1, 1);
+		return DataItem.randomLocalDateTime(minDateTime, maxDateTime);
+	}
+	
+	public static DataItem randomLocalDateTime(LocalDateTime earliestLocalDateTime, LocalDateTime latestLocalDateTime) {
+		long minDateTime = earliestLocalDateTime.toEpochSecond(ZoneOffset.UTC);
+	    long maxDateTime =  latestLocalDateTime.toEpochSecond(ZoneOffset.UTC);
+	    long randomDay = ThreadLocalRandom.current().nextLong(minDateTime, maxDateTime);
+		return new DataItem(LocalDateTime.ofEpochSecond(randomDay, 0, ZoneOffset.UTC));
+	}
+	
+	public static DataItem randomLocalTime() {
+		LocalTime minTime = LocalTime.of(0, 0, 0);
+	    LocalTime maxTime = LocalTime.of(23, 59, 59);
+		return DataItem.randomLocalTime(minTime, maxTime);
+	}
+	
+	public static DataItem randomLocalTime(LocalTime earliestLocalTime, LocalTime latestLocalTime) {
+		long minTime = earliestLocalTime.toSecondOfDay();
+	    long maxTime = latestLocalTime.toSecondOfDay();
+	    long randomTime = ThreadLocalRandom.current().nextLong(minTime, maxTime);
+		return new DataItem(LocalTime.ofSecondOfDay(randomTime));
+	}
+	
+	public static DataItem randomDuration() {
+		Duration minDuration = Duration.ofSeconds(0);
+		Duration maxDuration = Duration.ofSeconds(10000);
+		return DataItem.randomDuration(minDuration, maxDuration);
+	}
+	
+	public static DataItem randomDuration(Duration minDuration, Duration maxDuration) {
+		long minSecs = minDuration.getSeconds();
+		long maxSecs = maxDuration.getSeconds();
+		long randomSecs = ThreadLocalRandom.current().nextLong(minSecs, maxSecs);
+		return new DataItem(Duration.ofSeconds(randomSecs));
+	}
+	
+	public static DataItem randomPeriod() {
+		Period minPeriod = Period.ofDays(0);
+		Period maxPeriod = Period.ofDays(10000);
+		return DataItem.randomPeriod(minPeriod, maxPeriod);
+	}
+	
+	public static DataItem randomPeriod(Period minPeriod, Period maxPeriod) {
+		int minDays = minPeriod.getDays();
+		int maxDays = maxPeriod.getDays();
+		int randomDays = ThreadLocalRandom.current().nextInt(minDays, maxDays);
+		return new DataItem(Period.ofDays(randomDays));
+	}
+	
+	public static DataItem randomNull() {
+		return new DataItem();
+	}
+	
 	@Override
 	public String toString() {
 		return getValueConvertedToString();
@@ -1052,6 +1352,36 @@ public class DataItem {
 		}
 		
 		return newDataItem;
+	}
+	@Override
+	public boolean equals(Object otherItem) {
+		if (otherItem instanceof DataItem) {
+			DataItem formatted = (DataItem)otherItem;
+			if (this.getType() == formatted.getType()) {
+				if (this.getType() == StorageType.Integer) {
+					return this.intValue.intValue() == formatted.intValue.intValue();
+				} else if (this.getType() == StorageType.Double) {
+					return this.doubleValue.doubleValue() == formatted.doubleValue.doubleValue();
+				} else if (this.getType() == StorageType.Boolean) {
+					return this.booleanValue.booleanValue() == formatted.booleanValue.booleanValue();
+				} else if (this.getType() == StorageType.String) {
+					return this.stringValue.equals(formatted.stringValue);
+				} else if (this.getType() == StorageType.LocalDate) {
+					return this.sameDate(formatted.localDateValue);
+				} else if (this.getType() == StorageType.LocalDateTime) {
+					return this.sameDate(formatted.localDateTimeValue);
+				} else if (this.getType() == StorageType.LocalTime) {
+					return this.sameTime(formatted.localTimeValue);
+				} else if (this.getType() == StorageType.Period) {
+					return this.periodValue.equals(formatted.periodValue);
+				} else if (this.getType() == StorageType.Duration) {
+					return this.durationValue.equals(formatted.durationValue);
+				} else if (this.getType() == StorageType.Null) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }
