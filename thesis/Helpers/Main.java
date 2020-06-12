@@ -563,10 +563,14 @@ public class Main {
 //		System.out.println("3");
 //		System.out.println(df);
 		
-		DataFrame df = DataFrame.random(4, 3, StorageType.LocalDateTime);
-		System.out.println(df.getValue(0, 0).getType());
+		List<Object> col = new ArrayList<Object>();
+		col.add("fefef");
+		col.add("fefef");
+		col.add("fefef");
+		col.add("fefef");
+		DataFrame df = new DataFrame("hello", col, true);
 		
-		df.setColumnsType(1, 2, StorageType.LocalDate);
+		
 		
 		return df;
 	}

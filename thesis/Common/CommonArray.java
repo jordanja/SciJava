@@ -599,7 +599,7 @@ public class CommonArray {
 		return list;
 	}
 
-	public static String[] mangle(ArrayList<String> arr) {
+	public static String[] mangle(List<String> arr) {
 		return mangle(arr.toArray(new String[0]));
 	}
 
