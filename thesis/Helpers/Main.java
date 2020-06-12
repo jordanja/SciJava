@@ -563,13 +563,12 @@ public class Main {
 //		System.out.println("3");
 //		System.out.println(df);
 		
-//		DataFrame df = DataFrame.random(2, 3, StorageType.Integer);
-//		System.out.println(df.getValue(0, 0).getType());
+		DataFrame df = DataFrame.random(4, 3, StorageType.LocalDateTime);
+		System.out.println(df.getValue(0, 0).getType());
 		
-		DataItem[] s = DataFrame.randomDataItemDurationSeries(5);
-		CommonArray.printArray(s);
+		df.setColumnsType(1, 2, StorageType.LocalDate);
 		
-		return null;
+		return df;
 	}
 
 	private static DataFrame hashColsConstructor() {

@@ -174,7 +174,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		this();
 		this.columnNames = df.getColumnNames();
 		this.rowNames = df.getRowNames();
-		this.data = df.getData();
+		this.data = df.getDataAs2DDataItemArrayList();
 	}
 
 	/*
@@ -301,6 +301,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return new DataFrame(numColumns, numRows, 0);
 	}
 	
+	public static DataFrame zeros(String[] columnNames, String[] rowNames) {
+		return new DataFrame(columnNames, rowNames, 0);
+	}
+	
 	public static DataFrame zerosLike(DataFrame otherDF) {
 		return zeros(otherDF.getNumCols(), otherDF.getNumRows());
 	}
@@ -315,6 +319,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public static DataFrame ones(int numColumns, int numRows) {
 		return new DataFrame(numColumns, numRows, 1);
+	}
+	
+	public static DataFrame ones(String[] columnNames, String[] rowNames) {
+		return new DataFrame(columnNames, rowNames, 1);
 	}
 
 	public static DataFrame onesLike(DataFrame otherDF) {
@@ -341,6 +349,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return new DataFrame(numColumns, numRows, new DataItem());
 	}
 
+	public static DataFrame empty(String[] columnNames, String[] rowNames) {
+		return new DataFrame(columnNames, rowNames, new DataItem());
+	}
+	
 	public static DataFrame emptyLike(DataFrame otherDF) {
 		return empty(otherDF.getNumCols(), otherDF.getNumRows());
 	}
@@ -2368,6 +2380,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	// ---------------------
 	// ------ Getters ------
 	// ---------------------
+	
+	public ArrayList<ArrayList<DataItem>> getDataAs2DDataItemArrayList() {
+		return this.data;
+	}
 	
 	public DataItem[][] getDataAs2DDataItemArray() {
 		return getColumnsAs2DDataItemArray(0, this.getNumCols() - 1);
@@ -8436,9 +8452,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
-	public ArrayList<ArrayList<DataItem>> getData() {
-		return this.data;
-	}
+
 	
 
 	public int getNumRows() {
@@ -8672,11 +8686,68 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	}
 	
+	public void setValueType(int colNum, int rowNum, StorageType type) {
+		this.getValue(colNum, rowNum).setType(type);
+	}
+	
+	public void setValueType(String columnName, String rowName, StorageType type) {
+		this.setValueType(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), type);
+	}
+	
 	public void setColumnType(int colNum, StorageType type) {
-		for (int rowNum = 0; rowNum < this.getNumRows(); rowNum++) {
-			this.setValue(colNum, rowNum, getValue(colNum, rowNum).getObjectValue(), type);
+		IntStream.range(0, this.getNumRows()).forEach(i -> this.getValue(colNum, i).setType(type));
+	}
+	
+	public void setColumnType(String columnName, StorageType type) {
+		this.setColumnType(this.columnNames.indexOf(columnName), type);
+	}
+	
+	public void setColumnsType(int[] columnNums, StorageType type) {
+		for (int colIndex: columnNums) {			
+			this.setColumnType(colIndex, type);
 		}
 	}
+	
+	public void setColumnsType(String[] columnNames, StorageType type) {
+		for (String columnName: columnNames) {			
+			this.setColumnType(columnName, type);
+		}
+	}
+	
+	public void setColumnsType(ArrayList<String> columnNames, StorageType type) {
+		for (String columnName: columnNames) {			
+			this.setColumnType(columnName, type);
+		}
+	}
+	
+	public void setColumnsType(int minColumnIndex, int maxColumnIndex, StorageType type) {
+		IntStream.rangeClosed(minColumnIndex, maxColumnIndex).forEach(i -> setColumnType(i, type));
+	}
+	
+	public void setRowType(int rowNum, StorageType type) {
+		
+	}
+	
+	public void setRowsType(int[] rowNums, StorageType type) {
+		
+	}
+	
+	public void setRowType(String rowName, StorageType type) {
+		
+	}
+	
+	public void setRowsType(String[] rowNames, StorageType type) {
+		
+	}
+	
+	public void setRowsType(ArrayList<String> rowNames, StorageType type) {
+		
+	}
+	
+	public void setRowsType(int minRowIndex, int maxRowIndex, StorageType type) {
+		
+	}
+	
 	
 	public DataItem[] getUniqueValuesInColumnAsDataItemArray(int columnIndex) {
 		DataItem[] column = this.getColumnAsDataItemArray(columnIndex);
