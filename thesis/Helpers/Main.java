@@ -566,7 +566,7 @@ public class Main {
 //		DataFrame df = DataFrame.random(2, 3, StorageType.Integer);
 //		System.out.println(df.getValue(0, 0).getType());
 		
-		DataItem[] s = DataFrame.randomDataItemDoubleSeries(5, 0, 10);
+		DataItem[] s = DataFrame.randomDataItemDurationSeries(5);
 		CommonArray.printArray(s);
 		
 		return null;

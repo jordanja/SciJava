@@ -1140,6 +1140,83 @@ public class DataItem {
 		return series;
 	}
 	
+	public static DataItem[] randomDataItemStringSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomString());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemStringSeries(int numValues, int numCharacters) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomString(numCharacters));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemBooleanSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomBoolean());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalDateSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalDate());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalDateSeries(int numValues, LocalDate minDate, LocalDate maxDate) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalDate(minDate, maxDate));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalDateTimeSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalDateTime());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalDateTimeSeries(int numValues, LocalDateTime minDateTime, LocalDateTime maxDateTime) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalDateTime(minDateTime, maxDateTime));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalTimeSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalTime());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemLocalTimeSeries(int numValues, LocalTime minTime, LocalTime maxTime) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomLocalTime(minTime, maxTime));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemPeriodSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomPeriod());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemPeriodSeries(int numValues, Period minPeriod, Period maxPeriod) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomPeriod(minPeriod, maxPeriod));
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemDurationSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomDuration());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemDurationSeries(int numValues, Duration minDuration, Duration maxDuration) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomDuration(minDuration, maxDuration));
+		return series;
+	}
 	
 	public static DataItem[] randomDataItemSeries(int numValues, Class<?> cls) {
 		return randomDataItemSeries(numValues, DataItem.javaClassToStorageType(cls));

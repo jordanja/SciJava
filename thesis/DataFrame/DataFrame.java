@@ -401,6 +401,57 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return DataItem.randomDataItemDoubleSeries(numValues);
 	}
 	
+	public static DataItem[] randomDataItemStringSeries(int numValues, int stringLength) {
+		return DataItem.randomDataItemStringSeries(numValues, stringLength);
+	}
+	
+	public static DataItem[] randomDataItemStringSeries(int numValues) {
+		return DataItem.randomDataItemStringSeries(numValues);
+	}
+	
+	public static DataItem[] randomDataItemBooleanSeries(int numValues) {
+		return DataItem.randomDataItemBooleanSeries(numValues);
+	}
+	
+	public static DataItem[] randomDataItemLocalDateSeries(int numValues, LocalDate minLocalDate, LocalDate maxLocalDate) {
+		return DataItem.randomDataItemLocalDateSeries(numValues, minLocalDate, maxLocalDate);
+	}
+	
+	public static DataItem[] randomDataItemLocalDateSeries(int numValues) {
+		return DataItem.randomDataItemLocalDateSeries(numValues);
+	}
+	
+	public static DataItem[] randomDataItemLocalDateTimeSeries(int numValues, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
+		return DataItem.randomDataItemLocalDateTimeSeries(numValues, minLocalDateTime, maxLocalDateTime);
+	}
+	
+	public static DataItem[] randomDataItemLocalDateTimeSeries(int numValues) {
+		return DataItem.randomDataItemLocalDateTimeSeries(numValues);
+	}
+	
+	public static DataItem[] randomDataItemLocalTimeSeries(int numValues, LocalTime minLocalTime, LocalTime maxLocalTime) {
+		return DataItem.randomDataItemLocalTimeSeries(numValues, minLocalTime, maxLocalTime);
+	}
+	
+	public static DataItem[] randomDataItemLocalTimeSeries(int numValues) {
+		return DataItem.randomDataItemLocalTimeSeries(numValues);
+	}
+	
+	public static DataItem[] randomDataItemPeriodSeries(int numValues, Period minPeriod, Period maxPeriod) {
+		return DataItem.randomDataItemPeriodSeries(numValues, minPeriod, maxPeriod);
+	}
+	
+	public static DataItem[] randomDataItemPeriodSeries(int numValues) {
+		return DataItem.randomDataItemPeriodSeries(numValues);
+	}
+	
+	public static DataItem[] randomDataItemDurationSeries(int numValues, Duration minDuration, Duration maxDuration) {
+		return DataItem.randomDataItemDurationSeries(numValues, minDuration, maxDuration);
+	}
+	
+	public static DataItem[] randomDataItemDurationSeries(int numValues) {
+		return DataItem.randomDataItemDurationSeries(numValues);
+	}
 	
 	public void insertColumn(int index, String columnName, List<Object> column) {
 		if (index > this.columnNames.size()) {
