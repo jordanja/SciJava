@@ -47,26 +47,32 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	// Create a DF with a single specified value
 	public DataFrame(int numColumns, int numRows, Object fill) {
-		this.columnNames = CommonArray.generateIncreasingSequence(numColumns);
-		this.rowNames = CommonArray.generateIncreasingSequence(numRows);
-		this.data = new ArrayList<ArrayList<DataItem>>();
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
-			ArrayList<DataItem> column = new ArrayList<DataItem>();
-			for (int rowCount = 0; rowCount < numRows; rowCount++) {
-				DataItem item = new DataItem(fill);
-				column.add(item);
-			}
-			this.data.add(column);
-		}
+		this(numColumns, numRows, fill, DataItem.getStorageTypeOfObject(fill));
 	}
 	
+	public DataFrame(String[] columnNames, String[] rowNames, Object fill) {
+		this(columnNames,rowNames, fill, DataItem.getStorageTypeOfObject(fill));
+	}
+	
+	public DataFrame(ArrayList<String> columnNames, ArrayList<String> rowNames, Object fill) {
+		this(columnNames, rowNames, fill, DataItem.getStorageTypeOfObject(fill));
+	}
+
 	public DataFrame(int numColumns, int numRows, Object fill, StorageType type) {
-		this.columnNames = CommonArray.generateIncreasingSequence(numColumns);
-		this.rowNames = CommonArray.generateIncreasingSequence(numRows);
+		this(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), fill, type);	
+	}
+	
+	public DataFrame(String[] columnNames, String[] rowNames, Object fill, StorageType type) {
+		this(new ArrayList<String>(Arrays.asList(columnNames)), new ArrayList<String>(Arrays.asList(rowNames)), fill, type);
+	}
+	
+	public DataFrame(ArrayList<String> columnNames, ArrayList<String> rowNames, Object fill, StorageType type) {
+		this.columnNames = columnNames;
+		this.rowNames = rowNames;
 		this.data = new ArrayList<ArrayList<DataItem>>();
-		for (int columnCount = 0; columnCount < numColumns; columnCount++) {
+		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
 			ArrayList<DataItem> column = new ArrayList<DataItem>();
-			for (int rowCount = 0; rowCount < numRows; rowCount++) {
+			for (int rowCount = 0; rowCount < rowNames.size(); rowCount++) {
 				DataItem item = new DataItem(fill, type);
 				column.add(item);
 			}
@@ -74,79 +80,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
-	// Create a DF with random values
-	public DataFrame(int numColumns, int numRows, Class<?> cls) {
-		this(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), cls);
-	}
-	
-	public DataFrame(ArrayList<String> columnNames, ArrayList<String> rowNames, Class<?> cls) {
-		this.columnNames = columnNames;
-		this.rowNames = rowNames;
-		this.data = new ArrayList<ArrayList<DataItem>>();
-		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
-			ArrayList<DataItem> column = new ArrayList<DataItem>();
-			for (int rowCount = 0; rowCount < rowNames.size(); rowCount++) {
-				Object fill;
-				if (cls == String.class) {
-					fill = CommonArray.randomString(5);
-				} else if (cls == Integer.class) {
-					fill = ThreadLocalRandom.current().nextInt(0, 6);
-				} else if (cls == Double.class) {
-					Double doubleValue = ThreadLocalRandom.current().nextDouble(1, 20);
-					DecimalFormat df = new DecimalFormat("#.####");
-					df.setRoundingMode(RoundingMode.CEILING);
-					fill = Double.parseDouble(df.format(doubleValue));
-				} else if (cls == Boolean.class) {
-					fill = ThreadLocalRandom.current().nextBoolean();
-				} else if (cls == LocalDate.class) {
-					// credit for this logic https://stackoverflow.com/a/34051525/6122201
-					long minDay = LocalDate.of(1970, 1, 1).toEpochDay();
-				    long maxDay = LocalDate.of(2030, 12, 31).toEpochDay();
-				    long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
-				    fill = LocalDate.ofEpochDay(randomDay);
-				} else if (cls == LocalDateTime.class) {
-					long minDay = LocalDateTime.of(1970, 1, 1, 1, 1).toEpochSecond(ZoneOffset.UTC);
-				    long maxDay =  LocalDateTime.of(2030, 1, 1, 1, 1).toEpochSecond(ZoneOffset.UTC);
-				    long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
-				    fill = LocalDateTime.ofEpochSecond(randomDay, 0, ZoneOffset.UTC);
-				} else if (cls == LocalTime.class) {
-					long minTime = LocalTime.of(0, 0, 0).toSecondOfDay();
-				    long maxTime = LocalTime.of(23, 59, 59).toSecondOfDay();
-				    long randomTime = ThreadLocalRandom.current().nextLong(minTime, maxTime);
-				    fill = LocalTime.ofSecondOfDay(randomTime);
-				} else if (cls == Duration.class) {
-				    fill = null;
-				} else if (cls == Period.class) {
-				    fill = null;
-				} else {
-					fill = null;
-				}
-				DataItem item = new DataItem(fill);
-				column.add(item);
-			}
-			this.data.add(column);
-		}
-	}
-	
-	public DataFrame(String[] colNames, String[] rowNames, Class<?> cls) {
-		this(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames), cls);
-	}
-	
 	// Create an empty DF with rows and columns and null values
 	public DataFrame(ArrayList<String> colNames, ArrayList<String> rowNames) {
 		this();
 
 		for (int rowCount = 0; rowCount < rowNames.size(); rowCount++) {
-			ArrayList<Object> row = new ArrayList<Object>(colNames.size());
-			for (int colCount = 0; colCount < colNames.size(); colCount++) {
-				row.add(null);
-			}
+			Object[] row = CommonArray.initializeObjectArrayWithValues(colNames.size(), null);
+//			CommonArray.printArray(row);
 			appendRow(row);
 		}
 		String[] colNamesToAdd = CommonArray.mangle(colNames);
 		String[] rowNamesToAdd = CommonArray.mangle(rowNames);
-		this.columnNames = CommonArray.convertStringArrayToArrayList(colNamesToAdd);
-		this.rowNames = CommonArray.convertStringArrayToArrayList(rowNamesToAdd);
+		this.setColumnNames(colNamesToAdd);
+		this.setRowNames(rowNamesToAdd);
 	}
 
 	// Create an empty DF with rows and columns and null values
@@ -163,24 +109,64 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	 * 
 	 * Becomes: | one| two --+----+---- 0| 1| 3 1| 2| 4 2| 3| 5
 	 */
-	public DataFrame(HashMap<String, ArrayList<Object>> map) {
+	public DataFrame(HashMap<String, ArrayList<Object>> map, boolean isRow) {
 		this();
-
-		appendColumns(map);
+		if (isRow) {
+			appendRows(map);
+		} else {			
+			appendColumns(map);
+		}
 
 	}
 
-	/*
-	 * Create a DF from list of hashmaps (rows) For example: maps = [ map1: { "one":
-	 * 1, "two": 2, "three": 3 }, map1: { "one": 10, "two": 20, "three": 30 }, ]
+	/**
+	 * <pre>
+	 * Create a DF from list of hashmaps 
+	 * For example: 
+	 *     maps = [ 
+	 *         map1: { 
+	 *             "one": 1, 
+	 *             "two": 2, 
+	 *             "three": 3 
+	 *         }, 
+	 *         map2: { 
+	 *             "one": 10, 
+	 *             "two": 20, 
+	 *             "three": 30 
+	 *         }
+	 *     ]
 	 * 
-	 * Becomes: | one| two| three --+----+----+------ 0| 1| 2| 3 1| 10| 20| 30
+	 * Becomes: 
+	 *       | one| two| three 
+	 *     --+----+----+------ 
+	 *      0|   1|   2|     3 
+	 *      1|  10|  20|    30
+	 * </pre>
 	 */
-	public DataFrame(ArrayList<HashMap<String, Object>> maps) {
+	public DataFrame(ArrayList<HashMap<String, Object>> maps, boolean isRow) {
 		this();
-		for (HashMap<String, Object> map : maps) {
-			appendRow(map);
+		ArrayList<String> cumulativeNames = new ArrayList<String>();
+		for (HashMap<String, Object> map: maps) {
+			for (String name: map.keySet()) {
+				if (!cumulativeNames.contains(name)) {
+					cumulativeNames.add(name);
+				}
+			}
 		}
+		if (isRow) {
+			this.setColumnNames(cumulativeNames);
+		} else {
+			this.setRowNames(cumulativeNames);
+		}
+		for (HashMap<String, Object> map : maps) {
+			if (isRow) {				
+				appendRow(map);
+			} else {
+				appendColumn(map);
+			}
+		}
+	
+		
 
 	}
 
@@ -328,42 +314,93 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public static DataFrame ones(int numColumns, int numRows) {
-		return null;
+		return new DataFrame(numColumns, numRows, 1);
 	}
 
 	public static DataFrame onesLike(DataFrame otherDF) {
-		return null;
+		return ones(otherDF.getNumCols(), otherDF.getNumRows());
 	}
 
 	public static DataFrame onesLike(Object[][] otherDF) {
-		return null;
+		return ones(otherDF.length, otherDF[0].length);
 	}
 
 	public static DataFrame onesLike(ArrayList<ArrayList<Object>> otherDF) {
-		return null;
+		return ones(otherDF.size(), otherDF.get(0).size());
 	}
 
-	public static DataFrame identity(int numColumns, int numRows) {
-		return null;
+	public static DataFrame identity(int dimensions) {
+		DataFrame identity = DataFrame.zeros(dimensions, dimensions);
+		for (int i = 0; i < dimensions; i++) {
+			identity.setValue(i, i, 1);
+		}
+		return identity;
 	}
 
 	public static DataFrame empty(int numColumns, int numRows) {
-		return null;
+		return new DataFrame(numColumns, numRows, new DataItem());
 	}
 
 	public static DataFrame emptyLike(DataFrame otherDF) {
-		return null;
+		return empty(otherDF.getNumCols(), otherDF.getNumRows());
 	}
 
 	public static DataFrame emptyLike(Object[][] otherDF) {
-		return null;
+		return empty(otherDF.length, otherDF[0].length);
 	}
 
 	public static DataFrame emptyLike(ArrayList<ArrayList<Object>> otherDF) {
-		return null;
+		return empty(otherDF.size(), otherDF.get(0).size());
 	}
-
-
+	
+	public static DataFrame random(int numColumns, int numRows, StorageType type) {
+		return DataFrame.random(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), type);
+	}
+	
+	public static DataFrame random(String[] colNames, String[] rowNames, StorageType type) {
+		return DataFrame.random(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames), type);
+	}
+	
+	public static DataFrame random(ArrayList<String> columnNames, ArrayList<String> rowNames, StorageType type) {
+		DataFrame newDF = new DataFrame(columnNames, rowNames);
+		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
+			newDF.setColumnValues(columnCount, DataItem.randomDataItemSeries(newDF.getNumRows(), type));
+		}
+		return newDF;
+	}
+	
+	public static DataFrame random(int numColumns, int numRows, Class<?> cls) {
+		return DataFrame.random(numColumns, numRows, DataItem.getStorageTypeOfObject(cls));
+	}
+	
+	public static DataFrame random(String[] colNames, String[] rowNames, Class<?> cls) {
+		return DataFrame.random(colNames, rowNames, DataItem.getStorageTypeOfObject(cls));
+	}
+	
+	public static DataFrame random(ArrayList<String> columnNames, ArrayList<String> rowNames, Class<?> cls) {
+		return DataFrame.random(columnNames, rowNames, DataItem.getStorageTypeOfObject(cls));
+	}
+	
+	public static DataItem[] randomDataItemSeries(int numValues, StorageType type) {
+		return DataItem.randomDataItemSeries(numValues, type);
+	}
+	
+	public static DataItem[] randomDataItemIntSeries(int numValues, int minValue, int maxValue) {
+		return DataItem.randomDataItemIntSeries(numValues, minValue, maxValue);
+	}
+	
+	public static DataItem[] randomDataItemIntSeries(int numValues) {
+		return DataItem.randomDataItemIntSeries(numValues);
+	}
+	
+	public static DataItem[] randomDataItemDoubleSeries(int numValues, double minValue, double maxValue) {
+		return DataItem.randomDataItemDoubleSeries(numValues, minValue, maxValue);
+	}
+	
+	public static DataItem[] randomDataItemDoubleSeries(int numValues) {
+		return DataItem.randomDataItemDoubleSeries(numValues);
+	}
+	
 	
 	public void insertColumn(int index, String columnName, List<Object> column) {
 		if (index > this.columnNames.size()) {
@@ -377,7 +414,9 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 				return;
 			}
 		} else {
-			this.rowNames = CommonArray.generateIncreasingSequence(column.size());
+			if (this.rowNames.size() == 0) {				
+				this.rowNames = CommonArray.generateIncreasingSequence(column.size());
+			}
 		}
 		this.data.add(index, convertObjectListToItemList(column));
 		String newColumnName = CommonArray.getNewMangleName(this.columnNames, columnName);
@@ -634,14 +673,18 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void insertColumn(int index, String columnName, HashMap<String, Object> map) {
-		ArrayList<Object> col = new ArrayList<Object>();
+		ArrayList<Object> col = new ArrayList<Object>(this.rowNames.size());
+		for (int i = 0; i < this.rowNames.size(); i++) {
+			col.add("");
+		}
 		for (String rowName : map.keySet()) {
+
 			int rowIndex = this.rowNames.indexOf(rowName);
 			if (rowIndex == -1) {
-				this.columnNames.add(rowName);
+				this.rowNames.add(rowName);
 
 			}
-			col.add(map.get(rowName));
+			col.set(rowIndex, map.get(rowName));
 
 		}
 		insertColumn(index, columnName, col);
@@ -1299,6 +1342,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 					this.columnNames.add(generateUnusedColumnName());
 				}
 			}
+//			System.out.println("adding: " + row.get(colCount));
 			this.data.get(colCount).add(index, new DataItem(row.get(colCount)));
 		}
 		String newRowName = CommonArray.getNewMangleName(this.rowNames, rowName);
@@ -7283,15 +7327,15 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			return;
 		}
 
-		if (rowNamesToAdd.size() != this.rowNames.size()) {
-			System.out.println("Number of row names (" + rowNamesToAdd.size() + ") must equal number of rows (" + this.rowNames.size() + ")");
-			return;
-		}
+		if (this.rowNames.size() != 0) {
+			if (rowNamesToAdd.size() != this.rowNames.size()) {
+				System.out.println("Number of row names (" + rowNamesToAdd.size() + ") must equal number of rows (" + this.rowNames.size() + ")");
+				return;
+			}
+		}	
 
 		String[] mangledRowNames = CommonArray.mangle(rowNamesToAdd);
-
 		this.rowNames = CommonArray.convertStringArrayToArrayList(mangledRowNames);
-
 	}
 
 	public void setRowNames(String[] rowNamesToAdd) {
@@ -7312,9 +7356,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			return;
 		}
 
-		if (colNamesToAdd.size() != this.columnNames.size()) {
-			System.out.println("Number of column names must equal number of columns");
-			return;
+		if (this.columnNames.size() != 0) {			
+			if (colNamesToAdd.size() != this.columnNames.size()) {
+				System.out.println("Number of column names must equal number of columns");
+				return;
+			}
 		}
 
 		String[] mangledColNames = CommonArray.mangle(colNamesToAdd);

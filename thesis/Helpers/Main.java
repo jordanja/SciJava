@@ -465,12 +465,74 @@ public class Main {
 		return df;
 	}
 	
+	public static DataFrame groupBy() {
+		DataFrame df = new DataFrame(3, 12, null);
+		String[] cities = new String[] {
+				"new york", "new york", "new york", "new york", 
+				"mumbai", "mumbai", "mumbai", "mumbai", 
+				"paris", "paris", "paris", "paris"};
+		int[] temperatures = new int[] {
+				32, 36, 28, 33,
+				90, 85, 87, 92,
+				45, 50, 54, 42};
+		
+		int[] humidity = new int[] {
+				12, 43, 25, 74,
+				52, 23, 75, 45,
+				98, 34, 52, 15};
+		
+		df.setColumnNames(new String[] {"city", "temperature", "humitidy"});
+		
+		df.setColumnValues(0, cities);
+		df.setColumnValues(1, temperatures);
+		df.setColumnValues(2, humidity);
+
+		GroupBy gb = df.groupBy("city");
+		
+		DataFrame ave = gb.average();
+		System.out.println("average:");
+		System.out.println(ave);
+		
+		DataFrame max = gb.max();
+		System.out.println("max:");
+		System.out.println(max);
+		
+		DataFrame min = gb.min();
+		System.out.println("min:");
+		System.out.println(min);
+		
+		DataFrame mediun = gb.mediun();
+		System.out.println("mediun:");
+		System.out.println(mediun);
+		
+		DataFrame sum = gb.sum();
+		System.out.println("sum:");
+		System.out.println(sum);
+		
+		DataFrame product = gb.product();
+		System.out.println("product:");
+		System.out.println(product);
+		
+		DataFrame numUnique = gb.numUnique();
+		System.out.println("numUnique:");
+		System.out.println(numUnique);
+		
+		DataFrame variance = gb.variance(1);
+		System.out.println("variance:");
+		System.out.println(variance);
+		
+		DataFrame std = gb.standardDeviation(1);
+		System.out.println("standardDeviation:");
+		System.out.println(std);
+		return df;
+	}
+	
 	public static DataFrame play() {
 		
 		
-		ArrayList<String> columnNames = new ArrayList<String>();
-		columnNames.add("col_n");
-		columnNames.add("col_f");
+//		ArrayList<String> columnNames = new ArrayList<String>();
+//		columnNames.add("col_n");
+//		columnNames.add("col_f");
 //		columnNames.add("col_z");
 //		columnNames.add("col_r");
 //		columnNames.add("col_w");
@@ -480,11 +542,11 @@ public class Main {
 //		columnNames.add("col_l");
 //		columnNames.add("col_t");
 		
-		ArrayList<String> rowNames = new ArrayList<String>();
-		rowNames.add("row_one");
-		rowNames.add("row_two");
-		rowNames.add("row_three");
-		rowNames.add("row_four");
+//		ArrayList<String> rowNames = new ArrayList<String>();
+//		rowNames.add("row_one");
+//		rowNames.add("row_two");
+//		rowNames.add("row_three");
+//		rowNames.add("row_four");
 //		rowNames.add("row_five");
 //		rowNames.add("row_six");
 //		rowNames.add("row_seven");
@@ -492,17 +554,22 @@ public class Main {
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
 		
-		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
-		System.out.println("1");
-		System.out.println(df);
-		System.out.println("2");
-		DataFrame newDF = df.absoluteValueColumn(0);
-		System.out.println(newDF);
-		System.out.println("3");
+//		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
+//		System.out.println("1");
+//		System.out.println(df);
+//		System.out.println("2");
+//		DataFrame newDF = df.absoluteValueColumn(0);
+//		System.out.println(newDF);
+//		System.out.println("3");
 //		System.out.println(df);
 		
+//		DataFrame df = DataFrame.random(2, 3, StorageType.Integer);
+//		System.out.println(df.getValue(0, 0).getType());
 		
-		return df;
+		DataItem[] s = DataFrame.randomDataItemDoubleSeries(5, 0, 10);
+		CommonArray.printArray(s);
+		
+		return null;
 	}
 
 	private static DataFrame hashColsConstructor() {
@@ -521,7 +588,7 @@ public class Main {
 		map.put("one", arr1);
 		map.put("two", arr2);
 
-		DataFrame df = new DataFrame(map);
+		DataFrame df = new DataFrame(map, false);
 		return df;
 	}
 
@@ -546,7 +613,7 @@ public class Main {
 		list.add(map1);
 		list.add(map2);
 
-		DataFrame df = new DataFrame(list);
+		DataFrame df = new DataFrame(list, true);
 
 		return df;
 	}
