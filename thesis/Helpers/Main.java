@@ -563,12 +563,7 @@ public class Main {
 //		System.out.println("3");
 //		System.out.println(df);
 		
-		List<Object> col = new ArrayList<Object>();
-		col.add("fefef");
-		col.add("fefef");
-		col.add("fefef");
-		col.add("fefef");
-		DataFrame df = new DataFrame("hello", col, true);
+		DataFrame df = DataFrame.uniqueStrings(5, 5, 2);
 		
 		
 		

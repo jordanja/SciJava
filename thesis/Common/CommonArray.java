@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -303,7 +304,7 @@ public class CommonArray {
 		return newArr;
 	}
 	
-	public static int[] convertIntegerListArrayToArray(ArrayList<Integer> arr) {
+	public static int[] convertIntegerArrayListToArray(ArrayList<Integer> arr) {
 		int[] newArr = new int[arr.size()];
 		for (int index = 0; index < arr.size(); index++) {
 			newArr[index] = arr.get(index);
@@ -504,7 +505,19 @@ public class CommonArray {
 		}
 		
 	}
-	public static void printArray(ArrayList<String> arr) {
+	public static void printStringArrayList(ArrayList<String> arr) {
+		for (int i = 0; i < arr.size(); i++) {
+			System.out.println(i + ": " + arr.get(i));
+		}
+	}
+	
+	public static void printObjectArrayList(ArrayList<Object> arr) {
+		for (int i = 0; i < arr.size(); i++) {
+			System.out.println(i + ": " + arr.get(i));
+		}
+	}
+	
+	public static void printIntegerArrayList(ArrayList<Integer> arr) {
 		for (int i = 0; i < arr.size(); i++) {
 			System.out.println(i + ": " + arr.get(i));
 		}
@@ -602,7 +615,6 @@ public class CommonArray {
 	public static String[] mangle(List<String> arr) {
 		return mangle(arr.toArray(new String[0]));
 	}
-
 	
 	public static String[] mangle(String[] columnNamesProvided) {
 		int[] numberOfSameValueBefore = CommonArray.initializeIntArrayWithValues(columnNamesProvided.length, 0);
@@ -862,7 +874,7 @@ public class CommonArray {
 			if (getColumn[index]) indicesOfTrues.add(index);
 		}
 		
-		return CommonArray.convertIntegerListArrayToArray(indicesOfTrues);
+		return CommonArray.convertIntegerArrayListToArray(indicesOfTrues);
 	}
 	
 	public static ArrayList<String> doesntContain(ArrayList<String> arr1, ArrayList<String> arr2) {
@@ -916,23 +928,35 @@ public class CommonArray {
 		return indices.stream().mapToInt(Integer::intValue).toArray();
 	}
 	
-//	public static ArrayList<String>  booleanMinusStringArrays(ArrayList<String>  largeArr, ArrayList<String>  smallArr) {
-//		ArrayList<String> finalArr = new ArrayList<String>();
-//	}
+	public static int[] getUniqueInts(int lowInclusive, int highExclusive) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+        for (int i = lowInclusive; i < highExclusive; i++) {
+            list.add(i);
+        }
+        Collections.shuffle(list);
+        return CommonArray.convertIntegerArrayListToArray(list);
+	}
 	
-//	public static Class<? extends Object> typeOfArrayList(ArrayList<Object> arr) {
-//		
-//		return arr.get(0).getClass();
-//	}
-//	
-//	public static boolean arrayListAllInteger(ArrayList<Object> arr) {
-//		for (Object element: arr) {
-//			if (!(element instanceof Integer)) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
+	public static double[] getUniqueDoubles(int numvalues, double lowInclusive, double highExlusive) {
+		return new Random().doubles()
+                .distinct()
+                .map(d -> lowInclusive + d * highExlusive)
+                .limit(numvalues)
+                .toArray();
+		
+	}
+
+	public static String[] getUniqueStrings(int numValues, int stringLength) {
+		ArrayList<String> uniqueStrings = new ArrayList<String>();
+		while (uniqueStrings.size() < numValues) {
+			String randomString = CommonArray.randomString(stringLength);
+			if (!uniqueStrings.contains(randomString)) {
+				uniqueStrings.add(randomString);
+			}
+		}
+		return uniqueStrings.toArray(new String[0]);
+	}
+	
 
 
 }

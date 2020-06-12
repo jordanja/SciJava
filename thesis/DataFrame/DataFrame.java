@@ -14,10 +14,12 @@ import java.time.Period;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import thesis.Common.CommonArray;
@@ -67,8 +69,8 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public DataFrame(ArrayList<String> columnNames, ArrayList<String> rowNames, Object fill, StorageType type) {
-		this.columnNames = columnNames;
-		this.rowNames = rowNames;
+		this.columnNames = CommonArray.convertStringArrayToArrayList(CommonArray.mangle(columnNames));
+		this.rowNames = CommonArray.convertStringArrayToArrayList(CommonArray.mangle(rowNames));
 		this.data = new ArrayList<ArrayList<DataItem>>();
 		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
 			ArrayList<DataItem> column = new ArrayList<DataItem>();
@@ -336,52 +338,95 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return ones(otherDF.size(), otherDF.get(0).size());
 	}
 
+	
+	
 	public static DataFrame uniqueInts(int numColumns, int numRows, int minValue, int maxValue) {
-		return null;
+		return DataFrame.uniqueInts(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minValue, maxValue);
 	}
 	
 	public static DataFrame uniqueInts(String[] columnNames, String[] rowNames, int minValue, int maxValue) {
-		return null;
+		return DataFrame.uniqueInts(CommonArray.convertStringArrayToArrayList(columnNames), CommonArray.convertStringArrayToArrayList(rowNames), minValue, maxValue);
+	}
+	
+	public static DataFrame uniqueInts(ArrayList<String> columnNames, ArrayList<String> rowNames, int minValue, int maxValue) {
+		int numValues = columnNames.size() * rowNames.size();
+		if (maxValue - minValue < numValues) {			
+			throw new IllegalArgumentException("Not possible to get unique values from range provided (" + minValue + ", " + maxValue + ")");
+		}
+		int[] intValues = CommonArray.getUniqueInts(minValue, maxValue);
+		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		df.copySerializedColumnsIntoDataFrame(intValues);
+		
+        return df;
 	}
 	
 	public static DataFrame uniqueInts(int numColumns, int numRows) {
-		return null;
+		return DataFrame.uniqueInts(numColumns, numRows, 0, numColumns * numRows);
 	}
 
 	public static DataFrame uniqueInts(String[] columnNames, String[] rowNames) {
-		return null;
+		return DataFrame.uniqueInts(columnNames, rowNames, 0, columnNames.length * rowNames.length);
 	}
 	
+	public static DataFrame uniqueInts(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return DataFrame.uniqueInts(columnNames, rowNames, 0, columnNames.size() * rowNames.size());
+	}
+
+	
 	public static DataFrame uniqueDoubles(int numColumns, int numRows, double minValue, double maxValue) {
-		return null;
+		return DataFrame.uniqueDoubles(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minValue, maxValue);
 	}
 	
 	public static DataFrame uniqueDoubles(String[] columnNames, String[] rowNames, double minValue, double maxValue) {
-		return null;
+		return DataFrame.uniqueDoubles(CommonArray.convertStringArrayToArrayList(columnNames), CommonArray.convertStringArrayToArrayList(rowNames), minValue, maxValue);
+	}
+	
+	public static DataFrame uniqueDoubles(ArrayList<String> columnNames, ArrayList<String> rowNames, double minValue, double maxValue) {
+		int numValues = columnNames.size() * rowNames.size();
+		double[] doubleValues = CommonArray.getUniqueDoubles(numValues, minValue, maxValue);
+		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		df.copySerializedColumnsIntoDataFrame(doubleValues);
+		return df;
 	}
 	
 	public static DataFrame uniqueDoubles(int numColumns, int numRows) {
-		return null;
+		return DataFrame.uniqueDoubles(numColumns, numRows, 0, 1);
 	}
 	
 	public static DataFrame uniqueDoubles(String[] columnNames, String[] rowNames) {
-		return null;
+		return DataFrame.uniqueDoubles(columnNames, rowNames, 0, 1);
+	}
+	
+	public static DataFrame uniqueDoubles(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return DataFrame.uniqueDoubles(columnNames, rowNames, 0, 1);
 	}
 	
 	public static DataFrame uniqueStrings(int numColumns, int numRows, int stringLength) {
-		return null;
+		return DataFrame.uniqueStrings(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), stringLength);
 	}
 	
 	public static DataFrame uniqueStrings(String[] columnNames, String[] rowNames, int stringLength) {
-		return null;
+		return DataFrame.uniqueStrings(CommonArray.convertStringArrayToArrayList(columnNames), CommonArray.convertStringArrayToArrayList(rowNames), stringLength);
+	}
+	
+	public static DataFrame uniqueStrings(ArrayList<String> columnNames, ArrayList<String> rowNames, int stringLength) {
+		int numValues = columnNames.size() * rowNames.size();
+		String[] StringValues = CommonArray.getUniqueStrings(numValues, stringLength);
+		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		df.copySerializedColumnsIntoDataFrame(StringValues);
+		return df;
 	}
 	
 	public static DataFrame uniqueStrings(int numColumns, int numRows) {
-		return null;
+		return DataFrame.uniqueStrings(numColumns, numRows, 10);
 	}
 	
 	public static DataFrame uniqueStrings(String[] columnNames, String[] rowNames) {
-		return null;
+		return DataFrame.uniqueStrings(columnNames, rowNames, 10);
+	}
+	
+	public static DataFrame uniqueStrings(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return DataFrame.uniqueStrings(columnNames, rowNames, 10);
 	}
 	
 	public static DataFrame uniqueLocalDate(int numColumns, int numRows, LocalDate minLocalDate, LocalDate maxLocalDate) {
@@ -389,6 +434,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public static DataFrame uniqueLocalDate(String[] columnNames, String[] rowNames, LocalDate minLocalDate, LocalDate maxLocalDate) {
+		return null;
+	}
+	
+	public static DataFrame uniqueLocalDate(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalDate minLocalDate, LocalDate maxLocalDate) {
 		return null;
 	}
 	
@@ -400,11 +449,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return null;
 	}
 	
+	public static DataFrame uniqueLocalDate(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return null;
+	}
+	
 	public static DataFrame uniqueLocalDateTime(int numColumns, int numRows, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
 		return null;
 	}
 	
 	public static DataFrame uniqueLocalDateTime(String[] columnNames, String[] rowNames, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
+		return null;
+	}
+	
+	public static DataFrame uniqueLocalDateTime(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
 		return null;
 	}
 	
@@ -416,11 +473,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return null;
 	}
 	
+	public static DataFrame uniqueLocalDateTime(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return null;
+	}
+	
 	public static DataFrame uniqueLocalTime(int numColumns, int numRows, LocalTime minLocalTime, LocalTime maxLocalTime) {
 		return null;
 	}
 	
 	public static DataFrame uniqueLocalTime(String[] columnNames, String[] rowNames, LocalTime minLocalTime, LocalTime maxLocalTime) {
+		return null;
+	}
+	
+	public static DataFrame uniqueLocalTime(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalTime minLocalTime, LocalTime maxLocalTime) {
 		return null;
 	}
 	
@@ -432,11 +497,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return null;
 	}
 	
+	public static DataFrame uniqueLocalTime(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return null;
+	}
+	
 	public static DataFrame uniquePeriod(int numColumns, int numRows, Period minPeriod, Period maxPeriod) {
 		return null;
 	}
 	
 	public static DataFrame uniquePeriod(String[] columnNames, String[] rowNames, Period minPeriod, Period maxPeriod) {
+		return null;
+	}
+	
+	public static DataFrame uniquePeriod(ArrayList<String> columnNames, ArrayList<String> rowNames, Period minPeriod, Period maxPeriod) {
 		return null;
 	}
 	
@@ -448,6 +521,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return null;
 	}
 	
+	public static DataFrame uniquePeriod(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return null;
+	}
+	
 	public static DataFrame uniqueDuration(int numColumns, int numRows, Duration minDuration, Duration maxDuration) {
 		return null;
 	}
@@ -456,11 +533,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return null;
 	}
 	
+	public static DataFrame uniqueDuration(ArrayList<String> columnNames, ArrayList<String> rowNames, Duration minDuration, Duration maxDuration) {
+		return null;
+	}
+	
 	public static DataFrame uniqueDuration(int numColumns, int numRows) {
 		return null;
 	}
 	
 	public static DataFrame uniqueDuration(String[] columnNames, String[] rowNames) {
+		return null;
+	}
+	
+	public static DataFrame uniqueDuration(ArrayList<String> columnNames, ArrayList<String> rowNames) {
 		return null;
 	}
 	
@@ -477,6 +562,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public static DataFrame empty(String[] columnNames, String[] rowNames) {
+		return new DataFrame(columnNames, rowNames, new DataItem());
+	}
+	
+	public static DataFrame empty(ArrayList<String> columnNames, ArrayList<String> rowNames) {
 		return new DataFrame(columnNames, rowNames, new DataItem());
 	}
 	
@@ -601,6 +690,9 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public static DataItem[] randomDataItemDurationSeries(int numValues) {
 		return DataItem.randomDataItemDurationSeries(numValues);
 	}
+	
+	
+	
 	
 	public void insertColumn(int index, String columnName, List<Object> column) {
 		if (index > this.columnNames.size()) {
@@ -7735,6 +7827,104 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		this.data.get(columnIndex).set(rowIndex, new DataItem(value));
 	}
 
+	public void copySerializedColumnsIntoDataFrame(List<Object> values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			Object[] column = Arrays.copyOfRange(values.toArray(new Object[0]), colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(Object[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			Object[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(DataItem[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			DataItem[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(int[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			int[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(float[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			float[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(double[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			double[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(int numRows, double[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			double[] column = Arrays.copyOfRange(values, colCount * numRows, (colCount + 1) * numRows);
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(boolean[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			boolean[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(String[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			String[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(LocalDate[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			LocalDate[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(LocalDateTime[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			LocalDateTime[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(LocalTime[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			LocalTime[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(Period[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			Period[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
+	public void copySerializedColumnsIntoDataFrame(Duration[] values) {
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			Duration[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+	
 	public void setColumnValues(int columnIndex, DataItem[] column) {
 		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
 	}
