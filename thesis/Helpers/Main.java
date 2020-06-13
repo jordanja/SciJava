@@ -563,7 +563,7 @@ public class Main {
 //		System.out.println("3");
 //		System.out.println(df);
 		
-		DataFrame df = DataFrame.uniqueStrings(5, 5, 2);
+		DataFrame df = DataFrame.uniqueDuration(5, 5);
 		
 		
 		

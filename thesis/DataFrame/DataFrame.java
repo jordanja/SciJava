@@ -430,123 +430,143 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public static DataFrame uniqueLocalDate(int numColumns, int numRows, LocalDate minLocalDate, LocalDate maxLocalDate) {
-		return null;
+		return DataFrame.uniqueLocalDate(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minLocalDate, maxLocalDate);
 	}
 	
 	public static DataFrame uniqueLocalDate(String[] columnNames, String[] rowNames, LocalDate minLocalDate, LocalDate maxLocalDate) {
-		return null;
+		return DataFrame.uniqueLocalDate(CommonArray.convertStringArrayToArrayList(columnNames), CommonArray.convertStringArrayToArrayList(rowNames), minLocalDate, maxLocalDate);
 	}
 	
 	public static DataFrame uniqueLocalDate(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalDate minLocalDate, LocalDate maxLocalDate) {
-		return null;
+		int numValues = columnNames.size() * rowNames.size();
+		LocalDate[] localDateValues = CommonArray.getUniqueLocalDates(numValues, minLocalDate, maxLocalDate);
+		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		df.copySerializedColumnsIntoDataFrame(localDateValues);
+		return df;
 	}
 	
 	public static DataFrame uniqueLocalDate(int numColumns, int numRows) {
-		return null;
+		return DataFrame.uniqueLocalDate(numColumns, numRows, LocalDate.now().minusYears(40), LocalDate.now().plusYears(40));
 	}
 	
 	public static DataFrame uniqueLocalDate(String[] columnNames, String[] rowNames) {
-		return null;
+		return DataFrame.uniqueLocalDate(columnNames, rowNames, LocalDate.now().minusYears(40), LocalDate.now().plusYears(40));
 	}
 	
 	public static DataFrame uniqueLocalDate(ArrayList<String> columnNames, ArrayList<String> rowNames) {
-		return null;
+		return DataFrame.uniqueLocalDate(columnNames, rowNames, LocalDate.now().minusYears(40), LocalDate.now().plusYears(40));
 	}
 	
 	public static DataFrame uniqueLocalDateTime(int numColumns, int numRows, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
-		return null;
+		return DataFrame.uniqueLocalDateTime(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minLocalDateTime, maxLocalDateTime);
 	}
 	
 	public static DataFrame uniqueLocalDateTime(String[] columnNames, String[] rowNames, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
-		return null;
+		return DataFrame.uniqueLocalDateTime(CommonArray.convertStringArrayToArrayList(columnNames), CommonArray.convertStringArrayToArrayList(rowNames), minLocalDateTime, maxLocalDateTime);
 	}
 	
 	public static DataFrame uniqueLocalDateTime(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
-		return null;
+		int numValues = columnNames.size() * rowNames.size();
+		LocalDateTime[] localDateTimeValues = CommonArray.getUniqueLocalDateTimes(numValues, minLocalDateTime, maxLocalDateTime);
+		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		df.copySerializedColumnsIntoDataFrame(localDateTimeValues);
+		return df;
 	}
 	
 	public static DataFrame uniqueLocalDateTime(int numColumns, int numRows) {
-		return null;
+		return DataFrame.uniqueLocalDateTime(numColumns, numRows, LocalDateTime.now().minusYears(40), LocalDateTime.now().plusYears(40));
 	}
 	
 	public static DataFrame uniqueLocalDateTime(String[] columnNames, String[] rowNames) {
-		return null;
+		return DataFrame.uniqueLocalDateTime(columnNames, rowNames, LocalDateTime.now().minusYears(40), LocalDateTime.now().plusYears(40));
 	}
 	
 	public static DataFrame uniqueLocalDateTime(ArrayList<String> columnNames, ArrayList<String> rowNames) {
-		return null;
+		return DataFrame.uniqueLocalDateTime(columnNames, rowNames, LocalDateTime.now().minusYears(40), LocalDateTime.now().plusYears(40));
 	}
 	
 	public static DataFrame uniqueLocalTime(int numColumns, int numRows, LocalTime minLocalTime, LocalTime maxLocalTime) {
-		return null;
+		return DataFrame.uniqueLocalTime(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minLocalTime, maxLocalTime);
 	}
 	
 	public static DataFrame uniqueLocalTime(String[] columnNames, String[] rowNames, LocalTime minLocalTime, LocalTime maxLocalTime) {
-		return null;
+		return DataFrame.uniqueLocalTime(CommonArray.convertStringArrayToArrayList(columnNames), CommonArray.convertStringArrayToArrayList(rowNames), minLocalTime, maxLocalTime);
 	}
 	
 	public static DataFrame uniqueLocalTime(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalTime minLocalTime, LocalTime maxLocalTime) {
-		return null;
+		int numValues = columnNames.size() * rowNames.size();
+		LocalTime[] localTimeValues = CommonArray.getUniqueLocalTimes(numValues, minLocalTime, maxLocalTime);
+		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		df.copySerializedColumnsIntoDataFrame(localTimeValues);
+		return df;
 	}
 	
 	public static DataFrame uniqueLocalTime(int numColumns, int numRows) {
-		return null;
+		return DataFrame.uniqueLocalTime(numColumns, numRows, LocalTime.MIN, LocalTime.MAX);
 	}
 	
 	public static DataFrame uniqueLocalTime(String[] columnNames, String[] rowNames) {
-		return null;
+		return DataFrame.uniqueLocalTime(columnNames, rowNames, LocalTime.MIN, LocalTime.MAX);
 	}
 	
 	public static DataFrame uniqueLocalTime(ArrayList<String> columnNames, ArrayList<String> rowNames) {
-		return null;
+		return DataFrame.uniqueLocalTime(columnNames, rowNames, LocalTime.MIN, LocalTime.MAX);
 	}
 	
 	public static DataFrame uniquePeriod(int numColumns, int numRows, Period minPeriod, Period maxPeriod) {
-		return null;
+		return DataFrame.uniquePeriod(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minPeriod, maxPeriod);
 	}
 	
 	public static DataFrame uniquePeriod(String[] columnNames, String[] rowNames, Period minPeriod, Period maxPeriod) {
-		return null;
+		return DataFrame.uniquePeriod(CommonArray.convertStringArrayToArrayList(columnNames), CommonArray.convertStringArrayToArrayList(rowNames), minPeriod, maxPeriod);
 	}
 	
 	public static DataFrame uniquePeriod(ArrayList<String> columnNames, ArrayList<String> rowNames, Period minPeriod, Period maxPeriod) {
-		return null;
+		int numValues = columnNames.size() * rowNames.size();
+		Period[] periodValues = CommonArray.getUniquePeriods(numValues, minPeriod, maxPeriod);
+		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		df.copySerializedColumnsIntoDataFrame(periodValues);
+		return df;
 	}
 	
 	public static DataFrame uniquePeriod(int numColumns, int numRows) {
-		return null;
+		return DataFrame.uniquePeriod(numColumns, numRows, Period.of(0, 0, 1), Period.ofYears(15));
 	}
 	
 	public static DataFrame uniquePeriod(String[] columnNames, String[] rowNames) {
-		return null;
+		return DataFrame.uniquePeriod(columnNames, rowNames, Period.of(0, 0, 1), Period.ofYears(15));
 	}
 	
 	public static DataFrame uniquePeriod(ArrayList<String> columnNames, ArrayList<String> rowNames) {
-		return null;
+		return DataFrame.uniquePeriod(columnNames, rowNames, Period.of(0, 0, 1), Period.ofYears(15));
 	}
 	
 	public static DataFrame uniqueDuration(int numColumns, int numRows, Duration minDuration, Duration maxDuration) {
-		return null;
+		return DataFrame.uniqueDuration(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minDuration, maxDuration);
 	}
 	
 	public static DataFrame uniqueDuration(String[] columnNames, String[] rowNames, Duration minDuration, Duration maxDuration) {
-		return null;
+		return DataFrame.uniqueDuration(CommonArray.convertStringArrayToArrayList(columnNames), CommonArray.convertStringArrayToArrayList(rowNames), minDuration, maxDuration);
 	}
 	
 	public static DataFrame uniqueDuration(ArrayList<String> columnNames, ArrayList<String> rowNames, Duration minDuration, Duration maxDuration) {
-		return null;
+		int numValues = columnNames.size() * rowNames.size();
+		Duration[] durationValues = CommonArray.getUniqueDurations(numValues, minDuration, maxDuration);
+		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		df.copySerializedColumnsIntoDataFrame(durationValues);
+		return df;
 	}
 	
 	public static DataFrame uniqueDuration(int numColumns, int numRows) {
-		return null;
+		return DataFrame.uniqueDuration(numColumns, numRows, Duration.ofSeconds(1), Duration.ofHours(12));
 	}
 	
 	public static DataFrame uniqueDuration(String[] columnNames, String[] rowNames) {
-		return null;
+		return DataFrame.uniqueDuration(columnNames, rowNames, Duration.ofSeconds(1), Duration.ofHours(12));
 	}
 	
 	public static DataFrame uniqueDuration(ArrayList<String> columnNames, ArrayList<String> rowNames) {
-		return null;
+		return DataFrame.uniqueDuration(columnNames, rowNames, Duration.ofSeconds(1), Duration.ofHours(12));
 	}
 	
 	public static DataFrame identity(int dimensions) {
