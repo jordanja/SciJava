@@ -19,16 +19,17 @@ import thesis.Common.CommonMath;
 public class DataItem {
 
 	public enum StorageType { 
-		String, 
+		String,
 		Integer, 
 		Double, 
-		Null, 
+		Null,
 		Boolean, 
 		LocalDate,
 		LocalTime,
 		LocalDateTime, 
-		Period, 
-		Duration 
+		Period,
+		Duration,
+		BigDecimal
 	};
 	
 	private StorageType type;
@@ -42,6 +43,7 @@ public class DataItem {
 	private LocalDateTime localDateTimeValue;
 	private Period periodValue;
 	private Duration durationValue;
+	private BigDecimal bigDecimalValue;
 
 	public DataItem() {
 		this.type = StorageType.Null;
@@ -52,33 +54,18 @@ public class DataItem {
 	}
 
 	public DataItem(Object value) {
+		
+		
 		StorageType typeOfObject = DataItem.getStorageTypeOfObject(value);
 		
 		initialize(typeOfObject, value);
 	}
 	
 	public static StorageType getStorageTypeOfObject(Object value) {
-		
-		if (value == null) {
+		if (value == null) {			
 			return StorageType.Null;
-		} else if (value == Integer.class) {
-			return StorageType.Integer;
-		} else if (value == Double.class) {
-			return StorageType.Double;
-		} else if (value == Boolean.class) {
-			return StorageType.Boolean;
-		} else if (value == LocalDate.class) {
-			return StorageType.LocalDate;
-		} else if (value == LocalTime.class) {
-			return StorageType.LocalTime;
-		} else if (value == LocalDateTime.class) {
-			return StorageType.LocalDateTime;
-		} else if (value == Period.class) {
-			return StorageType.Period;
-		} else if (value == Duration.class) {
-			return StorageType.Duration;
 		} else {
-			return StorageType.String;
+			return javaClassToStorageType(value.getClass());
 		}
 	}
 
@@ -176,6 +163,16 @@ public class DataItem {
 		}
 	}
 	
+	// BigDecimal Value
+	public DataItem(BigDecimal value) {
+		if (value != null) {
+			this.bigDecimalValue = value;
+			this.type = StorageType.BigDecimal;
+		} else {
+			this.type = StorageType.Null;
+		}
+	}
+	
 
 	private void replicateProperties(DataItem item) {
 		this.type = item.getType();
@@ -197,6 +194,8 @@ public class DataItem {
 			this.periodValue = item.getPeriodValue();
 		} else if (this.type == StorageType.Duration) {
 			this.durationValue = item.getDurationValue();
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = item.getBigDecimalValue();
 		}
 	}
 	
@@ -220,6 +219,8 @@ public class DataItem {
 			this.periodValue = Period.parse(value.toString());
 		} else if (this.type == StorageType.Duration) {
 			this.durationValue = Duration.parse(value.toString());
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = new BigDecimal(value.toString());
 		} else if (this.type == StorageType.Null) {
 		
 		} else {
@@ -276,6 +277,10 @@ public class DataItem {
 					// Convert String to LocalDateTime
 					this.durationValue = Duration.parse(this.stringValue);
 					this.stringValue = null;
+				case BigDecimal:
+					// Convert String to BigDecimal
+					this.bigDecimalValue = new BigDecimal(this.stringValue);
+					this.stringValue = null;
 					break;
 				default:
 					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
@@ -293,6 +298,10 @@ public class DataItem {
 					// Convert from Integer to Double
 					this.doubleValue = this.intValue.doubleValue();
 					this.intValue = null;
+				case BigDecimal:
+					// Convert from Integer to BigDecimal
+					this.bigDecimalValue = new BigDecimal(this.intValue);
+					this.intValue = null;
 					break;
 				default:
 					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
@@ -308,6 +317,10 @@ public class DataItem {
 				case Integer:
 					// Convert from Double to Integer
 					this.intValue = this.doubleValue.intValue();
+					this.doubleValue = null;
+				case BigDecimal:
+					// Convert from Double to BigDecimal
+					this.bigDecimalValue = new BigDecimal(this.doubleValue);
 					this.doubleValue = null;
 					break;
 				default:
@@ -399,6 +412,25 @@ public class DataItem {
 				default:
 					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
 			}
+		} else if (this.type == StorageType.BigDecimal) {
+			// Current type is BigDecimal
+			switch(typeToUse) {
+				case String:
+					// Convert from BigDecimal to String
+					this.stringValue = this.bigDecimalValue.toPlainString();
+					this.bigDecimalValue = null;
+					break;
+				case Integer:
+					// Convert from BigDecimal to Integer
+					this.intValue = this.bigDecimalValue.intValue();
+					this.bigDecimalValue = null;
+					break;
+				case Double:
+					// Convert from BigDecimal to Double
+					this.doubleValue = this.bigDecimalValue.doubleValue();
+					this.bigDecimalValue = null;
+					break;
+			}
 		} else if (this.type == StorageType.Null) {
 			this.stringValue = null;
 			this.intValue = null;
@@ -409,6 +441,7 @@ public class DataItem {
 			this.localDateTimeValue = null;
 			this.periodValue = null;
 			this.durationValue = null;
+			this.bigDecimalValue = null;
 		}
 		this.type = typeToUse;
 
@@ -437,6 +470,8 @@ public class DataItem {
 			return this.periodValue;
 		} else if (this.type == StorageType.Duration) {
 			return this.durationValue;
+		} else if (this.type == StorageType.BigDecimal) {
+			return this.bigDecimalValue;
 		} else if (this.type == StorageType.Null) {
 			return "null";
 		}
@@ -515,12 +550,16 @@ public class DataItem {
 		return this.durationValue;
 	}
 	
+	public BigDecimal getBigDecimalValue() {
+		return this.bigDecimalValue;
+	}
+	
 	public String getValueConvertedToString() {
 		return getObjectValue().toString();
 	}
 
 	public boolean isNumber() {
-		return this.type == StorageType.Integer || this.type == StorageType.Double;
+		return this.type == StorageType.Integer || this.type == StorageType.Double || this.type == StorageType.BigDecimal;
 	}
 	
 	public Double getValueConvertedToDouble() {
@@ -528,6 +567,8 @@ public class DataItem {
 			return this.intValue.doubleValue();
 		} else if (this.type == StorageType.Double) {
 			return this.doubleValue.doubleValue();
+		} else if (this.type == StorageType.BigDecimal) {
+			return this.bigDecimalValue.doubleValue();
 		}
 		return null;
 	}
@@ -537,6 +578,8 @@ public class DataItem {
 			return this.intValue;
 		} else if (this.type == StorageType.Double) {
 			return this.doubleValue.intValue();
+		} else if (this.type == StorageType.BigDecimal) {
+			return this.bigDecimalValue.intValue();
 		}
 		
 		return null;
@@ -558,8 +601,11 @@ public class DataItem {
 			return this.intValue;
 		} else if (this.type == StorageType.Double) {
 			return this.doubleValue;
-		} else
-			return null;
+		} else if (this.type == StorageType.BigDecimal) {
+			return this.bigDecimalValue;
+		}
+			
+		return null;
 	}
 	
 	public void add(int value) {
@@ -567,6 +613,9 @@ public class DataItem {
 			this.intValue += value;
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue += value;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.add(new BigDecimal(value));
+			
 		}
 	}
 	
@@ -597,6 +646,8 @@ public class DataItem {
 			this.type = StorageType.Double;
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue += value;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.add(new BigDecimal(value));
 		}
 	}
 
@@ -604,11 +655,27 @@ public class DataItem {
 		add((double) value);
 	}
 	
+	public void add(BigDecimal value) {
+		if (this.type == StorageType.Integer) {
+			this.bigDecimalValue = new BigDecimal(this.intValue).add(value);
+			this.intValue = 0;
+			this.type = StorageType.BigDecimal;
+		} else if (this.type == StorageType.Double) {
+			this.bigDecimalValue = new BigDecimal(this.doubleValue).add(value);
+			this.doubleValue = 0.0;
+			this.type = StorageType.BigDecimal;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.add(value);
+		}
+	}
+	
 	public void add(DataItem value) {
 		if (value.getType() == StorageType.Integer) {
 			add(value.getIntegerValue());
 		} else if (value.getType() == StorageType.Double) {
 			add(value.getDoubleValue());
+		} else if (value.getType() == StorageType.BigDecimal) {
+			add(value.getBigDecimalValue());
 		} else if (value.getType() == StorageType.Period) {
 			add(value.getPeriodValue());
 		} else if (value.getType() == StorageType.Duration) {
@@ -621,6 +688,8 @@ public class DataItem {
 			this.intValue -= value;
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue -= value;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.subtract(new BigDecimal(value));
 		}
 	}
 	
@@ -631,11 +700,27 @@ public class DataItem {
 			this.type = StorageType.Double;
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue -= value;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.subtract(new BigDecimal(value));
 		}
 	}
 
 	public void subtract(float value) {
 		subtract((double) value);
+	}
+
+	public void subtract(BigDecimal value) {
+		if (this.type == StorageType.Integer) {
+			this.bigDecimalValue = new BigDecimal(this.intValue).subtract(value);
+			this.intValue = 0;
+			this.type = StorageType.BigDecimal;
+		} else if (this.type == StorageType.Double) {
+			this.bigDecimalValue = new BigDecimal(this.doubleValue).subtract(value);
+			this.doubleValue = 0.0;
+			this.type = StorageType.BigDecimal;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.subtract(value);
+		}
 	}
 	
 	public void subtract(Period timePeriod) {
@@ -663,6 +748,8 @@ public class DataItem {
 			subtract(value.getIntegerValue());
 		} else if (value.getType() == StorageType.Double) {
 			subtract(value.getDoubleValue());
+		} else if (value.getType() == StorageType.BigDecimal) {
+			subtract(value.getBigDecimalValue());
 		} else if (value.getType() == StorageType.Period) {
 			subtract(value.getPeriodValue());
 		} else if (value.getType() == StorageType.Duration) {
@@ -675,6 +762,8 @@ public class DataItem {
 			this.intValue *= value;
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue *= value;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.multiply(new BigDecimal(value));
 		}
 	}
 	
@@ -685,11 +774,27 @@ public class DataItem {
 			this.type = StorageType.Double;
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue *= value;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.multiply(new BigDecimal(value));
 		}
 	}
 
 	public void multiply(float value) {
 		multiply((double) value);
+	}
+
+	public void multiply(BigDecimal value) {
+		if (this.type == StorageType.Integer) {
+			this.bigDecimalValue = new BigDecimal(this.intValue).multiply(value);
+			this.intValue = 0;
+			this.type = StorageType.BigDecimal;
+		} else if (this.type == StorageType.Double) {
+			this.bigDecimalValue = new BigDecimal(this.doubleValue).multiply(value);
+			this.doubleValue = 0.0;
+			this.type = StorageType.BigDecimal;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.multiply(value);
+		}
 	}
 	
 	public void multiply(DataItem value) {
@@ -697,6 +802,8 @@ public class DataItem {
 			multiply(value.getIntegerValue());
 		} else if (value.getType() == StorageType.Double) {
 			multiply(value.getDoubleValue());
+		} else if (value.getType() == StorageType.BigDecimal) {
+			multiply(value.getBigDecimalValue());
 		}
 	}
 	
@@ -706,6 +813,8 @@ public class DataItem {
 			this.intValue /= value;
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue /= value;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.divide(new BigDecimal(value));
 		}
 	}
 	
@@ -716,6 +825,8 @@ public class DataItem {
 			this.type = StorageType.Double;
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue /= value;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.divide(new BigDecimal(value));
 		}
 	}
 
@@ -723,11 +834,27 @@ public class DataItem {
 		divide((double) value);
 	}
 	
+	public void divide(BigDecimal value) {
+		if (this.type == StorageType.Integer) {
+			this.bigDecimalValue = new BigDecimal(this.intValue).divide(value);
+			this.intValue = 0;
+			this.type = StorageType.BigDecimal;
+		} else if (this.type == StorageType.Double) {
+			this.bigDecimalValue = new BigDecimal(this.doubleValue).divide(value);
+			this.doubleValue = 0.0;
+			this.type = StorageType.BigDecimal;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.divide(value);
+		}
+	}
+	
 	public void divide(DataItem value) {
 		if (value.getType() == StorageType.Integer) {
 			divide(value.getIntegerValue());
 		} else if (value.getType() == StorageType.Double) {
 			divide(value.getDoubleValue());
+		} else if (value.getType() == StorageType.BigDecimal) {
+			divide(value.getBigDecimalValue());
 		}
 	}
 	
@@ -738,7 +865,9 @@ public class DataItem {
 		if (this.type == StorageType.Integer) {
 			this.intValue = mod(this.intValue, modulo);
 		} else if (this.type == StorageType.Double) {
-			this.intValue = this.doubleValue.intValue();
+			this.intValue = mod(this.doubleValue.intValue(), modulo);
+		} else if (this.type == StorageType.Double) {
+			this.intValue = mod(this.bigDecimalValue.intValue(), modulo);
 		}
 	}
 	
@@ -751,6 +880,8 @@ public class DataItem {
 			this.intValue = (int)Math.pow(this.intValue, value);
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue = Math.pow(this.getDoubleValue(), value);
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.pow(value);
 		}
 	}
 	
@@ -781,6 +912,10 @@ public class DataItem {
 			this.intValue = this.doubleValue.intValue();
 			this.doubleValue = 0.0;
 			this.type = StorageType.Integer;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.intValue = this.bigDecimalValue.intValue();
+			this.bigDecimalValue = null;
+			this.type = StorageType.Integer;
 		}
 	}
 	
@@ -791,6 +926,10 @@ public class DataItem {
 			this.type = StorageType.Double;
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue = Math.floor(this.doubleValue);
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue = Math.floor(this.bigDecimalValue.doubleValue());
+			this.bigDecimalValue = null;
+			this.type = StorageType.Double;
 		}
 	}
 	
@@ -798,6 +937,10 @@ public class DataItem {
 		if (this.type == StorageType.Double) {
 			this.intValue = (int) Math.ceil(this.doubleValue);
 			this.doubleValue = 0.0;
+			this.type = StorageType.Integer;
+		} else if (this.type == StorageType.BigDecimal) {
+			this.intValue = this.bigDecimalValue.intValue() + 1;
+			this.bigDecimalValue = null;
 			this.type = StorageType.Integer;
 		}
 	}
@@ -809,6 +952,10 @@ public class DataItem {
 			this.type = StorageType.Double;
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue = Math.ceil(this.doubleValue);
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue = Math.ceil(this.bigDecimalValue.doubleValue());
+			this.bigDecimalValue = null;
+			this.type = StorageType.Double;
 		}
 	}
 	
@@ -821,6 +968,8 @@ public class DataItem {
 			return this.intValue < value;
 		} else if (this.type == StorageType.Double) {
 			return this.doubleValue < value;
+		} else if (this.type == StorageType.BigDecimal) {
+			return this.bigDecimalValue.compareTo(new BigDecimal(value)) < 0;
 		}
 		return false;
 	}
@@ -829,11 +978,25 @@ public class DataItem {
 		return lessThan((double) value);
 	}
 	
+	public boolean lessThan(BigDecimal value) {
+		if (this.type == StorageType.Integer) {
+			return new BigDecimal(this.intValue).compareTo(value) < 0;
+		} else if (this.type == StorageType.Double) {
+			return new BigDecimal(this.doubleValue).compareTo(value) < 0;
+		} else if (this.type == StorageType.BigDecimal) {
+			return this.bigDecimalValue.compareTo(value) < 0;
+		}
+		
+		return false;
+	}
+	
 	public boolean lessThan(DataItem value) {
 		if (value.getType() == StorageType.Integer) {
 			return lessThan(value.getIntegerValue());
 		} else if (value.getType() == StorageType.Double) {
 			return lessThan(value.getDoubleValue());
+		} else if (value.getType() == StorageType.BigDecimal) {
+			return lessThan(value.getBigDecimalValue());
 		}
 		return false;
 	}
@@ -874,6 +1037,8 @@ public class DataItem {
 			return this.intValue == value;
 		} else if (this.type == StorageType.Double) {
 			return this.doubleValue == value;
+		} else if (this.type == StorageType.BigDecimal) {
+			return this.bigDecimalValue.compareTo(new BigDecimal(value)) == 0;
 		}
 		return false;
 	}
@@ -882,11 +1047,25 @@ public class DataItem {
 		return equal((double) value);
 	}
 	
+	public boolean equal(BigDecimal value) {
+		if (this.type == StorageType.Integer) {
+			return new BigDecimal(this.intValue).compareTo(value) == 0;
+		} else if (this.type == StorageType.Double) {
+			return new BigDecimal(this.doubleValue).compareTo(value) == 0;
+		} else if (this.type == StorageType.BigDecimal) {
+			return this.bigDecimalValue.compareTo(value) == 0;
+		}
+		
+		return false;
+	}
+	
 	public boolean equal(DataItem value) {
 		if (value.getType() == StorageType.Integer) {
 			return equal(value.getIntegerValue());
 		} else if (value.getType() == StorageType.Double) {
 			return equal(value.getDoubleValue());
+		} else if (value.getType() == StorageType.BigDecimal) {
+			return equal(value.getBigDecimalValue());
 		}
 		return false;
 	}
@@ -927,6 +1106,8 @@ public class DataItem {
 			return this.intValue > value;
 		} else if (this.type == StorageType.Double) {
 			return this.doubleValue > value;
+		} else if (this.type == StorageType.BigDecimal) {
+			return this.bigDecimalValue.compareTo(new BigDecimal(value)) > 0;
 		}
 		return false;
 	}
@@ -935,11 +1116,25 @@ public class DataItem {
 		return greaterThan((double) value);
 	}
 	
+	public boolean greaterThan(BigDecimal value) {
+		if (this.type == StorageType.Integer) {
+			return new BigDecimal(this.intValue).compareTo(value) > 0;
+		} else if (this.type == StorageType.Double) {
+			return new BigDecimal(this.doubleValue).compareTo(value) > 0;
+		} else if (this.type == StorageType.BigDecimal) {
+			return this.bigDecimalValue.compareTo(value) > 0;
+		}
+		
+		return false;
+	}
+	
 	public boolean greaterThan(DataItem value) {
 		if (value.getType() == StorageType.Integer) {
 			return greaterThan(value.getIntegerValue());
 		} else if (value.getType() == StorageType.Double) {
 			return greaterThan(value.getDoubleValue());
+		} else if (value.getType() == StorageType.BigDecimal) {
+			return greaterThan(value.getBigDecimalValue());
 		}
 		return false;
 	}
@@ -982,6 +1177,8 @@ public class DataItem {
 			this.intValue = CommonMath.clamp(this.intValue, lowerBound, upperBound);
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue = CommonMath.clamp(this.doubleValue, (double) lowerBound, (double) upperBound);
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = CommonMath.clamp(this.bigDecimalValue, lowerBound, upperBound);
 		}
 	}
 	
@@ -990,6 +1187,18 @@ public class DataItem {
 			this.intValue = CommonMath.clamp(this.intValue, (int)lowerBound, (int)upperBound);
 		} else if (this.type == StorageType.Double) {
 			this.doubleValue = CommonMath.clamp(this.doubleValue,lowerBound, upperBound);
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = CommonMath.clamp(this.bigDecimalValue, lowerBound, upperBound);
+		}
+	}
+	
+	public void clamp(BigDecimal lowerBound, BigDecimal upperBound) {
+		if (this.type == StorageType.Integer) {
+			this.intValue = CommonMath.clamp(this.intValue, lowerBound, upperBound);
+		} else if (this.type == StorageType.Double) {
+			this.doubleValue = CommonMath.clamp(this.doubleValue,lowerBound, upperBound);
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = CommonMath.clamp(this.bigDecimalValue, lowerBound, upperBound);
 		}
 	}
 	
@@ -1020,6 +1229,8 @@ public class DataItem {
 			BigDecimal bd = BigDecimal.valueOf(this.doubleValue);
 		    bd = bd.setScale(decimalPlaces, RoundingMode.HALF_UP);
 		    this.doubleValue = bd.doubleValue();
+		} else if (this.type == StorageType.BigDecimal) {
+			this.bigDecimalValue = this.bigDecimalValue.setScale(decimalPlaces, RoundingMode.HALF_UP);
 		}
 	}
 	
@@ -1031,11 +1242,13 @@ public class DataItem {
 			this.doubleValue = Math.sqrt(this.intValue);
 			this.type = StorageType.Double;
 			this.intValue = 0;
+		} else if (this.type == StorageType.BigDecimal) {
+			System.out.println("square root unavailble.");
 		}
 	}
 	
 	public static DataItem randomDataItem() {
-		int typeVal = ThreadLocalRandom.current().nextInt(0, 8);
+		int typeVal = ThreadLocalRandom.current().nextInt(0, 9);
 		if (typeVal == 0) {
 			return DataItem.randomInt(0, 20);
 		} else if (typeVal == 1) {
@@ -1054,37 +1267,12 @@ public class DataItem {
 			return DataItem.randomDuration();
 		} else if (typeVal == 8) {
 			return DataItem.randomPeriod();
+		} else if (typeVal == 9) {
+			return DataItem.randomBigDecimal();
 		}
 		return null;
 	}
 	
-	public static DataItem randomDataItem(Class<?> cls) {
-		return DataItem.randomDataItem(DataItem.javaClassToStorageType(cls));
-	}
-	
-	public static StorageType javaClassToStorageType (Class<?> cls) {
-		if (cls == String.class) {
-			return StorageType.String;
-		} else if (cls == Integer.class) {
-			return StorageType.Integer;
-		} else if (cls == Double.class) {
-			return StorageType.Double;
-		} else if (cls == Boolean.class) {
-			return StorageType.Boolean;
-		} else if (cls == LocalDate.class) {
-			return StorageType.LocalDate;
-		} else if (cls == LocalDateTime.class) {
-			return StorageType.LocalDateTime;
-		} else if (cls == LocalTime.class) {
-			return StorageType.LocalTime;
-		} else if (cls == Duration.class) {
-			return StorageType.Duration;
-		} else if (cls == Period.class) {
-			return StorageType.Period;
-		} else {
-			return StorageType.Null;
-		}
-	}
 	
 	public static DataItem randomDataItem(StorageType typeToGet) {
 		if (typeToGet == StorageType.String) {
@@ -1105,10 +1293,43 @@ public class DataItem {
 			return DataItem.randomDuration();
 		} else if (typeToGet == StorageType.Period) {
 			return DataItem.randomPeriod();
+		} else if (typeToGet == StorageType.BigDecimal) {
+			return DataItem.randomBigDecimal();
 		} else {
 			return DataItem.randomNull();
 		}
 	}
+	
+	public static DataItem randomDataItem(Class<?> cls) {
+		return DataItem.randomDataItem(DataItem.javaClassToStorageType(cls));
+	}
+	
+	public static StorageType javaClassToStorageType(Class<?> cls) {
+		if (cls == String.class) {
+			return StorageType.String;
+		} else if (cls == Integer.class) {
+			return StorageType.Integer;
+		} else if (cls == Double.class) {
+			return StorageType.Double;
+		} else if (cls == Boolean.class) {
+			return StorageType.Boolean;
+		} else if (cls == LocalDate.class) {
+			return StorageType.LocalDate;
+		} else if (cls == LocalDateTime.class) {
+			return StorageType.LocalDateTime;
+		} else if (cls == LocalTime.class) {
+			return StorageType.LocalTime;
+		} else if (cls == Duration.class) {
+			return StorageType.Duration;
+		} else if (cls == Period.class) {
+			return StorageType.Period;
+		} else if (cls == BigDecimal.class) {
+			return StorageType.BigDecimal;
+		} else {
+			return StorageType.Null;
+		}
+	}
+
 	
 	public static DataItem[] randomDataItemSeries(int numValues, StorageType typeToGet) {
 		DataItem[] series = new DataItem[numValues];
@@ -1218,6 +1439,18 @@ public class DataItem {
 		return series;
 	}
 	
+	public static DataItem[] randomDataItemBigDecimalSeries(int numValues) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomBigDecimal());
+		return series;
+	}
+	
+	public static DataItem[] randomDataItemBigDecimalSeries(int numValues, BigDecimal minBigDecimal, BigDecimal maxBigDecimal) {
+		DataItem[] series = new DataItem[numValues];
+		IntStream.range(0, numValues).forEach(i -> series[i] = DataItem.randomBigDecimal(minBigDecimal, maxBigDecimal));
+		return series;
+	}
+	
 	public static DataItem[] randomDataItemSeries(int numValues, Class<?> cls) {
 		return randomDataItemSeries(numValues, DataItem.javaClassToStorageType(cls));
 	}
@@ -1318,6 +1551,15 @@ public class DataItem {
 		return new DataItem(Period.ofDays(randomDays));
 	}
 	
+	public static DataItem randomBigDecimal() {
+		return randomBigDecimal(new BigDecimal(-1000), new BigDecimal(1000));
+	}
+	
+	public static DataItem randomBigDecimal(BigDecimal min, BigDecimal max) {
+		BigDecimal randomBigDecimal = min.add(new BigDecimal(Math.random()).multiply(max.subtract(min)));
+	    return new DataItem(randomBigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP));
+	}
+	
 	public static DataItem randomNull() {
 		return new DataItem();
 	}
@@ -1347,6 +1589,8 @@ public class DataItem {
 			newDataItem = new DataItem(this.periodValue);
 		} else if (this.type == StorageType.Duration) {
 			newDataItem = new DataItem(this.durationValue);
+		} else if (this.type == StorageType.BigDecimal) {
+			newDataItem = new DataItem(this.bigDecimalValue);
 		} else {
 			newDataItem = new DataItem();
 		}
@@ -1376,6 +1620,8 @@ public class DataItem {
 					return this.periodValue.equals(formatted.periodValue);
 				} else if (this.getType() == StorageType.Duration) {
 					return this.durationValue.equals(formatted.durationValue);
+				} else if (this.getType() == StorageType.BigDecimal) {
+					return this.bigDecimalValue.equals(formatted.bigDecimalValue);
 				} else if (this.getType() == StorageType.Null) {
 					return true;
 				}

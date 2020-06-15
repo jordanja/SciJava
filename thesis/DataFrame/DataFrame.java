@@ -48,6 +48,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	// Create a DF with a single specified value
+	public DataFrame(int numColumns, int numRows, DataItem fill) {
+		this(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), fill);
+	}
+	
 	public DataFrame(int numColumns, int numRows, Object fill) {
 		this(numColumns, numRows, fill, DataItem.getStorageTypeOfObject(fill));
 	}
@@ -64,22 +68,26 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		this(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), fill, type);	
 	}
 	
+	
 	public DataFrame(String[] columnNames, String[] rowNames, Object fill, StorageType type) {
 		this(new ArrayList<String>(Arrays.asList(columnNames)), new ArrayList<String>(Arrays.asList(rowNames)), fill, type);
 	}
 	
-	public DataFrame(ArrayList<String> columnNames, ArrayList<String> rowNames, Object fill, StorageType type) {
+	public DataFrame(ArrayList<String> columnNames, ArrayList<String> rowNames, DataItem fill) {
 		this.columnNames = CommonArray.convertStringArrayToArrayList(CommonArray.mangle(columnNames));
 		this.rowNames = CommonArray.convertStringArrayToArrayList(CommonArray.mangle(rowNames));
 		this.data = new ArrayList<ArrayList<DataItem>>();
 		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
 			ArrayList<DataItem> column = new ArrayList<DataItem>();
 			for (int rowCount = 0; rowCount < rowNames.size(); rowCount++) {
-				DataItem item = new DataItem(fill, type);
-				column.add(item);
+				column.add(fill);
 			}
 			this.data.add(column);
 		}
+	}
+	
+	public DataFrame(ArrayList<String> columnNames, ArrayList<String> rowNames, Object fill, StorageType type) {
+		this(columnNames, rowNames, new DataItem(fill, type));
 	}
 	
 	// Create an empty DF with rows and columns and null values

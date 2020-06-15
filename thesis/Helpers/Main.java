@@ -563,9 +563,10 @@ public class Main {
 //		System.out.println("3");
 //		System.out.println(df);
 		
-		DataFrame df = DataFrame.uniqueDuration(5, 5);
-		
-		
+		DataFrame df = DataFrame.random(3, 3, StorageType.BigDecimal);
+		System.out.println(df);
+		DataFrame newdf = df.add(3);
+		System.out.println(newdf);
 		
 		return df;
 	}
