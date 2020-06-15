@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -527,9 +529,13 @@ public class CommonArray {
 		for (int i = 0; i < arr.length; i++) {
 			System.out.println(i + ": " + arr[i]);
 		}
-		
 	}
 
+	public static void printArray(float[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			System.out.println(i + ": " + arr[i]);
+		}
+	}
 	public static void printArray(double[] arr) {
 		for (int i = 0; i < arr.length; i++) {
 			System.out.println(i + ": " + arr[i]);
@@ -565,7 +571,18 @@ public class CommonArray {
 			}
 			System.out.println("");
 		}
-		
+	}
+	
+	public static void print2DArray(float[][] arr) {
+		for (int outerCount = 0; outerCount < arr.length; outerCount++) {
+			for (int innerCount = 0; innerCount < arr[outerCount].length; innerCount++) {
+				System.out.print(arr[outerCount][innerCount]);
+				if (innerCount < arr[outerCount].length - 1) {
+					System.out.print(", ");
+				}
+			}
+			System.out.println("");
+		}
 	}
 	
 	public static void print2DArray(int[][] arr) {
@@ -957,6 +974,81 @@ public class CommonArray {
 		return uniqueStrings.toArray(new String[0]);
 	}
 	
+	public static LocalDate[] getUniqueLocalDates(int numValues, LocalDate minLocalDate, LocalDate maxLocalDate) {
+		ArrayList<LocalDate> uniqueLocalDates = new ArrayList<LocalDate>();
+		while (uniqueLocalDates.size() < numValues) {
+			long minDay = minLocalDate.toEpochDay();
+		    long maxDay = maxLocalDate.toEpochDay();
+		    long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+			LocalDate randomLocalDate = LocalDate.ofEpochDay(randomDay);
+			if (!uniqueLocalDates.contains(randomLocalDate)) {
+				uniqueLocalDates.add(randomLocalDate);
+			}
+		}
+		return uniqueLocalDates.toArray(new LocalDate[0]);
+	}
+	
+	public static LocalDateTime[] getUniqueLocalDateTimes(int numValues, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
+		ArrayList<LocalDateTime> uniqueLocalDateTimes = new ArrayList<LocalDateTime>();
+		while (uniqueLocalDateTimes.size() < numValues) {
+			long minDateTime = minLocalDateTime.toEpochSecond(ZoneOffset.UTC);
+		    long maxDateTime =  maxLocalDateTime.toEpochSecond(ZoneOffset.UTC);
+		    long randomDayTime = ThreadLocalRandom.current().nextLong(minDateTime, maxDateTime);
+			LocalDateTime randomDateTime = LocalDateTime.ofEpochSecond(randomDayTime, 0, ZoneOffset.UTC);
+			
+			if (!uniqueLocalDateTimes.contains(randomDateTime)) {
+				uniqueLocalDateTimes.add(randomDateTime);
+			}
+		}
+		return uniqueLocalDateTimes.toArray(new LocalDateTime[0]);
+	}
+	
+	public static LocalTime[] getUniqueLocalTimes(int numValues, LocalTime minLocalTime, LocalTime maxLocalTime) {
+		ArrayList<LocalTime> uniqueLocalTime = new ArrayList<LocalTime>();
+		while (uniqueLocalTime.size() < numValues) {
+			long minTime = minLocalTime.toSecondOfDay();
+		    long maxTime = maxLocalTime.toSecondOfDay();
+		    long randomTimeLong = ThreadLocalRandom.current().nextLong(minTime, maxTime);
+		    LocalTime randomTime = LocalTime.ofSecondOfDay(randomTimeLong);
+			
+			if (!uniqueLocalTime.contains(randomTime)) {
+				uniqueLocalTime.add(randomTime);
+			}
+		}
+		return uniqueLocalTime.toArray(new LocalTime[0]);
+	}
+	
+	public static Period[] getUniquePeriods(int numValues, Period minPeriod, Period maxPeriod) {
+		ArrayList<Period> uniquePeriods = new ArrayList<Period>();
+		while (uniquePeriods.size() < numValues) {
+			
+			long minDays = minPeriod.toTotalMonths();
+			long maxDays = maxPeriod.toTotalMonths();
+			
+			long randomMonths = ThreadLocalRandom.current().nextLong(minDays, maxDays);
+			Period numMonths = Period.ofMonths((int)randomMonths);
+			
+			if (!uniquePeriods.contains(numMonths)) {
+				uniquePeriods.add(numMonths);
+			}
+		}
+		return uniquePeriods.toArray(new Period[0]);
+	}
+	
+	public static Duration[] getUniqueDurations(int numValues, Duration minDuration, Duration maxDuration) {
+		ArrayList<Duration> uniqueDurations = new ArrayList<Duration>();
+		while (uniqueDurations.size() < numValues) {
+			long minSecs = minDuration.getSeconds();
+			long maxSecs = maxDuration.getSeconds();
+			long randomSecs = ThreadLocalRandom.current().nextLong(minSecs, maxSecs);
+			Duration secs = Duration.ofSeconds(randomSecs);
+			
+			if (!uniqueDurations.contains(secs)) {
+				uniqueDurations.add(secs);
+			}
+		}
+		return uniqueDurations.toArray(new Duration[0]);
+	}
 
 
 }

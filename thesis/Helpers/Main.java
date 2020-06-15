@@ -6,10 +6,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.Map;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.ObjectInputStream.GetField;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -530,9 +531,9 @@ public class Main {
 	public static DataFrame play() {
 		
 		
-//		ArrayList<String> columnNames = new ArrayList<String>();
-//		columnNames.add("col_n");
-//		columnNames.add("col_f");
+		ArrayList<String> columnNames = new ArrayList<String>();
+		columnNames.add("col_n");
+		columnNames.add("col_f");
 //		columnNames.add("col_z");
 //		columnNames.add("col_r");
 //		columnNames.add("col_w");
@@ -542,9 +543,9 @@ public class Main {
 //		columnNames.add("col_l");
 //		columnNames.add("col_t");
 		
-//		ArrayList<String> rowNames = new ArrayList<String>();
-//		rowNames.add("row_one");
-//		rowNames.add("row_two");
+		ArrayList<String> rowNames = new ArrayList<String>();
+		rowNames.add("row_one");
+		rowNames.add("row_two");
 //		rowNames.add("row_three");
 //		rowNames.add("row_four");
 //		rowNames.add("row_five");
@@ -554,16 +555,33 @@ public class Main {
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
 		
-//		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
-//		System.out.println("1");
-//		System.out.println(df);
-//		System.out.println("2");
-//		DataFrame newDF = df.absoluteValueColumn(0);
-//		System.out.println(newDF);
-//		System.out.println("3");
-//		System.out.println(df);
+		DataFrame df = DataFrame.random(columnNames, rowNames, StorageType.BigDecimal);
 		
-		DataFrame df = DataFrame.uniqueStrings(5, 5, 2);
+//		Integer[] arr = new Integer[] {0, 1};
+
+//		DataItem[] arr = new DataItem[] {new DataItem(1), new DataItem(3)};
+
+//		ArrayList<Integer> arr = new ArrayList<Integer>();
+//		arr.add(1);
+//		arr.add(2);
+
+//		List<Integer> arr1 = new ArrayList<Integer>();
+//		arr1.add(10);
+//		arr1.add(20);
+//		List<Integer> arr2 = new ArrayList<Integer>();
+//		arr2.add(100);
+//		arr2.add(200);
+//		Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
+//		map.put("col1", arr1);
+//		map.put("col2", arr2);
+		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("row_one", 1);
+//		map.put("row_two", 2);
+		
+//		double[][] arr = new double[][] {new double[] {1.0, 2.0}, new double[] {10.0, 20.0}};
+		
+//		df.insertColumn(0, map);
 		
 		
 		
@@ -571,14 +589,14 @@ public class Main {
 	}
 
 	private static DataFrame hashColsConstructor() {
-		HashMap<String, ArrayList<Object>> map = new HashMap<String, ArrayList<Object>>();
+		HashMap<String, List<Object>> map = new HashMap<String, List<Object>>();
 
-		ArrayList<Object> arr1 = new ArrayList<Object>();
+		List<Object> arr1 = new ArrayList<Object>();
 		arr1.add(1);
 		arr1.add(2);
 		arr1.add(3);
 
-		ArrayList<Object> arr2 = new ArrayList<Object>();
+		List<Object> arr2 = new ArrayList<Object>();
 		arr2.add(3);
 		arr2.add(4);
 		arr2.add(5);
@@ -597,17 +615,17 @@ public class Main {
 	}
 
 	private static DataFrame hashRowsConstructor() {
-		HashMap<String, Object> map1 = new HashMap<String, Object>();
+		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("one", 1);
 		map1.put("two", 2);
 		map1.put("three", 3);
 
-		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		Map<String, Object> map2 = new HashMap<String, Object>();
 		map2.put("one", 10);
 		map2.put("two", 20);
 		map2.put("three", 30);
 
-		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		list.add(map1);
 		list.add(map2);
 
