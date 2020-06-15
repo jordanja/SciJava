@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -60,7 +61,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		this(columnNames,rowNames, fill, DataItem.getStorageTypeOfObject(fill));
 	}
 	
-	public DataFrame(ArrayList<String> columnNames, ArrayList<String> rowNames, Object fill) {
+	public DataFrame(List<String> columnNames, List<String> rowNames, Object fill) {
 		this(columnNames, rowNames, fill, DataItem.getStorageTypeOfObject(fill));
 	}
 
@@ -70,10 +71,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	
 	public DataFrame(String[] columnNames, String[] rowNames, Object fill, StorageType type) {
-		this(new ArrayList<String>(Arrays.asList(columnNames)), new ArrayList<String>(Arrays.asList(rowNames)), fill, type);
+		this(Arrays.asList(columnNames), Arrays.asList(rowNames), fill, type);
 	}
 	
-	public DataFrame(ArrayList<String> columnNames, ArrayList<String> rowNames, DataItem fill) {
+	public DataFrame(List<String> columnNames, List<String> rowNames, DataItem fill) {
 		this.columnNames = CommonArray.convertStringArrayToArrayList(CommonArray.mangle(columnNames));
 		this.rowNames = CommonArray.convertStringArrayToArrayList(CommonArray.mangle(rowNames));
 		this.data = new ArrayList<ArrayList<DataItem>>();
@@ -86,7 +87,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
-	public DataFrame(ArrayList<String> columnNames, ArrayList<String> rowNames, Object fill, StorageType type) {
+	public DataFrame(List<String> columnNames, List<String> rowNames, Object fill, StorageType type) {
 		this(columnNames, rowNames, new DataItem(fill, type));
 	}
 	
@@ -118,7 +119,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	 * 
 	 * Becomes: | one| two --+----+---- 0| 1| 3 1| 2| 4 2| 3| 5
 	 */
-	public DataFrame(HashMap<String, ArrayList<Object>> map, boolean isRow) {
+	public DataFrame(Map<String, List<Object>> map, boolean isRow) {
 		this();
 		if (isRow) {
 			appendRows(map);
@@ -152,10 +153,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	 *      1|  10|  20|    30
 	 * </pre>
 	 */
-	public DataFrame(ArrayList<HashMap<String, Object>> maps, boolean isRow) {
+	public DataFrame(List<Map<String, Object>> maps, boolean isRow) {
 		this();
 		ArrayList<String> cumulativeNames = new ArrayList<String>();
-		for (HashMap<String, Object> map: maps) {
+		for (Map<String, Object> map: maps) {
 			for (String name: map.keySet()) {
 				if (!cumulativeNames.contains(name)) {
 					cumulativeNames.add(name);
@@ -167,7 +168,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		} else {
 			this.setRowNames(cumulativeNames);
 		}
-		for (HashMap<String, Object> map : maps) {
+		for (Map<String, Object> map : maps) {
 			if (isRow) {				
 				appendRow(map);
 			} else {
@@ -235,7 +236,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	 * two| 4| 5| 6
 	 * three| 7| 8| 9
 	 */
-	public DataFrame(ArrayList<String> names, ArrayList<ArrayList<Object>> lists, boolean isRow) {
+	public DataFrame(List<String> names, List<ArrayList<Object>> lists, boolean isRow) {
 		this();
 		if (names.size() != lists.size()) {
 			System.out.println("Number of names = " + names.size() + ", number of lists = " + lists.size());
@@ -722,7 +723,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	
 	
-	public void insertColumn(int index, String columnName, List<Object> column) {
+	public <T> void insertColumn(int index, String columnName, List<T> column) {
 		if (index > this.columnNames.size()) {
 			System.out.println("Column index too high");
 			return;
@@ -738,18 +739,18 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 				this.rowNames = CommonArray.generateIncreasingSequence(column.size());
 			}
 		}
-		this.data.add(index, convertObjectListToItemList(column));
+		this.data.add(index, createDataItemList(column));
 		String newColumnName = CommonArray.getNewMangleName(this.columnNames, columnName);
 		this.columnNames.add(index, newColumnName);
 
 	}
 
 	public void insertColumn(int index, String columnName, Object[] column) {
-		insertColumn(index, columnName, new ArrayList<Object>(Arrays.asList(column)));
+		insertColumn(index, columnName, Arrays.asList(column));
 	}
 	
 	public void insertColumn(int index, String columnName, DataItem[] column) {
-		insertColumn(index, columnName, new ArrayList<Object>(Arrays.asList(column)));
+		insertColumn(index, columnName, Arrays.asList(column));
 	}
 	
 	public void insertColumn(int index, String columnName, int[] column) {
@@ -857,7 +858,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(index, columnName, nullArr);
 	}
 	
-	public void insertColumn(int index, ArrayList<Object> column) {
+	public <T> void insertColumn(int index, List<T> column) {
 		String columnName = generateUnusedColumnName();
 		insertColumn(index, columnName, column);
 	}
@@ -984,7 +985,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	
 	
-	public void insertColumns(int index, HashMap<String, ArrayList<Object>> map) {
+	public <T> void insertColumns(int index, Map<String, List<T>> map) {
 		int insertionOffset = 0;
 		for (String columnName : map.keySet()) {
 			this.insertColumn(index + insertionOffset, columnName, map.get(columnName));
@@ -992,7 +993,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
-	public void insertColumn(int index, String columnName, HashMap<String, Object> map) {
+	public void insertColumn(int index, String columnName, Map<String, Object> map) {
 		ArrayList<Object> col = new ArrayList<Object>(this.rowNames.size());
 		for (int i = 0; i < this.rowNames.size(); i++) {
 			col.add("");
@@ -1010,11 +1011,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(index, columnName, col);
 	}
 	
-	public void insertColumn(int index, HashMap<String, Object> map) {
+	public void insertColumn(int index, Map<String, Object> map) {
 		insertColumn(index, generateUnusedColumnName(), map);
 	}
 	
-	public void insertColumns(int index, ArrayList<String> columnNames, ArrayList<ArrayList<Object>> columns) {
+	public <T> void insertColumns(int index, List<String> columnNames, List<List<T>> columns) {
 		IntStream.range(0, columnNames.size()).forEachOrdered(i -> insertColumn(index + i, columnNames.get(i), columns.get(i)));
 	}
 	
@@ -1119,7 +1120,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], new Object[this.getNumRows()]));
 	}
 	
-	public void insertColumns(int index, ArrayList<ArrayList<Object>> columns) {
+	public <T> void insertColumns(int index, List<List<T>> columns) {
 		IntStream.range(0, columns.size()).forEachOrdered(i -> insertColumn(index + i, columns.get(i)));
 	}
 	
@@ -1220,7 +1221,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 
-	public void appendColumn(String columnName, List<Object> column) {
+	public <T> void appendColumn(String columnName, List<T> column) {
 		insertColumn(this.columnNames.size(), columnName, column);
 	}
 
@@ -1324,9 +1325,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(this.columnNames.size(), columnName);
 	}
 	
-
-	
-	public void appendColumn(ArrayList<Object> column) {
+	public <T> void  appendColumn(List<T> column) {
 		insertColumn(this.columnNames.size(), column);
 	}
 	
@@ -1426,19 +1425,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(this.columnNames.size());
 	}
 
-	public void appendColumns(HashMap<String, ArrayList<Object>> map) {
+	public <T> void appendColumns(Map<String, List<T>> map) {
 		insertColumns(this.columnNames.size(), map);
 	}
 	
-	public void appendColumn(String columnName, HashMap<String, Object> map) {
+	public void appendColumn(String columnName, Map<String, Object> map) {
 		insertColumn(this.columnNames.size(), columnName, map);
 	}
 	
-	public void appendColumn(HashMap<String, Object> map) {
+	public void appendColumn(Map<String, Object> map) {
 		insertColumn(this.columnNames.size(), map);
 	}
 
-	public void appendColumns(ArrayList<String> columnNames, ArrayList<ArrayList<Object>> columns) {
+	public <T> void appendColumns(List<String> columnNames, List<List<T>> columns) {
 		insertColumns(this.columnNames.size(), columnNames, columns);
 	}
 	
@@ -1542,7 +1541,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumns(this.columnNames.size(), columnNames);
 	}
 	
-	public void appendColumns(ArrayList<ArrayList<Object>> columns) {
+	public <T> void appendColumns(List<List<T>> columns) {
 		insertColumns(this.columnNames.size(), columns);
 	}
 
@@ -1643,7 +1642,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	
-	public void insertRow(int index, String rowName, List<Object> row) {
+	public <T> void insertRow(int index, String rowName, List<T> row) {
 		if (index > this.rowNames.size()) {
 			System.out.println("Row index too high");
 			return;
@@ -1662,7 +1661,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 					this.columnNames.add(generateUnusedColumnName());
 				}
 			}
-//			System.out.println("adding: " + row.get(colCount));
 			this.data.get(colCount).add(index, new DataItem(row.get(colCount)));
 		}
 		String newRowName = CommonArray.getNewMangleName(this.rowNames, rowName);
@@ -1670,11 +1668,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void insertRow(int index, String rowName, Object[] row) {
-		insertRow(index, rowName, new ArrayList<Object>(Arrays.asList(row)));
+		insertRow(index, rowName, Arrays.asList(row));
 	}
 	
 	public void insertRow(int index, String rowName, DataItem[] row) {
-		insertRow(index, rowName, new ArrayList<Object>(Arrays.asList(row)));
+		insertRow(index, rowName, Arrays.asList(row));
 	}
 	
 	public void insertRow(int index, String rowName, int[] row) {
@@ -1782,7 +1780,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertRow(index, rowName, nullArr);
 	}
 	
-	public void insertRow(int index, ArrayList<Object> row) {
+	public <T> void insertRow(int index, List<T> row) {
 		String rowName = generateUnusedRowName();
 		insertRow(index, rowName, row);
 	}
@@ -1908,7 +1906,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertRow(index, rowName, nullArr);
 	}
 	
-	public void insertRows(int index, HashMap<String, ArrayList<Object>> map) {
+	public <T> void insertRows(int index, Map<String, List<T>> map) {
 		int insertionOffset = 0;
 		for (String rowName: map.keySet()) {
 			this.insertRow(index + insertionOffset, rowName, map.get(rowName));
@@ -1916,7 +1914,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
-	public void insertRow(int index, String rowName, HashMap<String, Object> map) {
+	public void insertRow(int index, String rowName, Map<String, Object> map) {
 		ArrayList<Object> row = new ArrayList<Object>(this.columnNames.size());
 		for (int i = 0; i < this.columnNames.size(); i++) {
 			row.add("");
@@ -1931,14 +1929,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertRow(index, rowName, row);
 	}
 	
-	public void insertRow(int index, HashMap<String, Object> map) {
+	public void insertRow(int index, Map<String, Object> map) {
 		String rowName = generateUnusedRowName();
 		insertRow(index, rowName, map);
 	}
 	
-	public void insertRows(int index, ArrayList<String> rowNames, ArrayList<ArrayList<Object>> rows) {
+	public <T> void insertRows(int index, List<String> rowNames, List<List<T>> rows) {
 		int rowOffset = 0;
-		for (ArrayList<Object> row : rows) {
+		for (List<T> row : rows) {
 			insertRow(index + rowOffset, rowNames.get(rowOffset), row);
 			rowOffset++;
 		}
@@ -2044,7 +2042,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], new Object[this.getNumCols()]));
 	}
 	
-	public void insertRows(int index, ArrayList<ArrayList<Object>> rows) {
+	public <T> void insertRows(int index, List<List<T>> rows) {
 		IntStream.range(0, rows.size()).forEachOrdered(i -> insertRow(index + i, rows.get(i)));
 	}
 	
@@ -2145,7 +2143,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 
-	public void appendRow(String rowName, List<Object> row) {
+	public <T> void appendRow(String rowName, List<T> row) {
 		insertRow(this.rowNames.size(), rowName, row);
 	}
 
@@ -2249,7 +2247,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertRow(this.rowNames.size(), rowName);
 	}
 	
-	public void appendRow(ArrayList<Object> row) {
+	public <T> void appendRow(List<T> row) {
 		insertRow(this.rowNames.size(), row);
 	}
 	
@@ -2349,23 +2347,23 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertRow(this.rowNames.size());
 	}
 	
-	public void appendRows(HashMap<String, ArrayList<Object>> map) {
+	public <T> void appendRows(Map<String, List<T>> map) {
 		insertRows(this.rowNames.size(), map);
 	}
 	
-	public void appendRow(String name, HashMap<String, Object> map) {
+	public void appendRow(String name, Map<String, Object> map) {
 		insertRow(this.rowNames.size(), name, map);
 	}
 
-	public void appendRow(HashMap<String, Object> map) {
+	public void appendRow(Map<String, Object> map) {
 		insertRow(this.rowNames.size(), map);
 	}
 
-	public void appendRows(ArrayList<ArrayList<Object>> rows) {
+	public <T> void appendRows(List<List<T>> rows) {
 		insertRows(this.rowNames.size(), rows);
 	}
 	
-	public void appendRows(ArrayList<String> names, ArrayList<ArrayList<Object>> rows) {
+	public <T> void appendRows(List<String> names, List<List<T>> rows) {
 		insertRows(this.rowNames.size(), names, rows);
 	}
 
@@ -2662,6 +2660,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getColumnsAs2DDoubleArray(0, this.getNumCols() - 1);
 	}
 	
+	public float[][] getDataAs2DFloatArray() {
+		return getColumnsAs2DFloatArray(0, this.getNumCols() - 1);
+	}
+	
 	public boolean[][] getDataAs2DBooleanArray() {
 		return getColumnsAs2DBooleanArray(0, this.getNumCols() - 1);
 	}
@@ -2755,6 +2757,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public double[] getColumnAsDoubleArray(String name) {
 		int index = this.columnNames.indexOf(name);
 		return getColumnAsDoubleArray(index);
+	}
+	
+	public float[] getColumnAsFloatArray(int index) {
+		float[] column = new float[this.rowNames.size()];
+		for (int i = 0; i < column.length; i++) {
+			column[i] = this.data.get(index).get(i).getValueConvertedToFloat();
+		}
+		return column;
+	}
+	
+	public float[] getColumnAsFloatArray(String name) {
+		int index = this.columnNames.indexOf(name);
+		return getColumnAsFloatArray(index);
 	}
 	
 	public boolean[] getColumnAsBooleanArray(int index) {
@@ -2974,6 +2989,35 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
 		return this.getColumnsAs2DDoubleArray(columnIndices);
 	}
+	
+	public float[][] getColumnsAs2DFloatArray(int[] indices) {
+		float[][] columns = new float[indices.length][this.rowNames.size()];
+		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
+			columns[columnCount] = getColumnAsFloatArray(indices[columnCount]);
+		}
+		
+		return columns;
+	}
+	
+	public float[][] getColumnsAs2DFloatArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return getColumnsAs2DFloatArray(indices);
+	}
+	
+	public float[][] getColumnsAs2DFloatArray(ArrayList<String> names) {
+		return getColumnsAs2DFloatArray(names.toArray(new String[0]));
+	}
+	
+	public float[][] getColumnsAs2DFloatArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DFloatArray(indicesToGet);
+	}
+	
+	public float[][] getColumnsAs2DFloatArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DFloatArray(columnIndices);
+	}
+	
 	
 	public boolean[][] getColumnsAs2DBooleanArray(int[] indices) {
 		boolean[][] columns = new boolean[indices.length][this.rowNames.size()];
@@ -3255,7 +3299,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public double[] getRowAsDoubleArray(int index) {
 		double[] row = new double[this.columnNames.size()];
 		for (int i = 0; i < row.length; i++) {
-			row[i] = this.data.get(i).get(index).getValueConvertedToInt();
+			row[i] = this.data.get(i).get(index).getValueConvertedToDouble();
 		}
 		return row;
 	}
@@ -3263,6 +3307,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public double[] getRowAsDoubleArray(String name) {
 		int index = this.rowNames.indexOf(name);
 		return getRowAsDoubleArray(index);
+	}
+	
+	public float[] getRowAsFloatArray(int index) {
+		float[] row = new float[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getValueConvertedToFloat();
+		}
+		return row;
+	}
+	
+	public float[] getRowAsFloatArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsFloatArray(index);
 	}
 	
 	public boolean[] getRowAsBooleanArray(int index) {
@@ -3484,6 +3541,34 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public double[][] getRowsAs2DDoubleArray(boolean[] getRow) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
 		return this.getRowsAs2DDoubleArray(columnIndices);
+	}
+	
+	public float[][] getRowsAs2DFloatArray(int[] indices) {
+		float[][] rows = new float[indices.length][this.columnNames.size()];
+		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
+			rows[rowCount] = getRowAsFloatArray(indices[rowCount]);
+		}
+		
+		return rows;
+	}
+	
+	public float[][] getRowsAs2DFloatArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return getRowsAs2DFloatArray(indices);
+	}
+	
+	public float[][] getRowsAs2DFloatArray(ArrayList<String> names) {
+		return getRowsAs2DFloatArray(names.toArray(new String[0]));
+	}
+	
+	public float[][] getRowsAs2DFloatArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getRowsAs2DFloatArray(indicesToGet);
+	}
+	
+	public float[][] getRowsAs2DFloatArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DFloatArray(columnIndices);
 	}
 	
 	public boolean[][] getRowsAs2DBooleanArray(int[] indices) {
@@ -8839,6 +8924,59 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.isNull().negate();
 	}
 	
+	public DataFrame[] splitDataFrameByColumn(int index) {
+		return this.splitDataFrameByColumns(new int[] {index});
+	}
+	
+	public DataFrame[] splitDataFrameByColumn(String columnName) {
+		return this.splitDataFrameByColumns(new String[] {columnName});
+	}
+	
+	public DataFrame[] splitDataFrameByColumns(int[] indices) {
+		DataFrame[] df = new DataFrame[indices.length + 1];
+		int currentIndex = 0;
+		for (int dfCount = 0; dfCount < indices.length; dfCount++) {
+			df[dfCount] = this.getColumnsAsDataFrame(currentIndex, indices[dfCount]);
+			currentIndex = indices[dfCount] + 1;
+		}
+		df[df.length - 1] = this.getColumnsAsDataFrame(currentIndex, this.getNumCols() - 1);
+		return df;
+	}
+	
+	public DataFrame[] splitDataFrameByColumns(String[] columnNames) {
+		return this.splitDataFrameByColumns(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames));
+	}
+	
+	
+	public DataFrame[] splitDataFrameByRow(int index) {
+		return this.splitDataFrameByRows(new int[] {index});
+	}
+	
+	public DataFrame[] splitDataFrameByRow(String columnName) {
+		return this.splitDataFrameByRows(new String[] {columnName});
+	}
+	
+	public DataFrame[] splitDataFrameByRows(int[] indices) {
+		DataFrame[] df = new DataFrame[indices.length + 1];
+		int currentIndex = 0;
+		for (int dfCount = 0; dfCount < indices.length; dfCount++) {
+			df[dfCount] = this.getRowsAsDataFrame(currentIndex, indices[dfCount]);
+			currentIndex = indices[dfCount] + 1;
+		}
+		df[df.length - 1] = this.getRowsAsDataFrame(currentIndex, this.getNumCols() - 1);
+		return df;
+	}
+	
+	public DataFrame[] splitDataFrameByRows(String[] columnNames) {
+		return this.splitDataFrameByRows(CommonArray.getIndicesOfStringsInArray(this.columnNames, columnNames));
+	}
+	
+	
+	
+	
+	
+	
+	
 	public DataFrame joinToTheRight(DataFrame newDF, boolean outerJoin, boolean keepDuplicateColumns) {
 		setNewColumnNames(newDF, keepDuplicateColumns);
 		correctRowsForJoin(newDF, outerJoin);
@@ -9143,6 +9281,15 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	private ArrayList<DataItem> convertObjectListToItemList(List<Object> column) {
+		ArrayList<DataItem> list = new ArrayList<DataItem>();
+		for (Object item : column) {
+//			System.out.println("item = " + item + ", class = " + item.getClass());
+			list.add(new DataItem(item));
+		}
+		return list;
+	}
+	
+	private <T>ArrayList<DataItem> createDataItemList(List<T> column) {
 		ArrayList<DataItem> list = new ArrayList<DataItem>();
 		for (Object item : column) {
 //			System.out.println("item = " + item + ", class = " + item.getClass());

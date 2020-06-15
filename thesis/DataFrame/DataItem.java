@@ -57,8 +57,11 @@ public class DataItem {
 		
 		
 		StorageType typeOfObject = DataItem.getStorageTypeOfObject(value);
-		
-		initialize(typeOfObject, value);
+		if (value instanceof DataItem) {
+			this.replicateProperties((DataItem)value);
+		} else {			
+			initialize(typeOfObject, value);
+		}
 	}
 	
 	public static StorageType getStorageTypeOfObject(Object value) {
@@ -573,6 +576,17 @@ public class DataItem {
 		return null;
 	}
 	
+	public Float getValueConvertedToFloat() {
+		if (this.type == StorageType.Integer) {
+			return this.intValue.floatValue();
+		} else if (this.type == StorageType.Double) {
+			return this.doubleValue.floatValue();
+		} else if (this.type == StorageType.BigDecimal) {
+			return this.bigDecimalValue.floatValue();
+		}
+		return null;
+	}
+	
 	public Integer getValueConvertedToInt() {
 		if (this.type == StorageType.Integer) {
 			return this.intValue;
@@ -581,9 +595,7 @@ public class DataItem {
 		} else if (this.type == StorageType.BigDecimal) {
 			return this.bigDecimalValue.intValue();
 		}
-		
 		return null;
-	
 	}
 	
 	public Boolean getValueConvertedToBoolean() {

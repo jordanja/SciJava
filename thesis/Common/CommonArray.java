@@ -529,9 +529,13 @@ public class CommonArray {
 		for (int i = 0; i < arr.length; i++) {
 			System.out.println(i + ": " + arr[i]);
 		}
-		
 	}
 
+	public static void printArray(float[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			System.out.println(i + ": " + arr[i]);
+		}
+	}
 	public static void printArray(double[] arr) {
 		for (int i = 0; i < arr.length; i++) {
 			System.out.println(i + ": " + arr[i]);
@@ -567,7 +571,18 @@ public class CommonArray {
 			}
 			System.out.println("");
 		}
-		
+	}
+	
+	public static void print2DArray(float[][] arr) {
+		for (int outerCount = 0; outerCount < arr.length; outerCount++) {
+			for (int innerCount = 0; innerCount < arr[outerCount].length; innerCount++) {
+				System.out.print(arr[outerCount][innerCount]);
+				if (innerCount < arr[outerCount].length - 1) {
+					System.out.print(", ");
+				}
+			}
+			System.out.println("");
+		}
 	}
 	
 	public static void print2DArray(int[][] arr) {
