@@ -70,7 +70,6 @@ public class Main {
 //		gaugeChart();
 //		scatterChartingDiamond();
 		dfPlay();
-
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 
@@ -323,8 +322,19 @@ public class Main {
 
 	private static void scatterCharting() {
 
-		DataFrame df = new DataFrame("Datasets/tips.csv", true, false);
-
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		
+		DataFrame df =  DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
+//		df.setColumnsType(new StorageType[] {StorageType.Double, StorageType.Double, StorageType.String, StorageType.String, StorageType.String, StorageType.String, StorageType.Integer});
+		
+		
 		ScatterChart sc = new ScatterChart(df, "total_bill", "tip");
 
 		NumericAxis axis = sc.getAxis();
@@ -554,8 +564,9 @@ public class Main {
 //		rowNames.add("row_eight");
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
+				
 		
-		DataFrame df = DataFrame.random(columnNames, rowNames, StorageType.BigDecimal);
+		
 		
 //		Integer[] arr = new Integer[] {0, 1};
 
@@ -565,15 +576,15 @@ public class Main {
 //		arr.add(1);
 //		arr.add(2);
 
-//		List<Integer> arr1 = new ArrayList<Integer>();
-//		arr1.add(10);
-//		arr1.add(20);
-//		List<Integer> arr2 = new ArrayList<Integer>();
-//		arr2.add(100);
-//		arr2.add(200);
-//		Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
-//		map.put("col1", arr1);
-//		map.put("col2", arr2);
+		List<Integer> arr1 = new ArrayList<Integer>();
+		arr1.add(10);
+		arr1.add(20);
+		List<Integer> arr2 = new ArrayList<Integer>();
+		arr2.add(100);
+		arr2.add(200);
+		Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
+		map.put("col1", arr1);
+		map.put("col2", arr2);
 		
 //		Map<String, Object> map = new HashMap<String, Object>();
 //		map.put("row_one", 1);
@@ -583,7 +594,7 @@ public class Main {
 		
 //		df.insertColumn(0, map);
 		
-		
+		DataFrame df = new DataFrame(map, false);
 		
 		return df;
 	}

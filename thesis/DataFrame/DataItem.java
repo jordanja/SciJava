@@ -1557,8 +1557,8 @@ public class DataItem {
 	}
 	
 	public static DataItem randomPeriod(Period minPeriod, Period maxPeriod) {
-		int minDays = minPeriod.getDays();
-		int maxDays = maxPeriod.getDays();
+		int minDays = minPeriod.getYears() * 365 + minPeriod.getMonths() * 12 + minPeriod.getDays();
+		int maxDays = maxPeriod.getYears() * 365 + maxPeriod.getMonths() * 12 + maxPeriod.getDays();
 		int randomDays = ThreadLocalRandom.current().nextInt(minDays, maxDays);
 		return new DataItem(Period.ofDays(randomDays));
 	}

@@ -4,23 +4,17 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import thesis.Common.CommonArray;
@@ -59,6 +53,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame(String[] columnNames, String[] rowNames, Object fill) {
 		this(columnNames,rowNames, fill, DataItem.getStorageTypeOfObject(fill));
+	}
+	
+	public DataFrame(String[] columnNames, String[] rowNames, DataItem fill) {
+		this(columnNames,rowNames, fill, fill.getType());
 	}
 	
 	public DataFrame(List<String> columnNames, List<String> rowNames, Object fill) {
@@ -119,7 +117,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	 * 
 	 * Becomes: | one| two --+----+---- 0| 1| 3 1| 2| 4 2| 3| 5
 	 */
-	public DataFrame(Map<String, List<Object>> map, boolean isRow) {
+	public <T> DataFrame(Map<String, List<T>> map, boolean isRow) {
 		this();
 		if (isRow) {
 			appendRows(map);
@@ -272,6 +270,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 					if (!((hasHeaderRow) && (rowNum == 0))) {
 						rowNames.add(values[0]);
 					}
+					// If there are row names, remove the first value
 					values = Arrays.copyOfRange(values, 1, values.length);
 				}
 
@@ -282,7 +281,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 				} else {
 					if (values.length > 0) {
-						appendRow(CommonArray.convertStringArrayToObjectArrayList(values));
+						appendRow(values);
 					}
 
 				}
@@ -305,7 +304,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	private String removeSpecialChars(String line) {
 		return line.replace("\"", "").replaceAll("[^a-zA-Z0-9, ./<>?;:\"'`!@#$%^&*()\\[\\]{}_+=|\\\\-]", "").trim();
 	}
-
+	
+	public static DataFrame emptyDataFrame() {
+		return new DataFrame();
+	}
 	
 	public static DataFrame zeros(int numColumns, int numRows) {
 		return new DataFrame(numColumns, numRows, 0);
@@ -319,11 +321,44 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return zeros(otherDF.getNumCols(), otherDF.getNumRows());
 	}
 	
-	public static DataFrame zerosLike(Object[][] otherDF) {
+	public static <T> DataFrame zerosLike(T[][] otherDF) {
 		return zeros(otherDF.length, otherDF[0].length);
 	}
 	
-	public static DataFrame zerosLike(ArrayList<ArrayList<Object>> otherDF) {
+	public static DataFrame zerosLike(byte[][] otherDF) {
+		return zeros(otherDF.length, otherDF[0].length);
+	}
+	
+	public static DataFrame zerosLike(short[][] otherDF) {
+		return zeros(otherDF.length, otherDF[0].length);
+	}
+	
+	public static DataFrame zerosLike(int[][] otherDF) {
+		return zeros(otherDF.length, otherDF[0].length);
+	}
+	
+	public static DataFrame zerosLike(long[][] otherDF) {
+		return zeros(otherDF.length, otherDF[0].length);
+	}
+	
+	public static DataFrame zerosLike(float[][] otherDF) {
+		return zeros(otherDF.length, otherDF[0].length);
+	}
+	
+	public static DataFrame zerosLike(double[][] otherDF) {
+		return zeros(otherDF.length, otherDF[0].length);
+	}
+	
+	public static DataFrame zerosLike(boolean[][] otherDF) {
+		return zeros(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame zerosLike(char[][] otherDF) {
+		return zeros(otherDF.length, otherDF[0].length);
+	}
+	
+	
+	public static <T> DataFrame zerosLike(ArrayList<ArrayList<T>> otherDF) {
 		return zeros(otherDF.size(), otherDF.get(0).size());
 	}
 	
@@ -339,14 +374,263 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return ones(otherDF.getNumCols(), otherDF.getNumRows());
 	}
 
-	public static DataFrame onesLike(Object[][] otherDF) {
+	public static <T> DataFrame onesLike(T[][] otherDF) {
+		return ones(otherDF.length, otherDF[0].length);
+	}
+	
+	public static DataFrame onesLike(byte[][] otherDF) {
 		return ones(otherDF.length, otherDF[0].length);
 	}
 
-	public static DataFrame onesLike(ArrayList<ArrayList<Object>> otherDF) {
+	public static DataFrame onesLike(short[][] otherDF) {
+		return ones(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame onesLike(int[][] otherDF) {
+		return ones(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame onesLike(long[][] otherDF) {
+		return ones(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame onesLike(float[][] otherDF) {
+		return ones(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame onesLike(double[][] otherDF) {
+		return ones(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame onesLike(boolean[][] otherDF) {
+		return ones(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame onesLike(char[][] otherDF) {
+		return ones(otherDF.length, otherDF[0].length);
+	}
+
+	public static <T> DataFrame onesLike(ArrayList<ArrayList<T>> otherDF) {
 		return ones(otherDF.size(), otherDF.get(0).size());
 	}
 
+	public static DataFrame nullValues(int numColumns, int numRows) {
+		return new DataFrame(numColumns, numRows, new DataItem());
+	}
+
+	public static DataFrame nullValues(String[] columnNames, String[] rowNames) {
+		return new DataFrame(columnNames, rowNames, new DataItem());
+	}
+	
+	public static DataFrame empty(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return new DataFrame(columnNames, rowNames, new DataItem());
+	}
+	
+	public static DataFrame nullValuesLike(DataFrame otherDF) {
+		return nullValues(otherDF.getNumCols(), otherDF.getNumRows());
+	}
+
+	public static <T> DataFrame nullValuesLike(T[][] otherDF) {
+		return nullValues(otherDF.length, otherDF[0].length);
+	}
+	
+	
+	public static DataFrame nullValuesLike(byte[][] otherDF) {
+		return nullValues(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame nullValuesLike(short[][] otherDF) {
+		return nullValues(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame nullValuesLike(int[][] otherDF) {
+		return nullValues(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame nullValuesLike(long[][] otherDF) {
+		return nullValues(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame nullValuesLike(float[][] otherDF) {
+		return nullValues(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame nullValuesLike(double[][] otherDF) {
+		return nullValues(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame nullValuesLike(boolean[][] otherDF) {
+		return nullValues(otherDF.length, otherDF[0].length);
+	}
+
+	public static DataFrame nullValuesLike(char[][] otherDF) {
+		return nullValues(otherDF.length, otherDF[0].length);
+	}
+	
+	public static <T> DataFrame nullValuesLike(ArrayList<ArrayList<T>> otherDF) {
+		return nullValues(otherDF.size(), otherDF.get(0).size());
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, DataItem value) {
+		return new DataFrame(numColumns, numRows, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, Object value) {
+		return new DataFrame(numColumns, numRows, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, Object value, StorageType type) {
+		return new DataFrame(numColumns, numRows, value, type);
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, int value) {
+		return new DataFrame(numColumns, numRows, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, float value) {
+		return new DataFrame(numColumns, numRows, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, double value) {
+		return new DataFrame(numColumns, numRows, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, boolean value) {
+		return new DataFrame(numColumns, numRows, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, String value) {
+		return new DataFrame(numColumns, numRows, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, LocalDate value) {
+		return new DataFrame(numColumns, numRows, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, LocalDateTime value) {
+		return new DataFrame(numColumns, numRows, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, Period value) {
+		return new DataFrame(numColumns, numRows, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(int numColumns, int numRows, Duration value) {
+		return new DataFrame(numColumns, numRows, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, DataItem value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, Object value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, Object value, StorageType type) {
+		return new DataFrame(columnNames, rowNames, value, type);
+	}
+
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, int value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, float value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, double value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, boolean value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, String value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, LocalDate value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, LocalDateTime value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, Period value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(String[] columnNames, String[] rowNames, Duration value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+	
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, DataItem value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, Object value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, Object value, StorageType type) {
+		return new DataFrame(columnNames, rowNames, value, type);
+	}
+
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, int value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, float value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, double value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, boolean value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, String value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, LocalDate value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, LocalDateTime value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, Period value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+
+	public static DataFrame dataFrameWithValue(List<String> columnNames, List<String> rowNames, Duration value) {
+		return new DataFrame(columnNames, rowNames, value);
+	}
+	
+	
+	public static DataFrame readCSV(String filePath, boolean hasHeaderRow, boolean hasIndexRow) {
+		return new DataFrame(filePath, hasHeaderRow, hasIndexRow);
+	}
+	
+	public static DataFrame readCSV(String filePath, boolean hasHeaderRow, boolean hasIndexRow, StorageType[] columnTypes) {
+		DataFrame newDF = new DataFrame(filePath, hasHeaderRow, hasIndexRow);
+		newDF.setColumnsType(columnTypes);
+		return newDF;
+	}
+	
+	public static DataFrame readCSV(String filePath, boolean hasHeaderRow, boolean hasIndexRow, Map<String,StorageType> columnTypes) {
+		DataFrame newDF = new DataFrame(filePath, hasHeaderRow, hasIndexRow);
+		newDF.setColumnsType(columnTypes);
+		return newDF;
+	}
 	
 	
 	public static DataFrame uniqueInts(int numColumns, int numRows, int minValue, int maxValue) {
@@ -586,138 +870,284 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return identity;
 	}
 
-	public static DataFrame empty(int numColumns, int numRows) {
-		return new DataFrame(numColumns, numRows, new DataItem());
-	}
-
-	public static DataFrame empty(String[] columnNames, String[] rowNames) {
-		return new DataFrame(columnNames, rowNames, new DataItem());
+	
+	public static DataFrame randomInts(int numColumns, int numRows) {
+		return randomInts(numColumns, numRows, 0, 10);
 	}
 	
-	public static DataFrame empty(ArrayList<String> columnNames, ArrayList<String> rowNames) {
-		return new DataFrame(columnNames, rowNames, new DataItem());
+	public static DataFrame randomInts(String[] columnNames, String[] rowNames) {
+		return randomInts(columnNames, rowNames, 0, 10);
 	}
 	
-	public static DataFrame emptyLike(DataFrame otherDF) {
-		return empty(otherDF.getNumCols(), otherDF.getNumRows());
-	}
-
-	public static DataFrame emptyLike(Object[][] otherDF) {
-		return empty(otherDF.length, otherDF[0].length);
-	}
-
-	public static DataFrame emptyLike(ArrayList<ArrayList<Object>> otherDF) {
-		return empty(otherDF.size(), otherDF.get(0).size());
+	public static DataFrame randomInts(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return randomInts(columnNames, rowNames, 0, 10);
 	}
 	
-	public static DataFrame random(int numColumns, int numRows, StorageType type) {
-		return DataFrame.random(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), type);
+	public static DataFrame randomInts(int numColumns, int numRows, int minimum, int maximum) {
+		return DataFrame.randomInts(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minimum, maximum);
 	}
 	
-	public static DataFrame random(String[] colNames, String[] rowNames, StorageType type) {
-		return DataFrame.random(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames), type);
+	public static DataFrame randomInts(String[] columnNames, String[] rowNames, int minimum, int maximum) {
+		return DataFrame.randomInts(CommonArray.convertStringArrayToArrayList(columnNames), CommonArray.convertStringArrayToArrayList(rowNames), minimum, maximum);
 	}
 	
-	public static DataFrame random(ArrayList<String> columnNames, ArrayList<String> rowNames, StorageType type) {
+	public static DataFrame randomInts(ArrayList<String> columnNames, ArrayList<String> rowNames, int minimum, int maximum) {
 		DataFrame newDF = new DataFrame(columnNames, rowNames);
 		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
-			newDF.setColumnValues(columnCount, DataItem.randomDataItemSeries(newDF.getNumRows(), type));
+			newDF.setColumnValues(columnCount, DataItem.randomDataItemIntSeries(newDF.getNumRows(), minimum, maximum));
 		}
 		return newDF;
 	}
 	
-	public static DataFrame random(int numColumns, int numRows, Class<?> cls) {
-		return DataFrame.random(numColumns, numRows, DataItem.getStorageTypeOfObject(cls));
+	public static DataFrame randomDoubles(int numColumns, int numRows) {
+		return randomDoubles(numColumns, numRows, 0, 10);
 	}
 	
-	public static DataFrame random(String[] colNames, String[] rowNames, Class<?> cls) {
-		return DataFrame.random(colNames, rowNames, DataItem.getStorageTypeOfObject(cls));
+	public static DataFrame randomDoubles(String[] columnNames, String[] rowNames) {
+		return randomDoubles(columnNames, rowNames, 0, 10);
 	}
 	
-	public static DataFrame random(ArrayList<String> columnNames, ArrayList<String> rowNames, Class<?> cls) {
-		return DataFrame.random(columnNames, rowNames, DataItem.getStorageTypeOfObject(cls));
+	public static DataFrame randomDoubles(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return randomDoubles(columnNames, rowNames, 0, 10);
 	}
 	
-	public static DataItem[] randomDataItemSeries(int numValues, StorageType type) {
-		return DataItem.randomDataItemSeries(numValues, type);
+	public static DataFrame randomDoubles(int numColumns, int numRows, double minimum, double maximum) {
+		return DataFrame.randomDoubles(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minimum, maximum);
 	}
 	
-	public static DataItem[] randomDataItemIntSeries(int numValues, int minValue, int maxValue) {
-		return DataItem.randomDataItemIntSeries(numValues, minValue, maxValue);
+	public static DataFrame randomDoubles(String[] colNames, String[] rowNames, double minimum, double maximum) {
+		return DataFrame.randomDoubles(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames), minimum, maximum);
 	}
 	
-	public static DataItem[] randomDataItemIntSeries(int numValues) {
-		return DataItem.randomDataItemIntSeries(numValues);
+	public static DataFrame randomDoubles(ArrayList<String> columnNames, ArrayList<String> rowNames, double minimum, double maximum) {
+		DataFrame newDF = new DataFrame(columnNames, rowNames);
+		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
+			newDF.setColumnValues(columnCount, DataItem.randomDataItemDoubleSeries(newDF.getNumRows(), minimum, maximum));
+		}
+		return newDF;
 	}
 	
 	
-//	public static DataItem[] randomGaussianDataItemIntSeries(int numValues, int minValue, int maxValue) {
-//		return null;
-//	}
-//	
-//	public static DataItem[] randomGaussianDataItemIntSeries(int numValues) {
-//		return null;
-//	}
-	
-	
-	public static DataItem[] randomDataItemDoubleSeries(int numValues, double minValue, double maxValue) {
-		return DataItem.randomDataItemDoubleSeries(numValues, minValue, maxValue);
+	public static DataFrame randomStrings(int numColumns, int numRows) {
+		return randomStrings(numColumns, numRows, 5);
 	}
 	
-	public static DataItem[] randomDataItemDoubleSeries(int numValues) {
-		return DataItem.randomDataItemDoubleSeries(numValues);
+	public static DataFrame randomStrings(String[] columnNames, String[] rowNames) {
+		return randomStrings(columnNames, rowNames, 5);
 	}
 	
-	public static DataItem[] randomDataItemStringSeries(int numValues, int stringLength) {
-		return DataItem.randomDataItemStringSeries(numValues, stringLength);
+	public static DataFrame randomStrings(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return randomStrings(columnNames, rowNames, 5);
 	}
 	
-	public static DataItem[] randomDataItemStringSeries(int numValues) {
-		return DataItem.randomDataItemStringSeries(numValues);
+	
+	public static DataFrame randomStrings(int numColumns, int numRows, int stringLength) {
+		return DataFrame.randomStrings(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), stringLength);
 	}
 	
-	public static DataItem[] randomDataItemBooleanSeries(int numValues) {
-		return DataItem.randomDataItemBooleanSeries(numValues);
+	public static DataFrame randomStrings(String[] colNames, String[] rowNames, int stringLength) {
+		return DataFrame.randomStrings(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames), stringLength);
 	}
 	
-	public static DataItem[] randomDataItemLocalDateSeries(int numValues, LocalDate minLocalDate, LocalDate maxLocalDate) {
-		return DataItem.randomDataItemLocalDateSeries(numValues, minLocalDate, maxLocalDate);
+	public static DataFrame randomStrings(ArrayList<String> columnNames, ArrayList<String> rowNames, int stringLength) {
+		DataFrame newDF = new DataFrame(columnNames, rowNames);
+		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
+			newDF.setColumnValues(columnCount, DataItem.randomDataItemStringSeries(newDF.getNumRows(), stringLength));
+		}
+		return newDF;
 	}
 	
-	public static DataItem[] randomDataItemLocalDateSeries(int numValues) {
-		return DataItem.randomDataItemLocalDateSeries(numValues);
+	
+	public static DataFrame randomBooleans(int numColumns, int numRows) {
+		return DataFrame.randomBooleans(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows));
 	}
 	
-	public static DataItem[] randomDataItemLocalDateTimeSeries(int numValues, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
-		return DataItem.randomDataItemLocalDateTimeSeries(numValues, minLocalDateTime, maxLocalDateTime);
+	public static DataFrame randomBooleans(String[] colNames, String[] rowNames) {
+		return DataFrame.randomBooleans(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames));
 	}
 	
-	public static DataItem[] randomDataItemLocalDateTimeSeries(int numValues) {
-		return DataItem.randomDataItemLocalDateTimeSeries(numValues);
+	public static DataFrame randomBooleans(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		DataFrame newDF = new DataFrame(columnNames, rowNames);
+		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
+			newDF.setColumnValues(columnCount, DataItem.randomDataItemBooleanSeries(newDF.getNumRows()));
+		}
+		return newDF;
 	}
 	
-	public static DataItem[] randomDataItemLocalTimeSeries(int numValues, LocalTime minLocalTime, LocalTime maxLocalTime) {
-		return DataItem.randomDataItemLocalTimeSeries(numValues, minLocalTime, maxLocalTime);
+	
+	public static DataFrame randomLocalDates(int numColumns, int numRows) {
+		return randomLocalDates(numColumns, numRows, LocalDate.now(), LocalDate.now().plusYears(1));
 	}
 	
-	public static DataItem[] randomDataItemLocalTimeSeries(int numValues) {
-		return DataItem.randomDataItemLocalTimeSeries(numValues);
+	public static DataFrame randomLocalDates(String[] columnNames, String[] rowNames) {
+		return randomLocalDates(columnNames, rowNames, LocalDate.now(), LocalDate.now().plusYears(1));
 	}
 	
-	public static DataItem[] randomDataItemPeriodSeries(int numValues, Period minPeriod, Period maxPeriod) {
-		return DataItem.randomDataItemPeriodSeries(numValues, minPeriod, maxPeriod);
+	public static DataFrame randomLocalDates(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return randomLocalDates(columnNames, rowNames, LocalDate.now(), LocalDate.now().plusYears(1));
 	}
 	
-	public static DataItem[] randomDataItemPeriodSeries(int numValues) {
-		return DataItem.randomDataItemPeriodSeries(numValues);
+	public static DataFrame randomLocalDates(int numColumns, int numRows, LocalDate minimum, LocalDate maximum) {
+		return DataFrame.randomLocalDates(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minimum, maximum);
 	}
 	
-	public static DataItem[] randomDataItemDurationSeries(int numValues, Duration minDuration, Duration maxDuration) {
-		return DataItem.randomDataItemDurationSeries(numValues, minDuration, maxDuration);
+	public static DataFrame randomLocalDates(String[] colNames, String[] rowNames, LocalDate minimum, LocalDate maximum) {
+		return DataFrame.randomLocalDates(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames), minimum, maximum);
 	}
 	
-	public static DataItem[] randomDataItemDurationSeries(int numValues) {
-		return DataItem.randomDataItemDurationSeries(numValues);
+	public static DataFrame randomLocalDates(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalDate minimum, LocalDate maximum) {
+		DataFrame newDF = new DataFrame(columnNames, rowNames);
+		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
+			newDF.setColumnValues(columnCount, DataItem.randomDataItemLocalDateSeries(newDF.getNumRows(), minimum, maximum));
+		}
+		return newDF;
+	}
+	
+	
+	public static DataFrame randomLocalDateTimes(int numColumns, int numRows) {
+		return randomLocalDateTimes(numColumns, numRows, LocalDateTime.now(), LocalDateTime.now().plusYears(1));
+	}
+	
+	public static DataFrame randomLocalDateTimes(String[] columnNames, String[] rowNames) {
+		return randomLocalDateTimes(columnNames, rowNames, LocalDateTime.now(), LocalDateTime.now().plusYears(1));
+	}
+	
+	public static DataFrame randomLocalDateTimes(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return randomLocalDateTimes(columnNames, rowNames, LocalDateTime.now(), LocalDateTime.now().plusYears(1));
+	}
+	
+	public static DataFrame randomLocalDateTimes(int numColumns, int numRows, LocalDateTime minimum, LocalDateTime maximum) {
+		return DataFrame.randomLocalDateTimes(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minimum, maximum);
+	}
+
+	public static DataFrame randomLocalDateTimes(String[] colNames, String[] rowNames, LocalDateTime minimum, LocalDateTime maximum) {
+		return DataFrame.randomLocalDateTimes(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames), minimum, maximum);
+	}
+
+	public static DataFrame randomLocalDateTimes(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalDateTime minimum, LocalDateTime maximum) {
+		DataFrame newDF = new DataFrame(columnNames, rowNames);
+		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
+			newDF.setColumnValues(columnCount, DataItem.randomDataItemLocalDateTimeSeries(newDF.getNumRows(), minimum, maximum));
+		}
+		return newDF;
+	}
+	
+	
+	public static DataFrame randomLocalTimes(int numColumns, int numRows) {
+		return randomLocalTimes(numColumns, numRows, LocalTime.MIDNIGHT, LocalTime.NOON);
+	}
+	
+	public static DataFrame randomLocalTimes(String[] columnNames, String[] rowNames) {
+		return randomLocalTimes(columnNames, rowNames, LocalTime.MIDNIGHT, LocalTime.NOON);
+	}
+	
+	public static DataFrame randomLocalTimes(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return randomLocalTimes(columnNames, rowNames, LocalTime.MIDNIGHT, LocalTime.NOON);
+	}
+	
+	public static DataFrame randomLocalTimes(int numColumns, int numRows, LocalTime minimum, LocalTime maximum) {
+		return DataFrame.randomLocalTimes(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minimum, maximum);
+	}
+
+	public static DataFrame randomLocalTimes(String[] colNames, String[] rowNames, LocalTime minimum, LocalTime maximum) {
+		return DataFrame.randomLocalTimes(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames), minimum, maximum);
+	}
+
+	public static DataFrame randomLocalTimes(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalTime minimum, LocalTime maximum) {
+		DataFrame newDF = new DataFrame(columnNames, rowNames);
+		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
+			newDF.setColumnValues(columnCount, DataItem.randomDataItemLocalTimeSeries(newDF.getNumRows(), minimum, maximum));
+		}
+		return newDF;
+	}
+	
+	
+	public static DataFrame randomPeriods(int numColumns, int numRows) {
+		return randomPeriods(numColumns, numRows, Period.of(0, 0, 1), Period.of(2, 0, 0));
+	}
+	
+	public static DataFrame randomPeriods(String[] columnNames, String[] rowNames) {
+		return randomPeriods(columnNames, rowNames, Period.of(0, 0, 1), Period.of(2, 0, 0));
+	}
+	
+	public static DataFrame randomPeriods(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return randomPeriods(columnNames, rowNames, Period.of(0, 0, 1), Period.of(2, 0, 0));
+	}
+	
+	public static DataFrame randomPeriods(int numColumns, int numRows, Period minimum, Period maximum) {
+		return DataFrame.randomPeriods(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minimum, maximum);
+	}
+
+	public static DataFrame randomPeriods(String[] colNames, String[] rowNames, Period minimum, Period maximum) {
+		return DataFrame.randomPeriods(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames), minimum, maximum);
+	}
+
+	public static DataFrame randomPeriods(ArrayList<String> columnNames, ArrayList<String> rowNames, Period minimum, Period maximum) {
+		DataFrame newDF = new DataFrame(columnNames, rowNames);
+		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
+			newDF.setColumnValues(columnCount, DataItem.randomDataItemPeriodSeries(newDF.getNumRows(), minimum, maximum));
+		}
+		return newDF;
+	}
+	
+	public static DataFrame randomDurations(int numColumns, int numRows) {
+		return randomDurations(numColumns, numRows, Duration.ofSeconds(1), Duration.ofHours(12));
+	}
+	
+	public static DataFrame randomDurations(String[] columnNames, String[] rowNames) {
+		return randomDurations(columnNames, rowNames, Duration.ofSeconds(1), Duration.ofHours(12));
+	}
+	
+	public static DataFrame randomDurations(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+		return randomDurations(columnNames, rowNames, Duration.ofSeconds(1), Duration.ofHours(12));
+	}
+	
+	public static DataFrame randomDurations(int numColumns, int numRows, Duration minimum, Duration maximum) {
+		return DataFrame.randomDurations(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), minimum, maximum);
+	}
+
+	public static DataFrame randomDurations(String[] colNames, String[] rowNames, Duration minimum, Duration maximum) {
+		return DataFrame.randomDurations(CommonArray.convertStringArrayToArrayList(colNames), CommonArray.convertStringArrayToArrayList(rowNames), minimum, maximum);
+	}
+
+	public static DataFrame randomDurations(ArrayList<String> columnNames, ArrayList<String> rowNames, Duration minimum, Duration maximum) {
+		DataFrame newDF = new DataFrame(columnNames, rowNames);
+		for (int columnCount = 0; columnCount < columnNames.size(); columnCount++) {
+			newDF.setColumnValues(columnCount, DataItem.randomDataItemDurationSeries(newDF.getNumRows(), minimum, maximum));
+		}
+		return newDF;
+	}
+	
+	public static DataFrame randomDataFrameWithColumnTypes(int numColumns, int numRows, StorageType[] columnTypes) {
+		DataFrame df = DataFrame.nullValues(numColumns, numRows);
+		for (int columnIndex = 0; columnIndex < numColumns; columnIndex++) {
+			df.setColumnValues(columnIndex, DataItem.randomDataItemSeries(numRows, columnTypes[columnIndex]));
+		}
+		return df;
+	}
+	
+	public static DataFrame randomDataFrameWithColumnTypes(String[] colNames, String[] rowNames, StorageType[] columnTypes) {
+		DataFrame df = DataFrame.nullValues(colNames, rowNames);
+		for (int columnIndex = 0; columnIndex < colNames.length; columnIndex++) {
+			df.setColumnValues(columnIndex, DataItem.randomDataItemSeries(rowNames.length, columnTypes[columnIndex]));
+		}
+		return df;
+	}
+	
+	public static DataFrame randomDataFrameWithColumnTypes(int numColumns, int numRows, Map<String, StorageType> columnTypes) {
+		DataFrame df = DataFrame.nullValues(numColumns, numRows);
+		for (String columnName: columnTypes.keySet()) {
+			df.setColumnValues(columnName, DataItem.randomDataItemSeries(numRows, columnTypes.get(columnName)));
+		}
+		return df;
+	}
+	
+	public static DataFrame randomDataFrameWithColumnTypes(String[] colNames, String[] rowNames, Map<String, StorageType> columnTypes) {
+		DataFrame df = DataFrame.nullValues(colNames, rowNames);
+		for (String columnName: columnTypes.keySet()) {
+			df.setColumnValues(columnName, DataItem.randomDataItemSeries(rowNames.length, columnTypes.get(columnName)));
+		}
+		return df;
 	}
 	
 	
@@ -8038,6 +8468,8 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
+
+	
 	public void setColumnValues(int columnIndex, DataItem[] column) {
 		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
 	}
@@ -8089,6 +8521,61 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void setColumnValues(int columnIndex, Period[] column) {
 		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
 	}
+	
+	
+	public void setColumnValues(String columnName, DataItem[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	public void setColumnValues(String columnName, Object[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	public void setColumnValues(String columnName, Object[] column, StorageType type) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column, type);
+	}
+	
+	public void setColumnValues(String columnName, int[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	public void setColumnValues(String columnName, float[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	public void setColumnValues(String columnName, double[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	public void setColumnValues(String columnName, boolean[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	public void setColumnValues(String columnName, String[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	public void setColumnValues(String columnName, LocalDate[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	public void setColumnValues(String columnName, LocalDateTime[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	public void setColumnValues(String columnName, LocalTime[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	public void setColumnValues(String columnName, Duration[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	public void setColumnValues(String columnName, Period[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+	
+	
 
 	public void setColumnValues(int columnIndex, DataItem value) {
 		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
@@ -8479,6 +8966,60 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void setRowValues(int rowIndex, Duration[] row) {
 		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
 	}
+	
+	public void setRowValues(String rowName, DataItem[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+	public void setRowValues(String rowName, Object[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+	public void setRowValues(String rowName, Object[] column, StorageType type) {
+		setRowValues(this.rowNames.indexOf(rowName), column, type);
+	}
+	
+	public void setRowValues(String rowName, int[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+	public void setRowValues(String rowName, float[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+	public void setRowValues(String rowName, double[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+	public void setRowValues(String rowName, boolean[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+	public void setRowValues(String rowName, String[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+	public void setRowValues(String rowName, LocalDate[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+	public void setRowValues(String rowName, LocalDateTime[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+	public void setRowValues(String rowName, LocalTime[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+	public void setRowValues(String rowName, Duration[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+	public void setRowValues(String rowName, Period[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+	
+
 
 	public void setRowValues(int rowIndex, DataItem value) {
 		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
@@ -9215,6 +9756,18 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		IntStream.rangeClosed(minColumnIndex, maxColumnIndex).forEach(i -> setColumnType(i, type));
 	}
 	
+	public void setColumnsType(StorageType[] types) {
+		for (int columnIndex = 0; columnIndex < types.length; columnIndex++) {
+			this.setColumnType(columnIndex, types[columnIndex]);
+		}
+	}
+	
+	public void setColumnsType(Map<String, StorageType> typesMap) {
+		for (String columnName: typesMap.keySet()) {
+			setColumnType(columnName, typesMap.get(columnName));
+		}
+	}
+	
 	public void setRowType(int rowNum, StorageType type) {
 		IntStream.range(0, this.getNumCols()).forEach(i -> this.getValue(i, rowNum).setType(type));
 	}
@@ -9237,6 +9790,18 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public void setRowsType(int minRowIndex, int maxRowIndex, StorageType type) {
 		IntStream.rangeClosed(minRowIndex, maxRowIndex).forEach(i -> setRowType(i, type));
+	}
+	
+	public void setRowsType(StorageType[] types) {
+		for (int rowIndex = 0; rowIndex < types.length; rowIndex++) {
+			this.setRowType(rowIndex, types[rowIndex]);
+		}
+	}
+	
+	public void setRowsType(Map<String, StorageType> typesMap) {
+		for (String rowName: typesMap.keySet()) {
+			setRowType(rowName, typesMap.get(rowName));
+		}
 	}
 	
 	

@@ -23,6 +23,8 @@ public class TypeCheckers {
 	    return true;
 	}
 	
+	
+	
 	public static boolean isNumeric(String str) {
 		  return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
 	}
@@ -30,5 +32,9 @@ public class TypeCheckers {
 	public static boolean isDate(String strValue) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public static Class<?> getType(String str) {
+		return Integer.class;
 	}
 }
