@@ -1,6 +1,8 @@
 package thesis.Common;
 
 import java.util.List;
+import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -378,6 +380,14 @@ public class CommonArray {
 		return list;
 	}
 	
+	public static List<Object> convertArrayToObjectList(BigDecimal[] arr) {
+		ArrayList<Object> list = new ArrayList<Object>();
+		for (BigDecimal element: arr) {
+			list.add(element);
+		}
+		return list;
+	}
+	
 	public static List<Object> convertArrayToObjectList(String[] arr) {
 		ArrayList<Object> list = new ArrayList<Object>();
 		for (String element: arr) {
@@ -484,6 +494,14 @@ public class CommonArray {
 		return arr;
 	}
 	
+	public static BigDecimal[] initializeBigDecimalArrayWithValues(int length, BigDecimal value) {
+		BigDecimal[] arr = new BigDecimal[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
 	public static Object[] initializeObjectArrayWithValues(int length, Object value) {
 		Object[] arr = new Object[length];
 		for (int i = 0; i < length; i++) {
@@ -500,6 +518,14 @@ public class CommonArray {
 		return arr;
 	}
 	
+	public static <T> T[] initializeGenericArrayWithValues(int length, T value) {
+		@SuppressWarnings("unchecked")
+		T[] arr = (T[]) Array.newInstance(value.getClass(), length);
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
 
 	public static void printArray(Object[] arr) {
 		for (int i = 0; i < arr.length; i++) {

@@ -576,15 +576,15 @@ public class Main {
 //		arr.add(1);
 //		arr.add(2);
 
-		List<Integer> arr1 = new ArrayList<Integer>();
-		arr1.add(10);
-		arr1.add(20);
-		List<Integer> arr2 = new ArrayList<Integer>();
-		arr2.add(100);
-		arr2.add(200);
-		Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
-		map.put("col1", arr1);
-		map.put("col2", arr2);
+//		List<Integer> arr1 = new ArrayList<Integer>();
+//		arr1.add(10);
+//		arr1.add(20);
+//		List<Integer> arr2 = new ArrayList<Integer>();
+//		arr2.add(100);
+//		arr2.add(200);
+//		Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
+//		map.put("col1", arr1);
+//		map.put("col2", arr2);
 		
 //		Map<String, Object> map = new HashMap<String, Object>();
 //		map.put("row_one", 1);
@@ -594,7 +594,13 @@ public class Main {
 		
 //		df.insertColumn(0, map);
 		
-		DataFrame df = new DataFrame(map, false);
+		DataFrame df = DataFrame.ones(3, 3);
+//		Integer[] column = new Integer[] {1, 2, 3};
+		Integer val = 1;
+		df.insertColumn(0, "new_Column", val);
+		
+		System.out.println(df.getValue(0, 0).getType());
+		
 		
 		return df;
 	}
