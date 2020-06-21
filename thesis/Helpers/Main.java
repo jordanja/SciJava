@@ -63,13 +63,13 @@ public class Main {
 //		boxCharting();
 //		lineCharting();
 //		barCharting();
-//		scatterCharting();
+		scatterCharting();
 //		bubbleChart();
 //		radarChart();
 //		polarAreaChart();
 //		gaugeChart();
 //		scatterChartingDiamond();
-		dfPlay();
+//		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 

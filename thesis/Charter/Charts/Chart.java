@@ -2,6 +2,7 @@ package thesis.Charter.Charts;
 
 import thesis.Charter.ChartMeasurements.ChartMeasurements;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Image.WholeImage;
 import thesis.Charter.StringDrawer.DrawArrow;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
@@ -21,21 +22,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 
-public abstract class Chart {
+public abstract class Chart extends WholeImage {
+	
 	
 	protected DataFrame dataFrame;
-	
-	protected BufferedImage chartImage;
-
-	protected Color imageBackgroundColor = Color.WHITE;
-
-	
-	protected String title;
-	protected Font titleFont = new Font("Dialog", Font.PLAIN, 12);
-	protected Color titleColor = Color.BLACK;
-
-	Graphics2D g;
-	
 	private xAlignment defaultTextXAlign = xAlignment.CenterAlign;
 	private yAlignment defaultTextYAlignment = yAlignment.MiddleAlign;
 	private Color defautTextColor = Color.black;
@@ -45,12 +35,17 @@ public abstract class Chart {
 	private Color defaultArrowColor = Color.BLACK;
 	private int defaultArrowWeight = 1;
 	
+	protected String title;
+	protected Font titleFont = new Font("Dialog", Font.PLAIN, 12);
+	protected Color titleColor = Color.BLACK;
+	
 	public Chart() {
-		
+		super();
 	}
 	
 	
 	public Chart(DataFrame dataFrame) {	
+		super();
 		this.dataFrame = dataFrame;
 	}
 	
