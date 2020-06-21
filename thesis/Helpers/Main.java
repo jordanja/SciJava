@@ -6,16 +6,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.Map;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.ObjectInputStream.GetField;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.MonthDay;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
@@ -68,7 +70,6 @@ public class Main {
 //		gaugeChart();
 //		scatterChartingDiamond();
 		dfPlay();
-
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 
@@ -321,8 +322,19 @@ public class Main {
 
 	private static void scatterCharting() {
 
-		DataFrame df = new DataFrame("Datasets/tips.csv", true, false);
-
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		
+		DataFrame df =  DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
+//		df.setColumnsType(new StorageType[] {StorageType.Double, StorageType.Double, StorageType.String, StorageType.String, StorageType.String, StorageType.String, StorageType.Integer});
+		
+		
 		ScatterChart sc = new ScatterChart(df, "total_bill", "tip");
 
 		NumericAxis axis = sc.getAxis();
@@ -464,6 +476,68 @@ public class Main {
 		return df;
 	}
 	
+	public static DataFrame groupBy() {
+		DataFrame df = new DataFrame(3, 12, null);
+		String[] cities = new String[] {
+				"new york", "new york", "new york", "new york", 
+				"mumbai", "mumbai", "mumbai", "mumbai", 
+				"paris", "paris", "paris", "paris"};
+		int[] temperatures = new int[] {
+				32, 36, 28, 33,
+				90, 85, 87, 92,
+				45, 50, 54, 42};
+		
+		int[] humidity = new int[] {
+				12, 43, 25, 74,
+				52, 23, 75, 45,
+				98, 34, 52, 15};
+		
+		df.setColumnNames(new String[] {"city", "temperature", "humitidy"});
+		
+		df.setColumnValues(0, cities);
+		df.setColumnValues(1, temperatures);
+		df.setColumnValues(2, humidity);
+
+		GroupBy gb = df.groupBy("city");
+		
+		DataFrame ave = gb.average();
+		System.out.println("average:");
+		System.out.println(ave);
+		
+		DataFrame max = gb.max();
+		System.out.println("max:");
+		System.out.println(max);
+		
+		DataFrame min = gb.min();
+		System.out.println("min:");
+		System.out.println(min);
+		
+		DataFrame mediun = gb.mediun();
+		System.out.println("mediun:");
+		System.out.println(mediun);
+		
+		DataFrame sum = gb.sum();
+		System.out.println("sum:");
+		System.out.println(sum);
+		
+		DataFrame product = gb.product();
+		System.out.println("product:");
+		System.out.println(product);
+		
+		DataFrame numUnique = gb.numUnique();
+		System.out.println("numUnique:");
+		System.out.println(numUnique);
+		
+		DataFrame variance = gb.variance(1);
+		System.out.println("variance:");
+		System.out.println(variance);
+		
+		DataFrame std = gb.standardDeviation(1);
+		System.out.println("standardDeviation:");
+		System.out.println(std);
+		return df;
+	}
+	
 	public static DataFrame play() {
 		
 		
@@ -482,54 +556,65 @@ public class Main {
 		ArrayList<String> rowNames = new ArrayList<String>();
 		rowNames.add("row_one");
 		rowNames.add("row_two");
-		rowNames.add("row_three");
-		rowNames.add("row_four");
-		rowNames.add("row_five");
-		rowNames.add("row_six");
-		rowNames.add("row_seven");
-		rowNames.add("row_eight");
-		rowNames.add("row_nine");
-		rowNames.add("row_ten");
-		
-		DataFrame df = new DataFrame(columnNames, rowNames, Integer.class);
-		
-		df.insertRows(0, 2, Duration.ofSeconds(4));
-		
-//		DataFrame df1 = new DataFrame(
-//			new String[] {"col_a", "col_b", "col_3"}, 
-//			new String[] {"row_2","row_4", "row_5"}, 
-//			Double.class
-//		);
-//		DataFrame df2 = new DataFrame(
-//			new String[] {"col_a", "col_new1", "col_new2"}, 
-//			new String[] {"row_1","row_4", "row_3", "row_2"}, 
-//			Double.class
-//		);
-//		
-//		System.out.println("1");
-//		System.out.println(df1);
-//		
-//
-//		System.out.println("2");
-//		System.out.println(df2);
-//		
-//		df1.joinAbove(df2, true, true);
+//		rowNames.add("row_three");
+//		rowNames.add("row_four");
+//		rowNames.add("row_five");
+//		rowNames.add("row_six");
+//		rowNames.add("row_seven");
+//		rowNames.add("row_eight");
+//		rowNames.add("row_nine");
+//		rowNames.add("row_ten");
+				
 		
 		
 		
+//		Integer[] arr = new Integer[] {0, 1};
+
+//		DataItem[] arr = new DataItem[] {new DataItem(1), new DataItem(3)};
+
+//		ArrayList<Integer> arr = new ArrayList<Integer>();
+//		arr.add(1);
+//		arr.add(2);
+
+//		List<Integer> arr1 = new ArrayList<Integer>();
+//		arr1.add(10);
+//		arr1.add(20);
+//		List<Integer> arr2 = new ArrayList<Integer>();
+//		arr2.add(100);
+//		arr2.add(200);
+//		Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
+//		map.put("col1", arr1);
+//		map.put("col2", arr2);
+		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("row_one", 1);
+//		map.put("row_two", 2);
+		
+//		double[][] arr = new double[][] {new double[] {1.0, 2.0}, new double[] {10.0, 20.0}};
+		
+//		df.insertColumn(0, map);
+		
+		DataFrame df = DataFrame.randomInts(4, 5);
+		df.setRowNames(new String[] {"a", "b", "c", "d", "e"});
+		df.toCSV("randomData.csv", true);
+		System.out.println(df);
+		System.out.println("written");
+		
+		DataFrame newDF = DataFrame.readCSV("randomData.csv", true, true);
+		System.out.println(newDF);
 		
 		return df;
 	}
 
 	private static DataFrame hashColsConstructor() {
-		HashMap<String, ArrayList<Object>> map = new HashMap<String, ArrayList<Object>>();
+		HashMap<String, List<Object>> map = new HashMap<String, List<Object>>();
 
-		ArrayList<Object> arr1 = new ArrayList<Object>();
+		List<Object> arr1 = new ArrayList<Object>();
 		arr1.add(1);
 		arr1.add(2);
 		arr1.add(3);
 
-		ArrayList<Object> arr2 = new ArrayList<Object>();
+		List<Object> arr2 = new ArrayList<Object>();
 		arr2.add(3);
 		arr2.add(4);
 		arr2.add(5);
@@ -537,7 +622,7 @@ public class Main {
 		map.put("one", arr1);
 		map.put("two", arr2);
 
-		DataFrame df = new DataFrame(map);
+		DataFrame df = new DataFrame(map, false);
 		return df;
 	}
 
@@ -548,21 +633,21 @@ public class Main {
 	}
 
 	private static DataFrame hashRowsConstructor() {
-		HashMap<String, Object> map1 = new HashMap<String, Object>();
+		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("one", 1);
 		map1.put("two", 2);
 		map1.put("three", 3);
 
-		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		Map<String, Object> map2 = new HashMap<String, Object>();
 		map2.put("one", 10);
 		map2.put("two", 20);
 		map2.put("three", 30);
 
-		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		list.add(map1);
 		list.add(map2);
 
-		DataFrame df = new DataFrame(list);
+		DataFrame df = new DataFrame(list, true);
 
 		return df;
 	}

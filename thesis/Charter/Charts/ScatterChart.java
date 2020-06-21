@@ -5,14 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import thesis.Charter.Axis.BaseAxis;
-import thesis.Charter.Axis.AxisFactory;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
-import thesis.Charter.Plots.Plot;
 import thesis.Charter.Plots.ScatterPlot;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
@@ -32,7 +29,8 @@ public class ScatterChart extends XYChart {
 
 	public ScatterChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
-
+		System.out.println(dataFrame.getValue(0, 0).getType());
+		System.out.println(dataFrame.head());
 		this.axis = new NumericAxis();
 		this.plot = new ScatterPlot();
 		this.legend = new CategoricalLegend();

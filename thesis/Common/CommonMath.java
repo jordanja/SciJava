@@ -177,6 +177,38 @@ public class CommonMath {
 	public static double clamp(double value, double min, double max) {
 		return Math.min(Math.max(value, min), max);
 	}
+	
+	public static int clamp(int value, BigDecimal min, BigDecimal max) {
+		return clamp(value, min.intValue(), max.intValue());
+	}
+	public static double clamp(double value, BigDecimal min, BigDecimal max) {
+		return clamp(value, min.doubleValue(), max.doubleValue());
+	}
+	
+	public static BigDecimal clamp(BigDecimal value, BigDecimal min, BigDecimal max) {
+		BigDecimal finalVal = null;
+		if (value.compareTo(min) > 0) {
+			finalVal = value;
+		} else {
+			finalVal = min;
+		}
+		
+		if (finalVal.compareTo(max) < 0) {
+			
+		} else {
+			finalVal = max;
+		}
+		return finalVal;
+	}
+	
+	public static BigDecimal clamp(BigDecimal value, int min, int max) {
+		return clamp(value, new BigDecimal(min), new BigDecimal(max));
+	}
+	
+	public static BigDecimal clamp(BigDecimal value, double min, double max) {
+		return clamp(value, new BigDecimal(min), new BigDecimal(max));
+	}
+	
 	public static LocalDate clamp(LocalDate value, LocalDate min, LocalDate max) {
 		LocalDate newDate = value;
 		if (value.isBefore(min)) {
