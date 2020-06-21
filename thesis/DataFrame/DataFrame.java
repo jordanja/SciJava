@@ -3,6 +3,7 @@ package thesis.DataFrame;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 import thesis.Common.CommonArray;
+import thesis.Common.CommonFiles;
 import thesis.Common.CommonMath;
 import thesis.DataFrame.DataItem.StorageType;
 
@@ -1453,11 +1455,13 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
-	public void insertColumn(int index, String columnName, Map<String, Object> map) {
-		ArrayList<Object> col = new ArrayList<Object>(this.rowNames.size());
-		for (int i = 0; i < this.rowNames.size(); i++) {
-			col.add("");
+	@SuppressWarnings("unchecked")
+	public <T> void insertColumn(int index, String columnName, Map<String, T> map) {
+		List<T> col = new ArrayList<T>(this.rowNames.size());
+		for (int i = 0; i < this.getNumRows(); i++) {
+			col.add((T) new Object());
 		}
+		 
 		for (String rowName : map.keySet()) {
 
 			int rowIndex = this.rowNames.indexOf(rowName);
@@ -1471,7 +1475,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(index, columnName, col);
 	}
 	
-	public void insertColumn(int index, Map<String, Object> map) {
+	public <T> void insertColumn(int index, Map<String, T> map) {
 		insertColumn(index, generateUnusedColumnName(), map);
 	}
 	
@@ -1920,11 +1924,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumns(this.columnNames.size(), map);
 	}
 	
-	public void appendColumn(String columnName, Map<String, Object> map) {
+	public <T> void appendColumn(String columnName, Map<String, T> map) {
 		insertColumn(this.columnNames.size(), columnName, map);
 	}
 	
-	public void appendColumn(Map<String, Object> map) {
+	public <T> void appendColumn(Map<String, T> map) {
 		insertColumn(this.columnNames.size(), map);
 	}
 
@@ -2438,10 +2442,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
-	public void insertRow(int index, String rowName, Map<String, Object> map) {
-		ArrayList<Object> row = new ArrayList<Object>(this.columnNames.size());
+	@SuppressWarnings("unchecked")
+	public <T> void insertRow(int index, String rowName, Map<String, T> map) {
+		List<T> row = new ArrayList<T>(this.columnNames.size());
 		for (int i = 0; i < this.columnNames.size(); i++) {
-			row.add("");
+			row.add((T) new Object());
 		}
 		for (String colName : map.keySet()) {
 			int colIndex = this.columnNames.indexOf(colName);
@@ -2453,7 +2458,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertRow(index, rowName, row);
 	}
 	
-	public void insertRow(int index, Map<String, Object> map) {
+	public <T> void insertRow(int index, Map<String, T> map) {
 		String rowName = generateUnusedRowName();
 		insertRow(index, rowName, map);
 	}
@@ -2907,11 +2912,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertRows(this.rowNames.size(), map);
 	}
 	
-	public void appendRow(String name, Map<String, Object> map) {
+	public <T> void appendRow(String name, Map<String, T> map) {
 		insertRow(this.rowNames.size(), name, map);
 	}
 
-	public void appendRow(Map<String, Object> map) {
+	public <T> void appendRow(Map<String, T> map) {
 		insertRow(this.rowNames.size(), map);
 	}
 
@@ -9844,6 +9849,18 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	
+	public void reverseColumnOrder() {
+		for (int columnIndex = 0; columnIndex < this.getNumCols()/2; columnIndex++) {
+			this.swapTwoColumns(columnIndex, this.getNumCols() - columnIndex - 1);
+		}
+	}
+	
+	public void reverseRowOrder() {
+		for (int rowIndex = 0; rowIndex < this.getNumRows()/2; rowIndex++) {
+			this.swapTwoRows(rowIndex, this.getNumRows() - rowIndex - 1);
+		}
+	}
+	
 	public void transpose() {
 		ArrayList<ArrayList<DataItem>> transpose = new ArrayList<ArrayList<DataItem>>();
 
@@ -10160,6 +10177,38 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			writeChar(gridRowNum, currentItem.charAt(charCount));
 		}
 	}
+	
+	// ---------------------------
+	// ------ Serialization ------
+	// ---------------------------
+	public void toCSV(String path, boolean preserveRowNames) {
+		String strToWrite = "";
+		for (int columnIndex = 0; columnIndex < this.getNumCols(); columnIndex++) {
+			strToWrite += this.columnNames.get(columnIndex);
+			if (columnIndex < this.getNumCols() - 1) {
+				strToWrite += ",";
+			} else {
+				strToWrite += "\n";
+			}
+		}
+		int rowCount = 0;
+		for (ArrayList<DataItem> row: this) {
+			if (preserveRowNames) {
+				strToWrite += this.rowNames.get(rowCount) + ",";
+				rowCount++;
+			}
+			for (int columnIndex = 0; columnIndex < row.size(); columnIndex++) {
+				strToWrite += row.get(columnIndex).toString();
+				if (columnIndex < row.size() - 1) {
+					strToWrite += ",";
+				} else {
+					strToWrite += "\n";
+				}
+			}
+		}
+		CommonFiles.writeFile(path, strToWrite);
+	}
+
 	
 	@Override
 	public DataFrame clone() {

@@ -594,13 +594,14 @@ public class Main {
 		
 //		df.insertColumn(0, map);
 		
-		DataFrame df = DataFrame.ones(3, 3);
-//		Integer[] column = new Integer[] {1, 2, 3};
-		Integer val = 1;
-		df.insertColumn(0, "new_Column", val);
+		DataFrame df = DataFrame.randomInts(4, 5);
+		df.setRowNames(new String[] {"a", "b", "c", "d", "e"});
+		df.toCSV("randomData.csv", true);
+		System.out.println(df);
+		System.out.println("written");
 		
-		System.out.println(df.getValue(0, 0).getType());
-		
+		DataFrame newDF = DataFrame.readCSV("randomData.csv", true, true);
+		System.out.println(newDF);
 		
 		return df;
 	}
