@@ -30,6 +30,7 @@ import thesis.Charter.Charts.BoxChart;
 import thesis.Charter.Charts.GaugeChart;
 import thesis.Charter.Charts.HistogramChart;
 import thesis.Charter.Charts.LineChart;
+import thesis.Charter.Charts.MultiChart;
 import thesis.Charter.Charts.PieChart;
 import thesis.Charter.Charts.PolarAreaChart;
 import thesis.Charter.Charts.RadarChart;
@@ -63,14 +64,21 @@ public class Main {
 //		boxCharting();
 //		lineCharting();
 //		barCharting();
-		scatterCharting();
+//		scatterCharting();
 //		bubbleChart();
 //		radarChart();
 //		polarAreaChart();
 //		gaugeChart();
 //		scatterChartingDiamond();
+		multiChart();
 //		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
+	}
+
+	private static void multiChart() {
+		MultiChart mc = new MultiChart(2, 3);
+		System.out.println(mc.getNumColumns());
+		System.out.println(mc.getNumRows());
 	}
 
 	private static void correlationChart() {

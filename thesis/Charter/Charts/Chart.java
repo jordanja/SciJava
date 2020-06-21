@@ -99,46 +99,14 @@ public abstract class Chart extends WholeImage {
 	public void setTitleColor(Color titleColor) {
 		this.titleColor = titleColor;
 	}
-
-	
-	
-	public void setImageBackgroundColor(Color color) {
-		this.imageBackgroundColor = color;
-	}
 	
 	public String getTitle() {
 		return this.title;
 	}
+
 	public Font getTitleFont() {
 		return this.titleFont;
-	}
-	
-	public abstract void Create();
-	
-	protected void instantiateChart(ChartMeasurements cm) {	
-		this.chartImage = new BufferedImage(cm.imageWidth(), cm.imageHeight(), BufferedImage.TYPE_INT_RGB);
-	}
-	
-	protected Graphics2D initializaGraphicsObject(ChartMeasurements cm) {
-		g = this.chartImage.createGraphics();	
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);		
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		
-		changeCoordFrame(g, cm); 
-		
-		return g;
-	}
-
-	private void changeCoordFrame(Graphics2D g, ChartMeasurements cm) {
-		g.translate(0.0, cm.imageHeight());
-		g.scale(1.0, -1.0);
-	}
-	
-	protected void drawBackground(Graphics2D g, ChartMeasurements cm) {
-		g.setBackground(this.imageBackgroundColor);
-		g.clearRect(0, 0, cm.imageWidth(), cm.imageHeight());
-	}
-	
+	}	
 	
 	protected void drawTitle(Graphics2D g, ChartMeasurements cm) {
 		if (this.title != null) {	
@@ -149,17 +117,8 @@ public abstract class Chart extends WholeImage {
 		}
 	}
 	
-	public BufferedImage GetImage() {
-		return this.chartImage;
-	}
+	public abstract void Create();
 	
-	public void WriteFile(String fileLoc) {
-		try {
-		    ImageIO.write(this.chartImage, "png", new File(fileLoc));
-		} catch (IOException e) {
-		   
-		}
-	}
 	
 	
 }
