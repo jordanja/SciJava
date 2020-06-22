@@ -79,22 +79,10 @@ public class Main {
 	private static void multiChart() {
 		DataFrame dfPie = new DataFrame("Datasets/own.csv", true, false);
 	
-		Map<String, StorageType> columnTypesStripChart = new HashMap<String, StorageType>();
-		columnTypesStripChart.put("total_bill", StorageType.Double);
-		columnTypesStripChart.put("tip", StorageType.Double);
-		columnTypesStripChart.put("sex", StorageType.String);
-		columnTypesStripChart.put("smoker", StorageType.String);
-		columnTypesStripChart.put("day", StorageType.String);
-		columnTypesStripChart.put("time", StorageType.String);
-		columnTypesStripChart.put("size", StorageType.Integer);
-		DataFrame dfStrip = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypesStripChart);
-		StripChart sc = new StripChart(dfStrip, "day", "total_bill");
-		sc.colorCode("smoker");
-		sc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
-		sc.getXYChartMeasurements().setPlotWidth(600);
+	
 		
-		Chart chart1 = new PieChart(dfPie, "Fruit", "Quantity");
-		Chart chart2 = sc;
+		Chart chart1 = getPieChart();
+		Chart chart2 = getStringChart();
 		Chart chart3 = createScatterChart();
 		Chart chart4 = createBoxChart();
 		
@@ -208,6 +196,24 @@ public class Main {
 		sbc.Create();
 		sbc.WriteFile("Chart Images/Stacked Bar Chart.png");
 	}
+	
+	public static Chart getPieChart() {
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("Fruit", StorageType.String);
+		columnTypes.put("Quantity", StorageType.Double);
+		DataFrame df = DataFrame.readCSV("Datasets/own.csv", true, false, columnTypes);
+		PieChart pc = new PieChart(df, "Fruit", "Quantity");
+		PiePlot plot = pc.getPlot();
+		
+		pc.setTitleFont(new Font("Dialog", Font.PLAIN, 50));
+		pc.setTitle("Quantity of Fruit");
+		
+		plot.setShatter(new double[] {0.1, 0, 0, 0.3, 0});
+		
+		plot.setIncludeProportionsOnPie(true);
+		plot.setProportionsColor(Color.WHITE);
+		return pc;
+	}
 
 	public static void pieChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
@@ -229,6 +235,36 @@ public class Main {
 		pc.WriteFile("Chart Images/Pie Chart.png");
 	}
 	
+	public static Chart getStringChart() {
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
+
+//		StripChart sc = new StripChart(df,  "total_bill");
+		StripChart sc = new StripChart(df, "day", "total_bill");
+		sc.colorCode("smoker");
+
+//		StripChart sc = new StripChart(df, "sex", "total_bill");
+//		sc.colorCode("day");
+
+		sc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
+		
+		BaseAxis axis = sc.getAxis();
+		axis.setXAxisFont(new Font("Dialog", Font.PLAIN, 80));
+
+		StripPlot plot = sc.getPlot();
+		
+		XYChartMeasurements cm = sc.getXYChartMeasurements();
+		cm.setPlotWidth(900);
+		
+		return sc;
+	}
 	
 	public static void stripCharting() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
