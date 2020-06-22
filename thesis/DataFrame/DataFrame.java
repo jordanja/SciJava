@@ -3324,6 +3324,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public double[] getColumnAsDoubleArray(int index) {
 		double[] column = new double[this.rowNames.size()];
 		for (int i = 0; i < column.length; i++) {
+System.out.println(this.data.get(index).get(i).getValueConvertedToDouble());
 			column[i] = this.data.get(index).get(i).getValueConvertedToDouble();
 		}
 		return column;

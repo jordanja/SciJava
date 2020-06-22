@@ -27,6 +27,7 @@ import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Charts.BarChart;
 import thesis.Charter.Charts.BoxChart;
+import thesis.Charter.Charts.Chart;
 import thesis.Charter.Charts.GaugeChart;
 import thesis.Charter.Charts.HistogramChart;
 import thesis.Charter.Charts.LineChart;
@@ -76,9 +77,40 @@ public class Main {
 	}
 
 	private static void multiChart() {
-		MultiChart mc = new MultiChart(2, 3);
-		System.out.println(mc.getNumColumns());
-		System.out.println(mc.getNumRows());
+		DataFrame dfPie = new DataFrame("Datasets/own.csv", true, false);
+	
+		Map<String, StorageType> columnTypesStripChart = new HashMap<String, StorageType>();
+		columnTypesStripChart.put("total_bill", StorageType.Double);
+		columnTypesStripChart.put("tip", StorageType.Double);
+		columnTypesStripChart.put("sex", StorageType.String);
+		columnTypesStripChart.put("smoker", StorageType.String);
+		columnTypesStripChart.put("day", StorageType.String);
+		columnTypesStripChart.put("time", StorageType.String);
+		columnTypesStripChart.put("size", StorageType.Integer);
+		DataFrame dfStrip = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypesStripChart);
+		StripChart sc = new StripChart(dfStrip, "day", "total_bill");
+		sc.colorCode("smoker");
+		sc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
+		sc.getXYChartMeasurements().setPlotWidth(600);
+		
+		Chart chart1 = new PieChart(dfPie, "Fruit", "Quantity");
+		Chart chart2 = sc;
+		Chart chart3 = createScatterChart();
+		Chart chart4 = createBoxChart();
+		
+		
+		MultiChart mc = new MultiChart(2, 2);
+		mc.setChart(0, 0, chart1);
+		mc.setChart(1, 0, chart2);
+		mc.setChart(0, 1, chart3);
+		mc.setChart(1, 1, chart4);
+		
+		mc.setTitle("This is a Multi-Chart");
+		mc.setTitleFont(new Font("Dialog", Font.PLAIN, 24));
+		
+		mc.create();
+		mc.WriteFile("Chart Images/Multi-Chart.png");
+		
 	}
 
 	private static void correlationChart() {
@@ -90,7 +122,10 @@ public class Main {
 	}
 
 	private static void histogram() {
-		DataFrame df = new DataFrame("Datasets/histogram.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("tree_heights", StorageType.Double);
+		
+		DataFrame df = DataFrame.readCSV("Datasets/histogram.csv", true, false, columnTypes);
 		HistogramChart hc = new HistogramChart(df, "tree_heights");
 		
 		hc.getXYChartMeasurements().setPlotWidth(1000);
@@ -122,7 +157,11 @@ public class Main {
 	}
 
 	private static void polarAreaChart() {
-		DataFrame df = new DataFrame("Datasets/own.csv", true, false);
+		
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("Fruit", StorageType.String);
+		columnTypes.put("Quantity", StorageType.Double);
+		DataFrame df = DataFrame.readCSV("Datasets/own.csv", true, false, columnTypes);
 		PolarAreaChart pac = new PolarAreaChart(df, "Fruit", "Quantity");
 		
 		pac.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
@@ -135,7 +174,11 @@ public class Main {
 	}
 
 	private static void radarChart() {
-		DataFrame df = new DataFrame("Datasets/radarchart.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("Fruit", StorageType.String);
+		columnTypes.put("Supermarket", StorageType.String);
+		columnTypes.put("Quantity", StorageType.Double);
+		DataFrame df = DataFrame.readCSV("Datasets/radarchart.csv", true, false, columnTypes);
 		
 		RadarChart rc = new RadarChart(df, "Fruit", "Supermarket", "Quantity");
 		
@@ -150,7 +193,12 @@ public class Main {
 	}
 
 	private static void stackedAreaChart() {
-		DataFrame df = new DataFrame("Datasets/stacked.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("Quarter", StorageType.String);
+		columnTypes.put("Region", StorageType.String);
+		columnTypes.put("Sales", StorageType.Double);
+		
+		DataFrame df = DataFrame.readCSV("Datasets/stacked.csv", true, false, columnTypes);
 		System.out.println(df);
 		
 		StackedBarChart sbc = new StackedBarChart(df, "Quarter", "Sales", "Region");
@@ -162,7 +210,10 @@ public class Main {
 	}
 
 	public static void pieChart() {
-		DataFrame df = new DataFrame("Datasets/own.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("Fruit", StorageType.String);
+		columnTypes.put("Quantity", StorageType.Double);
+		DataFrame df = DataFrame.readCSV("Datasets/own.csv", true, false, columnTypes);
 		PieChart pc = new PieChart(df, "Fruit", "Quantity");
 		PiePlot plot = pc.getPlot();
 		
@@ -180,7 +231,15 @@ public class Main {
 	
 	
 	public static void stripCharting() {
-		DataFrame df = new DataFrame("Datasets/tips.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
 
 //		StripChart sc = new StripChart(df,  "total_bill");
 		StripChart sc = new StripChart(df, "day", "total_bill");
@@ -203,9 +262,42 @@ public class Main {
 		sc.WriteFile("Chart Images/Strip Chart.png");
 	}
 
-	public static void boxCharting() {
-		DataFrame df = new DataFrame("Datasets/tips.csv", true, false);
+	private static Chart createBoxChart() {
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
+//		BoxChart bc = new BoxChart(df,  "total_bill");
+		BoxChart bc = new BoxChart(df, "day", "total_bill");
 
+		bc.colorCode("smoker"); 
+
+		bc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
+
+		XYChartMeasurements cm = bc.getXYChartMeasurements();
+
+		cm.setPlotWidth(800);
+
+		BoxPlot plot = bc.getPlot();
+		plot.setColorPalette(Palette.generateUniqueColors(10));
+		return bc;
+	}
+	
+	public static void boxCharting() {
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
 //		BoxChart bc = new BoxChart(df,  "total_bill");
 		BoxChart bc = new BoxChart(df, "day", "total_bill");
 
@@ -225,7 +317,13 @@ public class Main {
 	}
 
 	public static void lineCharting() {
-		DataFrame df = new DataFrame("Datasets/fmri.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("subject", StorageType.String);
+		columnTypes.put("timepoint", StorageType.Integer);
+		columnTypes.put("event", StorageType.String);
+		columnTypes.put("region", StorageType.String);
+		columnTypes.put("signal", StorageType.Double);
+		DataFrame df = DataFrame.readCSV("Datasets/fmri.csv", true, false, columnTypes);
 		System.out.println(df);
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
@@ -256,7 +354,16 @@ public class Main {
 	}
 
 	private static void barCharting() {
-		DataFrame df = new DataFrame("Datasets/tips_mod.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		columnTypes.put("category", StorageType.String);
+		DataFrame df = DataFrame.readCSV("Datasets/tips_mod.csv", true, false, columnTypes);
 
 		BarChart bc = new BarChart(df, "day", "total_bill");
 
@@ -312,7 +419,12 @@ public class Main {
 	}
 	
 	private static void bubbleChart() {
-		DataFrame df = new DataFrame("Datasets/bubble.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("age", StorageType.Double);
+		columnTypes.put("height", StorageType.Double);
+		columnTypes.put("gender", StorageType.String);
+		columnTypes.put("wealth", StorageType.Double);
+		DataFrame df = DataFrame.readCSV("Datasets/bubble.csv", true, false, columnTypes);
 
 		ScatterChart sc = new ScatterChart(df, "age", "height");
 
@@ -328,6 +440,91 @@ public class Main {
 
 	}
 
+	private static Chart createScatterChart() {
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		
+		DataFrame df =  DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
+//		df.setColumnsType(new StorageType[] {StorageType.Double, StorageType.Double, StorageType.String, StorageType.String, StorageType.String, StorageType.String, StorageType.Integer});
+		
+		
+		ScatterChart sc = new ScatterChart(df, "total_bill", "tip");
+
+		NumericAxis axis = sc.getAxis();
+		ScatterPlot plot = sc.getPlot();
+		Legend legend = sc.getLegend();
+
+		sc.setTitle("sepal_length vs sepal_width");
+		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+		sc.colorCode("sex");
+		axis.setXAxisLabel("sepal_length");
+		axis.setYAxisLabel("sepal_width");
+
+//		axis.setXAxisFont(new Font("Dialog", Font.BOLD, 30));
+//		axis.setYAxisFont(new Font("Dialog", Font.BOLD, 30));
+//		axis.setXAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
+//		axis.setYAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
+		
+		plot.includeDataPointOutline(true);
+		plot.includeLinearRegression(true);
+		
+		XYChartMeasurements cm = sc.getXYChartMeasurements();
+		cm.setLeftAxisLabelToLeftAxisWidth(15);
+		cm.setTopAxisLabelToTitleHeight(15);
+
+		cm.setPlotWidth(800);
+
+		axis.setIncludeZeroXAxis(true);
+		axis.setIncludeZeroYAxis(true);
+
+		axis.setIncludeExteriorTicks(true, false, true, false);
+		axis.setTickColor(Color.RED);
+
+		cm.setTickLengths(20);
+		axis.setTickThickness(2);
+
+		axis.setIncludeBottomXAxisTicks(true, true);
+		axis.setIncludeTopXAxisTicks(true, true);
+		axis.setIncludeLeftYAxisTicks(true, true);
+		axis.setIncludeRightYAxisTicks(true, true);
+
+		axis.setIncludeTopXLabel(true);
+		axis.setIncludeRightYLabel(true);
+
+		axis.setIncludeTopXAxisValues(true);
+		axis.setIncludeRightYAxisValues(true);
+
+		plot.includePlotOutline(new boolean[] { true, false, true, false });
+		plot.includeDataPointOutline(true);
+
+//		axis.xAxisRotation(30);
+//		axis.yAxisRotation(45);
+		
+		cm.setLegendToImageRightWidth(20);
+		cm.setImageBottomToBottomAxisLabelHeight(20);
+		cm.setImageLeftToLeftAxisLabelWidth(20);
+		cm.setTopAxisLabelToTitleHeight(20);
+
+		cm.setTitleToImageTopHeight(20);
+
+		cm.setBottomAxisLabelToBottomAxisHeight(15);
+		cm.setTopAxisToTopAxisLabelHeight(15);
+		cm.setLeftAxisLabelToLeftAxisWidth(15);
+		cm.setRightAxisToRightAxisLabelWidth(15);
+
+		cm.setRightAxisLabelToLegendWidth(40);
+
+		sc.setIncludeLegend(true);
+		
+		return sc;
+	}
+	
 	private static void scatterCharting() {
 
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();

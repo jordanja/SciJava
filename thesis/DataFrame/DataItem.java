@@ -572,6 +572,8 @@ public class DataItem {
 			return this.doubleValue.doubleValue();
 		} else if (this.type == StorageType.BigDecimal) {
 			return this.bigDecimalValue.doubleValue();
+		} else if (this.type == StorageType.String) {
+			return Double.parseDouble(this.stringValue);
 		}
 		return null;
 	}

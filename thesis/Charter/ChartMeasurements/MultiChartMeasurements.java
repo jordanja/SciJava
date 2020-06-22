@@ -50,10 +50,11 @@ public class MultiChartMeasurements {
 	}
 	
 	public int imageLeftToRightmostChartRightWidth() {
-		int xPixel = 0;
+		int xPixel = this.imageLeftToLeftmostChartLeftWidth;
 		for (int chartCount = 0; chartCount < this.getNumHorizontalCharts(); chartCount++) {
 			xPixel += this.widestChartInColumnWidth(chartCount);
 		}
+		xPixel += this.chartSpacingWidth *(this.getNumHorizontalCharts() - 1);
 		return xPixel;
 	}
 	
@@ -69,7 +70,7 @@ public class MultiChartMeasurements {
 		int yPixel = this.imageBottomToBottomMostChartBottomHeight();
 		for (int rowCount = 0; rowCount < rowIndex; rowCount++) {
 			yPixel += this.tallestChartInRowHeight(rowCount);
-			yPixel += chartSpacingHeight;
+			yPixel += this.chartSpacingHeight;
 		}
 		yPixel += this.tallestChartInRowHeight(rowIndex)/2;
 		yPixel -= this.getChartHeight(columnIndex, rowIndex)/2;
@@ -84,16 +85,17 @@ public class MultiChartMeasurements {
 	private int tallestChartInRowHeight(int rowIndex) {
 		int tallest = Integer.MIN_VALUE;
 		for (int columnCount = 0; columnCount < this.chartHeights[rowIndex].length; columnCount++) {
-			tallest = Integer.max(tallest, this.getChartHeight(rowIndex, columnCount));
+			tallest = Integer.max(tallest, this.getChartHeight(columnCount, rowIndex));
 		}
 		return tallest;
 	}
 	
 	public int imageBottomToTopmostChartTopHeight() {
-		int yPixel = 0;
+		int yPixel = this.imageBottomToBottommostChartBottomHeight;
 		for (int chartCount = 0; chartCount < this.getNumVerticleCharts(); chartCount++) {
 			yPixel += this.tallestChartInRowHeight(chartCount);
 		}
+		yPixel += this.chartSpacingHeight * (this.getNumVerticleCharts() - 1);
 		return yPixel;
 	}
 	
