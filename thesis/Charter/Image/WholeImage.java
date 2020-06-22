@@ -60,6 +60,14 @@ public class WholeImage {
 		this.chartImage = image;
 	}
 	
+	public int getImageWidth() {
+		return this.chartImage.getWidth();
+	}
+	
+	public int getImageHeight() {
+		return this.chartImage.getHeight();
+	}
+	
 	public void WriteFile(String fileLoc) {
 		try {
 		    ImageIO.write(this.chartImage, "png", new File(fileLoc));
