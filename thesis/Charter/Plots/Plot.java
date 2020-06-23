@@ -21,8 +21,6 @@ import thesis.DataFrame.DataItem;
 
 public abstract class Plot {
 	
-	
-	
 	private boolean bottomPlotOutline;
 	private boolean leftPlotOutline;
 	private boolean topPlotOutline;

@@ -41,7 +41,7 @@ public class BarChart extends XYChart{
 	
 
 	@Override
-	public void Create() {
+	public void create() {
 		
 		String[] hueValues = CommonArray.removeDuplicates(this.colorCodeValues);
 		String[] xDataOrdered = getXDataOrdered();

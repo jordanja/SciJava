@@ -49,7 +49,7 @@ public class GaugeChart extends Chart{
 	
 	
 	@Override
-	public void Create() {
+	public void create() {
 		if (this.percentageGuage) {
 			this.axis.setAxis(value);
 		} else {

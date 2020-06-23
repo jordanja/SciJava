@@ -61,7 +61,7 @@ public class LegendData {
 	public void setColorData(String[] values, Color[] colors) {
 		this.colorData = new HashMap<String, Color>();
 		for (int valueCount = 0; valueCount < values.length; valueCount++) {
-			this.colorData.put(values[valueCount], colors[valueCount]);
+			this.colorData.put(values[valueCount], colors[valueCount % colors.length]);
 		}
 	}
 	

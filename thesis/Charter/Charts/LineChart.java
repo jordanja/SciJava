@@ -13,6 +13,9 @@ import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.LinePlot;
+import thesis.Charter.Styles.MatplotlibStyle;
+import thesis.Charter.Styles.Style;
+import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
@@ -36,14 +39,14 @@ public class LineChart extends XYChart {
 		this.legend = new CategoricalLegend();
 
 		this.cm = new XYChartMeasurements();
-
+		
 	}
 
 	@Override
-	public void Create() {
+	public void create() {
 		Double[] xValues = DataItem.convertToDoubleList(this.xData);
 		Double[] yValues = DataItem.convertToDoubleList(this.yData);
-		String[] hueValues = CommonArray.removeDuplicates(this.colorCodeValues); //getUniqueColorCodeValues(this.colorCodeValues);
+		String[] hueValues = CommonArray.removeDuplicates(this.colorCodeValues);
 		
 
 		HashMap<Object, Object> data = calculateLineData(xValues, yValues, hueValues);
@@ -53,9 +56,10 @@ public class LineChart extends XYChart {
 		Double maxX = CommonArray.maxValue(xValues);
 		Double minY = minimumYValue(data);
 		Double maxY = maximumYValue(data);
-		
+//		
 		this.axis.calculateXAxis(minX, maxX);
 		this.axis.calculateYAxis(minY, maxY);
+//		this.axis.calculateXAxis(this.xData);
 
 
 		if (this.legend.getIncludeLegend()) {
@@ -194,7 +198,19 @@ public class LineChart extends XYChart {
 		return data;
 	}
 
-	
+	public void setStyle(Styles style) {
+		Style styleToSet = null;
+		if (style == Styles.Matplotlib) {
+			styleToSet = new MatplotlibStyle();
+		} else if (style == Styles.Seaborn) {
+			
+		} else if (style == Styles.Excel) {
+			
+		}
+		this.axis.setStyle(styleToSet);
+		this.plot.setStyle(styleToSet);
+		this.cm.setStyle(styleToSet);
+	}
 
 	public BaseAxis getAxis() {
 		return this.axis;
