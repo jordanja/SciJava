@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Styles.Style;
 import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;
@@ -287,9 +288,27 @@ public class LinePlot extends Plot {
 		this.shadeUnderLine = shadeUnderLine;
 	}
 
-	public void setStyle(Styles style) {
-		// TODO Auto-generated method stub
-		
+	public void setStyle(Style styleToSet) {
+		super.setPlotBackgroundColor(styleToSet.getPlotBackgroundColor());
+		super.includePlotOutline(new boolean[] {
+			styleToSet.getDrawBottomPlotOutline(),
+			styleToSet.getDrawLeftPlotOutline(),
+			styleToSet.getDrawTopPlotOutline(),
+			styleToSet.getDrawRightPlotOutline()
+		});
+		super.setPlotOutlineColors(new Color[] {
+			styleToSet.getBottomPlotOutlineColor(),
+			styleToSet.getLeftPlotOutlineColor(),
+			styleToSet.getTopPlotOutlineColor(),
+			styleToSet.getRightPlotOutlineColor()
+		});
+		super.setPlotOutlineWidth(new float[] {
+			styleToSet.getBottomPlotOutlineWidth(),
+			styleToSet.getLeftPlotOutlineWidth(),
+			styleToSet.getTopPlotOutlineWidth(),
+			styleToSet.getRightPlotOutlineWidth()
+		});
+		super.setPlotBackgroundImage(styleToSet.getPlotBackgroundImage());
 	}
 
 }

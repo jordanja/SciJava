@@ -13,6 +13,8 @@ import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.LinePlot;
+import thesis.Charter.Styles.MatplotlibStyle;
+import thesis.Charter.Styles.Style;
 import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
@@ -197,9 +199,17 @@ public class LineChart extends XYChart {
 	}
 
 	public void setStyle(Styles style) {
-		this.axis.setStyle(style);
-		this.plot.setStyle(style);
-		this.cm.setStyle(style);
+		Style styleToSet = null;
+		if (style == Styles.Matplotlib) {
+			styleToSet = new MatplotlibStyle();
+		} else if (style == Styles.Seaborn) {
+			
+		} else if (style == Styles.Excel) {
+			
+		}
+		this.axis.setStyle(styleToSet);
+		this.plot.setStyle(styleToSet);
+		this.cm.setStyle(styleToSet);
 	}
 
 	public BaseAxis getAxis() {

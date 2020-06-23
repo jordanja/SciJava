@@ -57,9 +57,9 @@ public abstract class Style {
 	public abstract Color getRightTickColor();
 	
 	public abstract int getBottomTickHeight();
-	public abstract int getLeftTickHeight();
+	public abstract int getLeftTickWidth();
 	public abstract int getTopTickHeight();
-	public abstract int getRightTickHeight();
+	public abstract int getRightTickWidth();
 
 	public abstract int getInteriorBottomTickThickness();
 	public abstract int getInteriorTopTickThickness();

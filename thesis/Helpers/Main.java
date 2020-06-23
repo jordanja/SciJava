@@ -48,6 +48,7 @@ import thesis.Charter.Plots.StackedBarPlot;
 import thesis.Charter.Plots.StripPlot;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
+import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.*;
 import thesis.DataFrame.DataItem.StorageType;
@@ -317,23 +318,24 @@ public class Main {
 		DataFrame df = DataFrame.readCSV("Datasets/fmri.csv", true, false, columnTypes);
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
-
-		BaseAxis axis =  lc.getAxis();
-		LinePlot plot = lc.getPlot();
-
- 		plot.setShadeUnderLine(true);
+		lc.setStyle(Styles.Matplotlib);
 		
-		plot.setLineColor(Color.RED);
-		plot.setLineThickness(2);
-		plot.setMarkerDotColor(Color.WHITE);
-//		plot.setMarkerDotOutlineColor(Color.BLACK);
-
-		plot.setColorPalette(Palette.generateUniqueColors(14));
-
-//		lc.colorCode("subject");
-
-		axis.setXAxisLabel("sepal_length");
-		axis.setYAxisLabel("sepal_width");
+//		BaseAxis axis =  lc.getAxis();
+//		LinePlot plot = lc.getPlot();
+//
+// 		plot.setShadeUnderLine(true);
+//		
+//		plot.setLineColor(Color.RED);
+//		plot.setLineThickness(2);
+//		plot.setMarkerDotColor(Color.WHITE);
+////		plot.setMarkerDotOutlineColor(Color.BLACK);
+//
+//		plot.setColorPalette(Palette.generateUniqueColors(14));
+//
+////		lc.colorCode("subject");
+//
+//		axis.setXAxisLabel("sepal_length");
+//		axis.setYAxisLabel("sepal_width");
 
 		lc.setTitle("sepal_length vs sepal_width");
 		lc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
