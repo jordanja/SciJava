@@ -319,7 +319,7 @@ public class Main {
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
 		lc.setStyle(Styles.Matplotlib);
-		lc.colorCode("subject");
+		lc.colorCode("event");
 //		BaseAxis axis =  lc.getAxis();
 //		LinePlot plot = lc.getPlot();
 //

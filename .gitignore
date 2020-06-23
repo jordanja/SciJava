@@ -1,2 +1,8 @@
 .ipynb_checkpoints
 .swp
+.classpath
+.project
+Chart Images/
+Datasets/
+*.jpg
+*.class
