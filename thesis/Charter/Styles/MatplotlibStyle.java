@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 
+import thesis.Helpers.Palette;
+
 public class MatplotlibStyle extends Style{
 
 	// Plot
@@ -25,6 +27,7 @@ public class MatplotlibStyle extends Style{
 	private static final Color plotBackgroundColor = Color.WHITE;
 	private static final Image plotBackgroundImage = null;
 
+	private static final Color[] colorPalette = Palette.Matplotlib;
 
 	// Axis
 	private static final float xAxisRotation = 0;
@@ -84,7 +87,7 @@ public class MatplotlibStyle extends Style{
 	
 	
 	
-	// Axis
+	// Plot
 	@Override
 	public boolean getDrawBottomPlotOutline() {
 		return drawBottomPlotOutline;
@@ -155,7 +158,12 @@ public class MatplotlibStyle extends Style{
 		return plotBackgroundImage;
 	}
 
-	// Plot
+	@Override
+	public Color[] getColorPalette() {
+		return colorPalette;
+	}
+	
+	// Axis
 	@Override
 	public float getXAxisRotation() {
 		return xAxisRotation;

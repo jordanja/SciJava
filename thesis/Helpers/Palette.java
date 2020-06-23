@@ -11,7 +11,18 @@ public class Palette {
 	public final static Color[] Contrast = new Color[] {Color.decode("#c80003"), Color.decode("#a6c64c"), Color.decode("#ff955f"), Color.decode("#405d3a"), Color.decode("#86c6be")};
 
 	public final static Color[] Default = new Color[] {new Color(60, 92, 160), new Color(211, 112, 65), new Color(70, 155, 85), new Color(181, 57, 65), new Color(109, 92, 163), new Color(128, 101, 78), new Color(208, 116, 182), new Color(121, 121, 121), new Color(192, 172, 97), new Color(84, 166, 194)};
-	
+	public final static Color[] Matplotlib = new Color[] {
+		Color.decode("#1F77B4"),
+		Color.decode("#FF7F0E"),
+		Color.decode("#2CA02C"),
+		Color.decode("#D62728"),
+		Color.decode("#9467BD"),
+		Color.decode("#8C564B"),
+		Color.decode("#E377C2"),
+		Color.decode("#7F7F7F"),
+		Color.decode("#BCBD22"),
+		Color.decode("#17BECF"),
+	};
 	
 
 

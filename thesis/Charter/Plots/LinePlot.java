@@ -309,6 +309,8 @@ public class LinePlot extends Plot {
 			styleToSet.getRightPlotOutlineWidth()
 		});
 		super.setPlotBackgroundImage(styleToSet.getPlotBackgroundImage());
+		this.setColorPalette(styleToSet.getColorPalette());
+		this.setLineColor(styleToSet.getColorPalette()[0]);
 	}
 
 }

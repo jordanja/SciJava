@@ -27,6 +27,8 @@ public abstract class Style {
 	public abstract Color getPlotBackgroundColor();
 	public abstract Image getPlotBackgroundImage();
 	
+	public abstract Color[] getColorPalette();
+	
 	// Axis
 	public abstract float getXAxisRotation();
 	public abstract float getYAxisRotation();
