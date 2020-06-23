@@ -80,10 +80,11 @@ public class MatplotlibStyle extends Style{
 	
 	private static final boolean includeXAxisLinesOnPlot = false;
 	private static final Color xAxisLinesOnPlotColor = Color.WHITE;
+	private static final int xAxisLinesOnPlotWidth = 1;
 	
 	private static final boolean includeYAxisLinesOnPlot = false;
 	private static final Color yAxisLinesOnPlotColor = Color.WHITE;
-	
+	private static final int yAxisLinesOnPlotWidth = 1;
 	
 	// Chart Measurements
 	private static final int getBottomTickHeight = 5;
@@ -398,6 +399,16 @@ public class MatplotlibStyle extends Style{
 	@Override
 	public Color getYAxisLinesOnPlotColor() {
 		return yAxisLinesOnPlotColor;
+	}
+
+	@Override
+	public int getXAxisLinesOnPlotWidth() {
+		return xAxisLinesOnPlotWidth;
+	}
+
+	@Override
+	public int getYAxisLinesOnPlotWidth() {
+		return yAxisLinesOnPlotWidth;
 	}
 	
 }

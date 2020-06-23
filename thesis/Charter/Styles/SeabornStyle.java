@@ -80,9 +80,11 @@ public class SeabornStyle extends Style{
 
 	private static final boolean includeXAxisLinesOnPlot = true;
 	private static final Color xAxisLinesOnPlotColor = Color.WHITE;
-	
+	private static final int xAxisLinesOnPlotWidth = 1;
+
 	private static final boolean includeYAxisLinesOnPlot = true;
 	private static final Color yAxisLinesOnPlotColor = Color.WHITE;
+	private static final int yAxisLinesOnPlotWidth = 1;
 
 	// Chart Measurements
 	private static final int getBottomTickHeight = 0;
@@ -395,5 +397,15 @@ public class SeabornStyle extends Style{
 	@Override
 	public Color getYAxisLinesOnPlotColor() {
 		return yAxisLinesOnPlotColor;
+	}
+
+	@Override
+	public int getXAxisLinesOnPlotWidth() {
+		return xAxisLinesOnPlotWidth;
+	}
+
+	@Override
+	public int getYAxisLinesOnPlotWidth() {
+		return yAxisLinesOnPlotWidth;
 	}
 }

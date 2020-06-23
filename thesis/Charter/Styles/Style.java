@@ -85,9 +85,10 @@ public abstract class Style {
 	
 	public abstract boolean getIncludeXAxisLinesOnPlot();
 	public abstract Color getXAxisLinesOnPlotColor();
+	public abstract int getXAxisLinesOnPlotWidth();
 	
 	public abstract boolean getIncludeYAxisLinesOnPlot();
 	public abstract Color getYAxisLinesOnPlotColor();
-	
+	public abstract int getYAxisLinesOnPlotWidth();
 	
 }
