@@ -49,15 +49,14 @@ public class LineChart extends XYChart {
 		HashMap<Object, Object> data = calculateLineData(xValues, yValues, hueValues);
 
 		
-//		Double minX = CommonArray.minValue(xValues);
-//		Double maxX = CommonArray.maxValue(xValues);
-//		Double minY = minimumYValue(data);
-//		Double maxY = maximumYValue(data);
+		Double minX = CommonArray.minValue(xValues);
+		Double maxX = CommonArray.maxValue(xValues);
+		Double minY = minimumYValue(data);
+		Double maxY = maximumYValue(data);
 //		
-//		this.axis.calculateXAxis(minX, maxX);
-//		this.axis.calculateYAxis(minY, maxY);
-		
-		this.axis.calculateXAxis(this.xData);
+		this.axis.calculateXAxis(minX, maxX);
+		this.axis.calculateYAxis(minY, maxY);
+//		this.axis.calculateXAxis(this.xData);
 
 
 		if (this.legend.getIncludeLegend()) {

@@ -63,8 +63,8 @@ public class Main {
 //		pieChart();
 //		stripCharting();
 //		boxCharting();
-//		lineCharting();
-		dateLineCharting();
+		lineCharting();
+//		dateLineCharting();
 //		barCharting();
 //		scatterCharting();
 //		bubbleChart();
