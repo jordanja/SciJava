@@ -17,6 +17,7 @@ import thesis.Charter.Legend.Legend;
 import thesis.Charter.Plots.Plot;
 import thesis.Charter.Plots.ScatterPlot;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonArray;
 
 public class XYChartMeasurements extends ChartMeasurements {
@@ -492,6 +493,11 @@ public class XYChartMeasurements extends ChartMeasurements {
 			this.rightAxisLabelToLegendWidth = 0;
 		}
 
+	}
+
+	public void setStyle(Styles style) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

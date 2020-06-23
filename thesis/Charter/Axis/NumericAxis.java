@@ -13,6 +13,7 @@ import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
+import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
@@ -352,6 +353,11 @@ public class NumericAxis extends XYAxis {
 		} else {
 			return this.yTicks;
 		}
+	}
+
+	public void setStyle(Styles style) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

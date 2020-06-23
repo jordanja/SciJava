@@ -13,6 +13,7 @@ import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.LinePlot;
+import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
@@ -195,7 +196,11 @@ public class LineChart extends XYChart {
 		return data;
 	}
 
-	
+	public void setStyle(Styles style) {
+		this.axis.setStyle(style);
+		this.plot.setStyle(style);
+		this.cm.setStyle(style);
+	}
 
 	public BaseAxis getAxis() {
 		return this.axis;

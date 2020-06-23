@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;
 
@@ -284,6 +285,11 @@ public class LinePlot extends Plot {
 
 	public void setShadeUnderLine(boolean shadeUnderLine) {
 		this.shadeUnderLine = shadeUnderLine;
+	}
+
+	public void setStyle(Styles style) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
