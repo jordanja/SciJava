@@ -1084,5 +1084,23 @@ public class CommonArray {
 		return arr;
 	}
 
+	public static LocalDate maxLocalDate(DataItem[] values) {
+		LocalDate max = LocalDate.MIN;
+		for (DataItem value: values) {
+			if (value.after(max)) {
+				max = value.getDateValue();
+			}
+		}
+		return max;
+	}
+	public static LocalDate minLocalDate(DataItem[] values) {
+		LocalDate min = LocalDate.MAX;
+		for (DataItem value: values) {
+			if (value.before(min)) {
+				min = value.getDateValue();
+			}
+		}
+		return min;
+	}
 
 }

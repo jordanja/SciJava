@@ -51,7 +51,7 @@ public class StripChart extends XYChart{
 	}
 
 	@Override
-	public void Create() {
+	public void create() {
 		Object data = calculateData();
 		String typeOfData = getTypeOfPlot(data);
 		

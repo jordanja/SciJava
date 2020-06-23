@@ -49,7 +49,7 @@ public class BoxChart extends XYChart{
 	}
 
 	@Override
-	public void Create() {
+	public void create() {
 		HashMap<Object, Object> data = calculateData();
 		String typeOfData = getTypeOfPlot(data);
 		String[] xDataOrdered = getXDataOrdered(typeOfData);

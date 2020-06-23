@@ -93,7 +93,7 @@ public class ScatterChart extends XYChart {
 		this.legend.setIncludeLegend(true);
 	}
 
-	public void Create() {
+	public void create() {
 		double minX = CommonMath.minimumValue(this.xData);
 		double maxX = CommonMath.maximumValue(this.xData);
 		double minY = CommonMath.minimumValue(this.yData);

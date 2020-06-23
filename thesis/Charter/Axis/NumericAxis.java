@@ -6,14 +6,18 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
+import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
+import thesis.DataFrame.DataItem;
+import thesis.DataFrame.DataItem.StorageType;
 import thesis.Helpers.TypeCheckers;
 
 public class NumericAxis extends XYAxis {
@@ -21,13 +25,11 @@ public class NumericAxis extends XYAxis {
 	protected String[] xTicks;
 	protected String[] yTicks;
 	
+	String xAxisType = "";
+	
 	private boolean includeZeroXAxis;
 	private boolean includeZeroYAxis;
 
-	private double smallestX;
-	private double largestX;
-	private double smallestY;
-	private double largestY;
 
 	private boolean includeAxisLinesOnPlot = true;
 	private Color axisLinesOnPlotColor = Color.WHITE;
@@ -168,21 +170,60 @@ public class NumericAxis extends XYAxis {
 
 		}
 	}
+	
+	
+	
+	public void calculateXAxis(DataItem[] values) {
+		StorageType type = values[0].getType();
+		if (type == StorageType.LocalDate) {
+			LocalDate max = CommonArray.maxLocalDate(values);
+			LocalDate min = CommonArray.minLocalDate(values);
+			System.out.println("max: " + max);
+			System.out.println("min: " + min);
+		} else if (type == StorageType.Integer) {
+			
+		} else if (type == StorageType.Double) {
+			
+		}
+	}
+	
+	public void calculateXAxis(DataItem minimum, DataItem maximum) {
+		
+	}
+	
+	public void calculateXAxis(LocalDate minimum, LocalDate maximum) {
+		this.xAxisType = "LocalDate";
+		
+		long minInt = minimum.toEpochDay();
+		long maxInt = maximum.toEpochDay();
+		
+		NiceScale xNS = new NiceScale(minInt, maxInt);
+		this.xTicks = new String[(int) Math
+ 				.ceil((((maxInt - xNS.getNiceMin()) + xNS.getTickSpacing()) / xNS.getTickSpacing()) + 1)];
+ 		int count = 0;
+
+ 		for (long xTickNum = (long) xNS.getNiceMin(); count < this.xTicks.length; xTickNum += xNS.getTickSpacing()) {
+
+ 			this.xTicks[count] = String.valueOf(LocalDate.ofEpochDay(xTickNum));
+ 			System.out.println(this.xTicks[count]);
+ 			count++;
+ 		}
+		
+		
+	}
 
 	public void calculateXAxis(Double minimum, Double maximum) {
+		this.xAxisType = "Double";
 		NiceScale xNS;
 		
-		this.smallestX = minimum;
-		this.largestX = maximum;
-
 		if (this.includeZeroXAxis) {
-			xNS = new NiceScale(Math.min(0, minimum), largestX);
+			xNS = new NiceScale(Math.min(0, minimum), maximum);
 		} else {
-			xNS = new NiceScale(smallestX, largestX);
+			xNS = new NiceScale(minimum, maximum);
 		}
 
 		this.xTicks = new String[(int) Math
-				.ceil((((largestX - xNS.getNiceMin()) + xNS.getTickSpacing()) / xNS.getTickSpacing()) + 1)];
+				.ceil((((maximum - xNS.getNiceMin()) + xNS.getTickSpacing()) / xNS.getTickSpacing()) + 1)];
 		int count = 0;
 
 		for (double xTickNum = xNS.getNiceMin(); count < this.xTicks.length; xTickNum += xNS.getTickSpacing()) {
@@ -197,17 +238,15 @@ public class NumericAxis extends XYAxis {
 		
 		NiceScale yNS;
 		
-		this.smallestY = minimum;
-		this.largestY = maximum;
 
 		if (this.includeZeroYAxis) {
-			yNS = new NiceScale(Math.min(0, minimum), largestY);
+			yNS = new NiceScale(Math.min(0, minimum), maximum);
 		} else {
-			yNS = new NiceScale(smallestY, largestY);
+			yNS = new NiceScale(minimum, maximum);
 		}
 
 		this.yTicks = new String[(int) Math
-				.ceil((((largestY - yNS.getNiceMin()) + yNS.getTickSpacing()) / yNS.getTickSpacing()) + 1)];
+				.ceil((((maximum - yNS.getNiceMin()) + yNS.getTickSpacing()) / yNS.getTickSpacing()) + 1)];
 		int count = 0;
 		for (double yTickNum = yNS.getNiceMin(); count < this.yTicks.length; yTickNum += yNS.getTickSpacing()) {
 			DecimalFormat df = new DecimalFormat("#.##");

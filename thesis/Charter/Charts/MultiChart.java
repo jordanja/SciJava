@@ -50,7 +50,7 @@ public class MultiChart {
 		// 'create' each chart
 		for (List<Chart> chartRow: charts) {
 			for (Chart chart: chartRow) {
-				chart.Create();
+				chart.create();
 			}
 		}
 		// Calculate chart metrics (size of each chart etc)

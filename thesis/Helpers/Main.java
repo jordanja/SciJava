@@ -64,6 +64,7 @@ public class Main {
 //		stripCharting();
 //		boxCharting();
 //		lineCharting();
+		dateLineCharting();
 //		barCharting();
 //		scatterCharting();
 //		bubbleChart();
@@ -72,7 +73,7 @@ public class Main {
 //		gaugeChart();
 //		scatterChartingDiamond();
 //		multiChart();
-		dfPlay();
+//		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 
@@ -118,7 +119,7 @@ public class Main {
 		
 		hc.getXYChartMeasurements().setPlotWidth(1000);
 		
-		hc.Create();
+		hc.create();
 		hc.WriteFile("Chart Images/Histogram Chart.png");
 		
 	}
@@ -134,7 +135,7 @@ public class Main {
 		
 		gc.getPlot().setInnerRadiusDifference(100);
 		
-		gc.Create();
+		gc.create();
 		
 		gc.write("Danger Zone", 210, 150, 
 				xAlignment.LeftAlign, yAlignment.MiddleAlign, 
@@ -157,7 +158,7 @@ public class Main {
 		
 		pac.getPlot().setOutlineWidth(10);
 		
-		pac.Create();
+		pac.create();
 		pac.WriteFile("Chart Images/Polar Area Chart.png");
 	}
 
@@ -176,7 +177,7 @@ public class Main {
 		rc.getChartMeasurements().setPlotWidth(600);
 		rc.getChartMeasurements().setPlotHeight(600);
 		
-		rc.Create();
+		rc.create();
 		rc.WriteFile("Chart Images/Radar Chart.png");
 	}
 
@@ -193,7 +194,7 @@ public class Main {
 		StackedBarPlot plot = sbc.getPlot();
 		plot.setDrawValuesOnBar(true);
 		
-		sbc.Create();
+		sbc.create();
 		sbc.WriteFile("Chart Images/Stacked Bar Chart.png");
 	}
 	
@@ -218,7 +219,7 @@ public class Main {
 	public static void pieChart() {
 		Chart pc = getPieChart();
 		
-		pc.Create();
+		pc.create();
 		pc.WriteFile("Chart Images/Pie Chart.png");
 	}
 	
@@ -256,7 +257,7 @@ public class Main {
 	public static void stripCharting() {
 		Chart sc = getStripChart();
 		
-		sc.Create();
+		sc.create();
 		sc.WriteFile("Chart Images/Strip Chart.png");
 	}
 
@@ -289,10 +290,23 @@ public class Main {
 	public static void boxCharting() {
 		Chart bc = getBoxChart();
 
-		bc.Create();
+		bc.create();
 		bc.WriteFile("Chart Images/Box Chart.png");
 	}
 
+	public static void dateLineCharting() {
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("date", StorageType.LocalDate);
+		columnTypes.put("value", StorageType.Integer);
+		
+		DataFrame df = DataFrame.readCSV("Datasets/date_line.csv", true, false, columnTypes);
+		LineChart lc = new LineChart(df, "date", "value");
+		
+		lc.create();
+		
+		System.out.println(df);
+	}
+	
 	public static void lineCharting() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("subject", StorageType.String);
@@ -301,11 +315,10 @@ public class Main {
 		columnTypes.put("region", StorageType.String);
 		columnTypes.put("signal", StorageType.Double);
 		DataFrame df = DataFrame.readCSV("Datasets/fmri.csv", true, false, columnTypes);
-		System.out.println(df);
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
 
-		NumericAxis axis = (NumericAxis) lc.getAxis();
+		BaseAxis axis =  lc.getAxis();
 		LinePlot plot = lc.getPlot();
 
  		plot.setShadeUnderLine(true);
@@ -317,7 +330,7 @@ public class Main {
 
 		plot.setColorPalette(Palette.generateUniqueColors(14));
 
-		lc.colorCode("subject");
+//		lc.colorCode("subject");
 
 		axis.setXAxisLabel("sepal_length");
 		axis.setYAxisLabel("sepal_width");
@@ -325,7 +338,7 @@ public class Main {
 		lc.setTitle("sepal_length vs sepal_width");
 		lc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 
-		lc.Create();
+		lc.create();
 		lc.WriteFile("Chart Images/Line Chart.png");
 
 	}
@@ -377,7 +390,7 @@ public class Main {
 //		axis.setOrientation("h");
 		
 
-		bc.Create();
+		bc.create();
 		bc.WriteFile("Chart Images/Bar Chart.png");
 	}
 	
@@ -391,7 +404,7 @@ public class Main {
 		themeCategorical.setTitle("Diamon Analysis by clarity");
 		themeCategorical.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 		
-		themeCategorical.Create();
+		themeCategorical.create();
 		themeCategorical.WriteFile("Chart Images/Scatter Chart (diamond).png");
 	}
 	
@@ -412,7 +425,7 @@ public class Main {
 		sc.colorCode("gender");
 		sc.setBubbleSize("wealth");
 		
-		sc.Create();
+		sc.create();
 		sc.WriteFile("Chart Images/Bubble Chart.png");
 
 	}
@@ -506,7 +519,7 @@ public class Main {
 
 		Chart sc = getScatterChart();
 
-		sc.Create();
+		sc.create();
 		sc.WriteFile("Chart Images/Scatter Chart.png");
 
 	}

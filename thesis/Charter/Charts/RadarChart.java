@@ -43,7 +43,7 @@ public class RadarChart extends Chart{
 	}
 
 	@Override
-	public void Create() {
+	public void create() {
 		
 		String[] uniqueRadarCategories = CommonArray.removeDuplicates(this.radarCategories);
 		String[] uniqueValueCategories = CommonArray.removeDuplicates(this.valueCategories);

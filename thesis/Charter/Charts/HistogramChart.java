@@ -31,7 +31,7 @@ public class HistogramChart extends XYChart {
 	}
 
 	@Override
-	public void Create() {
+	public void create() {
 		Double[] values = DataItem.convertToDoubleList(this.yData);
 		Arrays.sort(values);
 		

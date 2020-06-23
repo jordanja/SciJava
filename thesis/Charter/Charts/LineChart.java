@@ -36,26 +36,28 @@ public class LineChart extends XYChart {
 		this.legend = new CategoricalLegend();
 
 		this.cm = new XYChartMeasurements();
-
+		
 	}
 
 	@Override
-	public void Create() {
+	public void create() {
 		Double[] xValues = DataItem.convertToDoubleList(this.xData);
 		Double[] yValues = DataItem.convertToDoubleList(this.yData);
-		String[] hueValues = CommonArray.removeDuplicates(this.colorCodeValues); //getUniqueColorCodeValues(this.colorCodeValues);
+		String[] hueValues = CommonArray.removeDuplicates(this.colorCodeValues);
 		
 
 		HashMap<Object, Object> data = calculateLineData(xValues, yValues, hueValues);
 
 		
-		Double minX = CommonArray.minValue(xValues);
-		Double maxX = CommonArray.maxValue(xValues);
-		Double minY = minimumYValue(data);
-		Double maxY = maximumYValue(data);
+//		Double minX = CommonArray.minValue(xValues);
+//		Double maxX = CommonArray.maxValue(xValues);
+//		Double minY = minimumYValue(data);
+//		Double maxY = maximumYValue(data);
+//		
+//		this.axis.calculateXAxis(minX, maxX);
+//		this.axis.calculateYAxis(minY, maxY);
 		
-		this.axis.calculateXAxis(minX, maxX);
-		this.axis.calculateYAxis(minY, maxY);
+		this.axis.calculateXAxis(this.xData);
 
 
 		if (this.legend.getIncludeLegend()) {
