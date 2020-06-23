@@ -1076,5 +1076,13 @@ public class CommonArray {
 		return uniqueDurations.toArray(new Duration[0]);
 	}
 
+	public static Double[] primitiveDoubletoObjectDouble(double[] columnAsDoubleArray) {
+		Double[] arr = new Double[columnAsDoubleArray.length];
+		for (int i = 0; i < columnAsDoubleArray.length; i++) {
+			arr[i] = columnAsDoubleArray[i];
+		}
+		return arr;
+	}
+
 
 }

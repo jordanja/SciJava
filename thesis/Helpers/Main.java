@@ -27,9 +27,11 @@ import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Charts.BarChart;
 import thesis.Charter.Charts.BoxChart;
+import thesis.Charter.Charts.Chart;
 import thesis.Charter.Charts.GaugeChart;
 import thesis.Charter.Charts.HistogramChart;
 import thesis.Charter.Charts.LineChart;
+import thesis.Charter.Charts.MultiChart;
 import thesis.Charter.Charts.PieChart;
 import thesis.Charter.Charts.PolarAreaChart;
 import thesis.Charter.Charts.RadarChart;
@@ -69,8 +71,34 @@ public class Main {
 //		polarAreaChart();
 //		gaugeChart();
 //		scatterChartingDiamond();
+//		multiChart();
 		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
+	}
+
+	private static void multiChart() {
+		DataFrame dfPie = new DataFrame("Datasets/own.csv", true, false);
+	
+	
+		
+		Chart chart1 = getPieChart();
+		Chart chart2 = getStripChart();
+		Chart chart3 = getScatterChart();
+		Chart chart4 = getBoxChart();
+		
+		
+		MultiChart mc = new MultiChart(2, 2);
+		mc.setChart(0, 0, chart1);
+		mc.setChart(1, 0, chart2);
+		mc.setChart(0, 1, chart3);
+		mc.setChart(1, 1, chart4);
+		
+		mc.setTitle("This is a Multi-Chart");
+		mc.setTitleFont(new Font("Dialog", Font.PLAIN, 24));
+		
+		mc.create();
+		mc.WriteFile("Chart Images/Multi-Chart.png");
+		
 	}
 
 	private static void correlationChart() {
@@ -82,7 +110,10 @@ public class Main {
 	}
 
 	private static void histogram() {
-		DataFrame df = new DataFrame("Datasets/histogram.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("tree_heights", StorageType.Double);
+		
+		DataFrame df = DataFrame.readCSV("Datasets/histogram.csv", true, false, columnTypes);
 		HistogramChart hc = new HistogramChart(df, "tree_heights");
 		
 		hc.getXYChartMeasurements().setPlotWidth(1000);
@@ -114,7 +145,11 @@ public class Main {
 	}
 
 	private static void polarAreaChart() {
-		DataFrame df = new DataFrame("Datasets/own.csv", true, false);
+		
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("Fruit", StorageType.String);
+		columnTypes.put("Quantity", StorageType.Double);
+		DataFrame df = DataFrame.readCSV("Datasets/own.csv", true, false, columnTypes);
 		PolarAreaChart pac = new PolarAreaChart(df, "Fruit", "Quantity");
 		
 		pac.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
@@ -127,7 +162,11 @@ public class Main {
 	}
 
 	private static void radarChart() {
-		DataFrame df = new DataFrame("Datasets/radarchart.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("Fruit", StorageType.String);
+		columnTypes.put("Supermarket", StorageType.String);
+		columnTypes.put("Quantity", StorageType.Double);
+		DataFrame df = DataFrame.readCSV("Datasets/radarchart.csv", true, false, columnTypes);
 		
 		RadarChart rc = new RadarChart(df, "Fruit", "Supermarket", "Quantity");
 		
@@ -142,7 +181,12 @@ public class Main {
 	}
 
 	private static void stackedAreaChart() {
-		DataFrame df = new DataFrame("Datasets/stacked.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("Quarter", StorageType.String);
+		columnTypes.put("Region", StorageType.String);
+		columnTypes.put("Sales", StorageType.Double);
+		
+		DataFrame df = DataFrame.readCSV("Datasets/stacked.csv", true, false, columnTypes);
 		System.out.println(df);
 		
 		StackedBarChart sbc = new StackedBarChart(df, "Quarter", "Sales", "Region");
@@ -152,9 +196,12 @@ public class Main {
 		sbc.Create();
 		sbc.WriteFile("Chart Images/Stacked Bar Chart.png");
 	}
-
-	public static void pieChart() {
-		DataFrame df = new DataFrame("Datasets/own.csv", true, false);
+	
+	public static Chart getPieChart() {
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("Fruit", StorageType.String);
+		columnTypes.put("Quantity", StorageType.Double);
+		DataFrame df = DataFrame.readCSV("Datasets/own.csv", true, false, columnTypes);
 		PieChart pc = new PieChart(df, "Fruit", "Quantity");
 		PiePlot plot = pc.getPlot();
 		
@@ -165,14 +212,26 @@ public class Main {
 		
 		plot.setIncludeProportionsOnPie(true);
 		plot.setProportionsColor(Color.WHITE);
+		return pc;
+	}
+
+	public static void pieChart() {
+		Chart pc = getPieChart();
 		
 		pc.Create();
 		pc.WriteFile("Chart Images/Pie Chart.png");
 	}
 	
-	
-	public static void stripCharting() {
-		DataFrame df = new DataFrame("Datasets/tips.csv", true, false);
+	public static Chart getStripChart() {
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
 
 //		StripChart sc = new StripChart(df,  "total_bill");
 		StripChart sc = new StripChart(df, "day", "total_bill");
@@ -191,13 +250,26 @@ public class Main {
 		XYChartMeasurements cm = sc.getXYChartMeasurements();
 		cm.setPlotWidth(900);
 		
+		return sc;
+	}
+	
+	public static void stripCharting() {
+		Chart sc = getStripChart();
+		
 		sc.Create();
 		sc.WriteFile("Chart Images/Strip Chart.png");
 	}
 
-	public static void boxCharting() {
-		DataFrame df = new DataFrame("Datasets/tips.csv", true, false);
-
+	private static Chart getBoxChart() {
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
 //		BoxChart bc = new BoxChart(df,  "total_bill");
 		BoxChart bc = new BoxChart(df, "day", "total_bill");
 
@@ -211,13 +283,24 @@ public class Main {
 
 		BoxPlot plot = bc.getPlot();
 		plot.setColorPalette(Palette.generateUniqueColors(10));
+		return bc;
+	}
+	
+	public static void boxCharting() {
+		Chart bc = getBoxChart();
 
 		bc.Create();
 		bc.WriteFile("Chart Images/Box Chart.png");
 	}
 
 	public static void lineCharting() {
-		DataFrame df = new DataFrame("Datasets/fmri.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("subject", StorageType.String);
+		columnTypes.put("timepoint", StorageType.Integer);
+		columnTypes.put("event", StorageType.String);
+		columnTypes.put("region", StorageType.String);
+		columnTypes.put("signal", StorageType.Double);
+		DataFrame df = DataFrame.readCSV("Datasets/fmri.csv", true, false, columnTypes);
 		System.out.println(df);
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
@@ -248,7 +331,16 @@ public class Main {
 	}
 
 	private static void barCharting() {
-		DataFrame df = new DataFrame("Datasets/tips_mod.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		columnTypes.put("category", StorageType.String);
+		DataFrame df = DataFrame.readCSV("Datasets/tips_mod.csv", true, false, columnTypes);
 
 		BarChart bc = new BarChart(df, "day", "total_bill");
 
@@ -304,7 +396,12 @@ public class Main {
 	}
 	
 	private static void bubbleChart() {
-		DataFrame df = new DataFrame("Datasets/bubble.csv", true, false);
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("age", StorageType.Double);
+		columnTypes.put("height", StorageType.Double);
+		columnTypes.put("gender", StorageType.String);
+		columnTypes.put("wealth", StorageType.Double);
+		DataFrame df = DataFrame.readCSV("Datasets/bubble.csv", true, false, columnTypes);
 
 		ScatterChart sc = new ScatterChart(df, "age", "height");
 
@@ -320,8 +417,7 @@ public class Main {
 
 	}
 
-	private static void scatterCharting() {
-
+	private static Chart getScatterChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("total_bill", StorageType.Double);
 		columnTypes.put("tip", StorageType.Double);
@@ -402,6 +498,13 @@ public class Main {
 		cm.setRightAxisLabelToLegendWidth(40);
 
 		sc.setIncludeLegend(true);
+		
+		return sc;
+	}
+	
+	private static void scatterCharting() {
+
+		Chart sc = getScatterChart();
 
 		sc.Create();
 		sc.WriteFile("Chart Images/Scatter Chart.png");
@@ -564,44 +667,13 @@ public class Main {
 //		rowNames.add("row_eight");
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
-				
 		
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("date", StorageType.LocalDate);
+		columnTypes.put("category", StorageType.String);
+		columnTypes.put("value", StorageType.Integer);
+		DataFrame df = DataFrame.readCSV("Datasets/date_data.csv", true, false, columnTypes);
 		
-		
-//		Integer[] arr = new Integer[] {0, 1};
-
-//		DataItem[] arr = new DataItem[] {new DataItem(1), new DataItem(3)};
-
-//		ArrayList<Integer> arr = new ArrayList<Integer>();
-//		arr.add(1);
-//		arr.add(2);
-
-//		List<Integer> arr1 = new ArrayList<Integer>();
-//		arr1.add(10);
-//		arr1.add(20);
-//		List<Integer> arr2 = new ArrayList<Integer>();
-//		arr2.add(100);
-//		arr2.add(200);
-//		Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
-//		map.put("col1", arr1);
-//		map.put("col2", arr2);
-		
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("row_one", 1);
-//		map.put("row_two", 2);
-		
-//		double[][] arr = new double[][] {new double[] {1.0, 2.0}, new double[] {10.0, 20.0}};
-		
-//		df.insertColumn(0, map);
-		
-		DataFrame df = DataFrame.randomInts(4, 5);
-		df.setRowNames(new String[] {"a", "b", "c", "d", "e"});
-		df.toCSV("randomData.csv", true);
-		System.out.println(df);
-		System.out.println("written");
-		
-		DataFrame newDF = DataFrame.readCSV("randomData.csv", true, true);
-		System.out.println(newDF);
 		
 		return df;
 	}

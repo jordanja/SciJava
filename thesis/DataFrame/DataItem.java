@@ -572,6 +572,8 @@ public class DataItem {
 			return this.doubleValue.doubleValue();
 		} else if (this.type == StorageType.BigDecimal) {
 			return this.bigDecimalValue.doubleValue();
+		} else if (this.type == StorageType.String) {
+			return Double.parseDouble(this.stringValue);
 		}
 		return null;
 	}
@@ -583,6 +585,8 @@ public class DataItem {
 			return this.doubleValue.floatValue();
 		} else if (this.type == StorageType.BigDecimal) {
 			return this.bigDecimalValue.floatValue();
+		} else if (this.type == StorageType.String) {
+			return Float.parseFloat(this.stringValue);
 		}
 		return null;
 	}
@@ -594,6 +598,8 @@ public class DataItem {
 			return this.doubleValue.intValue();
 		} else if (this.type == StorageType.BigDecimal) {
 			return this.bigDecimalValue.intValue();
+		} else if (this.type == StorageType.String) {
+			return Integer.parseInt(this.stringValue);
 		}
 		return null;
 	}
@@ -615,6 +621,8 @@ public class DataItem {
 			return this.doubleValue;
 		} else if (this.type == StorageType.BigDecimal) {
 			return this.bigDecimalValue;
+		} else if (this.type == StorageType.String) {
+			return Double.parseDouble(this.stringValue);
 		}
 			
 		return null;

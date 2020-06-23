@@ -135,8 +135,6 @@ public class XYOneCategoricalAxis extends XYAxis {
 			numHorizontalTicks = this.numericalTicks.length;
 			numVerticleTicks = this.categoricalTicks.length;
 		}
-		System.out.println("drawing: " + numHorizontalTicks + " horizontal ticks");
-		System.out.println("drawing: " + numVerticleTicks + " verticle ticks");
 		
 		if (numHorizontalTicks > 0) {
 			

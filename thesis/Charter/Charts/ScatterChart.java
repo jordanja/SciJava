@@ -87,7 +87,9 @@ public class ScatterChart extends XYChart {
 	
 	public void setBubbleSize(String bubbleSizeLabel) {
 		this.bubbleSizeLabel = bubbleSizeLabel;
-		this.bubbleSizeValues = DataItem.convertToDoubleList(dataFrame.getColumnAsDataItemArray(this.bubbleSizeLabel));
+		this.bubbleSizeValues = CommonArray.primitiveDoubletoObjectDouble(this.dataFrame.getColumnAsDoubleArray(bubbleSizeLabel));
+		System.out.println(this.bubbleSizeValues[0]);
+				//DataItem.convertToDoubleList(dataFrame.getColumnAsDataItemArray(this.bubbleSizeLabel));
 		this.legend.setIncludeLegend(true);
 	}
 
