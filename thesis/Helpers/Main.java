@@ -71,8 +71,8 @@ public class Main {
 //		polarAreaChart();
 //		gaugeChart();
 //		scatterChartingDiamond();
-		multiChart();
-//		dfPlay();
+//		multiChart();
+		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 
@@ -82,9 +82,9 @@ public class Main {
 	
 		
 		Chart chart1 = getPieChart();
-		Chart chart2 = getStringChart();
-		Chart chart3 = createScatterChart();
-		Chart chart4 = createBoxChart();
+		Chart chart2 = getStripChart();
+		Chart chart3 = getScatterChart();
+		Chart chart4 = getBoxChart();
 		
 		
 		MultiChart mc = new MultiChart(2, 2);
@@ -216,26 +216,13 @@ public class Main {
 	}
 
 	public static void pieChart() {
-		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
-		columnTypes.put("Fruit", StorageType.String);
-		columnTypes.put("Quantity", StorageType.Double);
-		DataFrame df = DataFrame.readCSV("Datasets/own.csv", true, false, columnTypes);
-		PieChart pc = new PieChart(df, "Fruit", "Quantity");
-		PiePlot plot = pc.getPlot();
-		
-		pc.setTitleFont(new Font("Dialog", Font.PLAIN, 50));
-		pc.setTitle("Quantity of Fruit");
-		
-		plot.setShatter(new double[] {0.1, 0, 0, 0.3, 0});
-		
-		plot.setIncludeProportionsOnPie(true);
-		plot.setProportionsColor(Color.WHITE);
+		Chart pc = getPieChart();
 		
 		pc.Create();
 		pc.WriteFile("Chart Images/Pie Chart.png");
 	}
 	
-	public static Chart getStringChart() {
+	public static Chart getStripChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("total_bill", StorageType.Double);
 		columnTypes.put("tip", StorageType.Double);
@@ -267,38 +254,13 @@ public class Main {
 	}
 	
 	public static void stripCharting() {
-		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
-		columnTypes.put("total_bill", StorageType.Double);
-		columnTypes.put("tip", StorageType.Double);
-		columnTypes.put("sex", StorageType.String);
-		columnTypes.put("smoker", StorageType.String);
-		columnTypes.put("day", StorageType.String);
-		columnTypes.put("time", StorageType.String);
-		columnTypes.put("size", StorageType.Integer);
-		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
-
-//		StripChart sc = new StripChart(df,  "total_bill");
-		StripChart sc = new StripChart(df, "day", "total_bill");
-		sc.colorCode("smoker");
-
-//		StripChart sc = new StripChart(df, "sex", "total_bill");
-//		sc.colorCode("day");
-
-		sc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
-		
-		BaseAxis axis = sc.getAxis();
-		axis.setXAxisFont(new Font("Dialog", Font.PLAIN, 80));
-
-		StripPlot plot = sc.getPlot();
-		
-		XYChartMeasurements cm = sc.getXYChartMeasurements();
-		cm.setPlotWidth(900);
+		Chart sc = getStripChart();
 		
 		sc.Create();
 		sc.WriteFile("Chart Images/Strip Chart.png");
 	}
 
-	private static Chart createBoxChart() {
+	private static Chart getBoxChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("total_bill", StorageType.Double);
 		columnTypes.put("tip", StorageType.Double);
@@ -325,28 +287,7 @@ public class Main {
 	}
 	
 	public static void boxCharting() {
-		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
-		columnTypes.put("total_bill", StorageType.Double);
-		columnTypes.put("tip", StorageType.Double);
-		columnTypes.put("sex", StorageType.String);
-		columnTypes.put("smoker", StorageType.String);
-		columnTypes.put("day", StorageType.String);
-		columnTypes.put("time", StorageType.String);
-		columnTypes.put("size", StorageType.Integer);
-		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
-//		BoxChart bc = new BoxChart(df,  "total_bill");
-		BoxChart bc = new BoxChart(df, "day", "total_bill");
-
-		bc.colorCode("smoker"); 
-
-		bc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
-
-		XYChartMeasurements cm = bc.getXYChartMeasurements();
-
-		cm.setPlotWidth(800);
-
-		BoxPlot plot = bc.getPlot();
-		plot.setColorPalette(Palette.generateUniqueColors(10));
+		Chart bc = getBoxChart();
 
 		bc.Create();
 		bc.WriteFile("Chart Images/Box Chart.png");
@@ -476,7 +417,7 @@ public class Main {
 
 	}
 
-	private static Chart createScatterChart() {
+	private static Chart getScatterChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("total_bill", StorageType.Double);
 		columnTypes.put("tip", StorageType.Double);
@@ -563,86 +504,7 @@ public class Main {
 	
 	private static void scatterCharting() {
 
-		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
-		columnTypes.put("total_bill", StorageType.Double);
-		columnTypes.put("tip", StorageType.Double);
-		columnTypes.put("sex", StorageType.String);
-		columnTypes.put("smoker", StorageType.String);
-		columnTypes.put("day", StorageType.String);
-		columnTypes.put("time", StorageType.String);
-		columnTypes.put("size", StorageType.Integer);
-		
-		DataFrame df =  DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
-//		df.setColumnsType(new StorageType[] {StorageType.Double, StorageType.Double, StorageType.String, StorageType.String, StorageType.String, StorageType.String, StorageType.Integer});
-		
-		
-		ScatterChart sc = new ScatterChart(df, "total_bill", "tip");
-
-		NumericAxis axis = sc.getAxis();
-		ScatterPlot plot = sc.getPlot();
-		Legend legend = sc.getLegend();
-
-		sc.setTitle("sepal_length vs sepal_width");
-		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-		sc.colorCode("sex");
-		axis.setXAxisLabel("sepal_length");
-		axis.setYAxisLabel("sepal_width");
-
-//		axis.setXAxisFont(new Font("Dialog", Font.BOLD, 30));
-//		axis.setYAxisFont(new Font("Dialog", Font.BOLD, 30));
-//		axis.setXAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
-//		axis.setYAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
-		
-		plot.includeDataPointOutline(true);
-		plot.includeLinearRegression(true);
-		
-		XYChartMeasurements cm = sc.getXYChartMeasurements();
-		cm.setLeftAxisLabelToLeftAxisWidth(15);
-		cm.setTopAxisLabelToTitleHeight(15);
-
-		cm.setPlotWidth(800);
-
-		axis.setIncludeZeroXAxis(true);
-		axis.setIncludeZeroYAxis(true);
-
-		axis.setIncludeExteriorTicks(true, false, true, false);
-		axis.setTickColor(Color.RED);
-
-		cm.setTickLengths(20);
-		axis.setTickThickness(2);
-
-		axis.setIncludeBottomXAxisTicks(true, true);
-		axis.setIncludeTopXAxisTicks(true, true);
-		axis.setIncludeLeftYAxisTicks(true, true);
-		axis.setIncludeRightYAxisTicks(true, true);
-
-		axis.setIncludeTopXLabel(true);
-		axis.setIncludeRightYLabel(true);
-
-		axis.setIncludeTopXAxisValues(true);
-		axis.setIncludeRightYAxisValues(true);
-
-		plot.includePlotOutline(new boolean[] { true, false, true, false });
-		plot.includeDataPointOutline(true);
-
-//		axis.xAxisRotation(30);
-//		axis.yAxisRotation(45);
-		
-		cm.setLegendToImageRightWidth(20);
-		cm.setImageBottomToBottomAxisLabelHeight(20);
-		cm.setImageLeftToLeftAxisLabelWidth(20);
-		cm.setTopAxisLabelToTitleHeight(20);
-
-		cm.setTitleToImageTopHeight(20);
-
-		cm.setBottomAxisLabelToBottomAxisHeight(15);
-		cm.setTopAxisToTopAxisLabelHeight(15);
-		cm.setLeftAxisLabelToLeftAxisWidth(15);
-		cm.setRightAxisToRightAxisLabelWidth(15);
-
-		cm.setRightAxisLabelToLegendWidth(40);
-
-		sc.setIncludeLegend(true);
+		Chart sc = getScatterChart();
 
 		sc.Create();
 		sc.WriteFile("Chart Images/Scatter Chart.png");
@@ -805,44 +667,13 @@ public class Main {
 //		rowNames.add("row_eight");
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
-				
 		
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("date", StorageType.LocalDate);
+		columnTypes.put("category", StorageType.String);
+		columnTypes.put("value", StorageType.Integer);
+		DataFrame df = DataFrame.readCSV("Datasets/date_data.csv", true, false, columnTypes);
 		
-		
-//		Integer[] arr = new Integer[] {0, 1};
-
-//		DataItem[] arr = new DataItem[] {new DataItem(1), new DataItem(3)};
-
-//		ArrayList<Integer> arr = new ArrayList<Integer>();
-//		arr.add(1);
-//		arr.add(2);
-
-//		List<Integer> arr1 = new ArrayList<Integer>();
-//		arr1.add(10);
-//		arr1.add(20);
-//		List<Integer> arr2 = new ArrayList<Integer>();
-//		arr2.add(100);
-//		arr2.add(200);
-//		Map<String, List<Integer>> map = new HashMap<String, List<Integer>>();
-//		map.put("col1", arr1);
-//		map.put("col2", arr2);
-		
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("row_one", 1);
-//		map.put("row_two", 2);
-		
-//		double[][] arr = new double[][] {new double[] {1.0, 2.0}, new double[] {10.0, 20.0}};
-		
-//		df.insertColumn(0, map);
-		
-		DataFrame df = DataFrame.randomInts(4, 5);
-		df.setRowNames(new String[] {"a", "b", "c", "d", "e"});
-		df.toCSV("randomData.csv", true);
-		System.out.println(df);
-		System.out.println("written");
-		
-		DataFrame newDF = DataFrame.readCSV("randomData.csv", true, true);
-		System.out.println(newDF);
 		
 		return df;
 	}
