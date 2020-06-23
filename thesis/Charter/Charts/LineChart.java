@@ -14,6 +14,7 @@ import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.LinePlot;
 import thesis.Charter.Styles.MatplotlibStyle;
+import thesis.Charter.Styles.SeabornStyle;
 import thesis.Charter.Styles.Style;
 import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonArray;
@@ -35,6 +36,10 @@ public class LineChart extends XYChart {
 		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 
 		this.axis = new NumericAxis();
+		
+		this.axis.setXAxisLabel(xAxis);
+		this.axis.setYAxisLabel(yAxis);
+		
 		this.plot = new LinePlot();
 		this.legend = new CategoricalLegend();
 
@@ -203,7 +208,7 @@ public class LineChart extends XYChart {
 		if (style == Styles.Matplotlib) {
 			styleToSet = new MatplotlibStyle();
 		} else if (style == Styles.Seaborn) {
-			
+			styleToSet = new SeabornStyle();
 		} else if (style == Styles.Excel) {
 			
 		}

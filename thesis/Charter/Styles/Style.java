@@ -83,5 +83,11 @@ public abstract class Style {
 	public abstract Color getXAxisLabelColor();
 	public abstract Color getYAxisLabelColor();
 	
+	public abstract boolean getIncludeXAxisLinesOnPlot();
+	public abstract Color getXAxisLinesOnPlotColor();
+	
+	public abstract boolean getIncludeYAxisLinesOnPlot();
+	public abstract Color getYAxisLinesOnPlotColor();
+	
 	
 }

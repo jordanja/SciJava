@@ -33,18 +33,29 @@ public class NumericAxis extends XYAxis {
 	private boolean includeZeroYAxis;
 
 
-	private boolean includeAxisLinesOnPlot = true;
-	private Color axisLinesOnPlotColor = Color.WHITE;
+	private boolean includeXAxisLinesOnPlot = true;
+	private Color xAxisLinesOnPlotColor = Color.WHITE;
+	
+	private boolean includeYAxisLinesOnPlot = true;
+	private Color yAxisLinesOnPlotColor = Color.WHITE;
 	
 	private boolean drawLeftmostXAxisValue = false;
 	private boolean drawRightmostXAxisValue = false;
 
-	public void includeAxisLinesOnPlot(boolean includeAxisLinesOnPlot) {
-		this.includeAxisLinesOnPlot = includeAxisLinesOnPlot;
+	public void includeXAxisLinesOnPlot(boolean includeXAxisLinesOnPlot) {
+		this.includeXAxisLinesOnPlot = includeXAxisLinesOnPlot;
 	}
 
-	public void setAxisLinesOnPlotColor(Color axisLinesOnPlotColor) {
-		this.axisLinesOnPlotColor = axisLinesOnPlotColor;
+	public void setXAxisLinesOnPlotColor(Color xAxisLinesOnPlotColor) {
+		this.xAxisLinesOnPlotColor = xAxisLinesOnPlotColor;
+	}
+	
+	public void includeYAxisLinesOnPlot(boolean includeYAxisLinesOnPlot) {
+		this.includeYAxisLinesOnPlot = includeYAxisLinesOnPlot;
+	}
+
+	public void setYAxisLinesOnPlotColor(Color yAxisLinesOnPlotColor) {
+		this.yAxisLinesOnPlotColor = yAxisLinesOnPlotColor;
 	}
 
 	public NumericAxis() {
@@ -84,8 +95,8 @@ public class NumericAxis extends XYAxis {
 				DrawString.write(g, stringToDisplay, position, cm.imageBottomToTopAxisMidHeight());
 			}
 
-			if (this.includeAxisLinesOnPlot) {
-				g.setColor(this.axisLinesOnPlotColor);
+			if (this.includeXAxisLinesOnPlot) {
+				g.setColor(this.xAxisLinesOnPlotColor);
 				g.drawLine(position, cm.imageBottomToPlotBottomHeight(), position, cm.imageBottomToPlotTopHeight());
 			}
 
@@ -106,8 +117,8 @@ public class NumericAxis extends XYAxis {
 				DrawString.write(g, stringToDisplay, cm.imageLeftToRightAxisMidWidth(), position);
 			}
 
-			if (this.includeAxisLinesOnPlot) {
-				g.setColor(this.axisLinesOnPlotColor);
+			if (this.includeYAxisLinesOnPlot) {
+				g.setColor(this.yAxisLinesOnPlotColor);
 				g.drawLine(cm.imageLeftToPlotLeftWidth(), position, cm.imageLeftToPlotRightWidth(), position);
 			}
 
@@ -404,6 +415,12 @@ public class NumericAxis extends XYAxis {
 		this.yAxisColor = style.getYAxisColor();
 		this.xAxisLabelColor = style.getXAxisLabelColor();
 		this.yAxisLabelColor = style.getYAxisLabelColor();
+		
+		this.includeXAxisLinesOnPlot = style.getIncludeXAxisLinesOnPlot();
+		this.xAxisLinesOnPlotColor = style.getXAxisLinesOnPlotColor();
+		
+		this.includeYAxisLinesOnPlot = style.getIncludeYAxisLinesOnPlot();
+		this.yAxisLinesOnPlotColor = style.getYAxisLinesOnPlotColor();
 		
 	}
 	

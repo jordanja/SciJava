@@ -39,7 +39,7 @@ public abstract class Plot {
 	private float rightPlotOutlineWidth = this.defaultPlotOutlineWidth;
 	
 	
-	private Color plotBackgroundColor = new Color(229,229,239);;
+	private Color plotBackgroundColor = new Color(229,229,239);
 	private Image backgroundImage = null;
 	
 	public void setPlotBackgroundImage(Image image) {

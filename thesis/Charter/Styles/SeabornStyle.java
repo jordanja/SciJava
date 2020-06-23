@@ -6,28 +6,28 @@ import java.awt.Image;
 
 import thesis.Helpers.Palette;
 
-public class MatplotlibStyle extends Style{
+public class SeabornStyle extends Style{
 
 	// Plot
-	private static final boolean drawBottomPlotOutline = true; 
-	private static final boolean drawLeftPlotOutline = true;
-	private static final boolean drawTopPlotOutline = true;
-	private static final boolean drawRightPlotOutline = true;
+	private static final boolean drawBottomPlotOutline = false;
+	private static final boolean drawLeftPlotOutline = false;
+	private static final boolean drawTopPlotOutline = false;
+	private static final boolean drawRightPlotOutline = false;
 
-	private static final Color bottomPlotOutlineColor = Color.BLACK;
-	private static final Color leftPlotOutlineColor = Color.BLACK;
-	private static final Color topPlotOutlineColor = Color.BLACK;
-	private static final Color rightPlotOutlineColor = Color.BLACK;
+	private static final Color bottomPlotOutlineColor = Color.WHITE;
+	private static final Color leftPlotOutlineColor = Color.WHITE;
+	private static final Color topPlotOutlineColor = Color.WHITE;
+	private static final Color rightPlotOutlineColor = Color.WHITE;
 
 	private static final int bottomPlotOutlineWidth = 1;
 	private static final int leftPlotOutlineWidth = 1;
 	private static final int topPlotOutlineWidth = 1;
 	private static final int rightPlotOutlineWidth = 1;
 
-	private static final Color plotBackgroundColor = Color.WHITE;
+	private static final Color plotBackgroundColor = new Color(229,229,239);
 	private static final Image plotBackgroundImage = null;
 
-	private static final Color[] colorPalette = Palette.Matplotlib;
+	private static final Color[] colorPalette = Palette.Default;
 
 	// Axis
 	private static final float xAxisRotation = 0;
@@ -43,9 +43,9 @@ public class MatplotlibStyle extends Style{
 	private static final boolean drawLeftYAxisValues = true;
 	private static final boolean drawRightYAxisValues = false;
 
-	private static final boolean drawExteriorBottomXAxisTicks = true;
+	private static final boolean drawExteriorBottomXAxisTicks = false;
 	private static final boolean drawExteriorTopXAxisTicks = false;
-	private static final boolean drawExteriorLeftYAxisTicks = true;
+	private static final boolean drawExteriorLeftYAxisTicks = false;
 	private static final boolean drawExteriorRightYAxisTicks = false;
 
 	private static final boolean drawInteriorBottomXAxisTicks = false;
@@ -53,10 +53,10 @@ public class MatplotlibStyle extends Style{
 	private static final boolean drawInteriorLeftYAxisTicks = false;
 	private static final boolean drawInteriorRightYAxisTicks = false;
 
-	private static final Color bottomTickColor = Color.BLACK;
-	private static final Color leftTickColor = Color.BLACK;
-	private static final Color topTickColor = Color.BLACK;
-	private static final Color rightTickColor = Color.BLACK;
+	private static final Color bottomTickColor = Color.WHITE;
+	private static final Color leftTickColor = Color.WHITE;
+	private static final Color topTickColor = Color.WHITE;
+	private static final Color rightTickColor = Color.WHITE;
 
 	private static final int interiorBottomTickThickness = 1;
 	private static final int interiorTopTickThickness = 1;
@@ -77,21 +77,18 @@ public class MatplotlibStyle extends Style{
 	private static final Color yAxisColor = Color.BLACK;
 	private static final Color xAxisLabelColor = Color.BLACK;
 	private static final Color yAxisLabelColor = Color.BLACK;
-	
-	private static final boolean includeXAxisLinesOnPlot = false;
+
+	private static final boolean includeXAxisLinesOnPlot = true;
 	private static final Color xAxisLinesOnPlotColor = Color.WHITE;
 	
-	private static final boolean includeYAxisLinesOnPlot = false;
+	private static final boolean includeYAxisLinesOnPlot = true;
 	private static final Color yAxisLinesOnPlotColor = Color.WHITE;
-	
-	
+
 	// Chart Measurements
-	private static final int getBottomTickHeight = 5;
-	private static final int getLeftTickWidth = 5;
-	private static final int getTopTickHeight = 5;
-	private static final int getRightTickWidth = 5;
-	
-	
+	private static final int getBottomTickHeight = 0;
+	private static final int getLeftTickWidth = 0;
+	private static final int getTopTickHeight = 0;
+	private static final int getRightTickWidth = 0;	
 	
 	// Plot
 	@Override
@@ -399,5 +396,4 @@ public class MatplotlibStyle extends Style{
 	public Color getYAxisLinesOnPlotColor() {
 		return yAxisLinesOnPlotColor;
 	}
-	
 }

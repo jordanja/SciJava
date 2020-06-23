@@ -318,7 +318,7 @@ public class Main {
 		DataFrame df = DataFrame.readCSV("Datasets/fmri.csv", true, false, columnTypes);
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
-		lc.setStyle(Styles.Matplotlib);
+		lc.setStyle(Styles.Seaborn);
 		lc.colorCode("event");
 //		BaseAxis axis =  lc.getAxis();
 //		LinePlot plot = lc.getPlot();
