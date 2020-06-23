@@ -17,7 +17,7 @@ public class CorrelationChart extends XYChart {
 	
 	
 	@Override
-	public void Create() {
+	public void create() {
 		// TODO Auto-generated method stub
 		
 	}

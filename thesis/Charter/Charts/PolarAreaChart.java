@@ -39,7 +39,7 @@ public class PolarAreaChart extends Chart{
 	}
 
 	@Override
-	public void Create() {
+	public void create() {
 		LegendData legendData = new LegendData();
 		legendData.setColorData(CommonArray.convertObjectArrayToStringArray(CommonArray.removeDuplicates(categories)), this.plot.getColorPalette());
 		legendData.setColorLabel(this.legendLabel);

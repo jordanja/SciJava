@@ -117,7 +117,7 @@ public abstract class Chart extends WholeImage {
 		}
 	}
 	
-	public abstract void Create();
+	public abstract void create();
 	
 	
 	
