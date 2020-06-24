@@ -11,6 +11,7 @@ import thesis.Charter.ChartMeasurements.ChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonArray;
 
 public class CategoricalLegend extends Legend {
@@ -50,6 +51,12 @@ public class CategoricalLegend extends Legend {
 
 	private LegendData legendData;
 
+	private Color legendTextColor = Color.BLACK;
+	
+	private boolean drawLegendOutline = true;
+	private int legendOutlineWidth = 1;
+	private Color legendOutlineColor = Color.BLACK;
+	
 	public void setLegendData(LegendData legendData) {
 		this.legendData = legendData;
 	}
@@ -108,12 +115,12 @@ public class CategoricalLegend extends Legend {
 		}
 
 		g.setStroke(new BasicStroke(1));
-		g.setColor(Color.BLACK);
+		g.setColor(this.legendOutlineColor);
 
 		g.drawRect(cm.imageLeftToLegendLeftWidth(), legendBottom, this.getLegendWidth(), this.getLegendHeight());
 
 		if (this.legendData.includeColorInLegend()) {
-			DrawString.setTextStyle(Color.BLACK, this.labelFont, 0);
+			DrawString.setTextStyle(this.legendTextColor, this.labelFont, 0);
 			DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.BottomAlign);
 			DrawString.write(g, this.legendData.getColorLabel(),
 					cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeft(),
@@ -121,7 +128,7 @@ public class CategoricalLegend extends Legend {
 
 			int hueCount = 0;
 			for (String hueValue : this.legendData.getColorData().keySet()) {
-				DrawString.setTextStyle(Color.BLACK, this.valueFont, 0);
+				DrawString.setTextStyle(this.legendTextColor, this.valueFont, 0);
 				DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.BottomAlign);
 				DrawString.write(g, hueValue, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeft(),
 						legendBottom + getLegendBottomToHueValueBottomHeight(hueCount));
@@ -138,7 +145,7 @@ public class CategoricalLegend extends Legend {
 		}
 
 		if (this.legendData.includeSizeInLegend()) {
-			DrawString.setTextStyle(Color.BLACK, this.labelFont, 0);
+			DrawString.setTextStyle(this.legendTextColor, this.labelFont, 0);
 			DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.BottomAlign);
 			DrawString.write(g, this.legendData.getSizeLabel(),
 					cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeft(),
@@ -164,7 +171,7 @@ public class CategoricalLegend extends Legend {
 	private void drawSizeText(Graphics2D g, ChartMeasurements cm, int legendBottom, String[] keys, int count) {
 		int rowSize = getHeightOfSizeValue(count);
 
-		DrawString.setTextStyle(Color.BLACK, this.valueFont, 0);
+		DrawString.setTextStyle(this.legendTextColor, this.valueFont, 0);
 		DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.MiddleAlign);
 		DrawString.write(g, keys[count], cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeft(),
 				legendBottom + getLegendBottomToSizeValueBottomHeight(count) + rowSize / 2);
@@ -454,6 +461,47 @@ public class CategoricalLegend extends Legend {
 
 	public void setSizeBallColor(Color sizeBallColor) {
 		this.sizeBallColor = sizeBallColor;
+	}
+
+	public boolean isDrawLegendOutline() {
+		return drawLegendOutline;
+	}
+
+	public void setDrawLegendOutline(boolean drawLegendOutline) {
+		this.drawLegendOutline = drawLegendOutline;
+	}
+
+	public int getLegendOutlineWidth() {
+		return legendOutlineWidth;
+	}
+
+	public void setLegendOutlineWidth(int legendOutlineWidth) {
+		this.legendOutlineWidth = legendOutlineWidth;
+	}
+
+	public Color getLegendOutlineColor() {
+		return legendOutlineColor;
+	}
+
+	public void setLegendOutlineColor(Color legendOutlineColor) {
+		this.legendOutlineColor = legendOutlineColor;
+	}
+
+	public Color getLegendTextColor() {
+		return legendTextColor;
+	}
+
+	public void setLegendTextColor(Color legendTextColor) {
+		this.legendTextColor = legendTextColor;
+	}
+
+	public void setStyle(Style styleToSet) {
+		this.drawLegendOutline = styleToSet.getDrawLegendOutline();
+		this.legendOutlineWidth = styleToSet.getLegendOutlineWidth();
+		this.legendOutlineColor = styleToSet.getLegendOutlineColor();
+		
+		this.legendTextColor = styleToSet.getLegendTextColor();
+		this.backgroundColor = styleToSet.getLegendBackgroundColor();
 	}
 
 }

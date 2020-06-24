@@ -36,6 +36,16 @@ public class Palette {
 		new Color(189, 191, 196)
 	};
 	
+	public final static Color[] Neon = new Color[] {
+		new Color(69, 237, 228),
+		new Color(103, 240, 19),
+		new Color(254, 230, 9),
+		new Color(233, 0, 255),
+		new Color(0, 0, 255),
+		new Color(242, 0, 10),
+		new Color(241, 131, 17),
+	};
+	
 	public static Color[] generateUniqueColors(int numColors) {
 		Color[] colors = new Color[numColors];
 		
