@@ -18,7 +18,6 @@ import thesis.Charter.Plots.Plot;
 import thesis.Charter.Plots.ScatterPlot;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.Styles.Style;
-import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonArray;
 
 public class XYChartMeasurements extends ChartMeasurements {

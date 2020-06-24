@@ -14,7 +14,6 @@ import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Charter.Styles.Style;
-import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;

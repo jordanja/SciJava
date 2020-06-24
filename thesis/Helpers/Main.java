@@ -59,12 +59,12 @@ public class Main {
 
 	public static void main(String[] args) {
 //		correlationChart();
-		histogram();
+//		histogram();
 //		stackedAreaChart();
 //		pieChart();
 //		stripCharting();
 //		boxCharting();
-//		lineCharting();
+		lineCharting();
 //		dateLineCharting();
 //		barCharting();
 //		scatterCharting();

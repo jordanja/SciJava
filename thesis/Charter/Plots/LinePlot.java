@@ -10,7 +10,6 @@ import java.util.HashMap;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Styles.Style;
-import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;
 
