@@ -318,8 +318,9 @@ public class Main {
 		DataFrame df = DataFrame.readCSV("Datasets/fmri.csv", true, false, columnTypes);
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
-		lc.setStyle(Styles.Excel);
+		lc.setStyle(Styles.ChartJS);
 		lc.colorCode("event");
+		
 //		BaseAxis axis =  lc.getAxis();
 //		LinePlot plot = lc.getPlot();
 //

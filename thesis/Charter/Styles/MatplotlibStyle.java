@@ -92,6 +92,9 @@ public class MatplotlibStyle extends Style{
 	private static final int getTopTickHeight = 5;
 	private static final int getRightTickWidth = 5;
 	
+	// Chart
+	private static final Font titleFont = new Font("Dialog", Font.PLAIN, 12);
+	private static final Color titleColor = Color.BLACK;
 	
 	
 	// Plot
@@ -409,6 +412,16 @@ public class MatplotlibStyle extends Style{
 	@Override
 	public int getYAxisLinesOnPlotWidth() {
 		return yAxisLinesOnPlotWidth;
+	}
+
+	@Override
+	public Font getTitleFont() {
+		return titleFont;
+	}
+
+	@Override
+	public Color getTitleColor() {
+		return titleColor;
 	}
 	
 }

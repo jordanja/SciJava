@@ -13,6 +13,7 @@ import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.LinePlot;
+import thesis.Charter.Styles.ChartJSStyle;
 import thesis.Charter.Styles.ExcelStyle;
 import thesis.Charter.Styles.MatplotlibStyle;
 import thesis.Charter.Styles.SeabornStyle;
@@ -212,10 +213,15 @@ public class LineChart extends XYChart {
 			styleToSet = new SeabornStyle();
 		} else if (style == Styles.Excel) {
 			styleToSet = new ExcelStyle();
+		} else if (style == Styles.ChartJS) {
+			styleToSet = new ChartJSStyle();
 		}
 		this.axis.setStyle(styleToSet);
 		this.plot.setStyle(styleToSet);
 		this.cm.setStyle(styleToSet);
+		
+		this.setTitleFont(styleToSet.getTitleFont());
+		this.setTitleColor(styleToSet.getTitleColor());
 	}
 
 	public BaseAxis getAxis() {

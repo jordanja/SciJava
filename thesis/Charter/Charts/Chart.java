@@ -108,6 +108,10 @@ public abstract class Chart extends WholeImage {
 		return this.titleFont;
 	}	
 	
+//	public void setStyle(Style styleToSet) {
+//		
+//	}
+	
 	protected void drawTitle(Graphics2D g, ChartMeasurements cm) {
 		if (this.title != null) {	
 			
