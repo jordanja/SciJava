@@ -26,6 +26,16 @@ public class Palette {
 	
 	public final static Color[] Excel = Default;
 
+	public final static Color[] ChartJS = new Color[] {
+		new Color(252, 72, 113),
+		new Color(45, 142, 229),
+		new Color(254, 196, 69),
+		new Color(64, 181, 178),
+		new Color(45, 142, 229),
+		new Color(134, 71, 254),
+		new Color(189, 191, 196)
+	};
+	
 	public static Color[] generateUniqueColors(int numColors) {
 		Color[] colors = new Color[numColors];
 		

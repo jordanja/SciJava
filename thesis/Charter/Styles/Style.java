@@ -6,7 +6,7 @@ import java.awt.Image;
 
 public abstract class Style {
 	
-	public enum Styles {Matplotlib, Seaborn, Excel};
+	public enum Styles {Matplotlib, Seaborn, Excel, ChartJS};
 	
 	// Plot
 	public abstract boolean getDrawBottomPlotOutline(); 
@@ -57,11 +57,6 @@ public abstract class Style {
 	public abstract Color getLeftTickColor();
 	public abstract Color getTopTickColor();
 	public abstract Color getRightTickColor();
-	
-	public abstract int getBottomTickHeight();
-	public abstract int getLeftTickWidth();
-	public abstract int getTopTickHeight();
-	public abstract int getRightTickWidth();
 
 	public abstract int getInteriorBottomTickThickness();
 	public abstract int getInteriorTopTickThickness();
@@ -90,5 +85,15 @@ public abstract class Style {
 	public abstract boolean getIncludeYAxisLinesOnPlot();
 	public abstract Color getYAxisLinesOnPlotColor();
 	public abstract int getYAxisLinesOnPlotWidth();
+	
+	// Chart Measurements
+	public abstract int getBottomTickHeight();
+	public abstract int getLeftTickWidth();
+	public abstract int getTopTickHeight();
+	public abstract int getRightTickWidth();
+	
+	// Chart
+	public abstract Font getTitleFont();
+	public abstract Color getTitleColor();
 	
 }

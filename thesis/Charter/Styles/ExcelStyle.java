@@ -92,6 +92,10 @@ public class ExcelStyle extends Style {
 	private static final int getRightTickWidth = 0;
 	
 	
+	// Chart
+	private static final Font titleFont = new Font("Dialog", Font.PLAIN, 12);
+	private static final Color titleColor = Color.BLACK;
+	
 	
 	// Plot
 	@Override
@@ -408,5 +412,15 @@ public class ExcelStyle extends Style {
 	@Override
 	public int getYAxisLinesOnPlotWidth() {
 		return yAxisLinesOnPlotWidth;
+	}
+	
+	@Override
+	public Font getTitleFont() {
+		return titleFont;
+	}
+
+	@Override
+	public Color getTitleColor() {
+		return titleColor;
 	}
 }
