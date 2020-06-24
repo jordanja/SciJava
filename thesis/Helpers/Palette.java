@@ -24,7 +24,7 @@ public class Palette {
 		Color.decode("#17BECF"),
 	};
 	
-
+	public final static Color[] Excel = Default;
 
 	public static Color[] generateUniqueColors(int numColors) {
 		Color[] colors = new Color[numColors];
