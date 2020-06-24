@@ -6,27 +6,31 @@ import java.awt.Image;
 
 import thesis.Helpers.Palette;
 
-public class ExcelStyle extends Style {
+public class NighttimeStyle extends Style {
+	private static final Color lightLines = new Color(60, 60, 60);
+	private static final Color darkLines = new Color(42, 42, 42);
+	private static final Color background = new Color(33, 33, 33);
+	
 	// Plot
 	private static final boolean drawBottomPlotOutline = true; 
-	private static final boolean drawLeftPlotOutline = false;
-	private static final boolean drawTopPlotOutline = true;
+	private static final boolean drawLeftPlotOutline = true;
+	private static final boolean drawTopPlotOutline = false;
 	private static final boolean drawRightPlotOutline = false;
 
-	private static final Color bottomPlotOutlineColor = Color.GRAY;
-	private static final Color leftPlotOutlineColor = Color.WHITE;
-	private static final Color topPlotOutlineColor = Color.GRAY;
-	private static final Color rightPlotOutlineColor = Color.WHITE;
+	private static final Color bottomPlotOutlineColor = lightLines;
+	private static final Color leftPlotOutlineColor = lightLines;
+	private static final Color topPlotOutlineColor = lightLines;
+	private static final Color rightPlotOutlineColor = lightLines;
 
-	private static final int bottomPlotOutlineWidth = 1;
-	private static final int leftPlotOutlineWidth = 1;
-	private static final int topPlotOutlineWidth = 1;
-	private static final int rightPlotOutlineWidth = 1;
+	private static final int bottomPlotOutlineWidth = 2;
+	private static final int leftPlotOutlineWidth = 2;
+	private static final int topPlotOutlineWidth = 2;
+	private static final int rightPlotOutlineWidth = 2;
 
-	private static final Color plotBackgroundColor = Color.WHITE;
+	private static final Color plotBackgroundColor = background;
 	private static final Image plotBackgroundImage = null;
 
-	private static final Color[] colorPalette = Palette.Default;
+	private static final Color[] colorPalette = Palette.Neon;
 
 	// Axis
 	private static final float xAxisRotation = 0;
@@ -72,17 +76,17 @@ public class ExcelStyle extends Style {
 	private static final Font xAxisLabelFont = new Font("Dialog", Font.PLAIN, 12);
 	private static final Font yAxisLabelFont = new Font("Dialog", Font.PLAIN, 12);
 
-	private static final Color xAxisColor = Color.BLACK;
-	private static final Color yAxisColor = Color.BLACK;
-	private static final Color xAxisLabelColor = Color.BLACK;
-	private static final Color yAxisLabelColor = Color.BLACK;
+	private static final Color xAxisColor = Color.WHITE;
+	private static final Color yAxisColor = Color.WHITE;
+	private static final Color xAxisLabelColor = Color.WHITE;
+	private static final Color yAxisLabelColor = Color.WHITE;
 	
-	private static final boolean includeXAxisLinesOnPlot = false;
-	private static final Color xAxisLinesOnPlotColor = Color.WHITE;
+	private static final boolean includeXAxisLinesOnPlot = true;
+	private static final Color xAxisLinesOnPlotColor = darkLines;
 	private static final int xAxisLinesOnPlotWidth = 1;
 	
 	private static final boolean includeYAxisLinesOnPlot = true;
-	private static final Color yAxisLinesOnPlotColor = Color.GRAY;
+	private static final Color yAxisLinesOnPlotColor = darkLines;
 	private static final int yAxisLinesOnPlotWidth = 1;
 	
 	// Chart Measurements
@@ -91,19 +95,18 @@ public class ExcelStyle extends Style {
 	private static final int getTopTickHeight = 0;
 	private static final int getRightTickWidth = 0;
 	
-	
 	// Chart
 	private static final Font titleFont = new Font("Dialog", Font.PLAIN, 12);
-	private static final Color titleColor = Color.BLACK;
-	private static final Color chartBackgroundColor = Color.WHITE;
-
+	private static final Color titleColor = Color.WHITE;
+	private static final Color chartBackgroundColor = background;
+	
 	// Legend
 	private static final boolean drawlegendOutline = true;
-	private static final Color legendOutlineColor = Color.BLACK;
+	private static final Color legendOutlineColor = Color.WHITE;
 	private static final int legendOutlineWidth = 1;
-	private static final Color legendTextColor = Color.BLACK;
-	private static final Color legendBackgroundColor = Color.WHITE;
-
+	private static final Color legendTextColor = Color.WHITE;
+	private static final Color legendBackgroundColor = background;
+	
 	// Plot
 	@Override
 	public boolean getDrawBottomPlotOutline() {
@@ -420,7 +423,7 @@ public class ExcelStyle extends Style {
 	public int getYAxisLinesOnPlotWidth() {
 		return yAxisLinesOnPlotWidth;
 	}
-	
+
 	@Override
 	public Font getTitleFont() {
 		return titleFont;
@@ -456,7 +459,7 @@ public class ExcelStyle extends Style {
 	public Color getLegendTextColor() {
 		return legendTextColor;
 	}
-
+	
 	@Override
 	public Color getLegendBackgroundColor() {
 		return legendBackgroundColor;

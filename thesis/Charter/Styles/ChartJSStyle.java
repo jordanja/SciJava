@@ -94,11 +94,18 @@ public class ChartJSStyle extends Style{
 	private static final int getTopTickHeight = 0;
 	private static final int getRightTickWidth = 0;
 	
-	
 	// Chart
 	private static final Font titleFont = new Font("Dialog", Font.PLAIN, 12);
 	private static final Color titleColor = darkGrayText;
-		
+	private static final Color chartBackgroundColor = Color.WHITE;
+
+	// Legend
+	private static final boolean drawlegendOutline = true;
+	private static final Color legendOutlineColor = Color.BLACK;
+	private static final int legendOutlineWidth = 1;
+	private static final Color legendTextColor = Color.BLACK;
+	private static final Color legendBackgroundColor = Color.WHITE;
+
 	// Plot
 	@Override
 	public boolean getDrawBottomPlotOutline() {
@@ -424,5 +431,36 @@ public class ChartJSStyle extends Style{
 	@Override
 	public Color getTitleColor() {
 		return titleColor;
+	}
+	
+	@Override
+	public Color getChartBackgroundColor() {
+		return chartBackgroundColor;
+	}
+	
+	// Legend
+	@Override
+	public boolean getDrawLegendOutline() {
+		return drawlegendOutline;
+	}
+
+	@Override
+	public Color getLegendOutlineColor() {
+		return legendOutlineColor;
+	}
+
+	@Override
+	public int getLegendOutlineWidth() {
+		return legendOutlineWidth;
+	}
+
+	@Override
+	public Color getLegendTextColor() {
+		return legendTextColor;
+	}
+	
+	@Override
+	public Color getLegendBackgroundColor() {
+		return legendBackgroundColor;
 	}
 }

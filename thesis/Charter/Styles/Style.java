@@ -6,7 +6,7 @@ import java.awt.Image;
 
 public abstract class Style {
 	
-	public enum Styles {Matplotlib, Seaborn, Excel, ChartJS};
+	public enum Styles {Matplotlib, Seaborn, Excel, ChartJS, Nighttime};
 	
 	// Plot
 	public abstract boolean getDrawBottomPlotOutline(); 
@@ -95,5 +95,14 @@ public abstract class Style {
 	// Chart
 	public abstract Font getTitleFont();
 	public abstract Color getTitleColor();
+	public abstract Color getChartBackgroundColor();
+	
+	// Legend
+	public abstract boolean getDrawLegendOutline();
+	public abstract Color getLegendOutlineColor();
+	public abstract int getLegendOutlineWidth();
+	public abstract Color getLegendTextColor();
+	public abstract Color getLegendBackgroundColor();
+	
 	
 }

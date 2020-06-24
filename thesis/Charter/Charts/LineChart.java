@@ -16,6 +16,7 @@ import thesis.Charter.Plots.LinePlot;
 import thesis.Charter.Styles.ChartJSStyle;
 import thesis.Charter.Styles.ExcelStyle;
 import thesis.Charter.Styles.MatplotlibStyle;
+import thesis.Charter.Styles.NighttimeStyle;
 import thesis.Charter.Styles.SeabornStyle;
 import thesis.Charter.Styles.Style;
 import thesis.Charter.Styles.Style.Styles;
@@ -215,13 +216,17 @@ public class LineChart extends XYChart {
 			styleToSet = new ExcelStyle();
 		} else if (style == Styles.ChartJS) {
 			styleToSet = new ChartJSStyle();
+		} else if (style == Styles.Nighttime) {
+			styleToSet = new NighttimeStyle();
 		}
 		this.axis.setStyle(styleToSet);
 		this.plot.setStyle(styleToSet);
 		this.cm.setStyle(styleToSet);
+		this.legend.setStyle(styleToSet);
 		
 		this.setTitleFont(styleToSet.getTitleFont());
 		this.setTitleColor(styleToSet.getTitleColor());
+		this.setImageBackgroundColor(styleToSet.getChartBackgroundColor());
 	}
 
 	public BaseAxis getAxis() {
