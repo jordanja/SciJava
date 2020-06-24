@@ -59,12 +59,12 @@ public class Main {
 
 	public static void main(String[] args) {
 //		correlationChart();
-//		histogram();
+		histogram();
 //		stackedAreaChart();
 //		pieChart();
 //		stripCharting();
 //		boxCharting();
-		lineCharting();
+//		lineCharting();
 //		dateLineCharting();
 //		barCharting();
 //		scatterCharting();
@@ -119,6 +119,8 @@ public class Main {
 		HistogramChart hc = new HistogramChart(df, "tree_heights");
 		
 		hc.getXYChartMeasurements().setPlotWidth(1000);
+		
+		hc.setStyle(Styles.Seaborn);
 		
 		hc.create();
 		hc.WriteFile("Chart Images/Histogram Chart.png");
@@ -318,7 +320,7 @@ public class Main {
 		DataFrame df = DataFrame.readCSV("Datasets/fmri.csv", true, false, columnTypes);
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
-		lc.setStyle(Styles.Nighttime);
+		lc.setStyle(Styles.Kids);
 		lc.colorCode("event");
 		
 //		BaseAxis axis =  lc.getAxis();
@@ -339,7 +341,7 @@ public class Main {
 //		axis.setYAxisLabel("sepal_width");
 
 		lc.setTitle("sepal_length vs sepal_width");
-		lc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+//		lc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 
 		lc.create();
 		lc.WriteFile("Chart Images/Line Chart.png");
@@ -444,76 +446,70 @@ public class Main {
 		columnTypes.put("size", StorageType.Integer);
 		
 		DataFrame df =  DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
-//		df.setColumnsType(new StorageType[] {StorageType.Double, StorageType.Double, StorageType.String, StorageType.String, StorageType.String, StorageType.String, StorageType.Integer});
-		
 		
 		ScatterChart sc = new ScatterChart(df, "total_bill", "tip");
-
-		NumericAxis axis = sc.getAxis();
-		ScatterPlot plot = sc.getPlot();
-		Legend legend = sc.getLegend();
-
-		sc.setTitle("sepal_length vs sepal_width");
-		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-		sc.colorCode("sex");
-		axis.setXAxisLabel("sepal_length");
-		axis.setYAxisLabel("sepal_width");
-
-//		axis.setXAxisFont(new Font("Dialog", Font.BOLD, 30));
-//		axis.setYAxisFont(new Font("Dialog", Font.BOLD, 30));
-//		axis.setXAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
-//		axis.setYAxisLabelFont(new Font("Dialog", Font.BOLD, 30));
-		
-		plot.includeDataPointOutline(true);
-		plot.includeLinearRegression(true);
-		
-		XYChartMeasurements cm = sc.getXYChartMeasurements();
-		cm.setLeftAxisLabelToLeftAxisWidth(15);
-		cm.setTopAxisLabelToTitleHeight(15);
-
-		cm.setPlotWidth(800);
-
-		axis.setIncludeZeroXAxis(true);
-		axis.setIncludeZeroYAxis(true);
-
-		axis.setIncludeExteriorTicks(true, false, true, false);
-		axis.setTickColor(Color.RED);
-
-		cm.setTickLengths(20);
-		axis.setTickThickness(2);
-
-		axis.setIncludeBottomXAxisTicks(true, true);
-		axis.setIncludeTopXAxisTicks(true, true);
-		axis.setIncludeLeftYAxisTicks(true, true);
-		axis.setIncludeRightYAxisTicks(true, true);
-
-		axis.setIncludeTopXLabel(true);
-		axis.setIncludeRightYLabel(true);
-
-		axis.setIncludeTopXAxisValues(true);
-		axis.setIncludeRightYAxisValues(true);
-
-		plot.includePlotOutline(new boolean[] { true, false, true, false });
-		plot.includeDataPointOutline(true);
-
-//		axis.xAxisRotation(30);
-//		axis.yAxisRotation(45);
-		
-		cm.setLegendToImageRightWidth(20);
-		cm.setImageBottomToBottomAxisLabelHeight(20);
-		cm.setImageLeftToLeftAxisLabelWidth(20);
-		cm.setTopAxisLabelToTitleHeight(20);
-
-		cm.setTitleToImageTopHeight(20);
-
-		cm.setBottomAxisLabelToBottomAxisHeight(15);
-		cm.setTopAxisToTopAxisLabelHeight(15);
-		cm.setLeftAxisLabelToLeftAxisWidth(15);
-		cm.setRightAxisToRightAxisLabelWidth(15);
-
-		cm.setRightAxisLabelToLegendWidth(40);
-
-		sc.setIncludeLegend(true);
+		sc.setStyle(Styles.Nighttime);
+//		NumericAxis axis = sc.getAxis();
+//		ScatterPlot plot = sc.getPlot();
+//		Legend legend = sc.getLegend();
+//
+//		sc.setTitle("sepal_length vs sepal_width");
+//		sc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+//		sc.colorCode("sex");
+//		axis.setXAxisLabel("sepal_length");
+//		axis.setYAxisLabel("sepal_width");
+//
+//		
+//		plot.includeDataPointOutline(true);
+//		plot.includeLinearRegression(true);
+//		
+//		XYChartMeasurements cm = sc.getXYChartMeasurements();
+//		cm.setLeftAxisLabelToLeftAxisWidth(15);
+//		cm.setTopAxisLabelToTitleHeight(15);
+//
+//		cm.setPlotWidth(800);
+//
+//		axis.setIncludeZeroXAxis(true);
+//		axis.setIncludeZeroYAxis(true);
+//
+//		axis.setIncludeExteriorTicks(true, false, true, false);
+//		axis.setTickColor(Color.RED);
+//
+//		cm.setTickLengths(20);
+//		axis.setTickThickness(2);
+//
+//		axis.setIncludeBottomXAxisTicks(true, true);
+//		axis.setIncludeTopXAxisTicks(true, true);
+//		axis.setIncludeLeftYAxisTicks(true, true);
+//		axis.setIncludeRightYAxisTicks(true, true);
+//
+//		axis.setIncludeTopXLabel(true);
+//		axis.setIncludeRightYLabel(true);
+//
+//		axis.setIncludeTopXAxisValues(true);
+//		axis.setIncludeRightYAxisValues(true);
+//
+//		plot.includePlotOutline(new boolean[] { true, false, true, false });
+//		plot.includeDataPointOutline(true);
+//
+////		axis.xAxisRotation(30);
+////		axis.yAxisRotation(45);
+//		
+//		cm.setLegendToImageRightWidth(20);
+//		cm.setImageBottomToBottomAxisLabelHeight(20);
+//		cm.setImageLeftToLeftAxisLabelWidth(20);
+//		cm.setTopAxisLabelToTitleHeight(20);
+//
+//		cm.setTitleToImageTopHeight(20);
+//
+//		cm.setBottomAxisLabelToBottomAxisHeight(15);
+//		cm.setTopAxisToTopAxisLabelHeight(15);
+//		cm.setLeftAxisLabelToLeftAxisWidth(15);
+//		cm.setRightAxisToRightAxisLabelWidth(15);
+//
+//		cm.setRightAxisLabelToLegendWidth(40);
+//
+//		sc.setIncludeLegend(true);
 		
 		return sc;
 	}

@@ -7,6 +7,14 @@ import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.Plots.HistogramPlot;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.Styles.ChartJSStyle;
+import thesis.Charter.Styles.ExcelStyle;
+import thesis.Charter.Styles.KidsStyle;
+import thesis.Charter.Styles.MatplotlibStyle;
+import thesis.Charter.Styles.NighttimeStyle;
+import thesis.Charter.Styles.SeabornStyle;
+import thesis.Charter.Styles.Style;
+import thesis.Charter.Styles.Style.Styles;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.DataFrame.DataFrame;
@@ -108,6 +116,29 @@ public class HistogramChart extends XYChart {
 		return numBins;
 	}
 	
+	public void setStyle(Styles style) {
+		Style styleToSet = null;
+		if (style == Styles.Matplotlib) {
+			styleToSet = new MatplotlibStyle();
+		} else if (style == Styles.Seaborn) {
+			styleToSet = new SeabornStyle();
+		} else if (style == Styles.Excel) {
+			styleToSet = new ExcelStyle();
+		} else if (style == Styles.ChartJS) {
+			styleToSet = new ChartJSStyle();
+		} else if (style == Styles.Nighttime) {
+			styleToSet = new NighttimeStyle();
+		} else if (style == Styles.Kids) {
+			styleToSet = new KidsStyle();
+		}
+		this.axis.setStyle(styleToSet);
+		this.plot.setStyle(styleToSet);
+		this.cm.setStyle(styleToSet);
+		
+		this.setTitleFont(styleToSet.getTitleFont());
+		this.setTitleColor(styleToSet.getTitleColor());
+		this.setImageBackgroundColor(styleToSet.getChartBackgroundColor());
+	}
 	/*
 	 * {
 	 * 	  bucketSize: 4,

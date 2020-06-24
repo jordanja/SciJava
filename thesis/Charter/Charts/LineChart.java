@@ -15,6 +15,7 @@ import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.LinePlot;
 import thesis.Charter.Styles.ChartJSStyle;
 import thesis.Charter.Styles.ExcelStyle;
+import thesis.Charter.Styles.KidsStyle;
 import thesis.Charter.Styles.MatplotlibStyle;
 import thesis.Charter.Styles.NighttimeStyle;
 import thesis.Charter.Styles.SeabornStyle;
@@ -56,10 +57,8 @@ public class LineChart extends XYChart {
 		Double[] yValues = DataItem.convertToDoubleList(this.yData);
 		String[] hueValues = CommonArray.removeDuplicates(this.colorCodeValues);
 		
-
 		HashMap<Object, Object> data = calculateLineData(xValues, yValues, hueValues);
 
-		
 		Double minX = CommonArray.minValue(xValues);
 		Double maxX = CommonArray.maxValue(xValues);
 		Double minY = minimumYValue(data);
@@ -101,6 +100,7 @@ public class LineChart extends XYChart {
 		if (this.legend.getIncludeLegend()) {
 			this.legend.drawLegend(g, this.cm);
 		}
+		
 		
 		this.drawTitle(g, this.cm);
 	}
@@ -218,6 +218,8 @@ public class LineChart extends XYChart {
 			styleToSet = new ChartJSStyle();
 		} else if (style == Styles.Nighttime) {
 			styleToSet = new NighttimeStyle();
+		} else if (style == Styles.Kids) {
+			styleToSet = new KidsStyle();
 		}
 		this.axis.setStyle(styleToSet);
 		this.plot.setStyle(styleToSet);

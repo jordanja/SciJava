@@ -6,7 +6,7 @@ import java.awt.Image;
 
 public abstract class Style {
 	
-	public enum Styles {Matplotlib, Seaborn, Excel, ChartJS, Nighttime};
+	public enum Styles {Matplotlib, Seaborn, Excel, ChartJS, Nighttime, Kids};
 	
 	// Plot
 	public abstract boolean getDrawBottomPlotOutline(); 
