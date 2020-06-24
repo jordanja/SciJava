@@ -11,6 +11,7 @@ import java.util.Map;
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
@@ -200,6 +201,31 @@ public class ScatterPlot extends Plot {
 
 	public void setLargestRadius(int largestRadius) {
 		this.largestRadius = largestRadius;
+	}
+
+	public void setStyle(Style styleToSet) {
+		super.setPlotBackgroundColor(styleToSet.getPlotBackgroundColor());
+		super.includePlotOutline(new boolean[] {
+			styleToSet.getDrawBottomPlotOutline(),
+			styleToSet.getDrawLeftPlotOutline(),
+			styleToSet.getDrawTopPlotOutline(),
+			styleToSet.getDrawRightPlotOutline()
+		});
+		super.setPlotOutlineColors(new Color[] {
+			styleToSet.getBottomPlotOutlineColor(),
+			styleToSet.getLeftPlotOutlineColor(),
+			styleToSet.getTopPlotOutlineColor(),
+			styleToSet.getRightPlotOutlineColor()
+		});
+		super.setPlotOutlineWidth(new float[] {
+			styleToSet.getBottomPlotOutlineWidth(),
+			styleToSet.getLeftPlotOutlineWidth(),
+			styleToSet.getTopPlotOutlineWidth(),
+			styleToSet.getRightPlotOutlineWidth()
+		});
+		super.setPlotBackgroundImage(styleToSet.getPlotBackgroundImage());
+		this.setColorPalette(styleToSet.getColorPalette());
+		this.setDataPointColor(styleToSet.getColorPalette()[0]);		
 	}
 	
 
