@@ -14,7 +14,7 @@ import thesis.Charter.Styles.MatplotlibStyle;
 import thesis.Charter.Styles.NighttimeStyle;
 import thesis.Charter.Styles.SeabornStyle;
 import thesis.Charter.Styles.Style;
-import thesis.Charter.Styles.Style.Styles;
+import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.DataFrame.DataFrame;

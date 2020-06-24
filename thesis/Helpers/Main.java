@@ -48,7 +48,7 @@ import thesis.Charter.Plots.StackedBarPlot;
 import thesis.Charter.Plots.StripPlot;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
-import thesis.Charter.Styles.Style.Styles;
+import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.*;
 import thesis.DataFrame.DataItem.StorageType;
