@@ -64,7 +64,7 @@ public class Main {
 //		pieChart();
 //		stripCharting();
 //		boxCharting();
-		lineCharting();
+//		lineCharting();
 //		dateLineCharting();
 //		barCharting();
 //		scatterCharting();
@@ -73,7 +73,7 @@ public class Main {
 //		polarAreaChart();
 //		gaugeChart();
 //		scatterChartingDiamond();
-//		multiChart();
+		multiChart();
 //		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
@@ -97,7 +97,7 @@ public class Main {
 		
 		mc.setTitle("This is a Multi-Chart");
 		mc.setTitleFont(new Font("Dialog", Font.PLAIN, 24));
-		
+		System.out.println("here");
 		mc.create();
 		mc.WriteFile("Chart Images/Multi-Chart.png");
 		

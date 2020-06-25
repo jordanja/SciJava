@@ -23,7 +23,6 @@ import thesis.Helpers.Palette;
 
 public class BarPlot extends Plot {
 
-	private Color[] colorPalette = Palette.Fire;
 	private boolean drawBarOutline = false;
 	private Color barOutlineColour = Color.black;
 	private int barOutlineWidth = 1;

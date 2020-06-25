@@ -18,6 +18,7 @@ import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
+import thesis.Helpers.Palette;
 
 public abstract class Plot {
 	
@@ -41,6 +42,8 @@ public abstract class Plot {
 	
 	private Color plotBackgroundColor = new Color(229,229,239);
 	private Image backgroundImage = null;
+	
+	protected Color[] colorPalette = Palette.Default;
 	
 	public void setPlotBackgroundImage(Image image) {
 		this.backgroundImage = image;

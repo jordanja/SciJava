@@ -19,7 +19,6 @@ import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;
 
 public class StripPlot extends Plot{
-	private Color[] colorPalette = Palette.Default;
 
 	private Color pointColor = colorPalette[0];
 	private int pointRadius = 5;

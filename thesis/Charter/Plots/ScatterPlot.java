@@ -31,7 +31,6 @@ public class ScatterPlot extends Plot {
 	private Color dataPointColor = Color.BLACK;
 	private float dataPointTransparency = 1;
 
-	private Color[] colorPalette = Palette.Default;
 	
 	private int smallestRadius = 6;
 	private int largestRadius = 40;

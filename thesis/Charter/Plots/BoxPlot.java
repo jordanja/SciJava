@@ -17,7 +17,6 @@ import thesis.Helpers.Palette;
 
 public class BoxPlot extends Plot {
 
-	private Color[] colorPalette = Palette.Default;
 
 	private Color outlineColor = Color.black;
 	private int barOutlineWidth = 3;

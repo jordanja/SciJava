@@ -16,7 +16,6 @@ import thesis.Helpers.Palette;
 
 public class PiePlot extends Plot{
 
-	private Color[] colorPalette = Palette.Default;
 	private double[] shatter;
 	private double startAngle = 0;
 	private double donutAmount = 0;

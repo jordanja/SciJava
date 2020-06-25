@@ -18,7 +18,6 @@ import thesis.Helpers.Palette;
 
 public class StackedBarPlot  extends Plot{
 
-	private Color[] colorPalette = Palette.Default;
 	
 	private double barWidthPercentage = 0.5f;
 

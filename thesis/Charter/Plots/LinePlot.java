@@ -15,7 +15,6 @@ import thesis.Helpers.Palette;
 
 public class LinePlot extends Plot {
 
-	private Color[] colorPalette = Palette.Default;
 
 	private Color lineColor = Color.black;
 	private int lineThickness = 2;

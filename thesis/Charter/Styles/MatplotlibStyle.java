@@ -6,7 +6,8 @@ import java.awt.Image;
 
 import thesis.Helpers.Palette;
 
-public class MatplotlibStyle extends Style implements PlotStyle, NumericAxisStyle, XYChartMeasurementsStyle, ChartStyle, CategoricalLegend {
+public class MatplotlibStyle extends Style implements 
+	PlotStyle, NumericAxisStyle, XYChartMeasurementsStyle, ChartStyle, CategoricalLegend {
 	
 	// Plot
 	private static final boolean drawBottomPlotOutline = true; 

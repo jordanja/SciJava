@@ -13,7 +13,6 @@ import thesis.Helpers.Palette;
 
 public class RadarPlot extends Plot{
 	
-	private Color[] colorPalette = Palette.Default;
 	private int fillOpacity = 25;
 	private boolean fill = true;
 	

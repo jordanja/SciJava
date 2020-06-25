@@ -10,7 +10,6 @@ import thesis.Helpers.Palette;
 
 public class PolarAreaPlot extends Plot{
 
-	private Color[] colorPalette = Palette.Default;
 	private int fillOpacity = 150;
 	
 	private boolean outlines = true;
