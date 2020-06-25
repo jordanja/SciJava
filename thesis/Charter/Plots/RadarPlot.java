@@ -8,6 +8,7 @@ import java.awt.geom.PathIterator;
 import java.util.HashMap;
 
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonArray;
 import thesis.Helpers.Palette;
 
@@ -153,5 +154,9 @@ public class RadarPlot extends Plot{
 		this.markerDotRadius = markerDotRadius;
 	}
 	
+	public void setStyle(Style styleToSet) {
+		super.setStyle(styleToSet);
+		this.includePlotOutline(new boolean[] {false, false, false, false});
+	}
 	
 }

@@ -69,8 +69,8 @@ public class Main {
 //		barCharting();
 //		scatterCharting();
 //		bubbleChart();
-//		radarChart();
-		polarAreaChart();
+		radarChart();
+//		polarAreaChart();
 //		gaugeChart();
 //		scatterChartingDiamond();
 //		multiChart();
@@ -181,6 +181,8 @@ public class Main {
 		
 		rc.getChartMeasurements().setPlotWidth(600);
 		rc.getChartMeasurements().setPlotHeight(600);
+		
+		rc.setStyle(Styles.Nighttime);
 		
 		rc.create();
 		rc.WriteFile("Chart Images/Radar Chart.png");

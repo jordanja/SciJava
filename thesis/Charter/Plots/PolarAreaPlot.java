@@ -85,7 +85,6 @@ public class PolarAreaPlot extends Plot{
 	public void setStyle(Style styleToSet) {
 		super.setStyle(styleToSet);
 		this.includePlotOutline(new boolean[] {false, false, false, false});
-		
 	}
 	
 }

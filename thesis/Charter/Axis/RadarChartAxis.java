@@ -9,6 +9,7 @@ import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonArray;
 import thesis.Common.NiceScale;
 
@@ -22,6 +23,11 @@ public class RadarChartAxis {
 	
 	private int plotToAxisSpacing = 8;
 	private int axisRadius;
+	
+	private Color axisSpikeColor = Color.DARK_GRAY;
+	private Color axisOutlineColor = Color.BLACK;
+	private Color axisTextColor = Color.BLACK;
+	private Color axisTextBackgroundColor = Color.BLACK;
 	
 	public RadarChartAxis() {
 		
@@ -50,7 +56,7 @@ public class RadarChartAxis {
 
 	public void drawAxis(Graphics2D g, NoAxisChartMeasurements cm) {
 			
-		g.setColor(Color.darkGray);
+		g.setColor(this.axisSpikeColor);
 		g.setStroke(new BasicStroke(1));
 		
 		int xMid = cm.imageLeftToPlotMidWidth();
@@ -69,7 +75,7 @@ public class RadarChartAxis {
 			int stringX = (int) (x + this.plotToAxisSpacing * Math.cos(angle));
 			int stringY = (int) (y + this.plotToAxisSpacing * Math.sin(angle));
 			
-			DrawString.setTextStyle(Color.black, categoryFont, 0);
+			DrawString.setTextStyle(this.axisTextColor, categoryFont, 0);
 			DrawString.write(g, this.categories[categoryCount], stringX, stringY);
 			
 		}
@@ -86,13 +92,13 @@ public class RadarChartAxis {
 				int x2 = (int) (radius * Math.cos(angle2) + cm.imageLeftToPlotMidWidth());
 				int y2 = (int) (radius * Math.sin(angle2) + cm.imageBottomToPlotMidHeight());
 				
-				g.setColor(Color.black);
+				g.setColor(this.axisOutlineColor);
 				g.setStroke(new BasicStroke(1));
 				
 				g.drawLine(x1, y1, x2, y2);
 			}
 			
-			g.setColor(Color.white);
+			g.setColor(this.axisTextBackgroundColor);
 			String tick = this.numericalTicks[tickCount];
 			
 			int width = DrawString.getStringWidth(tick, this.tickFont);
@@ -102,7 +108,7 @@ public class RadarChartAxis {
 			int y = (int) (radius + cm.imageBottomToPlotMidHeight());
 			g.fillRect(x - width/2 - 2, y - height/2 - 2, width + 4, height + 4);
 			DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.MiddleAlign);
-			DrawString.setTextStyle(Color.black, this.tickFont, 0);
+			DrawString.setTextStyle(this.axisTextColor, this.tickFont, 0);
 			DrawString.write(g, tick, x, y);
 		}
 	}
@@ -165,6 +171,13 @@ public class RadarChartAxis {
 
 	public void setPlotToAxisSpacing(int plotToAxisSpacing) {
 		this.plotToAxisSpacing = plotToAxisSpacing;
+	}
+
+	public void setStyle(Style styleToSet) {
+		this.axisSpikeColor = styleToSet.getXAxisColor();
+		this.axisOutlineColor = styleToSet.getYAxisColor();
+		this.axisTextColor = styleToSet.getXAxisColor();
+		this.axisTextBackgroundColor = styleToSet.getPlotBackgroundColor();
 	}
 	
 }

@@ -11,6 +11,9 @@ import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.PiePlot;
 import thesis.Charter.Plots.RadarPlot;
+import thesis.Charter.Styles.Style;
+import thesis.Charter.Styles.StyleFactory;
+import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
@@ -67,7 +70,7 @@ public class RadarChart extends Chart{
 		
 		this.drawBackground(g, this.cm);
 		
-		this.plot.setPlotBackgroundColor(Color.white);
+		this.plot.setPlotBackgroundColor(this.plot.getPlotBackgroundColor());
 		
 		this.plot.drawPlotBackground(g, this.cm);
 		
@@ -118,6 +121,17 @@ public class RadarChart extends Chart{
 	}
 	public void setLegend(CategoricalLegend legend) {
 		this.legend = legend;
+	}
+	
+	public void setStyle(Styles style) {
+		Style styleToSet = StyleFactory.getStyle(style);
+		this.plot.setStyle(styleToSet);
+		this.legend.setStyle(styleToSet);
+		this.axis.setStyle(styleToSet);
+		
+		this.setTitleFont(styleToSet.getTitleFont());
+		this.setTitleColor(styleToSet.getTitleColor());
+		this.setImageBackgroundColor(styleToSet.getChartBackgroundColor());
 	}
 	
 }

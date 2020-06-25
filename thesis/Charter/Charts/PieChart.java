@@ -55,7 +55,7 @@ public class PieChart extends Chart {
 		Graphics2D g = initializaGraphicsObject(this.cm);
 		
 		this.drawBackground(g, this.cm);
-		
+		this.plot.setPlotBackgroundColor(this.plot.getPlotBackgroundColor());
 		this.plot.drawPlotBackground(g, this.cm);
 		this.plot.drawPlotOutline(g, this.cm);
 		
