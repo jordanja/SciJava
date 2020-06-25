@@ -9,6 +9,7 @@ import java.util.HashMap;
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.BoxChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
@@ -343,6 +344,12 @@ public class BoxPlot extends Plot {
 
 	public void setMultipleBarPixelSpacing(int multipleBarPixelSpacing) {
 		this.multipleBarPixelSpacing = multipleBarPixelSpacing;
+	}
+
+	public void setStyle(Style styleToSet) {
+		super.setStyle(styleToSet);
+		this.setBarColor(styleToSet.getColorPalette()[0]);
+		this.setOutlineColor(styleToSet.getBoxPlotOutlineColor());
 	}
 
 }

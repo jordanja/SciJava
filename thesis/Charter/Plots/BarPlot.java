@@ -16,6 +16,7 @@ import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonMath;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataItem;
@@ -43,7 +44,7 @@ public class BarPlot extends Plot {
 
 	private boolean singleColor = true;
 
-	private boolean drawBarValue = true;
+	private boolean drawBarValue = false;
 
 	public void drawPlot(Graphics2D g, BarChartAxis axis, HashMap<Object, Object> data, String[] categoryOrder, String orientation,
 			XYChartMeasurements cm) {
@@ -218,5 +219,10 @@ public class BarPlot extends Plot {
 	public void setColorPalette(Color[] palette) {
 		this.colorPalette = palette;
 		this.singleColor = false;
+	}
+
+	public void setStyle(Style styleToSet) {
+		super.setStyle(styleToSet);
+		this.setBarColor(styleToSet.getColorPalette()[0]);		
 	}
 }

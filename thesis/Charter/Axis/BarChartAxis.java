@@ -2,6 +2,7 @@ package thesis.Charter.Axis;
 
 import java.util.HashMap;
 
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonHashMap;
 import thesis.Common.NiceScale;
 
@@ -26,5 +27,7 @@ public class BarChartAxis extends XYOneCategoricalAxis {
 			this.numericalTicks[i] = String.valueOf(tickValue);
 		}
 	}
+
+	
 
 }

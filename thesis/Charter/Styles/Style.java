@@ -1,5 +1,5 @@
 package thesis.Charter.Styles;
 
-public abstract class Style implements PlotStyle, NumericAxisStyle, XYChartMeasurementsStyle, ChartStyle, CategoricalLegend {
+public abstract class Style implements PlotStyle, NumericAxisStyle, XYChartMeasurementsStyle, ChartStyle, CategoricalLegendSyle {
 
 }

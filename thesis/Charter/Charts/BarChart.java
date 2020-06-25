@@ -10,6 +10,15 @@ import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.BarPlot;
+import thesis.Charter.Styles.ChartJSStyle;
+import thesis.Charter.Styles.ExcelStyle;
+import thesis.Charter.Styles.KidsStyle;
+import thesis.Charter.Styles.MatplotlibStyle;
+import thesis.Charter.Styles.NighttimeStyle;
+import thesis.Charter.Styles.SeabornStyle;
+import thesis.Charter.Styles.Style;
+import thesis.Charter.Styles.StyleFactory;
+import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
@@ -31,6 +40,9 @@ public class BarChart extends XYChart{
 		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 		
 		this.axis = new BarChartAxis();
+		this.axis.setXAxisLabel(xAxis);
+		this.axis.setYAxisLabel(yAxis);
+		
 		this.plot = new BarPlot();
 		this.legend = new CategoricalLegend();
 		
@@ -234,4 +246,16 @@ public class BarChart extends XYChart{
 		this.orient = orient;
 	}
 
+	public void setStyle(Styles style) {
+		Style styleToSet = StyleFactory.getStyle(style);
+		this.axis.setStyle(styleToSet);
+		this.plot.setStyle(styleToSet);
+		this.cm.setStyle(styleToSet);
+		this.legend.setStyle(styleToSet);
+		
+		this.setTitleFont(styleToSet.getTitleFont());
+		this.setTitleColor(styleToSet.getTitleColor());
+		this.setImageBackgroundColor(styleToSet.getChartBackgroundColor());
+	}
+	
 }

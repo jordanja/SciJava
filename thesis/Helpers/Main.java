@@ -63,7 +63,7 @@ public class Main {
 //		stackedAreaChart();
 //		pieChart();
 //		stripCharting();
-//		boxCharting();
+		boxCharting();
 //		lineCharting();
 //		dateLineCharting();
 //		barCharting();
@@ -73,7 +73,7 @@ public class Main {
 //		polarAreaChart();
 //		gaugeChart();
 //		scatterChartingDiamond();
-		multiChart();
+//		multiChart();
 //		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
@@ -97,7 +97,7 @@ public class Main {
 		
 		mc.setTitle("This is a Multi-Chart");
 		mc.setTitleFont(new Font("Dialog", Font.PLAIN, 24));
-		System.out.println("here");
+		
 		mc.create();
 		mc.WriteFile("Chart Images/Multi-Chart.png");
 		
@@ -285,8 +285,10 @@ public class Main {
 
 		cm.setPlotWidth(800);
 
+		bc.setStyle(Styles.Nighttime);
+		
 		BoxPlot plot = bc.getPlot();
-		plot.setColorPalette(Palette.generateUniqueColors(10));
+//		plot.setColorPalette(Palette.generateUniqueColors(10));
 		return bc;
 	}
 	
@@ -362,38 +364,39 @@ public class Main {
 
 		BarChart bc = new BarChart(df, "day", "total_bill");
 
-		BarChartAxis axis = (BarChartAxis) bc.getAxis();
-		BarPlot plot = bc.getPlot();
-		XYChartMeasurements cm = bc.getXYChartMeasurements();
-
-		axis.setIncludeBottomXAxisTicks(true, true);
-		axis.setIncludeTopXAxisTicks(true, true);
-		axis.setIncludeLeftYAxisTicks(true, true);
-		axis.setIncludeRightYAxisTicks(true, true);
-
-		bc.setTitle("sepal_length vs sepal_width");
-		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-
-		bc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
+//		BarChartAxis axis = (BarChartAxis) bc.getAxis();
+//		BarPlot plot = bc.getPlot();
+//		XYChartMeasurements cm = bc.getXYChartMeasurements();
+//
+//		axis.setIncludeBottomXAxisTicks(true, true);
+//		axis.setIncludeTopXAxisTicks(true, true);
+//		axis.setIncludeLeftYAxisTicks(true, true);
+//		axis.setIncludeRightYAxisTicks(true, true);
+//
+//		bc.setTitle("sepal_length vs sepal_width");
+//		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+//
+//		bc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
 		bc.colorCode("sex");
-
-		axis.setXAxisLabel("sepal_length");
-		axis.setYAxisLabel("sepal_width");
-
-		axis.setXAxisFont(new Font("Dialog", Font.PLAIN, 80));
-		axis.setYAxisFont(new Font("Dialog", Font.PLAIN, 80));
-
-		plot.setDrawBarOutline(true);
-		plot.setBarOutlineColour(Color.BLUE);
-		plot.setBarOutlineWidth(2);
-		plot.setBarWidthPercentage(0.8f);
-
-		plot.setColorPalette(Palette.Contrast);
-
-		cm.setPlotWidth(1200);
+//
+//		axis.setXAxisLabel("sepal_length");
+//		axis.setYAxisLabel("sepal_width");
+//
+//		axis.setXAxisFont(new Font("Dialog", Font.PLAIN, 80));
+//		axis.setYAxisFont(new Font("Dialog", Font.PLAIN, 80));
+//
+//		plot.setDrawBarOutline(true);
+//		plot.setBarOutlineColour(Color.BLUE);
+//		plot.setBarOutlineWidth(2);
+//		plot.setBarWidthPercentage(0.8f);
+//
+//		plot.setColorPalette(Palette.Contrast);
+//
+//		cm.setPlotWidth(1200);
 		
 //		axis.setOrientation("h");
 		
+		bc.setStyle(Styles.Nighttime);
 
 		bc.create();
 		bc.WriteFile("Chart Images/Bar Chart.png");

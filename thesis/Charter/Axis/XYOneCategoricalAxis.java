@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Helpers.TypeCheckers;
@@ -309,5 +310,56 @@ public class XYOneCategoricalAxis extends XYAxis {
 
 	public void setOrientation(String orientation) {
 		this.orientation = orientation;
+	}
+	
+	public void setStyle(Style style) {
+		this.xAxisRotation = style.getXAxisRotation();
+		this.yAxisRotation = style.getYAxisRotation();
+		
+		this.drawBottomXLabel = style.getDrawBottomXLabel();
+		this.drawTopXLabel = style.getDrawTopXLabel();
+		this.drawLeftYLabel = style.getDrawLeftYLabel();
+		this.drawRightYLabel = style.getDrawRightYLabel();
+		
+		this.drawBottomXAxisValues = style.getDrawBottomXAxisValues();
+		this.drawTopXAxisValues = style.getDrawTopXAxisValues();
+		this.drawLeftYAxisValues = style.getDrawLeftYAxisValues();
+		this.drawRightYAxisValues = style.getDrawRightYAxisValues();
+		
+		this.drawExteriorBottomXAxisTicks = style.getDrawExteriorBottomXAxisTicks();
+		this.drawExteriorTopXAxisTicks = style.getDrawExteriorTopXAxisTicks();
+		this.drawExteriorLeftYAxisTicks = style.getDrawExteriorLeftYAxisTicks();
+		this.drawExteriorRightYAxisTicks = style.getDrawExteriorRightYAxisTicks();
+		
+		this.drawInteriorBottomXAxisTicks = style.getDrawInteriorBottomXAxisTicks();
+		this.drawInteriorTopXAxisTicks = style.getDrawInteriorTopXAxisTicks();
+		this.drawInteriorLeftYAxisTicks = style.getDrawInteriorLeftYAxisTicks();
+		this.drawInteriorRightYAxisTicks = style.getDrawInteriorRightYAxisTicks();
+		
+		this.bottomTickColor = style.getBottomTickColor();
+		this.topTickColor = style.getTopTickColor();
+		this.leftTickColor = style.getLeftTickColor();
+		this.rightTickColor = style.getRightTickColor();
+		
+		this.interiorBottomTickThickness = style.getInteriorBottomTickThickness();
+		this.interiorTopTickThickness = style.getInteriorTopTickThickness();
+		this.interiorLeftTickThickness = style.getInteriorLeftTickThickness();
+		this.interiorRightTickThickness = style.getInteriorRightTickThickness();
+		
+		this.exteriorBottomTickThickness = style.getExteriorBottomTickThickness();
+		this.exteriorTopTickThickness = style.getExteriorTopTickThickness();
+		this.exteriorLeftTickThickness = style.getExteriorLeftTickThickness();
+		this.exteriorRightTickThickness = style.getExteriorRightTickThickness();
+		
+		this.xAxisFont = style.getXAxisFont();
+		this.yAxisFont = style.getYAxisFont();
+		this.xAxisLabelFont = style.getXAxisLabelFont();
+		this.yAxisLabelFont = style.getYAxisLabelFont();
+		
+		this.xAxisColor = style.getXAxisColor();
+		this.yAxisColor = style.getYAxisColor();
+		this.xAxisLabelColor = style.getXAxisLabelColor();
+		this.yAxisLabelColor = style.getYAxisLabelColor();
+		
 	}
 }

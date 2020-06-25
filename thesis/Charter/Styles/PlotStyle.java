@@ -24,4 +24,7 @@ public interface PlotStyle {
 	public abstract Image getPlotBackgroundImage();
 	
 	public abstract Color[] getColorPalette();
+	
+	// Box Plot
+	public abstract Color getBoxPlotOutlineColor();
 }

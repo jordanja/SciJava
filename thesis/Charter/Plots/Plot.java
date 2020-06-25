@@ -15,6 +15,7 @@ import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Axis.NumericAxis;
 import thesis.Charter.ChartMeasurements.ChartMeasurements;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Styles.Style;
 import thesis.Common.NiceScale;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
@@ -44,6 +45,30 @@ public abstract class Plot {
 	private Image backgroundImage = null;
 	
 	protected Color[] colorPalette = Palette.Default;
+	
+	public void setStyle(Style styleToSet) {
+		this.setPlotBackgroundColor(styleToSet.getPlotBackgroundColor());
+		this.includePlotOutline(new boolean[] {
+			styleToSet.getDrawBottomPlotOutline(),
+			styleToSet.getDrawLeftPlotOutline(),
+			styleToSet.getDrawTopPlotOutline(),
+			styleToSet.getDrawRightPlotOutline()
+		});
+		this.setPlotOutlineColors(new Color[] {
+			styleToSet.getBottomPlotOutlineColor(),
+			styleToSet.getLeftPlotOutlineColor(),
+			styleToSet.getTopPlotOutlineColor(),
+			styleToSet.getRightPlotOutlineColor()
+		});
+		this.setPlotOutlineWidth(new float[] {
+			styleToSet.getBottomPlotOutlineWidth(),
+			styleToSet.getLeftPlotOutlineWidth(),
+			styleToSet.getTopPlotOutlineWidth(),
+			styleToSet.getRightPlotOutlineWidth()
+		});
+		this.setPlotBackgroundImage(styleToSet.getPlotBackgroundImage());
+		this.colorPalette = styleToSet.getColorPalette();
+	}
 	
 	public void setPlotBackgroundImage(Image image) {
 		this.backgroundImage = image;

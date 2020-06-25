@@ -7,7 +7,7 @@ import java.awt.Image;
 import thesis.Helpers.Palette;
 
 public class MatplotlibStyle extends Style implements 
-	PlotStyle, NumericAxisStyle, XYChartMeasurementsStyle, ChartStyle, CategoricalLegend {
+	PlotStyle, NumericAxisStyle, XYChartMeasurementsStyle, ChartStyle, CategoricalLegendSyle {
 	
 	// Plot
 	private static final boolean drawBottomPlotOutline = true; 
@@ -105,6 +105,9 @@ public class MatplotlibStyle extends Style implements
 	private static final Color legendTextColor = Color.BLACK;
 	private static final Color legendBackgroundColor = Color.WHITE;
 	
+	// Box Plot
+	private static final Color boxPlotOutlineColor = Color.BLACK;
+	
 	// Plot
 	public boolean getDrawBottomPlotOutline() {
 		return drawBottomPlotOutline;
@@ -166,7 +169,7 @@ public class MatplotlibStyle extends Style implements
 		return colorPalette;
 	}
 	
-	// Axis
+	// Numeric Axis
 	public float getXAxisRotation() {
 		return xAxisRotation;
 	}
@@ -390,6 +393,10 @@ public class MatplotlibStyle extends Style implements
 
 	public Color getLegendBackgroundColor() {
 		return legendBackgroundColor;
+	}
+
+	public Color getBoxPlotOutlineColor() {
+		return boxPlotOutlineColor;
 	}
 	
 }

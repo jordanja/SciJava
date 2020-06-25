@@ -203,27 +203,7 @@ public class ScatterPlot extends Plot {
 	}
 
 	public void setStyle(Style styleToSet) {
-		super.setPlotBackgroundColor(styleToSet.getPlotBackgroundColor());
-		super.includePlotOutline(new boolean[] {
-			styleToSet.getDrawBottomPlotOutline(),
-			styleToSet.getDrawLeftPlotOutline(),
-			styleToSet.getDrawTopPlotOutline(),
-			styleToSet.getDrawRightPlotOutline()
-		});
-		super.setPlotOutlineColors(new Color[] {
-			styleToSet.getBottomPlotOutlineColor(),
-			styleToSet.getLeftPlotOutlineColor(),
-			styleToSet.getTopPlotOutlineColor(),
-			styleToSet.getRightPlotOutlineColor()
-		});
-		super.setPlotOutlineWidth(new float[] {
-			styleToSet.getBottomPlotOutlineWidth(),
-			styleToSet.getLeftPlotOutlineWidth(),
-			styleToSet.getTopPlotOutlineWidth(),
-			styleToSet.getRightPlotOutlineWidth()
-		});
-		super.setPlotBackgroundImage(styleToSet.getPlotBackgroundImage());
-		this.setColorPalette(styleToSet.getColorPalette());
+		super.setStyle(styleToSet);
 		this.setDataPointColor(styleToSet.getColorPalette()[0]);		
 	}
 	

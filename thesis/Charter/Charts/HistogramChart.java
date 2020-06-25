@@ -14,6 +14,7 @@ import thesis.Charter.Styles.MatplotlibStyle;
 import thesis.Charter.Styles.NighttimeStyle;
 import thesis.Charter.Styles.SeabornStyle;
 import thesis.Charter.Styles.Style;
+import thesis.Charter.Styles.StyleFactory;
 import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
@@ -117,20 +118,7 @@ public class HistogramChart extends XYChart {
 	}
 	
 	public void setStyle(Styles style) {
-		Style styleToSet = null;
-		if (style == Styles.Matplotlib) {
-			styleToSet = new MatplotlibStyle();
-		} else if (style == Styles.Seaborn) {
-			styleToSet = new SeabornStyle();
-		} else if (style == Styles.Excel) {
-			styleToSet = new ExcelStyle();
-		} else if (style == Styles.ChartJS) {
-			styleToSet = new ChartJSStyle();
-		} else if (style == Styles.Nighttime) {
-			styleToSet = new NighttimeStyle();
-		} else if (style == Styles.Kids) {
-			styleToSet = new KidsStyle();
-		}
+		Style styleToSet = StyleFactory.getStyle(style);
 		this.axis.setStyle(styleToSet);
 		this.plot.setStyle(styleToSet);
 		this.cm.setStyle(styleToSet);

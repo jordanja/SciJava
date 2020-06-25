@@ -6,10 +6,13 @@ import java.awt.Image;
 
 import thesis.Helpers.Palette;
 
-public class ChartJSStyle extends Style{
+public class ChartJSStyle extends Style implements 
+	PlotStyle, NumericAxisStyle, XYChartMeasurementsStyle, ChartStyle, CategoricalLegendSyle {
+	
 	private static final Color darkGrayText = new Color(83, 83, 83);
 	private static final Color darkGrayLines = new Color(195, 195, 195);
 	private static final Color lightGrayLines = new Color(223, 223, 223);
+	
 	// Plot
 	private static final boolean drawBottomPlotOutline = true; 
 	private static final boolean drawLeftPlotOutline = true;
@@ -101,366 +104,300 @@ public class ChartJSStyle extends Style{
 
 	// Legend
 	private static final boolean drawlegendOutline = true;
-	private static final Color legendOutlineColor = Color.BLACK;
+	private static final Color legendOutlineColor = darkGrayLines;
 	private static final int legendOutlineWidth = 1;
-	private static final Color legendTextColor = Color.BLACK;
+	private static final Color legendTextColor = darkGrayText;
 	private static final Color legendBackgroundColor = Color.WHITE;
 
 	// Plot
-	@Override
 	public boolean getDrawBottomPlotOutline() {
 		return drawBottomPlotOutline;
 	}
 
-	@Override
 	public boolean getDrawLeftPlotOutline() {
 		return drawLeftPlotOutline;
 	}
 
-	@Override
 	public boolean getDrawTopPlotOutline() {
 		return drawTopPlotOutline;
 	}
 
-	@Override
 	public boolean getDrawRightPlotOutline() {
 		return drawRightPlotOutline;
 	}
 
-	@Override
 	public Color getBottomPlotOutlineColor() {
 		return bottomPlotOutlineColor;
 	}
 
-	@Override
 	public Color getLeftPlotOutlineColor() {
 		return leftPlotOutlineColor;
 	}
 
-	@Override
 	public Color getTopPlotOutlineColor() {
 		return topPlotOutlineColor;
 	}
 
-	@Override
 	public Color getRightPlotOutlineColor() {
 		return rightPlotOutlineColor;
 	}
 
-	@Override
 	public int getBottomPlotOutlineWidth() {
 		return bottomPlotOutlineWidth;
 	}
 
-	@Override
 	public int getLeftPlotOutlineWidth() {
 		return leftPlotOutlineWidth;
 	}
 
-	@Override
 	public int getTopPlotOutlineWidth() {
 		return topPlotOutlineWidth;
 	}
 
-	@Override
 	public int getRightPlotOutlineWidth() {
 		return rightPlotOutlineWidth;
 	}
 
-	@Override
 	public Color getPlotBackgroundColor() {
 		return plotBackgroundColor;
 	}
 
-	@Override
 	public Image getPlotBackgroundImage() {
 		return plotBackgroundImage;
 	}
 
-	@Override
 	public Color[] getColorPalette() {
 		return colorPalette;
 	}
 	
 	// Axis
-	@Override
 	public float getXAxisRotation() {
 		return xAxisRotation;
 	}
 
-	@Override
 	public float getYAxisRotation() {
 		return yAxisRotation;
 	}
 
-	@Override
 	public boolean getDrawBottomXLabel() {
 		return drawBottomXLabel;
 	}
 
-	@Override
 	public boolean getDrawTopXLabel() {
 		return drawTopXLabel;
 	}
 
-	@Override
 	public boolean getDrawLeftYLabel() {
 		return drawLeftYLabel;
 	}
 
-	@Override
 	public boolean getDrawRightYLabel() {
 		return drawRightYLabel;
 	}
 
-	@Override
 	public boolean getDrawBottomXAxisValues() {
 		return drawBottomXAxisValues;
 	}
 
-	@Override
 	public boolean getDrawTopXAxisValues() {
 		return drawTopXAxisValues;
 	}
 
-	@Override
 	public boolean getDrawLeftYAxisValues() {
 		return drawLeftYAxisValues;
 	}
 
-	@Override
 	public boolean getDrawRightYAxisValues() {
 		return drawRightYAxisValues;
 	}
 
-	@Override
 	public boolean getDrawExteriorBottomXAxisTicks() {
 		return drawExteriorBottomXAxisTicks;
 	}
 
-	@Override
 	public boolean getDrawExteriorTopXAxisTicks() {
 		return drawExteriorTopXAxisTicks;
 	}
 
-	@Override
 	public boolean getDrawExteriorLeftYAxisTicks() {
 		return drawExteriorLeftYAxisTicks;
 	}
 
-	@Override
 	public boolean getDrawExteriorRightYAxisTicks() {
 		return drawExteriorRightYAxisTicks;
 	}
 
-	@Override
 	public boolean getDrawInteriorBottomXAxisTicks() {
 		return drawInteriorBottomXAxisTicks;
 	}
 
-	@Override
 	public boolean getDrawInteriorTopXAxisTicks() {
 		return drawInteriorTopXAxisTicks;
 	}
 
-	@Override
 	public boolean getDrawInteriorLeftYAxisTicks() {
 		return drawInteriorLeftYAxisTicks;
 	}
 
-	@Override
 	public boolean getDrawInteriorRightYAxisTicks() {
 		return drawInteriorRightYAxisTicks;
 	}
 
-	@Override
 	public Color getBottomTickColor() {
 		return bottomTickColor;
 	}
 
-	@Override
 	public Color getLeftTickColor() {
 		return leftTickColor;
 	}
 
-	@Override
 	public Color getTopTickColor() {
 		return topTickColor;
 	}
 
-	@Override
 	public Color getRightTickColor() {
 		return rightTickColor;
 	}
 
-	@Override
 	public int getBottomTickHeight() {
 		return getBottomTickHeight;
 	}
 	
-	@Override
 	public int getLeftTickWidth() {
 		return getLeftTickWidth;
 	}
 	
-	@Override
 	public int getTopTickHeight() {
 		return getTopTickHeight;
 	}
 	
-	@Override
 	public int getRightTickWidth() {
 		return getRightTickWidth;
 	}
 	
-	@Override
 	public int getInteriorBottomTickThickness() {
 		return interiorBottomTickThickness;
 	}
 
-	@Override
 	public int getInteriorTopTickThickness() {
 		return interiorTopTickThickness;
 	}
 
-	@Override
 	public int getInteriorLeftTickThickness() {
 		return interiorLeftTickThickness;
 	}
 
-	@Override
 	public int getInteriorRightTickThickness() {
 		return interiorRightTickThickness;
 	}
 
-	@Override
 	public int getExteriorBottomTickThickness() {
 		return exteriorBottomTickThickness;
 	}
 
-	@Override
 	public int getExteriorTopTickThickness() {
 		return exteriorTopTickThickness;
 	}
 
-	@Override
 	public int getExteriorLeftTickThickness() {
 		return exteriorLeftTickThickness;
 	}
 
-	@Override
 	public int getExteriorRightTickThickness() {
 		return exteriorRightTickThickness;
 	}
 
-	@Override
 	public Font getXAxisFont() {
 		return xAxisFont;
 	}
 
-	@Override
 	public Font getYAxisFont() {
 		return yAxisFont;
 	}
 
-	@Override
 	public Font getXAxisLabelFont() {
 		return xAxisLabelFont;
 	}
 
-	@Override
 	public Font getYAxisLabelFont() {
 		return yAxisLabelFont;
 	}
 
-	@Override
 	public Color getXAxisColor() {
 		return xAxisColor;
 	}
 
-	@Override
 	public Color getYAxisColor() {
 		return yAxisColor;
 	}
 
-	@Override
 	public Color getXAxisLabelColor() {
 		return xAxisLabelColor;
 	}
 
-	@Override
 	public Color getYAxisLabelColor() {
 		return yAxisLabelColor;
 	}
 
-	@Override
 	public boolean getIncludeXAxisLinesOnPlot() {
 		return includeXAxisLinesOnPlot;
 	}
 
-	@Override
 	public Color getXAxisLinesOnPlotColor() {
 		return xAxisLinesOnPlotColor;
 	}
 
-	@Override
 	public boolean getIncludeYAxisLinesOnPlot() {
 		return includeYAxisLinesOnPlot;
 	}
 
-	@Override
 	public Color getYAxisLinesOnPlotColor() {
 		return yAxisLinesOnPlotColor;
 	}
 
-	@Override
 	public int getXAxisLinesOnPlotWidth() {
 		return xAxisLinesOnPlotWidth;
 	}
 
-	@Override
 	public int getYAxisLinesOnPlotWidth() {
 		return yAxisLinesOnPlotWidth;
 	}
 	
-	@Override
 	public Font getTitleFont() {
 		return titleFont;
 	}
 
-	@Override
 	public Color getTitleColor() {
 		return titleColor;
 	}
 	
-	@Override
 	public Color getChartBackgroundColor() {
 		return chartBackgroundColor;
 	}
 	
 	// Legend
-	@Override
 	public boolean getDrawLegendOutline() {
 		return drawlegendOutline;
 	}
 
-	@Override
 	public Color getLegendOutlineColor() {
 		return legendOutlineColor;
 	}
 
-	@Override
 	public int getLegendOutlineWidth() {
 		return legendOutlineWidth;
 	}
 
-	@Override
 	public Color getLegendTextColor() {
 		return legendTextColor;
 	}
 	
-	@Override
 	public Color getLegendBackgroundColor() {
 		return legendBackgroundColor;
+	}
+
+	@Override
+	public Color getBoxPlotOutlineColor() {
+		return lightGrayLines;
 	}
 }

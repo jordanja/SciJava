@@ -2,7 +2,7 @@ package thesis.Charter.Styles;
 
 import java.awt.Color;
 
-public interface CategoricalLegend {
+public interface CategoricalLegendSyle {
 	// Legend
 	public abstract boolean getDrawLegendOutline();
 	public abstract Color getLegendOutlineColor();
