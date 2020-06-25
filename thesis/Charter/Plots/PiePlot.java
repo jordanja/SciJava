@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;
@@ -27,6 +28,9 @@ public class PiePlot extends Plot{
 	private boolean useSemiCircle = false;
 	
 	public void drawPlot(Graphics2D g, String[] labels, Double[] values, NoAxisChartMeasurements cm) {
+		
+		
+		
 		
 		if (this.shatter == null) {
 			this.shatter = CommonArray.initializeArrayWithValues(labels.length, 0);
@@ -185,7 +189,11 @@ public class PiePlot extends Plot{
 	public void setUseSemiCircle(boolean useSemiCircle) {
 		this.useSemiCircle = useSemiCircle;
 	}
-
+	public void setStyle(Style styleToSet) {
+		super.setStyle(styleToSet);
+		this.includePlotOutline(new boolean[] {false, false, false, false});
+		
+	}
 
 
 }

@@ -63,14 +63,14 @@ public class Main {
 //		stackedAreaChart();
 //		pieChart();
 //		stripCharting();
-		boxCharting();
+//		boxCharting();
 //		lineCharting();
 //		dateLineCharting();
 //		barCharting();
 //		scatterCharting();
 //		bubbleChart();
 //		radarChart();
-//		polarAreaChart();
+		polarAreaChart();
 //		gaugeChart();
 //		scatterChartingDiamond();
 //		multiChart();
@@ -159,7 +159,9 @@ public class Main {
 		pac.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
 		pac.setTitle("Polar Area Chart");
 		
-		pac.getPlot().setOutlineWidth(10);
+//		pac.getPlot().setOutlineWidth(10);
+		
+		pac.setStyle(Styles.ChartJS);
 		
 		pac.create();
 		pac.WriteFile("Chart Images/Polar Area Chart.png");
@@ -216,6 +218,9 @@ public class Main {
 		
 		plot.setIncludeProportionsOnPie(true);
 		plot.setProportionsColor(Color.WHITE);
+		
+		pc.setStyle(Styles.ChartJS);
+		
 		return pc;
 	}
 

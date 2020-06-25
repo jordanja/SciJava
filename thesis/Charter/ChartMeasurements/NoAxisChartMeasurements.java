@@ -5,6 +5,7 @@ import java.awt.Font;
 import thesis.Charter.Axis.BaseAxis;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.StringDrawer.DrawString;
+import thesis.Charter.Styles.Style;
 
 public class NoAxisChartMeasurements extends ChartMeasurements{
 
@@ -171,4 +172,5 @@ public class NoAxisChartMeasurements extends ChartMeasurements{
 			this.legendWidth = 0;
 		}
 	}
+
 }

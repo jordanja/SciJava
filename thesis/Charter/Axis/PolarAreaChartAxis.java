@@ -9,6 +9,7 @@ import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonArray;
 import thesis.Common.NiceScale;
 
@@ -20,6 +21,7 @@ public class PolarAreaChartAxis {
 	
 	private Color axisColor = Color.BLACK;
 	private int axisWeight = 1;
+	private Color axisTextBackgroundColor = Color.WHITE;
 	
 	public PolarAreaChartAxis() {
 		
@@ -59,7 +61,7 @@ public class PolarAreaChartAxis {
 			int x =  cm.imageLeftToPlotMidWidth();
 			int y = (int) (diameter/2 + cm.imageBottomToPlotMidHeight());
 
-			g.setColor(Color.white);
+			g.setColor(this.axisTextBackgroundColor);
 			g.fillRect(x - width/2 - 2, y - height/2 - 2, width + 4, height + 4);
 			
 			DrawString.setAlignment(xAlignment.CenterAlign, yAlignment.MiddleAlign);
@@ -102,6 +104,13 @@ public class PolarAreaChartAxis {
 
 	public void setAxisWeight(int axisWeight) {
 		this.axisWeight = axisWeight;
+	}
+
+	public void setStyle(Style styleToSet) {
+		this.axisColor = styleToSet.getXAxisColor();
+		this.tickFont = styleToSet.getXAxisFont();
+		this.tickColor = styleToSet.getXAxisColor();
+		this.axisTextBackgroundColor = styleToSet.getPlotBackgroundColor();
 	}
 
 }

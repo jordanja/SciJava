@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Arc2D;
 
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
+import thesis.Charter.Styles.Style;
 import thesis.Helpers.Palette;
 
 public class PolarAreaPlot extends Plot{
@@ -81,6 +82,10 @@ public class PolarAreaPlot extends Plot{
 		this.outlineWidth = outlineWidth;
 	}
 	
-	
+	public void setStyle(Style styleToSet) {
+		super.setStyle(styleToSet);
+		this.includePlotOutline(new boolean[] {false, false, false, false});
+		
+	}
 	
 }

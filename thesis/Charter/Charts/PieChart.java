@@ -8,6 +8,9 @@ import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.PiePlot;
+import thesis.Charter.Styles.Style;
+import thesis.Charter.Styles.StyleFactory;
+import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
@@ -53,8 +56,6 @@ public class PieChart extends Chart {
 		
 		this.drawBackground(g, this.cm);
 		
-		this.plot.setPlotBackgroundColor(Color.white);
-		
 		this.plot.drawPlotBackground(g, this.cm);
 		this.plot.drawPlotOutline(g, this.cm);
 		
@@ -65,34 +66,38 @@ public class PieChart extends Chart {
 		this.drawTitle(g, this.cm);
 	}
 
-
 	public NoAxisChartMeasurements getChartMeasurements() {
 		return this.cm;
 	}
-
 
 	public void setChartMeasurements(NoAxisChartMeasurements cm) {
 		this.cm = cm;
 	}
 
-
 	public PiePlot getPlot() {
 		return plot;
 	}
-
 
 	public void setPlot(PiePlot plot) {
 		this.plot = plot;
 	}
 
-
 	public Legend getLegend() {
 		return legend;
 	}
 
-
 	public void setLegend(CategoricalLegend legend) {
 		this.legend = legend;
+	}
+	
+	public void setStyle(Styles style) {
+		Style styleToSet = StyleFactory.getStyle(style);
+		this.plot.setStyle(styleToSet);
+		this.legend.setStyle(styleToSet);
+		
+		this.setTitleFont(styleToSet.getTitleFont());
+		this.setTitleColor(styleToSet.getTitleColor());
+		this.setImageBackgroundColor(styleToSet.getChartBackgroundColor());
 	}
 
 }

@@ -83,7 +83,12 @@ public abstract class Plot {
 	}
 	
 	public void setPlotBackgroundColor(Color plotBackgroundColor) {
+
 		this.plotBackgroundColor = plotBackgroundColor;
+	}
+	
+	public Color getPlotBackgroundColor() {
+		return this.plotBackgroundColor;
 	}
 	
 	public void setPlotOutlineColors(Color[] plotOutlineColors) {
@@ -143,7 +148,6 @@ public abstract class Plot {
 	public void drawPlotBackground(Graphics2D g, ChartMeasurements cm) {
 
 		if (this.backgroundImage == null) {
-			
 			g.setColor(this.plotBackgroundColor);
 			
 			g.fillRect(cm.imageLeftToPlotLeftWidth(), cm.imageBottomToPlotBottomHeight(), cm.getPlotWidth(), cm.getPlotHeight());
