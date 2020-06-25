@@ -14,6 +14,9 @@ import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.StripPlot;
+import thesis.Charter.Styles.Style;
+import thesis.Charter.Styles.StyleFactory;
+import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.DataFrame.DataFrame;
@@ -268,4 +271,15 @@ public class StripChart extends XYChart{
 		this.order = order;
 	}
 	
+	public void setStyle(Styles style) {
+		Style styleToSet = StyleFactory.getStyle(style);
+		this.axis.setStyle(styleToSet);
+		this.plot.setStyle(styleToSet);
+		this.cm.setStyle(styleToSet);
+		this.legend.setStyle(styleToSet);
+		
+		this.setTitleFont(styleToSet.getTitleFont());
+		this.setTitleColor(styleToSet.getTitleColor());
+		this.setImageBackgroundColor(styleToSet.getChartBackgroundColor());
+	}
 }

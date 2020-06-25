@@ -62,14 +62,14 @@ public class Main {
 //		histogram();
 //		stackedAreaChart();
 //		pieChart();
-//		stripCharting();
+		stripCharting();
 //		boxCharting();
 //		lineCharting();
 //		dateLineCharting();
 //		barCharting();
 //		scatterCharting();
 //		bubbleChart();
-		radarChart();
+//		radarChart();
 //		polarAreaChart();
 //		gaugeChart();
 //		scatterChartingDiamond();
@@ -201,6 +201,8 @@ public class Main {
 		StackedBarPlot plot = sbc.getPlot();
 		plot.setDrawValuesOnBar(true);
 		
+		sbc.setStyle(Styles.Nighttime);
+		
 		sbc.create();
 		sbc.WriteFile("Chart Images/Stacked Bar Chart.png");
 	}
@@ -260,6 +262,8 @@ public class Main {
 		
 		XYChartMeasurements cm = sc.getXYChartMeasurements();
 		cm.setPlotWidth(900);
+		
+		sc.setStyle(Styles.ChartJS);
 		
 		return sc;
 	}

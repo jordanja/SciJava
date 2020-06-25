@@ -11,6 +11,7 @@ import thesis.Charter.ChartMeasurements.XYChartMeasurements;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonHashMap;
 import thesis.Common.CommonMath;
@@ -152,6 +153,10 @@ public class StackedBarPlot  extends Plot{
 	}
 	public void setBarWidthPercentage(double barWidthPercentage) {
 		this.barWidthPercentage = barWidthPercentage;
+	}
+	
+	public void setStyle(Style styleToSet) {
+		super.setStyle(styleToSet);
 	}
 
 }

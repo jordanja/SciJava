@@ -14,6 +14,7 @@ import java.util.stream.IntStream;
 import thesis.Charter.Axis.BarChartAxis;
 import thesis.Charter.Axis.StripChartAxis;
 import thesis.Charter.ChartMeasurements.XYChartMeasurements;
+import thesis.Charter.Styles.Style;
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;
@@ -310,7 +311,6 @@ public class StripPlot extends Plot{
 	public void setDodge(boolean dodge) {
 		this.dodge = dodge;
 	}
-	
 	
 	
 }
