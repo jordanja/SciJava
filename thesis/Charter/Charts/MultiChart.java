@@ -1,5 +1,6 @@
 package thesis.Charter.Charts;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -30,6 +31,10 @@ public class MultiChart {
 	protected Color titleColor = Color.BLACK;
 	
 	private Color defaultImageBackgroundColor = Color.WHITE;
+	
+	private boolean drawChartOutline = false; 
+	private Color chartOutlineColor = Color.BLACK;
+	private int chartOutlineWidth = 1;
 	
 	private MultiChartMeasurements cm;
 	
@@ -85,7 +90,12 @@ public class MultiChart {
 				img = op.filter(img, null);
 				
 				g.drawImage(img, this.cm.imageLeftToChartLeftWidth(columnCount, rowCount), this.cm.imageBottomToChartBottomHeight(columnCount, rowCount), null);
-				g.drawRect(this.cm.imageLeftToChartLeftWidth(columnCount, rowCount), this.cm.imageBottomToChartBottomHeight(columnCount, rowCount), this.cm.getChartWidth(columnCount, rowCount), this.cm.getChartHeight(columnCount, rowCount));
+				
+				if (this.drawChartOutline) {
+					g.setColor(this.chartOutlineColor);
+					g.setStroke(new BasicStroke(this.chartOutlineWidth));
+					g.drawRect(this.cm.imageLeftToChartLeftWidth(columnCount, rowCount), this.cm.imageBottomToChartBottomHeight(columnCount, rowCount), this.cm.getChartWidth(columnCount, rowCount), this.cm.getChartHeight(columnCount, rowCount));
+				}
 			}
 		}
 	}
@@ -169,6 +179,30 @@ public class MultiChart {
 
 	public void setTitleColor(Color titleColor) {
 		this.titleColor = titleColor;
+	}
+
+	public boolean isDrawChartOutline() {
+		return drawChartOutline;
+	}
+
+	public void setDrawChartOutline(boolean drawChartOutline) {
+		this.drawChartOutline = drawChartOutline;
+	}
+
+	public Color getChartOutlineColor() {
+		return chartOutlineColor;
+	}
+
+	public void setChartOutlineColor(Color chartOutlineColor) {
+		this.chartOutlineColor = chartOutlineColor;
+	}
+
+	public int getChartOutlineWidth() {
+		return chartOutlineWidth;
+	}
+
+	public void setChartOutlineWidth(int chartOutlineWidth) {
+		this.chartOutlineWidth = chartOutlineWidth;
 	}
 	
 	

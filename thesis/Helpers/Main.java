@@ -62,7 +62,7 @@ public class Main {
 //		histogram();
 //		stackedAreaChart();
 //		pieChart();
-		stripCharting();
+//		stripCharting();
 //		boxCharting();
 //		lineCharting();
 //		dateLineCharting();
@@ -73,7 +73,7 @@ public class Main {
 //		polarAreaChart();
 //		gaugeChart();
 //		scatterChartingDiamond();
-//		multiChart();
+		multiChart();
 //		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
@@ -83,17 +83,18 @@ public class Main {
 	
 	
 		
-		Chart chart1 = getPieChart();
-		Chart chart2 = getStripChart();
-		Chart chart3 = getScatterChart();
-		Chart chart4 = getBoxChart();
+		LineChart chart1 = getLineChart();
+		LineChart chart2 = getLineChart();
+//		Chart chart3 = getScatterChart();
+//		Chart chart4 = getBoxChart();
 		
+		chart1.getLegend().setIncludeLegend(false);
 		
-		MultiChart mc = new MultiChart(2, 2);
+		MultiChart mc = new MultiChart(2, 1);
 		mc.setChart(0, 0, chart1);
 		mc.setChart(1, 0, chart2);
-		mc.setChart(0, 1, chart3);
-		mc.setChart(1, 1, chart4);
+//		mc.setChart(0, 1, getLineChart());
+//		mc.setChart(1, 1, getLineChart());
 		
 		mc.setTitle("This is a Multi-Chart");
 		mc.setTitleFont(new Font("Dialog", Font.PLAIN, 24));
@@ -323,7 +324,7 @@ public class Main {
 		System.out.println(df);
 	}
 	
-	public static void lineCharting() {
+	public static LineChart getLineChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("subject", StorageType.String);
 		columnTypes.put("timepoint", StorageType.Integer);
@@ -333,8 +334,12 @@ public class Main {
 		DataFrame df = DataFrame.readCSV("Datasets/fmri.csv", true, false, columnTypes);
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
-		lc.setStyle(Styles.Kids);
+		lc.setStyle(Styles.Seaborn);
 		lc.colorCode("event");
+		return lc;
+	}
+	
+	public static void lineCharting() {
 		
 //		BaseAxis axis =  lc.getAxis();
 //		LinePlot plot = lc.getPlot();
@@ -353,9 +358,9 @@ public class Main {
 //		axis.setXAxisLabel("sepal_length");
 //		axis.setYAxisLabel("sepal_width");
 
-		lc.setTitle("sepal_length vs sepal_width");
+//		lc.setTitle("sepal_length vs sepal_width");
 //		lc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-
+		Chart lc = getLineChart();
 		lc.create();
 		lc.WriteFile("Chart Images/Line Chart.png");
 
