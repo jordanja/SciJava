@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import thesis.Common.CommonArray;
@@ -3215,6 +3216,50 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.data;
 	}
 	
+	public List<List<Object>> getDataAsObjectList() {
+		return getColumnsAs2DObjectList(0, this.getNumCols() - 1);
+	}
+
+	public  List<List<String>> getDataAs2DStringList() {
+		return getColumnsAs2DStringList(0, this.getNumCols() - 1);
+	}
+
+	public  List<List<Integer>> getDataAs2DIntList() {
+		return getColumnsAs2DIntList(0, this.getNumCols() - 1);
+	}
+
+	public  List<List<Double>> getDataAs2DDoubleList() {
+		return getColumnsAs2DDoubleList(0, this.getNumCols() - 1);
+	}
+
+	public  List<List<Float>> getDataAs2DFloatList() {
+		return getColumnsAs2DFloatList(0, this.getNumCols() - 1);
+	}
+
+	public  List<List<Boolean>> getDataAs2DBooleanList() {
+		return getColumnsAs2DBooleanList(0, this.getNumCols() - 1);
+	}
+
+	public  List<List<LocalDate>> getDataAs2DLocalDateList() {
+		return getColumnsAs2DLocalDateList(0, this.getNumCols() - 1);
+	}
+
+	public  List<List<LocalDateTime>> getDataAs2DLocalDateTimeList() {
+		return getColumnsAs2DLocalDateTimeList(0, this.getNumCols() - 1);
+	}
+
+	public  List<List<LocalTime>> getDataAs2DLocalTimeList() {
+		return getColumnsAs2DLocalTimeList(0, this.getNumCols() - 1);
+	}
+
+	public  List<List<Period>> getDataAs2DPeriodList() {
+		return getColumnsAs2DPeriodList(0, this.getNumCols() - 1);
+	}
+
+	public  List<List<Duration>> getDataAs2DDurationList() {
+		return getColumnsAs2DDurationList(0, this.getNumCols() - 1);
+	}
+	
 	public DataItem[][] getDataAs2DDataItemArray() {
 		return getColumnsAs2DDataItemArray(0, this.getNumCols() - 1);
 	}
@@ -3425,8 +3470,114 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getColumnAsDurationArray(index);
 	}
 
-	
-	
+	public List<DataItem> getColumnAsDataItemList(int index) {
+		return Arrays.asList(this.getColumnAsDataItemArray(index));
+	}
+
+	public List<DataItem> getColumnAsDataItemList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsDataItemList(index);
+	}
+
+	public List<Object> getColumnAsObjectList(int index) {
+		return Arrays.asList(this.getColumnAsObjectArray(index));
+	}
+
+	public List<Object> getColumnAsObjectList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsObjectList(index);
+	}
+
+	public List<String> getColumnAsStringList(int index) {
+		return Arrays.asList(this.getColumnAsStringArray(index));
+	}
+
+	public List<String> getColumnAsStringList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsStringList(index);
+	}
+
+	public List<Integer> getColumnAsIntList(int index) {
+		return Arrays.stream(this.getColumnAsIntArray(index)).boxed().collect(Collectors.toList());
+	}
+
+	public List<Integer> getColumnAsIntList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsIntList(index);
+	}
+
+	public List<Double> getColumnAsDoubleList(int index) {
+		return Arrays.stream(this.getColumnAsDoubleArray(index)).boxed().collect(Collectors.toList());
+	}
+
+	public List<Double> getColumnAsDoubleList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsDoubleList(index);
+	}
+
+	public List<Float> getColumnAsFloatList(int index) {
+		return CommonArray.convertFloatArrayToFloatList(this.getColumnAsFloatArray(index));
+	}
+
+	public List<Float> getColumnAsFloatList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsFloatList(index);
+	}
+
+	public List<Boolean> getColumnAsBooleanList(int index) {
+		return CommonArray.convertBooleanArrayToBooleanList(this.getColumnAsBooleanArray(index));
+	}
+
+	public List<Boolean> getColumnAsBooleanList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsBooleanList(index);
+	}
+
+	public List<LocalDate> getColumnAsLocalDateList(int index) {
+		return Arrays.asList(this.getColumnAsLocalDateArray(index));
+	}
+
+	public List<LocalDate> getColumnAsLocalDateList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsLocalDateList(index);
+	}
+
+	public List<LocalDateTime> getColumnAsLocalDateTimeList(int index) {
+		return Arrays.asList(this.getColumnAsLocalDateTimeArray(index));
+	}
+
+	public List<LocalDateTime> getColumnAsLocalDateTimeList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsLocalDateTimeList(index);
+	}
+
+	public List<LocalTime> getColumnAsLocalTimeList(int index) {
+		return Arrays.asList(this.getColumnAsLocalTimeArray(index));
+	}
+
+	public List<LocalTime> getColumnAsLocalTimeList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsLocalTimeList(index);
+	}
+
+	public List<Period> getColumnAsPeriodList(int index) {
+		return Arrays.asList(this.getColumnAsPeriodArray(index));
+	}
+
+	public List<Period> getColumnAsPeriodList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsPeriodList(index);
+	}
+
+	public List<Duration> getColumnAsDurationList(int index) {
+		return Arrays.asList(this.getColumnAsDurationArray(index));
+	}
+
+	public List<Duration> getColumnAsDurationList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsDurationList(index);
+	}
+
 	public DataItem[][] getColumnsAs2DDataItemArray(int[] indices) {
 		DataItem[][] columns = new DataItem[indices.length][this.rowNames.size()];
 		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
@@ -3765,6 +3916,247 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	
+	
+	public List<List<DataItem>> getColumnsAs2DDataItemList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDataItemArray(indices));
+	}
+
+	public List<List<DataItem>> getColumnsAs2DDataItemList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDataItemArray(names));
+	}
+
+	public List<List<DataItem>> getColumnsAs2DDataItemList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDataItemArray(names));
+	}
+
+	public List<List<DataItem>> getColumnsAs2DDataItemList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDataItemArray(lowerBound, upperBound));
+	}
+
+	public List<List<DataItem>> getColumnsAs2DDataItemList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDataItemArray(getColumn));
+	}
+
+	public List<List<Object>> getColumnsAs2DObjectList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DObjectArray(indices));
+	}
+
+	public List<List<Object>> getColumnsAs2DObjectList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DObjectArray(names));
+	}
+
+	public List<List<Object>> getColumnsAs2DObjectList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DObjectArray(names));
+	}
+
+	public List<List<Object>> getColumnsAs2DObjectList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DObjectArray(lowerBound, upperBound));
+	}
+
+	public List<List<Object>> getColumnsAs2DObjectList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DObjectArray(getColumn));
+	}
+
+	public List<List<String>> getColumnsAs2DStringList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DStringArray(indices));
+	}
+
+	public List<List<String>> getColumnsAs2DStringList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DStringArray(names));
+	}
+
+	public List<List<String>> getColumnsAs2DStringList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DStringArray(names));
+	}
+
+	public List<List<String>> getColumnsAs2DStringList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DStringArray(lowerBound, upperBound));
+	}
+
+	public List<List<String>> getColumnsAs2DStringList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DStringArray(getColumn));
+	}
+
+	public List<List<Integer>> getColumnsAs2DIntList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DIntArray(indices));
+	}
+
+	public List<List<Integer>> getColumnsAs2DIntList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DIntArray(names));
+	}
+
+	public List<List<Integer>> getColumnsAs2DIntList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DIntArray(names));
+	}
+
+	public List<List<Integer>> getColumnsAs2DIntList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DIntArray(lowerBound, upperBound));
+	}
+
+	public List<List<Integer>> getColumnsAs2DIntList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DIntArray(getColumn));
+	}
+
+	public List<List<Double>> getColumnsAs2DDoubleList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDoubleArray(indices));
+	}
+
+	public List<List<Double>> getColumnsAs2DDoubleList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDoubleArray(names));
+	}
+
+	public List<List<Double>> getColumnsAs2DDoubleList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDoubleArray(names));
+	}
+
+	public List<List<Double>> getColumnsAs2DDoubleList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDoubleArray(lowerBound, upperBound));
+	}
+
+	public List<List<Double>> getColumnsAs2DDoubleList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDoubleArray(getColumn));
+	}
+
+	public List<List<Float>> getColumnsAs2DFloatList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DFloatArray(indices));
+	}
+
+	public List<List<Float>> getColumnsAs2DFloatList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DFloatArray(names));
+	}
+
+	public List<List<Float>> getColumnsAs2DFloatList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DFloatArray(names));
+	}
+
+	public List<List<Float>> getColumnsAs2DFloatList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DFloatArray(lowerBound, upperBound));
+	}
+
+	public List<List<Float>> getColumnsAs2DFloatList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DFloatArray(getColumn));
+	}
+
+	public List<List<Boolean>> getColumnsAs2DBooleanList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBooleanArray(indices));
+	}
+
+	public List<List<Boolean>> getColumnsAs2DBooleanList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBooleanArray(names));
+	}
+
+	public List<List<Boolean>> getColumnsAs2DBooleanList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBooleanArray(names));
+	}
+
+	public List<List<Boolean>> getColumnsAs2DBooleanList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBooleanArray(lowerBound, upperBound));
+	}
+
+	public List<List<Boolean>> getColumnsAs2DBooleanList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBooleanArray(getColumn));
+	}
+
+	public List<List<LocalDate>> getColumnsAs2DLocalDateList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateArray(indices));
+	}
+
+	public List<List<LocalDate>> getColumnsAs2DLocalDateList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateArray(names));
+	}
+
+	public List<List<LocalDate>> getColumnsAs2DLocalDateList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateArray(names));
+	}
+
+	public List<List<LocalDate>> getColumnsAs2DLocalDateList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateArray(lowerBound, upperBound));
+	}
+
+	public List<List<LocalDate>> getColumnsAs2DLocalDateList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateArray(getColumn));
+	}
+
+	public List<List<LocalDateTime>> getColumnsAs2DLocalDateTimeList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateTimeArray(indices));
+	}
+
+	public List<List<LocalDateTime>> getColumnsAs2DLocalDateTimeList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateTimeArray(names));
+	}
+
+	public List<List<LocalDateTime>> getColumnsAs2DLocalDateTimeList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateTimeArray(names));
+	}
+
+	public List<List<LocalDateTime>> getColumnsAs2DLocalDateTimeList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateTimeArray(lowerBound, upperBound));
+	}
+
+	public List<List<LocalDateTime>> getColumnsAs2DLocalDateTimeList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateTimeArray(getColumn));
+	}
+
+	public List<List<LocalTime>> getColumnsAs2DLocalTimeList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalTimeArray(indices));
+	}
+
+	public List<List<LocalTime>> getColumnsAs2DLocalTimeList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalTimeArray(names));
+	}
+
+	public List<List<LocalTime>> getColumnsAs2DLocalTimeList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalTimeArray(names));
+	}
+
+	public List<List<LocalTime>> getColumnsAs2DLocalTimeList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalTimeArray(lowerBound, upperBound));
+	}
+
+	public List<List<LocalTime>> getColumnsAs2DLocalTimeList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalTimeArray(getColumn));
+	}
+
+	public List<List<Period>> getColumnsAs2DPeriodList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DPeriodArray(indices));
+	}
+
+	public List<List<Period>> getColumnsAs2DPeriodList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DPeriodArray(names));
+	}
+
+	public List<List<Period>> getColumnsAs2DPeriodList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DPeriodArray(names));
+	}
+
+	public List<List<Period>> getColumnsAs2DPeriodList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DPeriodArray(lowerBound, upperBound));
+	}
+
+	public List<List<Period>> getColumnsAs2DPeriodList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DPeriodArray(getColumn));
+	}
+
+	public List<List<Duration>> getColumnsAs2DDurationList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDurationArray(indices));
+	}
+
+	public List<List<Duration>> getColumnsAs2DDurationList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDurationArray(names));
+	}
+
+	public List<List<Duration>> getColumnsAs2DDurationList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDurationArray(names));
+	}
+
+	public List<List<Duration>> getColumnsAs2DDurationList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDurationArray(lowerBound, upperBound));
+	}
+
+	public List<List<Duration>> getColumnsAs2DDurationList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDurationArray(getColumn));
+	}
+	
 	public DataFrame getColumnAsDataFrame(String name) {
 		return getColumnsAsDataFrame(new String[] { name });
 	}
@@ -3976,6 +4368,114 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getRowAsDurationArray(index);
 	}
 
+	public List<DataItem> getRowAsDataItemList(int index) {
+		return Arrays.asList(this.getRowAsDataItemArray(index));
+	}
+
+	public List<DataItem> getRowAsDataItemList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsDataItemList(index);
+	}
+
+	public List<Object> getRowAsObjectList(int index) {
+		return Arrays.asList(this.getRowAsObjectArray(index));
+	}
+
+	public List<Object> getRowAsObjectList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsObjectList(index);
+	}
+
+	public List<String> getRowAsStringList(int index) {
+		return Arrays.asList(this.getRowAsStringArray(index));
+	}
+
+	public List<String> getRowAsStringList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsStringList(index);
+	}
+
+	public List<Integer> getRowAsIntList(int index) {
+		return Arrays.stream(this.getRowAsIntArray(index)).boxed().collect(Collectors.toList());
+	}
+
+	public List<Integer> getRowAsIntList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsIntList(index);
+	}
+
+	public List<Double> getRowAsDoubleList(int index) {
+		return Arrays.stream(this.getRowAsDoubleArray(index)).boxed().collect(Collectors.toList());
+	}
+
+	public List<Double> getRowAsDoubleList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsDoubleList(index);
+	}
+
+	public List<Float> getRowAsFloatList(int index) {
+		return CommonArray.convertFloatArrayToFloatList(this.getRowAsFloatArray(index));
+	}
+
+	public List<Float> getRowAsFloatList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsFloatList(index);
+	}
+
+	public List<Boolean> getRowAsBooleanList(int index) {
+		return CommonArray.convertBooleanArrayToBooleanList(this.getRowAsBooleanArray(index));
+	}
+
+	public List<Boolean> getRowAsBooleanList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsBooleanList(index);
+	}
+
+	public List<LocalDate> getRowAsLocalDateList(int index) {
+		return Arrays.asList(this.getRowAsLocalDateArray(index));
+	}
+
+	public List<LocalDate> getRowAsLocalDateList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsLocalDateList(index);
+	}
+
+	public List<LocalDateTime> getRowAsLocalDateTimeList(int index) {
+		return Arrays.asList(this.getRowAsLocalDateTimeArray(index));
+	}
+
+	public List<LocalDateTime> getRowAsLocalDateTimeList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsLocalDateTimeList(index);
+	}
+
+	public List<LocalTime> getRowAsLocalTimeList(int index) {
+		return Arrays.asList(this.getRowAsLocalTimeArray(index));
+	}
+
+	public List<LocalTime> getRowAsLocalTimeList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsLocalTimeList(index);
+	}
+
+	public List<Period> getRowAsPeriodList(int index) {
+		return Arrays.asList(this.getRowAsPeriodArray(index));
+	}
+
+	public List<Period> getRowAsPeriodList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsPeriodList(index);
+	}
+
+	public List<Duration> getRowAsDurationList(int index) {
+		return Arrays.asList(this.getRowAsDurationArray(index));
+	}
+
+	public List<Duration> getRowAsDurationList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsDurationList(index);
+	}
+	
 	
 	public DataItem[][] getRowsAs2DDataItemArray(int[] indices) {
 		DataItem[][] rows = new DataItem[indices.length][this.columnNames.size()];
@@ -4314,6 +4814,246 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getRowsAs2DDurationArray(columnIndices);
 	}
 
+	
+	public List<List<DataItem>> getRowsAs2DDataItemList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDataItemArray(indices));
+	}
+
+	public List<List<DataItem>> getRowsAs2DDataItemList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDataItemArray(names));
+	}
+
+	public List<List<DataItem>> getRowsAs2DDataItemList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDataItemArray(names));
+	}
+
+	public List<List<DataItem>> getRowsAs2DDataItemList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDataItemArray(lowerBound, upperBound));
+	}
+
+	public List<List<DataItem>> getRowsAs2DDataItemList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDataItemArray(getRow));
+	}
+
+	public List<List<Object>> getRowsAs2DObjectList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DObjectArray(indices));
+	}
+
+	public List<List<Object>> getRowsAs2DObjectList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DObjectArray(names));
+	}
+
+	public List<List<Object>> getRowsAs2DObjectList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DObjectArray(names));
+	}
+
+	public List<List<Object>> getRowsAs2DObjectList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DObjectArray(lowerBound, upperBound));
+	}
+
+	public List<List<Object>> getRowsAs2DObjectList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DObjectArray(getRow));
+	}
+
+	public List<List<String>> getRowsAs2DStringList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DStringArray(indices));
+	}
+
+	public List<List<String>> getRowsAs2DStringList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DStringArray(names));
+	}
+
+	public List<List<String>> getRowsAs2DStringList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DStringArray(names));
+	}
+
+	public List<List<String>> getRowsAs2DStringList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DStringArray(lowerBound, upperBound));
+	}
+
+	public List<List<String>> getRowsAs2DStringList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DStringArray(getRow));
+	}
+
+	public List<List<Integer>> getRowsAs2DIntList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DIntArray(indices));
+	}
+
+	public List<List<Integer>> getRowsAs2DIntList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DIntArray(names));
+	}
+
+	public List<List<Integer>> getRowsAs2DIntList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DIntArray(names));
+	}
+
+	public List<List<Integer>> getRowsAs2DIntList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DIntArray(lowerBound, upperBound));
+	}
+
+	public List<List<Integer>> getRowsAs2DIntList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DIntArray(getRow));
+	}
+
+	public List<List<Double>> getRowsAs2DDoubleList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDoubleArray(indices));
+	}
+
+	public List<List<Double>> getRowsAs2DDoubleList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDoubleArray(names));
+	}
+
+	public List<List<Double>> getRowsAs2DDoubleList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDoubleArray(names));
+	}
+
+	public List<List<Double>> getRowsAs2DDoubleList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDoubleArray(lowerBound, upperBound));
+	}
+
+	public List<List<Double>> getRowsAs2DDoubleList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDoubleArray(getRow));
+	}
+
+	public List<List<Float>> getRowsAs2DFloatList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DFloatArray(indices));
+	}
+
+	public List<List<Float>> getRowsAs2DFloatList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DFloatArray(names));
+	}
+
+	public List<List<Float>> getRowsAs2DFloatList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DFloatArray(names));
+	}
+
+	public List<List<Float>> getRowsAs2DFloatList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DFloatArray(lowerBound, upperBound));
+	}
+
+	public List<List<Float>> getRowsAs2DFloatList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DFloatArray(getRow));
+	}
+
+	public List<List<Boolean>> getRowsAs2DBooleanList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBooleanArray(indices));
+	}
+
+	public List<List<Boolean>> getRowsAs2DBooleanList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBooleanArray(names));
+	}
+
+	public List<List<Boolean>> getRowsAs2DBooleanList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBooleanArray(names));
+	}
+
+	public List<List<Boolean>> getRowsAs2DBooleanList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBooleanArray(lowerBound, upperBound));
+	}
+
+	public List<List<Boolean>> getRowsAs2DBooleanList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBooleanArray(getRow));
+	}
+
+	public List<List<LocalDate>> getRowsAs2DLocalDateList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateArray(indices));
+	}
+
+	public List<List<LocalDate>> getRowsAs2DLocalDateList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateArray(names));
+	}
+
+	public List<List<LocalDate>> getRowsAs2DLocalDateList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateArray(names));
+	}
+
+	public List<List<LocalDate>> getRowsAs2DLocalDateList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateArray(lowerBound, upperBound));
+	}
+
+	public List<List<LocalDate>> getRowsAs2DLocalDateList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateArray(getRow));
+	}
+
+	public List<List<LocalDateTime>> getRowsAs2DLocalDateTimeList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateTimeArray(indices));
+	}
+
+	public List<List<LocalDateTime>> getRowsAs2DLocalDateTimeList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateTimeArray(names));
+	}
+
+	public List<List<LocalDateTime>> getRowsAs2DLocalDateTimeList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateTimeArray(names));
+	}
+
+	public List<List<LocalDateTime>> getRowsAs2DLocalDateTimeList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateTimeArray(lowerBound, upperBound));
+	}
+
+	public List<List<LocalDateTime>> getRowsAs2DLocalDateTimeList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateTimeArray(getRow));
+	}
+
+	public List<List<LocalTime>> getRowsAs2DLocalTimeList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalTimeArray(indices));
+	}
+
+	public List<List<LocalTime>> getRowsAs2DLocalTimeList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalTimeArray(names));
+	}
+
+	public List<List<LocalTime>> getRowsAs2DLocalTimeList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalTimeArray(names));
+	}
+
+	public List<List<LocalTime>> getRowsAs2DLocalTimeList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalTimeArray(lowerBound, upperBound));
+	}
+
+	public List<List<LocalTime>> getRowsAs2DLocalTimeList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalTimeArray(getRow));
+	}
+
+	public List<List<Period>> getRowsAs2DPeriodList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DPeriodArray(indices));
+	}
+
+	public List<List<Period>> getRowsAs2DPeriodList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DPeriodArray(names));
+	}
+
+	public List<List<Period>> getRowsAs2DPeriodList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DPeriodArray(names));
+	}
+
+	public List<List<Period>> getRowsAs2DPeriodList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DPeriodArray(lowerBound, upperBound));
+	}
+
+	public List<List<Period>> getRowsAs2DPeriodList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DPeriodArray(getRow));
+	}
+
+	public List<List<Duration>> getRowsAs2DDurationList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDurationArray(indices));
+	}
+
+	public List<List<Duration>> getRowsAs2DDurationList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDurationArray(names));
+	}
+
+	public List<List<Duration>> getRowsAs2DDurationList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDurationArray(names));
+	}
+
+	public List<List<Duration>> getRowsAs2DDurationList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDurationArray(lowerBound, upperBound));
+	}
+
+	public List<List<Duration>> getRowsAs2DDurationList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDurationArray(getRow));
+	}
 	
 	public DataFrame getRowAsDataFrame(String name) {
 		return getRowsAsDataFrame(new String[] { name });

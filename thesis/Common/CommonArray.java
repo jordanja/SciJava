@@ -527,11 +527,16 @@ public class CommonArray {
 		return arr;
 	}
 
+	public static <T> void printArray(List<T> arr) {
+		for (int i = 0; i < arr.size(); i++) {
+			System.out.println(i + ": " + arr.get(i));
+		}
+	}
+	
 	public static void printArray(Object[] arr) {
 		for (int i = 0; i < arr.length; i++) {
 			System.out.println(i + ": " + arr[i]);
 		}
-		
 	}
 	public static void printStringArrayList(ArrayList<String> arr) {
 		for (int i = 0; i < arr.size(); i++) {
@@ -1103,4 +1108,65 @@ public class CommonArray {
 		return min;
 	}
 
+	public static List<Float> convertFloatArrayToFloatList(float[] columnAsFloatArray) {
+		List<Float> list = new ArrayList<Float>();
+		for (float val: columnAsFloatArray) {
+			list.add(val);
+		}
+		return list;
+	}
+	
+	public static List<Boolean> convertBooleanArrayToBooleanList(boolean[] columnAsFloatArray) {
+		List<Boolean> list = new ArrayList<Boolean>();
+		for (boolean val: columnAsFloatArray) {
+			list.add(val);
+		}
+		return list;
+	}
+
+	public static <T> List<List<T>> convert2DArrayTo2DArrayList(T[][] arrays) {
+		List<List<T>> lists = new ArrayList<List<T>>();
+		for (T[] array: arrays) {
+			lists.add(Arrays.asList(array));
+		}
+		return lists;
+	}
+	
+	public static List<List<Integer>> convert2DArrayTo2DArrayList(int[][] arrays) {
+		List<List<Integer>> lists = new ArrayList<List<Integer>>();
+		for (int[] array: arrays) {
+			lists.add(Arrays.stream(array).boxed().collect(Collectors.toList()));
+		}
+		return lists;
+	}
+	
+	public static List<List<Double>> convert2DArrayTo2DArrayList(double[][] arrays) {
+		List<List<Double>> lists = new ArrayList<List<Double>>();
+		for (double[] array: arrays) {
+			lists.add(Arrays.stream(array).boxed().collect(Collectors.toList()));
+		}
+		return lists;
+	}
+	
+	public static List<List<Float>> convert2DArrayTo2DArrayList(float[][] arrays) {
+		List<List<Float>> lists = new ArrayList<List<Float>>();
+		for (int i = 0; i < arrays.length; i++) {
+			lists.add(new ArrayList<Float>());
+			for (int j = 0; j < arrays[i].length; j++) {
+				lists.get(i).add(arrays[i][j]);
+			}	
+		}
+		return lists;
+	}
+
+	public static List<List<Boolean>> convert2DArrayTo2DArrayList(boolean[][] arrays) {
+		List<List<Boolean>> lists = new ArrayList<List<Boolean>>();
+		for (int i = 0; i < arrays.length; i++) {
+			lists.add(new ArrayList<Boolean>());
+			for (int j = 0; j < arrays[i].length; j++) {
+				lists.get(i).add(arrays[i][j]);
+			}	
+		}
+		return lists;
+	}
 }

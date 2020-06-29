@@ -73,8 +73,8 @@ public class Main {
 //		polarAreaChart();
 //		gaugeChart();
 //		scatterChartingDiamond();
-		multiChart();
-//		dfPlay();
+//		multiChart();
+		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 
@@ -678,7 +678,7 @@ public class Main {
 		ArrayList<String> columnNames = new ArrayList<String>();
 		columnNames.add("col_n");
 		columnNames.add("col_f");
-//		columnNames.add("col_z");
+		columnNames.add("col_z");
 //		columnNames.add("col_r");
 //		columnNames.add("col_w");
 //		columnNames.add("col_A");
@@ -690,21 +690,20 @@ public class Main {
 		ArrayList<String> rowNames = new ArrayList<String>();
 		rowNames.add("row_one");
 		rowNames.add("row_two");
-//		rowNames.add("row_three");
-//		rowNames.add("row_four");
-//		rowNames.add("row_five");
+		rowNames.add("row_three");
+		rowNames.add("row_four");
+		rowNames.add("row_five");
 //		rowNames.add("row_six");
 //		rowNames.add("row_seven");
 //		rowNames.add("row_eight");
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
 		
-		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
-		columnTypes.put("date", StorageType.LocalDate);
-		columnTypes.put("category", StorageType.String);
-		columnTypes.put("value", StorageType.Integer);
-		DataFrame df = DataFrame.readCSV("Datasets/date_data.csv", true, false, columnTypes);
+		DataFrame df = DataFrame.randomInts(columnNames, rowNames);
 		
+		List<List<Integer>> list = df.getDataAs2DIntList();
+		
+		CommonArray.printArray(list);
 		
 		return df;
 	}
