@@ -11003,6 +11003,18 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 
+	public DataFrame lengthOfStrings() {
+		DataFrame lengthDF = DataFrame.zeros(this.columnNames.toArray(new String[0]), this.rowNames.toArray(new String[0]));
+		for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+			for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+				int length = this.getValue(columnCount, rowCount).getValueConvertedToString().length();
+				lengthDF.setValue(columnCount, rowCount, length);
+			}	
+		}
+		return lengthDF;
+	}
+	
+	
 	/*
 	 * 
 	 * Have a look into java.util.Optional or using Maps

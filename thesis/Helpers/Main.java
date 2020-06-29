@@ -701,12 +701,11 @@ public class Main {
 //		rowNames.add("row_ten");
 		
 		DataFrame df = DataFrame.randomInts(columnNames, rowNames);
+		df.setValue(0, 1, "qq");
+		df.setValue(2, 0, 1234);
 		
-//		double[][] cols = df.getRowsAs2DDoubleArray(Pattern.compile("row_f"));
-//		CommonArray.print2DArray(cols);
-		
-		DataFrame newdf = df.getRowsAsDataFrame(Pattern.compile("row_f"));
-		System.out.println(newdf);
+		DataFrame lengthDF = df.lengthOfStrings();
+		System.out.println(lengthDF);
 		
 		return df;
 	}
