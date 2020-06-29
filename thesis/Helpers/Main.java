@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.ObjectInputStream.GetField;
@@ -701,9 +702,11 @@ public class Main {
 		
 		DataFrame df = DataFrame.randomInts(columnNames, rowNames);
 		
-		List<List<Integer>> list = df.getDataAs2DIntList();
+//		double[][] cols = df.getRowsAs2DDoubleArray(Pattern.compile("row_f"));
+//		CommonArray.print2DArray(cols);
 		
-		CommonArray.printArray(list);
+		DataFrame newdf = df.getRowsAsDataFrame(Pattern.compile("row_f"));
+		System.out.println(newdf);
 		
 		return df;
 	}

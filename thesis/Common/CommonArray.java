@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -577,6 +578,19 @@ public class CommonArray {
 		for (int i = 0; i < arr.length; i++) {
 			System.out.println(i + ": " + arr[i]);
 		}
+	}
+	
+	public static <T> void print2DList(List<List<T>> list) {
+		for (int outerCount = 0; outerCount < list.size(); outerCount++) {
+			for (int innerCount = 0; innerCount < list.get(outerCount).size(); innerCount++) {
+				System.out.print(list.get(outerCount).get(innerCount));
+				if (innerCount < list.get(outerCount).size() - 1) {
+					System.out.print(", ");
+				}
+			}
+			System.out.println("");
+		}
+		
 	}
 	
 	public static void print2DArray(Object[][] arr) {
@@ -1168,5 +1182,15 @@ public class CommonArray {
 			}	
 		}
 		return lists;
+	}
+	
+	public static int[] getIndicesOfListThatMatchRegex(ArrayList<String> list, Pattern regex) {
+		List<Integer> indexMatches = new ArrayList<Integer>();
+		for (int columnIndex = 0; columnIndex < list.size(); columnIndex++) {
+			if (regex.matcher(list.get(columnIndex)).find()) {
+				indexMatches.add(columnIndex);
+			}
+		}
+		return indexMatches.stream().mapToInt(i -> i).toArray();
 	}
 }

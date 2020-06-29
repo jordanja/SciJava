@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -3605,6 +3606,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getColumnsAs2DDataItemArray(columnIndices);
 	}
 	
+	public DataItem[][] getColumnsAs2DDataItemArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DDataItemArray(indices);
+	}
+	
 	public Object[][] getColumnsAs2DObjectArray(int[] indices) {
 		Object[][] columns = new Object[indices.length][this.rowNames.size()];
 		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
@@ -3630,6 +3636,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public Object[][] getColumnsAs2DObjectArray(boolean[] getColumn) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
 		return this.getColumnsAs2DDataItemArray(columnIndices);
+	}
+	
+	public Object[][] getColumnsAs2DObjectArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DObjectArray(indices);
 	}
 	
 	public String[][] getColumnsAs2DStringArray(int[] indices) {
@@ -3660,6 +3671,12 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getColumnsAs2DStringArray(columnIndices);
 	}
 	
+	public String[][] getColumnsAs2DStringArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DStringArray(indices);
+	}
+
+	
 	public int[][] getColumnsAs2DIntArray(int[] indices) {
 		int[][] columns = new int[indices.length][this.rowNames.size()];
 		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
@@ -3686,6 +3703,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public int[][] getColumnsAs2DIntArray(boolean[] getColumn) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
 		return this.getColumnsAs2DIntArray(columnIndices);
+	}
+	
+	public int[][] getColumnsAs2DIntArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DIntArray(indices);
 	}
 	
 	public double[][] getColumnsAs2DDoubleArray(int[] indices) {
@@ -3716,6 +3738,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getColumnsAs2DDoubleArray(columnIndices);
 	}
 	
+	public double[][] getColumnsAs2DDoubleArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DDoubleArray(indices);
+	}
+	
 	public float[][] getColumnsAs2DFloatArray(int[] indices) {
 		float[][] columns = new float[indices.length][this.rowNames.size()];
 		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
@@ -3744,6 +3771,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getColumnsAs2DFloatArray(columnIndices);
 	}
 	
+	public float[][] getColumnsAs2DFloatArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DFloatArray(indices);
+	}
 	
 	public boolean[][] getColumnsAs2DBooleanArray(int[] indices) {
 		boolean[][] columns = new boolean[indices.length][this.rowNames.size()];
@@ -3774,6 +3805,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getColumnsAs2DBooleanArray(columnIndices);
 	}
 	
+	public boolean[][] getColumnsAs2DBooleanArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DBooleanArray(indices);
+	}
 	
 	public LocalDate[][] getColumnsAs2DLocalDateArray(int[] indices) {
 		LocalDate[][] columns = new LocalDate[indices.length][this.rowNames.size()];
@@ -3801,6 +3836,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public LocalDate[][] getColumnsAs2DLocalDateArray(boolean[] getColumn) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
 		return this.getColumnsAs2DLocalDateArray(columnIndices);
+	}
+	
+	public LocalDate[][] getColumnsAs2DLocalDateArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DLocalDateArray(indices);
 	}
 	
 	public LocalDateTime[][] getColumnsAs2DLocalDateTimeArray(int[] indices) {
@@ -3831,6 +3871,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getColumnsAs2DLocalDateTimeArray(columnIndices);
 	}
 	
+	public LocalDateTime[][] getColumnsAs2DLocalDateTimeArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DLocalDateTimeArray(indices);
+	}
+	
 	public LocalTime[][] getColumnsAs2DLocalTimeArray(int[] indices) {
 		LocalTime[][] columns = new LocalTime[indices.length][this.rowNames.size()];
 		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
@@ -3857,6 +3902,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public LocalTime[][] getColumnsAs2DLocalTimeArray(boolean[] getColumn) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
 		return this.getColumnsAs2DLocalTimeArray(columnIndices);
+	}
+	
+	public LocalTime[][] getColumnsAs2DLocalTimeArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DLocalTimeArray(indices);
 	}
 	
 	public Period[][] getColumnsAs2DPeriodArray(int[] indices) {
@@ -3887,6 +3937,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getColumnsAs2DPeriodArray(columnIndices);
 	}
 	
+	public Period[][] getColumnsAs2DPeriodArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DPeriodArray(indices);
+	}
+	
 	public Duration[][] getColumnsAs2DDurationArray(int[] indices) {
 		Duration[][] columns = new Duration[indices.length][this.rowNames.size()];
 		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
@@ -3915,6 +3970,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getColumnsAs2DDurationArray(columnIndices);
 	}
 	
+	public Duration[][] getColumnsAs2DDurationArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DDurationArray(indices);
+	}
 	
 	
 	public List<List<DataItem>> getColumnsAs2DDataItemList(int[] indices) {
@@ -3936,6 +3995,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public List<List<DataItem>> getColumnsAs2DDataItemList(boolean[] getColumn) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDataItemArray(getColumn));
 	}
+	
+	public List<List<DataItem>> getColumnsAs2DDataItemList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDataItemArray(regex));
+	}
 
 	public List<List<Object>> getColumnsAs2DObjectList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DObjectArray(indices));
@@ -3955,6 +4018,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<Object>> getColumnsAs2DObjectList(boolean[] getColumn) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DObjectArray(getColumn));
+	}
+	
+	public List<List<Object>> getColumnsAs2DObjectList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DObjectArray(regex));
 	}
 
 	public List<List<String>> getColumnsAs2DStringList(int[] indices) {
@@ -3976,6 +4043,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public List<List<String>> getColumnsAs2DStringList(boolean[] getColumn) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DStringArray(getColumn));
 	}
+	
+	public List<List<String>> getColumnsAs2DStringList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DStringArray(regex));
+	}
 
 	public List<List<Integer>> getColumnsAs2DIntList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DIntArray(indices));
@@ -3995,6 +4066,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<Integer>> getColumnsAs2DIntList(boolean[] getColumn) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DIntArray(getColumn));
+	}
+	
+	public List<List<Integer>> getColumnsAs2DIntList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DIntArray(regex));
 	}
 
 	public List<List<Double>> getColumnsAs2DDoubleList(int[] indices) {
@@ -4016,6 +4091,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public List<List<Double>> getColumnsAs2DDoubleList(boolean[] getColumn) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDoubleArray(getColumn));
 	}
+	
+	public List<List<Double>> getColumnsAs2DDoubleList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDoubleArray(regex));
+	}
 
 	public List<List<Float>> getColumnsAs2DFloatList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DFloatArray(indices));
@@ -4035,6 +4114,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<Float>> getColumnsAs2DFloatList(boolean[] getColumn) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DFloatArray(getColumn));
+	}
+	
+	public List<List<Float>> getColumnsAs2DFloatList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DFloatArray(regex));
 	}
 
 	public List<List<Boolean>> getColumnsAs2DBooleanList(int[] indices) {
@@ -4056,6 +4139,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public List<List<Boolean>> getColumnsAs2DBooleanList(boolean[] getColumn) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBooleanArray(getColumn));
 	}
+	
+	public List<List<Boolean>> getColumnsAs2DBooleanList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBooleanArray(regex));
+	}
 
 	public List<List<LocalDate>> getColumnsAs2DLocalDateList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateArray(indices));
@@ -4076,6 +4163,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public List<List<LocalDate>> getColumnsAs2DLocalDateList(boolean[] getColumn) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateArray(getColumn));
 	}
+	
+	public List<List<LocalDate>> getColumnsAs2DLocalDateList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateArray(regex));
+	}
 
 	public List<List<LocalDateTime>> getColumnsAs2DLocalDateTimeList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateTimeArray(indices));
@@ -4095,6 +4186,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<LocalDateTime>> getColumnsAs2DLocalDateTimeList(boolean[] getColumn) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateTimeArray(getColumn));
+	}
+	
+	public List<List<LocalDateTime>> getColumnsAs2DLocalDateTimeList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalDateTimeArray(regex));
 	}
 
 	public List<List<LocalTime>> getColumnsAs2DLocalTimeList(int[] indices) {
@@ -4117,6 +4212,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalTimeArray(getColumn));
 	}
 
+	public List<List<LocalTime>> getColumnsAs2DLocalTimeList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DLocalTimeArray(regex));
+	}
+	
 	public List<List<Period>> getColumnsAs2DPeriodList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DPeriodArray(indices));
 	}
@@ -4135,6 +4234,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<Period>> getColumnsAs2DPeriodList(boolean[] getColumn) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DPeriodArray(getColumn));
+	}
+	
+	public List<List<Period>> getColumnsAs2DPeriodList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DPeriodArray(regex));
 	}
 
 	public List<List<Duration>> getColumnsAs2DDurationList(int[] indices) {
@@ -4155,6 +4258,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<Duration>> getColumnsAs2DDurationList(boolean[] getColumn) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDurationArray(getColumn));
+	}
+	
+	public List<List<Duration>> getColumnsAs2DDurationList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDurationArray(regex));
 	}
 	
 	public DataFrame getColumnAsDataFrame(String name) {
@@ -4203,6 +4310,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame getColumnsAsDataFrame(boolean[] getColumn) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
 		return this.getColumnsAsDataFrame(columnIndices);
+	}
+	
+	public DataFrame getColumnsAsDataFrame(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAsDataFrame(indices);
 	}
 
 	
@@ -4505,6 +4617,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getRowsAs2DDataItemArray(columnIndices);
 	}
 	
+	public DataItem[][] getRowsAs2DDataItemArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DDataItemArray(indices);
+	}
+	
 	public Object[][] getRowsAs2DObjectArray(int[] indices) {
 		Object[][] rows = new Object[indices.length][this.columnNames.size()];
 		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
@@ -4531,6 +4648,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public Object[][] getRowsAs2DObjectArray(boolean[] getRow) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
 		return this.getRowsAs2DObjectArray(columnIndices);
+	}
+	
+	public Object[][] getRowsAs2DObjectArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DObjectArray(indices);
 	}
 	
 	
@@ -4562,6 +4684,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getRowsAs2DStringArray(columnIndices);
 	}
 	
+	public String[][] getRowsAs2DStringArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DStringArray(indices);
+	}
+	
 	public int[][] getRowsAs2DIntArray(int[] indices) {
 		int[][] rows = new int[indices.length][this.columnNames.size()];
 		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
@@ -4588,6 +4715,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public int[][] getRowsAs2DIntArray(boolean[] getRow) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
 		return this.getRowsAs2DIntArray(columnIndices);
+	}
+	
+	public int[][] getRowsAs2DIntArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DIntArray(indices);
 	}
 	
 	public double[][] getRowsAs2DDoubleArray(int[] indices) {
@@ -4618,6 +4750,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getRowsAs2DDoubleArray(columnIndices);
 	}
 	
+	public double[][] getRowsAs2DDoubleArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DDoubleArray(indices);
+	}
+	
 	public float[][] getRowsAs2DFloatArray(int[] indices) {
 		float[][] rows = new float[indices.length][this.columnNames.size()];
 		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
@@ -4646,6 +4783,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getRowsAs2DFloatArray(columnIndices);
 	}
 	
+	public float[][] getRowsAs2DFloatArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DFloatArray(indices);
+	}
+	
 	public boolean[][] getRowsAs2DBooleanArray(int[] indices) {
 		boolean[][] rows = new boolean[indices.length][this.columnNames.size()];
 		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
@@ -4672,6 +4814,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public boolean[][] getRowsAs2DBooleanArray(boolean[] getRow) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
 		return this.getRowsAs2DBooleanArray(columnIndices);
+	}
+	
+	public boolean[][] getRowsAs2DBooleanArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DBooleanArray(indices);
 	}
 
 	public LocalDate[][] getRowsAs2DLocalDateArray(int[] indices) {
@@ -4702,6 +4849,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getRowsAs2DLocalDateArray(columnIndices);
 	}
 	
+	public LocalDate[][] getRowsAs2DLocalDateArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DLocalDateArray(indices);
+	}
+	
 	public LocalDateTime[][] getRowsAs2DLocalDateTimeArray(int[] indices) {
 		LocalDateTime[][] rows = new LocalDateTime[indices.length][this.columnNames.size()];
 		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
@@ -4728,6 +4880,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public LocalDateTime[][] getRowsAs2DLocalDateTimeArray(boolean[] getRow) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
 		return this.getRowsAs2DLocalDateTimeArray(columnIndices);
+	}
+	
+	public LocalDateTime[][] getRowsAs2DLocalDateTimeArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DLocalDateTimeArray(indices);
 	}
 
 	public LocalTime[][] getRowsAs2DLocalTimeArray(int[] indices) {
@@ -4757,6 +4914,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
 		return this.getRowsAs2DLocalTimeArray(columnIndices);
 	}
+	
+	public LocalTime[][] getRowsAs2DLocalTimeArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DLocalTimeArray(indices);
+	}
 
 	public Period[][] getRowsAs2DPeriodArray(int[] indices) {
 		Period[][] rows = new Period[indices.length][this.columnNames.size()];
@@ -4784,6 +4946,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public Period[][] getRowsAs2DPeriodArray(boolean[] getRow) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
 		return this.getRowsAs2DPeriodArray(columnIndices);
+	}
+	
+	public Period[][] getRowsAs2DPeriodArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DPeriodArray(indices);
 	}
 
 	public Duration[][] getRowsAs2DDurationArray(int[] indices) {
@@ -4814,6 +4981,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.getRowsAs2DDurationArray(columnIndices);
 	}
 
+	public Duration[][] getRowsAs2DDurationArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DDurationArray(indices);
+	}
 	
 	public List<List<DataItem>> getRowsAs2DDataItemList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDataItemArray(indices));
@@ -4834,6 +5005,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public List<List<DataItem>> getRowsAs2DDataItemList(boolean[] getRow) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDataItemArray(getRow));
 	}
+	
+	public List<List<DataItem>> getRowsAs2DDataItemList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDataItemArray(regex));
+	}
 
 	public List<List<Object>> getRowsAs2DObjectList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DObjectArray(indices));
@@ -4853,6 +5028,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<Object>> getRowsAs2DObjectList(boolean[] getRow) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DObjectArray(getRow));
+	}
+	
+	public List<List<Object>> getRowsAs2DObjectList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DObjectArray(regex));
 	}
 
 	public List<List<String>> getRowsAs2DStringList(int[] indices) {
@@ -4875,6 +5054,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DStringArray(getRow));
 	}
 
+	public List<List<String>> getRowsAs2DStringList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DStringArray(regex));
+	}
+	
 	public List<List<Integer>> getRowsAs2DIntList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DIntArray(indices));
 	}
@@ -4893,6 +5076,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<Integer>> getRowsAs2DIntList(boolean[] getRow) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DIntArray(getRow));
+	}
+	
+	public List<List<Integer>> getRowsAs2DIntList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DIntArray(regex));
 	}
 
 	public List<List<Double>> getRowsAs2DDoubleList(int[] indices) {
@@ -4915,6 +5102,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDoubleArray(getRow));
 	}
 
+	public List<List<Double>> getRowsAs2DDoubleList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDoubleArray(regex));
+	}
+	
 	public List<List<Float>> getRowsAs2DFloatList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DFloatArray(indices));
 	}
@@ -4933,6 +5124,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<Float>> getRowsAs2DFloatList(boolean[] getRow) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DFloatArray(getRow));
+	}
+	
+	public List<List<Float>> getRowsAs2DFloatList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DFloatArray(regex));
 	}
 
 	public List<List<Boolean>> getRowsAs2DBooleanList(int[] indices) {
@@ -4955,6 +5150,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBooleanArray(getRow));
 	}
 
+	public List<List<Boolean>> getRowsAs2DBooleanList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBooleanArray(regex));
+	}
+	
 	public List<List<LocalDate>> getRowsAs2DLocalDateList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateArray(indices));
 	}
@@ -4973,6 +5172,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<LocalDate>> getRowsAs2DLocalDateList(boolean[] getRow) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateArray(getRow));
+	}
+	
+	public List<List<LocalDate>> getRowsAs2DLocalDateList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateArray(regex));
 	}
 
 	public List<List<LocalDateTime>> getRowsAs2DLocalDateTimeList(int[] indices) {
@@ -4994,6 +5197,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public List<List<LocalDateTime>> getRowsAs2DLocalDateTimeList(boolean[] getRow) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateTimeArray(getRow));
 	}
+	
+	public List<List<LocalDateTime>> getRowsAs2DLocalDateTimeList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalDateTimeArray(regex));
+	}
 
 	public List<List<LocalTime>> getRowsAs2DLocalTimeList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalTimeArray(indices));
@@ -5013,6 +5220,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<LocalTime>> getRowsAs2DLocalTimeList(boolean[] getRow) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalTimeArray(getRow));
+	}
+	
+	public List<List<LocalTime>> getRowsAs2DLocalTimeList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DLocalTimeArray(regex));
 	}
 
 	public List<List<Period>> getRowsAs2DPeriodList(int[] indices) {
@@ -5035,6 +5246,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DPeriodArray(getRow));
 	}
 
+	public List<List<Period>> getRowsAs2DPeriodList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DPeriodArray(regex));
+	}
+
 	public List<List<Duration>> getRowsAs2DDurationList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDurationArray(indices));
 	}
@@ -5053,6 +5268,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public List<List<Duration>> getRowsAs2DDurationList(boolean[] getRow) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDurationArray(getRow));
+	}
+	
+	public List<List<Duration>> getRowsAs2DDurationList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDurationArray(regex));
 	}
 	
 	public DataFrame getRowAsDataFrame(String name) {
@@ -5098,6 +5317,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame getRowsAsDataFrame(boolean[] getRow) {
 		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
 		return this.getRowsAsDataFrame(columnIndices);
+	}
+	
+	public DataFrame getRowsAsDataFrame(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAsDataFrame(indices);
 	}
 	
 	public DataFrame first() {
