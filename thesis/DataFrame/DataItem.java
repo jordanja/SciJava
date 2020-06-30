@@ -702,6 +702,42 @@ public class DataItem {
 			add(value.getDurationValue());
 		}
 	}
+	
+	public void and(boolean value) {
+		if (this.type == StorageType.Boolean) {
+			this.booleanValue = this.booleanValue && value;
+		}
+	}
+	
+	public void and(DataItem value) {
+		if (value.getType() == StorageType.Boolean) {
+			and(value.getBooleanValue());
+		}
+	}
+	
+	public void or(boolean value) {
+		if (this.type == StorageType.Boolean) {
+			this.booleanValue = this.booleanValue || value;
+		}
+	}
+	
+	public void or(DataItem value) {
+		if (value.getType() == StorageType.Boolean) {
+			or(value.getBooleanValue());
+		}
+	}
+	
+	public void exclusiveOr(boolean value) {
+		if (this.type == StorageType.Boolean) {
+			this.booleanValue = (this.booleanValue && !value) || (!this.booleanValue && value);
+		}
+	}
+	
+	public void exclusiveOr(DataItem value) {
+		if (value.getType() == StorageType.Boolean) {
+			exclusiveOr(value.getBooleanValue());
+		}
+	}
 
 	public void subtract(int value) {
 		if (this.type == StorageType.Integer) {

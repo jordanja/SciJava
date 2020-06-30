@@ -4316,6 +4316,71 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
 		return this.getColumnsAsDataFrame(indices);
 	}
+	
+	public StorageType getTypeOfColumn(int columnIndex) {
+		StorageType[] types = new StorageType[this.getNumRows()];
+		for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+			types[rowCount] = this.getValue(columnIndex, rowCount).getType();
+		}
+		if ((CommonArray.numUnique(types) == 1) && (types.length > 0)) {
+			return types[0];
+		}
+		return null;
+	}
+	
+	public StorageType getTypeOfColumn(String columnName) {
+		return getTypeOfColumn(this.columnNames.indexOf(columnName));
+	}
+	
+	public DataFrame getColumnsOfTypeAsDataFrame(StorageType type) {
+		List<Integer> indices = new ArrayList<Integer>();
+		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+			if (getTypeOfColumn(columnCount) == type) {
+				indices.add(columnCount);
+			}
+		}
+		return this.getColumnsAsDataFrame(indices.stream().mapToInt(i -> i).toArray());
+	}
+	
+	public DataFrame getStringColumnsAsDataFrame() {
+		return this.getColumnsOfTypeAsDataFrame(StorageType.String);
+	}
+
+	public DataFrame getIntegerColumnsAsDataFrame() {
+		return this.getColumnsOfTypeAsDataFrame(StorageType.Integer);
+	}
+
+	public DataFrame getDoubleColumnsAsDataFrame() {
+		return this.getColumnsOfTypeAsDataFrame(StorageType.Double);
+	}
+
+	public DataFrame getBooleanColumnsAsDataFrame() {
+		return this.getColumnsOfTypeAsDataFrame(StorageType.Boolean);
+	}
+
+	public DataFrame getLocalDateColumnsAsDataFrame() {
+		return this.getColumnsOfTypeAsDataFrame(StorageType.LocalDate);
+	}
+
+	public DataFrame getLocalDateTimeColumnsAsDataFrame() {
+		return this.getColumnsOfTypeAsDataFrame(StorageType.LocalDateTime);
+	}
+
+	public DataFrame getLocalTimeColumnsAsDataFrame() {
+		return this.getColumnsOfTypeAsDataFrame(StorageType.LocalTime);
+	}
+
+	public DataFrame getPeriodColumnsAsDataFrame() {
+		return this.getColumnsOfTypeAsDataFrame(StorageType.Period);
+	}
+
+	public DataFrame getDurationColumnsAsDataFrame() {
+		return this.getColumnsOfTypeAsDataFrame(StorageType.Duration);
+	}
+
+	public DataFrame getBigDecimalColumnsAsDataFrame() {
+		return this.getColumnsOfTypeAsDataFrame(StorageType.BigDecimal);
+	}
 
 	
 	// ----------------------
@@ -5465,6 +5530,92 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 		return newDF;
 	}
+	
+
+	public DataFrame and(DataFrame df) {
+		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				newDF.getValue(colCount, rowCount).and(df.getValue(colCount, rowCount));
+			}	
+		}
+		return newDF;
+	}
+
+	public DataFrame and(boolean value) {
+		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				newDF.getValue(colCount, rowCount).and(value);
+			}	
+		}
+		return newDF;
+	}
+
+	public DataFrame notAnd(DataFrame df) {
+		return this.and(df).negate();
+	}
+
+	public DataFrame notAnd(boolean bool) {
+		return this.and(bool).negate();
+	}
+
+	public DataFrame or(DataFrame df) {
+		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				newDF.getValue(colCount, rowCount).or(df.getValue(colCount, rowCount));
+			}	
+		}
+		return newDF;
+	}
+
+	public DataFrame or(boolean value) {
+		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				newDF.getValue(colCount, rowCount).or(value);
+			}	
+		}
+		return newDF;
+	}
+
+	public DataFrame notOr(DataFrame df) {
+		return this.or(df).negate();
+	}
+
+	public DataFrame notOr(boolean value) {
+		return this.or(value).negate();
+	}
+
+	public DataFrame exclusiveOr(DataFrame df) {
+		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				newDF.getValue(colCount, rowCount).exclusiveOr(df.getValue(colCount, rowCount));
+			}	
+		}
+		return newDF;
+	}
+
+	public DataFrame exclusiveOr(boolean value) {
+		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
+		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+				newDF.getValue(colCount, rowCount).exclusiveOr(value);
+			}	
+		}
+		return newDF;
+	}
+
+	public DataFrame exclusiveNotOr(DataFrame df) {
+		return this.exclusiveOr(df).negate();
+	}
+
+	public DataFrame exclusiveNotOr(boolean value) {
+		return this.exclusiveOr(value).negate();
+	}
+	
 	
 	public DataFrame multiply(DataFrame df) {
 		DataFrame newDF = this.clone();

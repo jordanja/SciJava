@@ -929,6 +929,10 @@ public class CommonArray {
 	public static int numUnique(double[] arr) {
 		return (int) DoubleStream.of(arr).distinct().count();
 	}
+	
+	public static <T> int numUnique(T[] arr) {
+		return (int) Arrays.stream(arr).distinct().count();
+	}
 
 	public static int[] elementsOfTrues(boolean[] getColumn) {
 		ArrayList<Integer> indicesOfTrues = new ArrayList<Integer>();

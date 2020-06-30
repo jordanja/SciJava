@@ -700,14 +700,19 @@ public class Main {
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
 		
-		DataFrame df = DataFrame.randomInts(columnNames, rowNames);
-		df.setValue(0, 1, "qq");
-		df.setValue(2, 0, 1234);
+		DataFrame df = DataFrame.randomBooleans(columnNames, rowNames);
+		System.out.println("1");
+		System.out.println(df);
 		
-		DataFrame lengthDF = df.lengthOfStrings();
-		System.out.println(lengthDF);
+		DataFrame df2 = DataFrame.randomBooleans(columnNames, rowNames);
+		System.out.println("2");
+		System.out.println(df2);
 		
-		return df;
+		DataFrame finalDf = df.exclusiveOr(df2);
+		
+		System.out.println("final");
+		
+		return finalDf;
 	}
 
 	private static DataFrame hashColsConstructor() {
