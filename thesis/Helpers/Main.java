@@ -701,18 +701,11 @@ public class Main {
 //		rowNames.add("row_ten");
 		
 		DataFrame df = DataFrame.randomBooleans(columnNames, rowNames);
-		System.out.println("1");
-		System.out.println(df);
 		
-		DataFrame df2 = DataFrame.randomBooleans(columnNames, rowNames);
-		System.out.println("2");
-		System.out.println(df2);
+		System.out.println(df.getTypeOfRow("row_one"));
+	
 		
-		DataFrame finalDf = df.exclusiveOr(df2);
-		
-		System.out.println("final");
-		
-		return finalDf;
+		return df;
 	}
 
 	private static DataFrame hashColsConstructor() {

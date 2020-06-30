@@ -325,7 +325,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public static DataFrame zerosLike(DataFrame otherDF) {
-		return zeros(otherDF.getNumCols(), otherDF.getNumRows());
+		return zeros(otherDF.getNumColumns(), otherDF.getNumRows());
 	}
 	
 	public static <T> DataFrame zerosLike(T[][] otherDF) {
@@ -378,7 +378,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public static DataFrame onesLike(DataFrame otherDF) {
-		return ones(otherDF.getNumCols(), otherDF.getNumRows());
+		return ones(otherDF.getNumColumns(), otherDF.getNumRows());
 	}
 
 	public static <T> DataFrame onesLike(T[][] otherDF) {
@@ -434,7 +434,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public static DataFrame nullValuesLike(DataFrame otherDF) {
-		return nullValues(otherDF.getNumCols(), otherDF.getNumRows());
+		return nullValues(otherDF.getNumColumns(), otherDF.getNumRows());
 	}
 
 	public static <T> DataFrame nullValuesLike(T[][] otherDF) {
@@ -2233,67 +2233,67 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void insertRow(int index, String rowName, DataItem value) {
-		DataItem[] row = CommonArray.initializeDataItemArrayWithValues(this.getNumCols(), value);
+		DataItem[] row = CommonArray.initializeDataItemArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public <T> void insertRow(int index, String rowName, T value) {
-		T[] row = CommonArray.initializeGenericArrayWithValues(this.getNumCols(), value);
+		T[] row = CommonArray.initializeGenericArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public void insertRow(int index, String rowName, int value) {
-		int[] row = CommonArray.initializeIntArrayWithValues(this.getNumCols(), value);
+		int[] row = CommonArray.initializeIntArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public void insertRow(int index, String rowName, float value) {
-		float[] row = CommonArray.initializeFloatArrayWithValues(this.getNumCols(), value);
+		float[] row = CommonArray.initializeFloatArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public void insertRow(int index, String rowName, double value) {
-		double[] row = CommonArray.initializeDoubleArrayWithValues(this.getNumCols(), value);
+		double[] row = CommonArray.initializeDoubleArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public void insertRow(int index, String rowName, boolean value) {
-		boolean[] row = CommonArray.initializeBooleanArrayWithValues(this.getNumCols(), value);
+		boolean[] row = CommonArray.initializeBooleanArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public void insertRow(int index, String rowName, String value) {
-		String[] row = CommonArray.initializeStringArrayWithValues(this.getNumCols(), value);
+		String[] row = CommonArray.initializeStringArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public void insertRow(int index, String rowName, LocalDate value) {
-		LocalDate[] row = CommonArray.initializeLocalDateArrayWithValues(this.getNumCols(), value);
+		LocalDate[] row = CommonArray.initializeLocalDateArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public void insertRow(int index, String rowName, LocalDateTime value) {
-		LocalDateTime[] row = CommonArray.initializeLocalDateTimeArrayWithValues(this.getNumCols(), value);
+		LocalDateTime[] row = CommonArray.initializeLocalDateTimeArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public void insertRow(int index, String rowName, LocalTime value) {
-		LocalTime[] row = CommonArray.initializeLocalTimeArrayWithValues(this.getNumCols(), value);
+		LocalTime[] row = CommonArray.initializeLocalTimeArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public void insertRow(int index, String rowName, Period value) {
-		Period[] row = CommonArray.initializePeriodArrayWithValues(this.getNumCols(), value);
+		Period[] row = CommonArray.initializePeriodArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public void insertRow(int index, String rowName, Duration value) {
-		Duration[] row = CommonArray.initializeDurationArrayWithValues(this.getNumCols(), value);
+		Duration[] row = CommonArray.initializeDurationArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
 	public void insertRow(int index, String rowName, BigDecimal value) {
-		BigDecimal[] row = CommonArray.initializeBigDecimalArrayWithValues(this.getNumCols(), value);
+		BigDecimal[] row = CommonArray.initializeBigDecimalArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
@@ -3177,7 +3177,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public void dropRow(int rowIndexToDrop) {
 		this.rowNames.remove(rowIndexToDrop);
-		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < this.getNumColumns(); columnCount++) {
 			this.data.get(columnCount).remove(rowIndexToDrop);
 		}
 	}
@@ -3218,95 +3218,95 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public List<List<Object>> getDataAsObjectList() {
-		return getColumnsAs2DObjectList(0, this.getNumCols() - 1);
+		return getColumnsAs2DObjectList(0, this.getNumColumns() - 1);
 	}
 
 	public  List<List<String>> getDataAs2DStringList() {
-		return getColumnsAs2DStringList(0, this.getNumCols() - 1);
+		return getColumnsAs2DStringList(0, this.getNumColumns() - 1);
 	}
 
 	public  List<List<Integer>> getDataAs2DIntList() {
-		return getColumnsAs2DIntList(0, this.getNumCols() - 1);
+		return getColumnsAs2DIntList(0, this.getNumColumns() - 1);
 	}
 
 	public  List<List<Double>> getDataAs2DDoubleList() {
-		return getColumnsAs2DDoubleList(0, this.getNumCols() - 1);
+		return getColumnsAs2DDoubleList(0, this.getNumColumns() - 1);
 	}
 
 	public  List<List<Float>> getDataAs2DFloatList() {
-		return getColumnsAs2DFloatList(0, this.getNumCols() - 1);
+		return getColumnsAs2DFloatList(0, this.getNumColumns() - 1);
 	}
 
 	public  List<List<Boolean>> getDataAs2DBooleanList() {
-		return getColumnsAs2DBooleanList(0, this.getNumCols() - 1);
+		return getColumnsAs2DBooleanList(0, this.getNumColumns() - 1);
 	}
 
 	public  List<List<LocalDate>> getDataAs2DLocalDateList() {
-		return getColumnsAs2DLocalDateList(0, this.getNumCols() - 1);
+		return getColumnsAs2DLocalDateList(0, this.getNumColumns() - 1);
 	}
 
 	public  List<List<LocalDateTime>> getDataAs2DLocalDateTimeList() {
-		return getColumnsAs2DLocalDateTimeList(0, this.getNumCols() - 1);
+		return getColumnsAs2DLocalDateTimeList(0, this.getNumColumns() - 1);
 	}
 
 	public  List<List<LocalTime>> getDataAs2DLocalTimeList() {
-		return getColumnsAs2DLocalTimeList(0, this.getNumCols() - 1);
+		return getColumnsAs2DLocalTimeList(0, this.getNumColumns() - 1);
 	}
 
 	public  List<List<Period>> getDataAs2DPeriodList() {
-		return getColumnsAs2DPeriodList(0, this.getNumCols() - 1);
+		return getColumnsAs2DPeriodList(0, this.getNumColumns() - 1);
 	}
 
 	public  List<List<Duration>> getDataAs2DDurationList() {
-		return getColumnsAs2DDurationList(0, this.getNumCols() - 1);
+		return getColumnsAs2DDurationList(0, this.getNumColumns() - 1);
 	}
 	
 	public DataItem[][] getDataAs2DDataItemArray() {
-		return getColumnsAs2DDataItemArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DDataItemArray(0, this.getNumColumns() - 1);
 	}
 	
 	public Object[][] getDataAs2DObjectArray() {
-		return getColumnsAs2DObjectArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DObjectArray(0, this.getNumColumns() - 1);
 	}
 	
 	public String[][] getDataAs2DStringArray() {
-		return getColumnsAs2DStringArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DStringArray(0, this.getNumColumns() - 1);
 	}
 	
 	public int[][] getDataAs2DIntArray() {
-		return getColumnsAs2DIntArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DIntArray(0, this.getNumColumns() - 1);
 	}
 	
 	public double[][] getDataAs2DDoubleArray() {
-		return getColumnsAs2DDoubleArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DDoubleArray(0, this.getNumColumns() - 1);
 	}
 	
 	public float[][] getDataAs2DFloatArray() {
-		return getColumnsAs2DFloatArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DFloatArray(0, this.getNumColumns() - 1);
 	}
 	
 	public boolean[][] getDataAs2DBooleanArray() {
-		return getColumnsAs2DBooleanArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DBooleanArray(0, this.getNumColumns() - 1);
 	}
 	
 	public LocalDate[][] getDataAs2DLocalDateArray() {
-		return getColumnsAs2DLocalDateArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DLocalDateArray(0, this.getNumColumns() - 1);
 	}
 	
 	public LocalDateTime[][] getDataAs2DLocalDateTimeArray() {
-		return getColumnsAs2DLocalDateTimeArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DLocalDateTimeArray(0, this.getNumColumns() - 1);
 	}
 	
 	public LocalTime[][] getDataAs2DLocalTimeArray() {
-		return getColumnsAs2DLocalTimeArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DLocalTimeArray(0, this.getNumColumns() - 1);
 	}
 	
 	public Period[][] getDataAs2DPeriodArray() {
-		return getColumnsAs2DPeriodArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DPeriodArray(0, this.getNumColumns() - 1);
 	}
 	
 	public Duration[][] getDataAs2DDurationArray() {
-		return getColumnsAs2DDurationArray(0, this.getNumCols() - 1);
+		return getColumnsAs2DDurationArray(0, this.getNumColumns() - 1);
 	}
 	
 	
@@ -4334,7 +4334,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame getColumnsOfTypeAsDataFrame(StorageType type) {
 		List<Integer> indices = new ArrayList<Integer>();
-		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < this.getNumColumns(); columnCount++) {
 			if (getTypeOfColumn(columnCount) == type) {
 				indices.add(columnCount);
 			}
@@ -5388,6 +5388,71 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
 		return this.getRowsAsDataFrame(indices);
 	}
+	public StorageType getTypeOfRow(int rowIndex) {
+		StorageType[] types = new StorageType[this.getNumColumns()];
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
+			types[colCount] = this.getValue(colCount, rowIndex).getType();
+		}
+		if ((CommonArray.numUnique(types) == 1) && (types.length > 0)) {
+			return types[0];
+		}
+		return null;
+	}
+
+	public StorageType getTypeOfRow(String rowName) {
+		return getTypeOfRow(this.rowNames.indexOf(rowName));
+	}
+
+	public DataFrame getRowsOfTypeAsDataFrame(StorageType type) {
+		List<Integer> indices = new ArrayList<Integer>();
+		for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
+			if (getTypeOfRow(rowCount) == type) {
+				indices.add(rowCount);
+			}
+		}
+		return this.getRowsAsDataFrame(indices.stream().mapToInt(i -> i).toArray());
+	}
+
+	public DataFrame getStringRowsAsDataFrame() {
+		return this.getRowsOfTypeAsDataFrame(StorageType.String);
+	}
+
+	public DataFrame getIntegerRowsAsDataFrame() {
+		return this.getRowsOfTypeAsDataFrame(StorageType.Integer);
+	}
+
+	public DataFrame getDoubleRowsAsDataFrame() {
+		return this.getRowsOfTypeAsDataFrame(StorageType.Double);
+	}
+
+	public DataFrame getBooleanRowsAsDataFrame() {
+		return this.getRowsOfTypeAsDataFrame(StorageType.Boolean);
+	}
+
+	public DataFrame getLocalDateRowsAsDataFrame() {
+		return this.getRowsOfTypeAsDataFrame(StorageType.LocalDate);
+	}
+
+	public DataFrame getLocalDateTimeRowsAsDataFrame() {
+		return this.getRowsOfTypeAsDataFrame(StorageType.LocalDateTime);
+	}
+
+	public DataFrame getLocalTimeRowsAsDataFrame() {
+		return this.getRowsOfTypeAsDataFrame(StorageType.LocalTime);
+	}
+
+	public DataFrame getPeriodRowsAsDataFrame() {
+		return this.getRowsOfTypeAsDataFrame(StorageType.Period);
+	}
+
+	public DataFrame getDurationRowsAsDataFrame() {
+		return this.getRowsOfTypeAsDataFrame(StorageType.Duration);
+	}
+
+	public DataFrame getBigDecimalRowsAsDataFrame() {
+		return this.getRowsOfTypeAsDataFrame(StorageType.BigDecimal);
+	}
+	
 	
 	public DataFrame first() {
 		return head(1);
@@ -5418,7 +5483,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame add(DataFrame df) {
 		DataFrame newDF = this.clone();
 		if (this.sameShape(df)) {
-			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+			for (int colCount = 0; colCount < df.getNumColumns(); colCount++) {
 				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
 					newDF.getValue(colCount, rowCount).add(df.getValue(colCount, rowCount));
 				}	
@@ -5430,7 +5495,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame add(DataItem value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).add(value);
 			}	
@@ -5440,7 +5505,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame add(int value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).add(value);
 			}	
@@ -5450,7 +5515,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame add(double value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).add(value);
 			}	
@@ -5465,7 +5530,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame add(Period timePeriod) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).add(timePeriod);
 			}	
@@ -5477,7 +5542,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame subtract(DataFrame df) {
 		DataFrame newDF = this.clone();
 		if (this.sameShape(df)) {
-			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+			for (int colCount = 0; colCount < df.getNumColumns(); colCount++) {
 				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
 					newDF.getValue(colCount, rowCount).subtract(df.getValue(colCount, rowCount));
 				}	
@@ -5488,7 +5553,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame subtract(DataItem value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).subtract(value);
 			}	
@@ -5498,7 +5563,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame subtract(int value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).subtract(value);
 			}	
@@ -5508,7 +5573,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame subtract(double value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).subtract(value);
 			}	
@@ -5523,7 +5588,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame subtract(Period timePeriod) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).subtract(timePeriod);
 			}	
@@ -5534,7 +5599,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame and(DataFrame df) {
 		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).and(df.getValue(colCount, rowCount));
 			}	
@@ -5544,7 +5609,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame and(boolean value) {
 		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).and(value);
 			}	
@@ -5562,7 +5627,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame or(DataFrame df) {
 		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).or(df.getValue(colCount, rowCount));
 			}	
@@ -5572,7 +5637,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame or(boolean value) {
 		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).or(value);
 			}	
@@ -5590,7 +5655,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame exclusiveOr(DataFrame df) {
 		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).exclusiveOr(df.getValue(colCount, rowCount));
 			}	
@@ -5600,7 +5665,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame exclusiveOr(boolean value) {
 		DataFrame newDF = this.clone().getBooleanColumnsAsDataFrame();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).exclusiveOr(value);
 			}	
@@ -5620,7 +5685,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame multiply(DataFrame df) {
 		DataFrame newDF = this.clone();
 		if (this.sameShape(df)) {
-			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+			for (int colCount = 0; colCount < df.getNumColumns(); colCount++) {
 				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
 					newDF.getValue(colCount, rowCount).multiply(df.getValue(colCount, rowCount));
 				}	
@@ -5632,7 +5697,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame multiply(DataItem value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).multiply(value);
 			}	
@@ -5642,7 +5707,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame multiply(int value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).multiply(value);
 			}	
@@ -5652,7 +5717,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame multiply(double value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).multiply(value);
 			}	
@@ -5668,7 +5733,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame divide(DataFrame df) {
 		DataFrame newDF = this.clone();
 		if (this.sameShape(df)) {
-			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+			for (int colCount = 0; colCount < df.getNumColumns(); colCount++) {
 				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
 					newDF.getValue(colCount, rowCount).divide(df.getValue(colCount, rowCount));
 				}	
@@ -5680,7 +5745,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame divide(DataItem value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).divide(value);
 			}	
@@ -5690,7 +5755,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame divide(int value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).divide(value);
 			}	
@@ -5700,7 +5765,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame divide(double value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).divide(value);
 			}	
@@ -5716,7 +5781,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame mod(DataFrame df) {
 		DataFrame newDF = this.clone();
 		if (this.sameShape(df)) {
-			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+			for (int colCount = 0; colCount < df.getNumColumns(); colCount++) {
 				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
 					newDF.getValue(colCount, rowCount).mod(df.getValue(colCount, rowCount));
 				}	
@@ -5727,7 +5792,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame mod(DataItem value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).mod(value);
 			}	
@@ -5737,7 +5802,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame mod(int value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).mod(value);
 			}
@@ -5748,7 +5813,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame power(DataFrame df) {
 		DataFrame newDF = this.clone();
 		if (this.sameShape(df)) {
-			for (int colCount = 0; colCount < df.getNumCols(); colCount++) {
+			for (int colCount = 0; colCount < df.getNumColumns(); colCount++) {
 				for (int rowCount = 0; rowCount < df.getNumRows(); rowCount++) {
 					newDF.getValue(colCount, rowCount).power(df.getValue(colCount, rowCount));
 				}	
@@ -5759,7 +5824,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame power(DataItem value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).power(value);
 			}	
@@ -5769,7 +5834,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame power(int value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).power(value);
 			}	
@@ -5779,7 +5844,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame power(double value) {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).power(value);
 			}	
@@ -5794,7 +5859,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame intFloor() {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).intFloor();
 			}	
@@ -5804,7 +5869,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame doubleFloor() {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).doubleFloor();
 			}	
@@ -5814,7 +5879,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame intCeiling() {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).intCeiling();
 			}	
@@ -5824,7 +5889,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame doubleCeiling() {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).doubleCeiling();
 			}	
@@ -5834,7 +5899,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame negate() {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				DataItem value = newDF.getValue(colCount, rowCount);
 				if (value.getType() == StorageType.Boolean) {
@@ -5850,7 +5915,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public DataFrame squareRoot() {
 		DataFrame newDF = this.clone();
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				newDF.getValue(colCount, rowCount).squareRoot();
 			}	
@@ -5861,7 +5926,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	// ------ Absolute Value ------ 
 	public DataFrame absoluteValue() {
-		return absoluteValueColumns(0, this.getNumCols() - 1);
+		return absoluteValueColumns(0, this.getNumColumns() - 1);
 	}
 	
 	public DataFrame absoluteValueColumn(int index) {
@@ -5942,11 +6007,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame clamp(double lowerBound, double upperBound) { 
-		return clampColumns(0, this.getNumCols() - 1, lowerBound, upperBound);
+		return clampColumns(0, this.getNumColumns() - 1, lowerBound, upperBound);
 	}
 
 	public DataFrame clamp(LocalDate lowerBound, LocalDate upperBound) { 
-		return clampColumns(0, this.getNumCols() - 1, lowerBound, upperBound);
+		return clampColumns(0, this.getNumColumns() - 1, lowerBound, upperBound);
 	}
 
 	public DataFrame clampColumn(int columnIndex, int lowerBound, int upperBound) { 
@@ -6145,7 +6210,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		if (this.sameShape(df)) { 			
 			@SuppressWarnings("unchecked")
 			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 					boolean lessThan = this.getValue(colCount, rowCount).lessThan(df.getValue(colCount, rowCount));
 					newDF.setValue(colCount, rowCount, lessThan);
@@ -6167,7 +6232,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame lessThan(double value) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean lessThan = this.getValue(colCount, rowCount).lessThan(value);
 				newDF.setValue(colCount, rowCount, lessThan);
@@ -6234,7 +6299,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame columnsLessThan(int[] columnIndices, double value) {
 		DataFrame newDF = getColumnsAsDataFrame(columnIndices);
-		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < newDF.getNumColumns(); columnCount++) {
 			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
 				newDF.setValue(columnCount, rowCount, newDF.getValue(columnCount, rowCount).lessThan(value));
 			}	
@@ -6324,7 +6389,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		newRowNames.add(this.rowNames.get(rowIndex));
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
-		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < this.getNumColumns(); columnCount++) {
 			
 			newDF.setValue(columnCount, 0, this.getValue(columnCount, rowIndex).lessThan(value));
 		}
@@ -6363,7 +6428,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame rowsLessThan(int[] rowIndices, double value) {
 		DataFrame newDF = getRowsAsDataFrame(rowIndices);
-		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < newDF.getNumColumns(); columnCount++) {
 			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
 				newDF.setValue(columnCount, rowCount, newDF.getValue(columnCount, rowCount).lessThan(value));
 			}	
@@ -6445,7 +6510,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		if (this.sameShape(df)) { 
 			@SuppressWarnings("unchecked")
 			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 					boolean lessThan = this.getValue(colCount, rowCount).lessThan(df.getValue(colCount, rowCount));
 					boolean equal = this.getValue(colCount, rowCount).equal(df.getValue(colCount, rowCount));
@@ -6468,7 +6533,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame lessThanOrEqual(double value) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean lessThan = this.getValue(colCount, rowCount).lessThan(value);
 				boolean equal = this.getValue(colCount, rowCount).equal(value);
@@ -6537,7 +6602,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame columnsLessThanOrEqual(int[] columnIndices, double value) {
 		DataFrame newDF = getColumnsAsDataFrame(columnIndices);
-		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < newDF.getNumColumns(); columnCount++) {
 			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
 				boolean lessThan = newDF.getValue(columnCount, rowCount).lessThan(value);
 				boolean equals = newDF.getValue(columnCount, rowCount).equal(value);
@@ -6631,7 +6696,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		newRowNames.add(this.rowNames.get(rowIndex));
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
-		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < this.getNumColumns(); columnCount++) {
 			boolean lessThan = this.getValue(columnCount, rowIndex).lessThan(value);
 			boolean equal = this.getValue(columnCount, rowIndex).equal(value);
 			newDF.setValue(columnCount, 0, lessThan || equal);
@@ -6671,7 +6736,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame rowsLessThanOrEqual(int[] rowIndices, double value) {
 		DataFrame newDF = getRowsAsDataFrame(rowIndices);
-		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < newDF.getNumColumns(); columnCount++) {
 			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
 				boolean lessThan = newDF.getValue(columnCount, rowCount).lessThan(value);
 				boolean equal = newDF.getValue(columnCount, rowCount).equal(value);
@@ -6757,7 +6822,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		if (this.sameShape(df)) { 	
 			@SuppressWarnings("unchecked")
 			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 					boolean greaterThan = this.getValue(colCount, rowCount).greaterThan(df.getValue(colCount, rowCount));
 					newDF.setValue(colCount, rowCount, greaterThan);
@@ -6779,7 +6844,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame greaterThan(double value) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean greaterThan = this.getValue(colCount, rowCount).greaterThan(value);
 				newDF.setValue(colCount, rowCount, greaterThan);
@@ -6847,7 +6912,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame columnsGreaterThan(int[] columnIndices, double value) {
 		DataFrame newDF = getColumnsAsDataFrame(columnIndices);
-		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < newDF.getNumColumns(); columnCount++) {
 			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
 				newDF.setValue(columnCount, rowCount, newDF.getValue(columnCount, rowCount).greaterThan(value));
 			}	
@@ -6937,7 +7002,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		newRowNames.add(this.rowNames.get(rowIndex));
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
-		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < this.getNumColumns(); columnCount++) {
 			
 			newDF.setValue(columnCount, 0, this.getValue(columnCount, rowIndex).greaterThan(value));
 		}
@@ -6976,7 +7041,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame rowsGreaterThan(int[] rowIndices, double value) {
 		DataFrame newDF = getRowsAsDataFrame(rowIndices);
-		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < newDF.getNumColumns(); columnCount++) {
 			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
 				newDF.setValue(columnCount, rowCount, newDF.getValue(columnCount, rowCount).greaterThan(value));
 			}	
@@ -7059,7 +7124,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		if (this.sameShape(df)) { 		
 			@SuppressWarnings("unchecked")
 			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 					boolean greaterThan = this.getValue(colCount, rowCount).greaterThan(df.getValue(colCount, rowCount));
 					boolean equal = this.getValue(colCount, rowCount).equal(df.getValue(colCount, rowCount));
@@ -7082,7 +7147,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame greaterThanOrEqual(double value) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean greaterThan = this.getValue(colCount, rowCount).greaterThan(value);
 				boolean equal = this.getValue(colCount, rowCount).equal(value);
@@ -7151,7 +7216,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame columnsGreaterThanOrEqual(int[] columnIndices, double value) {
 		DataFrame newDF = getColumnsAsDataFrame(columnIndices);
-		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < newDF.getNumColumns(); columnCount++) {
 			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
 				boolean greaterThan = newDF.getValue(columnCount, rowCount).greaterThan(value);
 				boolean equals = newDF.getValue(columnCount, rowCount).equal(value);
@@ -7245,7 +7310,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		newRowNames.add(this.rowNames.get(rowIndex));
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), newRowNames);
-		for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < this.getNumColumns(); columnCount++) {
 			boolean greaterThan = this.getValue(columnCount, rowIndex).greaterThan(value);
 			boolean equal = this.getValue(columnCount, rowIndex).equal(value);
 			newDF.setValue(columnCount, 0, greaterThan || equal);
@@ -7285,7 +7350,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame rowsGreaterThanOrEqual(int[] rowIndices, double value) {
 		DataFrame newDF = getRowsAsDataFrame(rowIndices);
-		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < newDF.getNumColumns(); columnCount++) {
 			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
 				boolean greaterThan = newDF.getValue(columnCount, rowCount).greaterThan(value);
 				boolean equal = newDF.getValue(columnCount, rowCount).equal(value);
@@ -7370,7 +7435,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		if (this.sameShape(df)) { 		
 			@SuppressWarnings("unchecked")
 			DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-			for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+			for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 				for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 					boolean equal = this.getValue(colCount, rowCount).equal(df.getValue(colCount, rowCount));
 					newDF.setValue(colCount, rowCount, equal);
@@ -7392,7 +7457,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame elementwiseEqual(double value) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean equal = this.getValue(colCount, rowCount).equal(value);
 				newDF.setValue(colCount, rowCount, equal);
@@ -7435,7 +7500,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame before(LocalDate date) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean before = this.getValue(colCount, rowCount).before(date);
 				newDF.setValue(colCount, rowCount, before);
@@ -7447,7 +7512,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame before(LocalDateTime dateTime) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean before = this.getValue(colCount, rowCount).before(dateTime);
 				newDF.setValue(colCount, rowCount, before);
@@ -7459,7 +7524,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame before(LocalTime time) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean before = this.getValue(colCount, rowCount).before(time);
 				newDF.setValue(colCount, rowCount, before);
@@ -7471,7 +7536,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame beforeOrSame(LocalDate date) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean before = this.getValue(colCount, rowCount).before(date);
 				boolean sameDate = this.getValue(colCount, rowCount).sameDate(date);
@@ -7484,7 +7549,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame beforeOrSame(LocalDateTime dateTime) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean before = this.getValue(colCount, rowCount).before(dateTime);
 				boolean sameDateTime = this.getValue(colCount, rowCount).sameDate(dateTime);
@@ -7497,7 +7562,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame beforeOrSame(LocalTime time) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean before = this.getValue(colCount, rowCount).before(time);
 				boolean sameTime = this.getValue(colCount, rowCount).sameTime(time);
@@ -7510,7 +7575,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame after(LocalDate date) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean before = this.getValue(colCount, rowCount).after(date);
 				newDF.setValue(colCount, rowCount, before);
@@ -7521,7 +7586,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame after(LocalDateTime dateTime) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean before = this.getValue(colCount, rowCount).after(dateTime);
 				newDF.setValue(colCount, rowCount, before);
@@ -7533,7 +7598,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame after(LocalTime time) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean before = this.getValue(colCount, rowCount).after(time);
 				newDF.setValue(colCount, rowCount, before);
@@ -7547,7 +7612,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame afterOrSame(LocalDate date) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean after = this.getValue(colCount, rowCount).after(date);
 				boolean sameDate = this.getValue(colCount, rowCount).sameDate(date);
@@ -7560,7 +7625,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame afterOrSame(LocalDateTime dateTime) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean after = this.getValue(colCount, rowCount).after(dateTime);
 				boolean sameDateTime = this.getValue(colCount, rowCount).sameDate(dateTime);
@@ -7573,7 +7638,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame afterOrSame(LocalTime time) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean after = this.getValue(colCount, rowCount).after(time);
 				boolean sameTime = this.getValue(colCount, rowCount).sameTime(time);
@@ -7588,7 +7653,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame sameDate(LocalDate date) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean equal = this.getValue(colCount, rowCount).sameDate(date);
 				newDF.setValue(colCount, rowCount, equal);
@@ -7600,7 +7665,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame sameDate(LocalDateTime dateTime) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean equal = this.getValue(colCount, rowCount).sameDate(dateTime);
 				newDF.setValue(colCount, rowCount, equal);
@@ -7612,7 +7677,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame sameTime(LocalTime time) {
 		@SuppressWarnings("unchecked")
 		DataFrame newDF = new DataFrame((ArrayList<String>)this.columnNames.clone(), (ArrayList<String>)this.rowNames.clone());
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				boolean equal = this.getValue(colCount, rowCount).sameTime(time);
 				newDF.setValue(colCount, rowCount, equal);
@@ -7639,16 +7704,16 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	// ------------------------
 	
 	public Boolean allTrue() {
-		return allTrueInColumns(0, this.getNumCols() - 1);
+		return allTrueInColumns(0, this.getNumColumns() - 1);
 	}
 	public Boolean allFalse() {
-		return allFalseInColumns(0, this.getNumCols() - 1);
+		return allFalseInColumns(0, this.getNumColumns() - 1);
 	}
 	public Boolean anyTrue() {
-		return anyTrueInColumns(0, this.getNumCols() - 1);
+		return anyTrueInColumns(0, this.getNumColumns() - 1);
 	}
 	public Boolean anyFalse() {
-		return anyFalseInColumns(0, this.getNumCols() - 1);
+		return anyFalseInColumns(0, this.getNumColumns() - 1);
 	}
 	
 	// ------ All True in Column ------
@@ -7909,7 +7974,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	
 	public boolean sameShape(DataFrame df) {
-		return ((this.getNumCols() == df.getNumCols()) && (this.getNumRows() == df.getNumRows())); 
+		return ((this.getNumColumns() == df.getNumColumns()) && (this.getNumRows() == df.getNumRows())); 
 	}
 	
 	// ----------------------------------------------
@@ -7921,7 +7986,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame maxInColumns() {
-		return maxInColumns(0, this.getNumCols() - 1);	
+		return maxInColumns(0, this.getNumColumns() - 1);	
 	}
 
 	public Double maxInColumn(int columnIndex) {
@@ -8016,7 +8081,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public DataFrame minInColumns() {
-		return minInColumns(0, this.getNumCols() - 1);	
+		return minInColumns(0, this.getNumColumns() - 1);	
 	}
 	
 	public Double minInColumn(int columnIndex) {
@@ -8110,7 +8175,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame averageInColumns() {
-		return averageInColumns(0, this.getNumCols() - 1);	
+		return averageInColumns(0, this.getNumColumns() - 1);	
 	}
 
 	public Double averageInColumn(int columnIndex) {
@@ -8209,7 +8274,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame mediunInColumns() {
-		return mediunInColumns(0, this.getNumCols() - 1);
+		return mediunInColumns(0, this.getNumColumns() - 1);
 	}
 
 	public Double mediunInColumn(int columnIndex) {
@@ -8307,7 +8372,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame sumInColumns() {
-		return sumInColumns(0, this.getNumCols() - 1);
+		return sumInColumns(0, this.getNumColumns() - 1);
 	}
 
 	public Double sumInColumn(int columnIndex) {
@@ -8405,7 +8470,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame productInColumns() {
-		return productInColumns(0, this.getNumCols() - 1);
+		return productInColumns(0, this.getNumColumns() - 1);
 	}
 
 	public Double productInColumn(int columnIndex) {
@@ -8498,7 +8563,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public DataFrame cumulativeMaxInColumns() {
-		return cumulativeMaxInColumns(0, this.getNumCols() - 1);
+		return cumulativeMaxInColumns(0, this.getNumColumns() - 1);
 	}
 
 	public DataFrame cumulativeMaxInColumn(int columnIndex) {
@@ -8599,7 +8664,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 
 	public DataFrame cumulativeMinInColumns() {
-		return cumulativeMinInColumns(0, this.getNumCols() - 1);
+		return cumulativeMinInColumns(0, this.getNumColumns() - 1);
 	}
 
 	public DataFrame cumulativeMinInColumn(int columnIndex) {
@@ -8700,7 +8765,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	
 	public DataFrame cumulativeSumInColumns() {
-		return cumulativeSumInColumns(0, this.getNumCols() - 1);
+		return cumulativeSumInColumns(0, this.getNumColumns() - 1);
 	}
 
 	public DataFrame cumulativeSumInColumn(int columnIndex) {
@@ -8801,7 +8866,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	
 	public DataFrame cumulativeProductInColumns() {
-		return cumulativeProductInColumns(0, this.getNumCols() - 1);
+		return cumulativeProductInColumns(0, this.getNumColumns() - 1);
 	}
 
 	public DataFrame cumulativeProductInColumn(int columnIndex) {
@@ -8901,7 +8966,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame percentageChangeInColumns() {
-		return percentageChangeInColumns(0, this.getNumCols() - 1);
+		return percentageChangeInColumns(0, this.getNumColumns() - 1);
 	}
 
 	public DataFrame percentageChangeInColumn(int columnIndex) {
@@ -9002,7 +9067,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	
 	public DataFrame roundColumns(int decimalPlaces) {
-		return roundColumns(0, this.getNumCols() - 1, decimalPlaces);
+		return roundColumns(0, this.getNumColumns() - 1, decimalPlaces);
 	}
 
 	public DataFrame roundColumn(int columnIndex, int decimalPlaces) {
@@ -9106,8 +9171,8 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public int numUnique() {
-		double[] serializedValues = new double[this.getNumRows() * this.getNumCols()];
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		double[] serializedValues = new double[this.getNumRows() * this.getNumColumns()];
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				serializedValues[colCount * this.getNumRows() + rowCount] = this.getValue(colCount, rowCount).getValueConvertedToDouble();
 			}	
@@ -9116,7 +9181,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public DataFrame numUniqueInColumns() {
-		return numUniqueInColumns(0, this.getNumCols() - 1);
+		return numUniqueInColumns(0, this.getNumColumns() - 1);
 	}
 
 	public int numUniqueInColumn(int columnIndex) {
@@ -9209,8 +9274,8 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public Double variance(int dof) {
-		double[] serializedValues = new double[this.getNumRows() * this.getNumCols()];
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		double[] serializedValues = new double[this.getNumRows() * this.getNumColumns()];
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				serializedValues[colCount * this.getNumRows() + rowCount] = this.getValue(colCount, rowCount).getValueConvertedToDouble();
 			}	
@@ -9219,7 +9284,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame varianceInColumns(int dof) {
-		return varianceInColumns(dof, 0, this.getNumCols() - 1);
+		return varianceInColumns(dof, 0, this.getNumColumns() - 1);
 	}
 
 	public Double varianceInColumn(int dof, int columnIndex) {
@@ -9312,8 +9377,8 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public Double standardDeviation(int dof) {
-		double[] serializedValues = new double[this.getNumRows() * this.getNumCols()];
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		double[] serializedValues = new double[this.getNumRows() * this.getNumColumns()];
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
 				serializedValues[colCount * this.getNumRows() + rowCount] = this.getValue(colCount, rowCount).getValueConvertedToDouble();
 			}	
@@ -9322,7 +9387,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public DataFrame standardDeviationInColumns(int dof) {
-		return standardDeviationInColumns(dof, 0, this.getNumCols() - 1);
+		return standardDeviationInColumns(dof, 0, this.getNumColumns() - 1);
 	}
 
 	public Double standardDeviationInColumn(int dof, int columnIndex) {
@@ -9631,98 +9696,98 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public void copySerializedColumnsIntoDataFrame(List<Object> values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			Object[] column = Arrays.copyOfRange(values.toArray(new Object[0]), colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(Object[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			Object[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(DataItem[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			DataItem[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(int[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			int[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(float[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			float[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(double[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			double[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(int numRows, double[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			double[] column = Arrays.copyOfRange(values, colCount * numRows, (colCount + 1) * numRows);
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(boolean[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			boolean[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(String[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			String[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(LocalDate[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			LocalDate[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(LocalDateTime[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			LocalDateTime[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(LocalTime[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			LocalTime[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(Period[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			Period[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
 	}
 	
 	public void copySerializedColumnsIntoDataFrame(Duration[] values) {
-		for (int colCount = 0; colCount < this.getNumCols(); colCount++) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
 			Duration[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
 			this.setColumnValues(colCount, column);
 		}
@@ -10282,55 +10347,55 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 
 	public void setRowValues(int rowIndex, DataItem value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, Object value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, Object value, StorageType type) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value, type));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value, type));
 	}
 
 	public void setRowValues(int rowIndex, int value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, float value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, double value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, boolean value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, String value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowValues(int rowIndex, LocalDate value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 	
 	public void setRowValues(int rowIndex, LocalDateTime value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 	
 	public void setRowValues(int rowIndex, LocalTime value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 	
 	public void setRowValues(int rowIndex, Period value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 	
 	public void setRowValues(int rowIndex, Duration value) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> setValue(i, rowIndex, value));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
 	public void setRowsValues(int[] rowIndices, DataItem value) {
@@ -10658,11 +10723,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public void addPrefixToColumnNames(String prefix) {
-		addPrefixToColumnNames(0, this.getNumCols() - 1, prefix);
+		addPrefixToColumnNames(0, this.getNumColumns() - 1, prefix);
 	}
 	
 	public void addSuffixToColumnNames(String suffix) {
-		addSuffixToColumnNames(0, this.getNumCols() - 1, suffix);
+		addSuffixToColumnNames(0, this.getNumColumns() - 1, suffix);
 	}
 	
 	public void addPrefixToColumnNames(int lowestIndex, int highestIndex, String prefix) {
@@ -10704,7 +10769,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return this.rowNames.size();
 	}
 
-	public int getNumCols() {
+	public int getNumColumns() {
 		return this.columnNames.size();
 	}
 
@@ -10740,7 +10805,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			df[dfCount] = this.getColumnsAsDataFrame(currentIndex, indices[dfCount]);
 			currentIndex = indices[dfCount] + 1;
 		}
-		df[df.length - 1] = this.getColumnsAsDataFrame(currentIndex, this.getNumCols() - 1);
+		df[df.length - 1] = this.getColumnsAsDataFrame(currentIndex, this.getNumColumns() - 1);
 		return df;
 	}
 	
@@ -10764,7 +10829,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			df[dfCount] = this.getRowsAsDataFrame(currentIndex, indices[dfCount]);
 			currentIndex = indices[dfCount] + 1;
 		}
-		df[df.length - 1] = this.getRowsAsDataFrame(currentIndex, this.getNumCols() - 1);
+		df[df.length - 1] = this.getRowsAsDataFrame(currentIndex, this.getNumColumns() - 1);
 		return df;
 	}
 	
@@ -10851,7 +10916,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	private void setValuesInNewDF(DataFrame newDF) {
-		for (int columnCount = 0; columnCount < newDF.getNumCols(); columnCount++) {
+		for (int columnCount = 0; columnCount < newDF.getNumColumns(); columnCount++) {
 			for (int rowCount = 0; rowCount < newDF.getNumRows(); rowCount++) {
 				DataItem value = newDF.getValue(columnCount, rowCount).clone();
 				this.setValue(newDF.getColumnNames().get(columnCount), newDF.getRowNames().get(rowCount), value);
@@ -10914,7 +10979,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public void sortColumnsAlphabetically(boolean ascending) {
 
-		int n = this.getNumCols(); 
+		int n = this.getNumColumns(); 
         for (int i = 1; i < n; ++i) { 
             String columnName = this.columnNames.get(i); 
             DataItem[] column = this.getColumnAsDataItemArray(i);
@@ -10965,8 +11030,8 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	
 	public void reverseColumnOrder() {
-		for (int columnIndex = 0; columnIndex < this.getNumCols()/2; columnIndex++) {
-			this.swapTwoColumns(columnIndex, this.getNumCols() - columnIndex - 1);
+		for (int columnIndex = 0; columnIndex < this.getNumColumns()/2; columnIndex++) {
+			this.swapTwoColumns(columnIndex, this.getNumColumns() - columnIndex - 1);
 		}
 	}
 	
@@ -11041,7 +11106,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void setRowType(int rowNum, StorageType type) {
-		IntStream.range(0, this.getNumCols()).forEach(i -> this.getValue(i, rowNum).setType(type));
+		IntStream.range(0, this.getNumColumns()).forEach(i -> this.getValue(i, rowNum).setType(type));
 	}
 	
 	public void setRowType(String rowName, StorageType type) {
@@ -11157,7 +11222,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame lengthOfStrings() {
 		DataFrame lengthDF = DataFrame.zeros(this.columnNames.toArray(new String[0]), this.rowNames.toArray(new String[0]));
 		for (int rowCount = 0; rowCount < this.getNumRows(); rowCount++) {
-			for (int columnCount = 0; columnCount < this.getNumCols(); columnCount++) {
+			for (int columnCount = 0; columnCount < this.getNumColumns(); columnCount++) {
 				int length = this.getValue(columnCount, rowCount).getValueConvertedToString().length();
 				lengthDF.setValue(columnCount, rowCount, length);
 			}	
@@ -11310,9 +11375,9 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	// ---------------------------
 	public void toCSV(String path, boolean preserveRowNames) {
 		String strToWrite = "";
-		for (int columnIndex = 0; columnIndex < this.getNumCols(); columnIndex++) {
+		for (int columnIndex = 0; columnIndex < this.getNumColumns(); columnIndex++) {
 			strToWrite += this.columnNames.get(columnIndex);
-			if (columnIndex < this.getNumCols() - 1) {
+			if (columnIndex < this.getNumColumns() - 1) {
 				strToWrite += ",";
 			} else {
 				strToWrite += "\n";
