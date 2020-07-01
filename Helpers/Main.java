@@ -53,7 +53,6 @@ import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.*;
 import thesis.DataFrame.DataItem.StorageType;
-import thesis.NumJa.NumJa;
 
 @SuppressWarnings("unused")
 public class Main {
