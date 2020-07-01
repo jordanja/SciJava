@@ -700,9 +700,7 @@ public class Main {
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
 		
-		DataFrame df = DataFrame.randomBooleans(columnNames, rowNames);
-		
-		System.out.println(df.getTypeOfRow("row_one"));
+		DataFrame df = DataFrame.randomPeriods(3, 3, Period.ZERO, Period.ofDays(3));
 	
 		
 		return df;
@@ -794,6 +792,7 @@ public class Main {
 		names.add("one");
 		names.add("two");
 		names.add("three");
+		
 
 		DataFrame df = new DataFrame(names, combined, true);
 

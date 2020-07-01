@@ -26,6 +26,7 @@ import thesis.Common.CommonArray;
 import thesis.Common.CommonFiles;
 import thesis.Common.CommonMath;
 import thesis.DataFrame.DataItem.StorageType;
+import thesis.Exceptions.DataFrameShapeException;
 
 public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
@@ -243,17 +244,20 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	 */
 	public DataFrame(List<String> names, List<ArrayList<Object>> lists, boolean isRow) {
 		this();
-		if (names.size() != lists.size()) {
-			System.out.println("Number of names = " + names.size() + ", number of lists = " + lists.size());
-			return;
-		}
-
-		for (int i = 0; i < names.size(); i++) {
-			if (isRow == true) {
-				appendRow(names.get(i), lists.get(i));
-			} else {
-				appendColumn(names.get(i), lists.get(i));
+		try {	
+			if (names.size() != lists.size()) {
+				throw new DataFrameShapeException("Number of names = " + names.size() + ", number of lists = " + lists.size());
 			}
+	
+			for (int i = 0; i < names.size(); i++) {
+				if (isRow == true) {
+					appendRow(names.get(i), lists.get(i));
+				} else {
+					appendColumn(names.get(i), lists.get(i));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -10763,8 +10767,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 
-	
-
 	public int getNumRows() {
 		return this.rowNames.size();
 	}
@@ -11185,7 +11187,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	private ArrayList<DataItem> convertObjectListToItemList(List<Object> column) {
 		ArrayList<DataItem> list = new ArrayList<DataItem>();
 		for (Object item : column) {
-//			System.out.println("item = " + item + ", class = " + item.getClass());
 			list.add(new DataItem(item));
 		}
 		return list;
