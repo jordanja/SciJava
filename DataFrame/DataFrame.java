@@ -203,7 +203,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	 * 
 	 * Result is: | 0| 1| 2 ------+--+--+-- hello| 1| 2| 3
 	 */
-	public DataFrame(String name, List<Object> list, boolean isRow) {
+	public <T> DataFrame(String name, List<T> list, boolean isRow) {
 		this();
 
 		if (isRow == true) {
@@ -223,26 +223,81 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	 * If isRow = true. Result is: | 0| 1| 2| 3| 4 ------+--+--+--+--+-- hello| 1|
 	 * 2| 3| 4| 5
 	 */
-	public DataFrame(String name, Object[] array, boolean isRow) {
-		this(name, new ArrayList<Object>(Arrays.asList(array)), isRow);
+	public <T> DataFrame(String name, T[] array, boolean isRow) {
+		this(name, new ArrayList<T>(Arrays.asList(array)), isRow);
+	}
+	
+	public DataFrame(String name, int[] array, boolean isRow) {
+		this();
+
+		if (isRow == true) {
+			appendRow(name, array);
+		} else {
+			appendColumn(name, array);
+		}
+	}
+	
+	public DataFrame(String name, float[] array, boolean isRow) {
+		this();
+
+		if (isRow == true) {
+			appendRow(name, array);
+		} else {
+			appendColumn(name, array);
+		}
+	}
+	
+	public DataFrame(String name, double[] array, boolean isRow) {
+		this();
+
+		if (isRow == true) {
+			appendRow(name, array);
+		} else {
+			appendColumn(name, array);
+		}
+	}
+	
+	public DataFrame(String name, boolean[] array, boolean isRow) {
+		this();
+
+		if (isRow == true) {
+			appendRow(name, array);
+		} else {
+			appendColumn(name, array);
+		}
 	}
 
 	/*
-	 * Create a DF object form multiple columns For example if: names = ["one",
-	 * "two", "three"] lists = Arrays.asList( Arrays.asList(1, 2, 3),
-	 * Arrays.asList(4, 5, 6), Arrays.asList(7, 8, 9), ), isRow = false
+	 * Create a DF object form multiple columns 
 	 * 
-	 * Result is: | one| two| three --+----+----+------ 0| 1| 4| 7 1| 2| 5| 8 2| 3|
-	 * 6| 9
+	 * For example if: 
 	 * 
-	 * If isRow = true. Result is:
-	 * | 0| 1| 2
-	 * ------+--+--+--
-	 * one| 1| 2| 3
-	 * two| 4| 5| 6
-	 * three| 7| 8| 9
+	 * 		names = ["one", "two", "three"] 
+	 * 		lists = Arrays.asList( 
+	 * 			Arrays.asList(1, 2, 3),
+	 * 			Arrays.asList(4, 5, 6), 
+	 * 			Arrays.asList(7, 8, 9), 
+	 * 		), 
+	 * 		isRow = false
+	 * 
+	 * Result is: 
+	 * 
+	 * 			| one| two| three 
+	 * 		  --+----+----+------ 
+	 * 		   0|   1|   4|     7 
+	 *  	   1|   2|   5|     8 
+	 *  	   2|   3|   6|     9
+	 * 
+	 * If isRow = true. 
+	 * Result is:
+	 * 
+	 * 			| 0| 1| 2
+	 * 	  ------+--+--+--
+	 *       one| 1| 2| 3
+	 *       two| 4| 5| 6
+	 *     three| 7| 8| 9
 	 */
-	public DataFrame(List<String> names, List<ArrayList<Object>> lists, boolean isRow) {
+	public <T> DataFrame(List<String> names, List<List<T>> lists, boolean isRow) {
 		this();
 		try {	
 			if (names.size() != lists.size()) {
@@ -1195,7 +1250,176 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return new DataFrame(otherDF);
 	}
 	
+	public static <T> DataFrame dataFrameFromList(String name, List<T> list, boolean isRow) {
+		return new DataFrame(name, list, isRow);
+	}
 	
+	public static <T> DataFrame dataFrameFromList(List<T> list, boolean isRow) {
+		return new DataFrame("0", list, isRow);
+	}
+	
+	public static <T> DataFrame dataFrameFromColumnList(String name, List<T> list) {
+		return new DataFrame(name, list, false);
+	}
+	
+	public static <T> DataFrame dataFrameFromColumnList(List<T> list) {
+		return new DataFrame("0", list, false);
+	}
+	
+	public static <T> DataFrame dataFrameFromRowList(String name, List<T> list) {
+		return new DataFrame(name, list, true);
+	}
+	
+	public static <T> DataFrame dataFrameFromRowList(List<T> list) {
+		return new DataFrame("0", list, true);
+	}
+	
+	
+	
+	public static <T> DataFrame dataFrameFromArray(String name, T[] list, boolean isRow) {
+		return new DataFrame(name, list, isRow);
+	}
+	
+	public static <T> DataFrame dataFrameFromArray(T[] list, boolean isRow) {
+		return new DataFrame("0", list, isRow);
+	}
+	
+	public static <T> DataFrame dataFrameFromColumnArray(String name, T[] list) {
+		return new DataFrame(name, list, false);
+	}
+	
+	public static <T> DataFrame dataFrameFromColumnArray(T[] list) {
+		return new DataFrame("0", list, false);
+	}
+	
+	public static <T> DataFrame dataFrameFromRowArray(String name, T[] list) {
+		return new DataFrame(name, list, true);
+	}
+	
+	public static <T> DataFrame dataFrameFromRowArray(T[] list) {
+		return new DataFrame("0", list, true);
+	}
+	
+	
+	public static DataFrame dataFrameFromArray(String name, int[] list, boolean isRow) {
+		return new DataFrame(name, list, isRow);
+	}
+	
+	public static DataFrame dataFrameFromArray(int[] list, boolean isRow) {
+		return new DataFrame("0", list, isRow);
+	}
+	
+	public static DataFrame dataFrameFromColumnArray(String name, int[] list) {
+		return new DataFrame(name, list, false);
+	}
+	
+	public static DataFrame dataFrameFromColumnArray(int[] list) {
+		return new DataFrame("0", list, false);
+	}
+	
+	public static DataFrame dataFrameFromRowArray(String name, int[] list) {
+		return new DataFrame(name, list, true);
+	}
+	
+	public static DataFrame dataFrameFromRowArray(int[] list) {
+		return new DataFrame("0", list, true);
+	}
+	
+	public static DataFrame dataFrameFromArray(String name, float[] list, boolean isRow) {
+		return new DataFrame(name, list, isRow);
+	}
+	
+	public static DataFrame dataFrameFromArray(float[] list, boolean isRow) {
+		return new DataFrame("0", list, isRow);
+	}
+	
+	public static DataFrame dataFrameFromColumnArray(String name, float[] list) {
+		return new DataFrame(name, list, false);
+	}
+	
+	public static DataFrame dataFrameFromColumnArray(float[] list) {
+		return new DataFrame("0", list, false);
+	}
+	
+	public static DataFrame dataFrameFromRowArray(String name, float[] list) {
+		return new DataFrame(name, list, true);
+	}
+	
+	public static DataFrame dataFrameFromRowArray(float[] list) {
+		return new DataFrame("0", list, true);
+	}
+	
+	public static DataFrame dataFrameFromArray(String name, double[] list, boolean isRow) {
+		return new DataFrame(name, list, isRow);
+	}
+	
+	public static DataFrame dataFrameFromArray(double[] list, boolean isRow) {
+		return new DataFrame("0", list, isRow);
+	}
+	
+	public static DataFrame dataFrameFromColumnArray(String name, double[] list) {
+		return new DataFrame(name, list, false);
+	}
+	
+	public static DataFrame dataFrameFromColumnArray(double[] list) {
+		return new DataFrame("0", list, false);
+	}
+	
+	public static DataFrame dataFrameFromRowArray(String name, double[] list) {
+		return new DataFrame(name, list, true);
+	}
+	
+	public static DataFrame dataFrameFromRowArray(double[] list) {
+		return new DataFrame("0", list, true);
+	}
+	
+	public static DataFrame dataFrameFromArray(String name, boolean[] list, boolean isRow) {
+		return new DataFrame(name, list, isRow);
+	}
+	
+	public static DataFrame dataFrameFromArray(boolean[] list, boolean isRow) {
+		return new DataFrame("0", list, isRow);
+	}
+	
+	public static DataFrame dataFrameFromColumnArray(String name, boolean[] list) {
+		return new DataFrame(name, list, false);
+	}
+	
+	public static DataFrame dataFrameFromColumnArray(boolean[] list) {
+		return new DataFrame("0", list, false);
+	}
+	
+	public static DataFrame dataFrameFromRowArray(String name, boolean[] list) {
+		return new DataFrame(name, list, true);
+	}
+	
+	public static DataFrame dataFrameFromRowArray(boolean[] list) {
+		return new DataFrame("0", list, true);
+	}
+	
+	public static <T> DataFrame dataFrameFrom2DList(List<String> names, List<List<T>> lists, boolean isRow) {
+		return new DataFrame(names, lists, isRow);
+	}
+	
+	public static <T> DataFrame dataFrameFrom2DList(List<List<T>> lists, boolean isRow) {
+		return new DataFrame(CommonArray.generateIncreasingSequence(lists.size()), lists, isRow);
+	}
+	
+	public static <T> DataFrame dataFrameFrom2DColumnList(List<String> names, List<List<T>> lists) {
+		return new DataFrame(names, lists, false);
+	}
+	
+	public static <T> DataFrame dataFrameFrom2DColumnList(List<List<T>> lists) {
+		return new DataFrame(CommonArray.generateIncreasingSequence(lists.size()), lists, false);
+	}
+	
+	public static <T> DataFrame dataFrameFrom2DRowList(List<String> names, List<List<T>> lists) {
+		return new DataFrame(names, lists, true);
+	}
+	
+	public static <T> DataFrame dataFrameFrom2DRowList(List<List<T>> lists) {
+		return new DataFrame(CommonArray.generateIncreasingSequence(lists.size()), lists, true);
+	}
 	
 	public <T> void insertColumn(int index, String columnName, List<T> column) {
 		if (index > this.columnNames.size()) {

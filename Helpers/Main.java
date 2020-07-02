@@ -699,8 +699,12 @@ public class Main {
 //		rowNames.add("row_nine");
 //		rowNames.add("row_ten");
 		
-		DataFrame df = DataFrame.randomPeriods(3, 3, Period.ZERO, Period.ofDays(3));
-	
+		boolean[] list = new boolean[3];
+		list[0] = true;
+		list[1] = false;
+		list[2] = true;
+		
+		DataFrame df = DataFrame.dataFrameFromColumnArray("ergrewgergf", list);
 		
 		return df;
 	}
@@ -767,22 +771,22 @@ public class Main {
 	}
 
 	public static DataFrame multipleColumns() {
-		ArrayList<Object> arr1 = new ArrayList<Object>();
+		List<Object> arr1 = new ArrayList<Object>();
 		arr1.add(1);
 		arr1.add(2);
 		arr1.add(3);
 
-		ArrayList<Object> arr2 = new ArrayList<Object>();
+		List<Object> arr2 = new ArrayList<Object>();
 		arr2.add(4);
 		arr2.add(5);
 		arr2.add(6);
 
-		ArrayList<Object> arr3 = new ArrayList<Object>();
+		List<Object> arr3 = new ArrayList<Object>();
 		arr3.add(7);
 		arr3.add(8);
 		arr3.add(9);
 
-		ArrayList<ArrayList<Object>> combined = new ArrayList<ArrayList<Object>>();
+		List<List<Object>> combined = new ArrayList<List<Object>>();
 		combined.add(arr1);
 		combined.add(arr2);
 		combined.add(arr3);
