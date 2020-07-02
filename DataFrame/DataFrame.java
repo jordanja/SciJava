@@ -1533,6 +1533,8 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public static <T> DataFrame dataFrameFrom2DRowArray(T[][] arrays) {
 		return new DataFrame(CommonArray.generateIncreasingSequence(arrays.length).toArray(new String[0]), arrays, true);
 	}
+
+
 	
 	public static DataFrame dataFrameFrom2DArray(String[] names, int[][] arrays, boolean isRow) {
 		return new DataFrame(names, arrays, isRow);
