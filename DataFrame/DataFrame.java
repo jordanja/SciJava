@@ -54,11 +54,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		this(CommonArray.generateIncreasingSequence(numColumns), CommonArray.generateIncreasingSequence(numRows), fill);
 	}
 	
-	public DataFrame(int numColumns, int numRows, Object fill) {
+	public <T> DataFrame(int numColumns, int numRows, T fill) {
 		this(numColumns, numRows, fill, DataItem.getStorageTypeOfObject(fill));
 	}
 	
-	public DataFrame(String[] columnNames, String[] rowNames, Object fill) {
+	public <T> DataFrame(String[] columnNames, String[] rowNames, T fill) {
 		this(columnNames,rowNames, fill, DataItem.getStorageTypeOfObject(fill));
 	}
 	
@@ -66,7 +66,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		this(columnNames,rowNames, fill, fill.getType());
 	}
 	
-	public DataFrame(List<String> columnNames, List<String> rowNames, Object fill) {
+	public <T> DataFrame(List<String> columnNames, List<String> rowNames, T fill) {
 		this(columnNames, rowNames, fill, DataItem.getStorageTypeOfObject(fill));
 	}
 
@@ -75,7 +75,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	
-	public DataFrame(String[] columnNames, String[] rowNames, Object fill, StorageType type) {
+	public <T> DataFrame(String[] columnNames, String[] rowNames, T fill, StorageType type) {
 		this(Arrays.asList(columnNames), Arrays.asList(rowNames), fill, type);
 	}
 	
@@ -92,7 +92,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
-	public DataFrame(List<String> columnNames, List<String> rowNames, Object fill, StorageType type) {
+	public <T> DataFrame(List<String> columnNames, List<String> rowNames, T fill, StorageType type) {
 		this(columnNames, rowNames, new DataItem(fill, type));
 	}
 	
@@ -248,7 +248,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			if (names.size() != lists.size()) {
 				throw new DataFrameShapeException("Number of names = " + names.size() + ", number of lists = " + lists.size());
 			}
-	
 			for (int i = 0; i < names.size(); i++) {
 				if (isRow == true) {
 					appendRow(names.get(i), lists.get(i));
@@ -328,8 +327,12 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return new DataFrame(columnNames, rowNames, 0);
 	}
 	
+	public static DataFrame zeros(List<String> columnNames, List<String> rowNames) {
+		return new DataFrame(columnNames, rowNames, 0);
+	}
+	
 	public static DataFrame zerosLike(DataFrame otherDF) {
-		return zeros(otherDF.getNumColumns(), otherDF.getNumRows());
+		return zeros(otherDF.getColumnNames(), otherDF.getRowNames());
 	}
 	
 	public static <T> DataFrame zerosLike(T[][] otherDF) {
@@ -369,7 +372,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	
-	public static <T> DataFrame zerosLike(ArrayList<ArrayList<T>> otherDF) {
+	public static <T> DataFrame zerosLike(List<List<T>> otherDF) {
 		return zeros(otherDF.size(), otherDF.get(0).size());
 	}
 	
@@ -380,9 +383,13 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public static DataFrame ones(String[] columnNames, String[] rowNames) {
 		return new DataFrame(columnNames, rowNames, 1);
 	}
+	
+	public static DataFrame ones(List<String> columnNames, List<String> rowNames) {
+		return new DataFrame(columnNames, rowNames, 1);
+	}
 
 	public static DataFrame onesLike(DataFrame otherDF) {
-		return ones(otherDF.getNumColumns(), otherDF.getNumRows());
+		return ones(otherDF.getColumnNames(), otherDF.getRowNames());
 	}
 
 	public static <T> DataFrame onesLike(T[][] otherDF) {
@@ -421,7 +428,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return ones(otherDF.length, otherDF[0].length);
 	}
 
-	public static <T> DataFrame onesLike(ArrayList<ArrayList<T>> otherDF) {
+	public static <T> DataFrame onesLike(List<List<T>> otherDF) {
 		return ones(otherDF.size(), otherDF.get(0).size());
 	}
 
@@ -433,18 +440,17 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return new DataFrame(columnNames, rowNames, new DataItem());
 	}
 	
-	public static DataFrame empty(ArrayList<String> columnNames, ArrayList<String> rowNames) {
+	public static DataFrame nullValues(List<String> columnNames, List<String> rowNames) {
 		return new DataFrame(columnNames, rowNames, new DataItem());
 	}
 	
 	public static DataFrame nullValuesLike(DataFrame otherDF) {
-		return nullValues(otherDF.getNumColumns(), otherDF.getNumRows());
+		return nullValues(otherDF.getColumnNames(), otherDF.getRowNames());
 	}
 
 	public static <T> DataFrame nullValuesLike(T[][] otherDF) {
 		return nullValues(otherDF.length, otherDF[0].length);
 	}
-	
 	
 	public static DataFrame nullValuesLike(byte[][] otherDF) {
 		return nullValues(otherDF.length, otherDF[0].length);
@@ -478,7 +484,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return nullValues(otherDF.length, otherDF[0].length);
 	}
 	
-	public static <T> DataFrame nullValuesLike(ArrayList<ArrayList<T>> otherDF) {
+	public static <T> DataFrame nullValuesLike(List<List<T>> otherDF) {
 		return nullValues(otherDF.size(), otherDF.get(0).size());
 	}
 	
@@ -486,7 +492,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return new DataFrame(numColumns, numRows, value);
 	}
 	
-	public static DataFrame dataFrameWithValue(int numColumns, int numRows, Object value) {
+	public static <T> DataFrame dataFrameWithValue(int numColumns, int numRows, T value) {
 		return new DataFrame(numColumns, numRows, value);
 	}
 	
@@ -658,7 +664,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			throw new IllegalArgumentException("Not possible to get unique values from range provided (" + minValue + ", " + maxValue + ")");
 		}
 		int[] intValues = CommonArray.getUniqueInts(minValue, maxValue);
-		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		DataFrame df = DataFrame.nullValues(columnNames, rowNames);
 		df.copySerializedColumnsIntoDataFrame(intValues);
 		
         return df;
@@ -688,7 +694,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public static DataFrame uniqueDoubles(ArrayList<String> columnNames, ArrayList<String> rowNames, double minValue, double maxValue) {
 		int numValues = columnNames.size() * rowNames.size();
 		double[] doubleValues = CommonArray.getUniqueDoubles(numValues, minValue, maxValue);
-		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		DataFrame df = DataFrame.nullValues(columnNames, rowNames);
 		df.copySerializedColumnsIntoDataFrame(doubleValues);
 		return df;
 	}
@@ -716,7 +722,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public static DataFrame uniqueStrings(ArrayList<String> columnNames, ArrayList<String> rowNames, int stringLength) {
 		int numValues = columnNames.size() * rowNames.size();
 		String[] StringValues = CommonArray.getUniqueStrings(numValues, stringLength);
-		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		DataFrame df = DataFrame.nullValues(columnNames, rowNames);
 		df.copySerializedColumnsIntoDataFrame(StringValues);
 		return df;
 	}
@@ -744,7 +750,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public static DataFrame uniqueLocalDate(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalDate minLocalDate, LocalDate maxLocalDate) {
 		int numValues = columnNames.size() * rowNames.size();
 		LocalDate[] localDateValues = CommonArray.getUniqueLocalDates(numValues, minLocalDate, maxLocalDate);
-		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		DataFrame df = DataFrame.nullValues(columnNames, rowNames);
 		df.copySerializedColumnsIntoDataFrame(localDateValues);
 		return df;
 	}
@@ -772,7 +778,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public static DataFrame uniqueLocalDateTime(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
 		int numValues = columnNames.size() * rowNames.size();
 		LocalDateTime[] localDateTimeValues = CommonArray.getUniqueLocalDateTimes(numValues, minLocalDateTime, maxLocalDateTime);
-		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		DataFrame df = DataFrame.nullValues(columnNames, rowNames);
 		df.copySerializedColumnsIntoDataFrame(localDateTimeValues);
 		return df;
 	}
@@ -800,7 +806,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public static DataFrame uniqueLocalTime(ArrayList<String> columnNames, ArrayList<String> rowNames, LocalTime minLocalTime, LocalTime maxLocalTime) {
 		int numValues = columnNames.size() * rowNames.size();
 		LocalTime[] localTimeValues = CommonArray.getUniqueLocalTimes(numValues, minLocalTime, maxLocalTime);
-		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		DataFrame df = DataFrame.nullValues(columnNames, rowNames);
 		df.copySerializedColumnsIntoDataFrame(localTimeValues);
 		return df;
 	}
@@ -828,7 +834,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public static DataFrame uniquePeriod(ArrayList<String> columnNames, ArrayList<String> rowNames, Period minPeriod, Period maxPeriod) {
 		int numValues = columnNames.size() * rowNames.size();
 		Period[] periodValues = CommonArray.getUniquePeriods(numValues, minPeriod, maxPeriod);
-		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		DataFrame df = DataFrame.nullValues(columnNames, rowNames);
 		df.copySerializedColumnsIntoDataFrame(periodValues);
 		return df;
 	}
@@ -856,7 +862,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public static DataFrame uniqueDuration(ArrayList<String> columnNames, ArrayList<String> rowNames, Duration minDuration, Duration maxDuration) {
 		int numValues = columnNames.size() * rowNames.size();
 		Duration[] durationValues = CommonArray.getUniqueDurations(numValues, minDuration, maxDuration);
-		DataFrame df = DataFrame.empty(columnNames, rowNames);
+		DataFrame df = DataFrame.nullValues(columnNames, rowNames);
 		df.copySerializedColumnsIntoDataFrame(durationValues);
 		return df;
 	}
@@ -1161,6 +1167,33 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return df;
 	}
 	
+	public static <T> DataFrame dataFrameFromMapOfLists(Map<String, List<T>> map, boolean isRow) {
+		return new DataFrame(map, isRow);
+	}
+	
+	public static <T> DataFrame dataFrameFromMapOfColumns(Map<String, List<T>> map) {
+		return new DataFrame(map, false);
+	}
+	
+	public static <T> DataFrame dataFrameFromMapOfRows(Map<String, List<T>> map) {
+		return new DataFrame(map, true);
+	}
+	
+	public static DataFrame dataFrameFromListOfMaps(List<Map<String, Object>> maps, boolean isRow) {
+		return new DataFrame(maps, isRow);
+	}
+	
+	public static DataFrame dataFrameFromListOfColumnMaps(List<Map<String, Object>> maps) {
+		return new DataFrame(maps, false);
+	}
+	
+	public static DataFrame dataFrameFromListOfRowMaps(List<Map<String, Object>> maps) {
+		return new DataFrame(maps, true);
+	}
+	
+	public static DataFrame dataFrameFromOtherDataFrame(DataFrame otherDF) {
+		return new DataFrame(otherDF);
+	}
 	
 	
 	
