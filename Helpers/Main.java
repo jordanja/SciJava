@@ -703,6 +703,8 @@ public class Main {
 
 		DataFrame df = new DataFrame(new String[] {"one", "two", "three"}, arrs, true);
 		
+		df.setColumnType(0, StorageType.LocalDate);
+		
 		return df;
 	}
 

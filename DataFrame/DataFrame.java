@@ -26,7 +26,10 @@ import thesis.Common.CommonArray;
 import thesis.Common.CommonFiles;
 import thesis.Common.CommonMath;
 import thesis.DataFrame.DataItem.StorageType;
+import thesis.Exceptions.ColumnNameException;
+import thesis.Exceptions.DataFrameOutOfBoundsException;
 import thesis.Exceptions.DataFrameShapeException;
+import thesis.Exceptions.RowNameException;
 
 public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
@@ -1636,26 +1639,28 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	
 	public <T> void insertColumn(int index, String columnName, List<T> column) {
-		if (index > this.columnNames.size()) {
-			System.out.println("Column index too high");
-			return;
-		}
-
-		if (this.data.size() > 0) {
-			if (data.get(0).size() != column.size()) {
-				System.out.println("New column must have same number of rows as other columns");
-				return;
+		try {
+			if (index > this.columnNames.size()) {
+				throw new DataFrameOutOfBoundsException("Column index too high: " + index + " > " + this.columnNames.size());
 			}
+			
+			if (this.data.size() > 0) {
+				if (data.get(0).size() != column.size()) {
+					throw new DataFrameShapeException("New column must have same number of rows as other columns");
+				}
+			}
+			
+			// If there currently are no rows
+			if (this.rowNames.size() == 0) {				
+				this.rowNames = CommonArray.generateIncreasingSequence(column.size());
+			}
+			
+			this.data.add(index, createDataItemList(column));
+			String newColumnName = CommonArray.getNewMangleName(this.columnNames, columnName);
+			this.columnNames.add(index, newColumnName);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		// If there currently are no rows
-		if (this.rowNames.size() == 0) {				
-			this.rowNames = CommonArray.generateIncreasingSequence(column.size());
-		}
-		
-		this.data.add(index, createDataItemList(column));
-		String newColumnName = CommonArray.getNewMangleName(this.columnNames, columnName);
-		this.columnNames.add(index, newColumnName);
 
 	}
 	
@@ -2631,28 +2636,29 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	
 	public <T> void insertRow(int index, String rowName, List<T> row) {
-		if (index > this.rowNames.size()) {
-			System.out.println("Row index too high");
-			return;
-		}
-		
-		if ((this.rowNames.size() > 0) && (row.size() != this.columnNames.size())) {
-			System.out.print(row.size() + " != " + this.columnNames.size() + ": ");
-			System.out.println("Your row does not have the correct amount of columns");
-			return;
-		}
-		
-		for (int colCount = 0; colCount < row.size(); colCount++) {
-			if (this.rowNames.size() == 0) {
-				this.data.add(new ArrayList<DataItem>());
-				if (this.columnNames.size() <= colCount) {
-					this.columnNames.add(generateUnusedColumnName());
-				}
+		try {
+			if (index > this.rowNames.size()) {
+				throw new DataFrameOutOfBoundsException("Column index too high: " + index + " > " + this.rowNames.size());
 			}
-			this.data.get(colCount).add(index, new DataItem(row.get(colCount)));
+			
+			if ((this.rowNames.size() > 0) && (row.size() != this.columnNames.size())) {
+				throw new DataFrameShapeException("New row must have same number of rows as other rows");
+			}
+			
+			for (int colCount = 0; colCount < row.size(); colCount++) {
+				if (this.rowNames.size() == 0) {
+					this.data.add(new ArrayList<DataItem>());
+					if (this.columnNames.size() <= colCount) {
+						this.columnNames.add(generateUnusedColumnName());
+					}
+				}
+				this.data.get(colCount).add(index, new DataItem(row.get(colCount)));
+			}
+			String newRowName = CommonArray.getNewMangleName(this.rowNames, rowName);
+			this.rowNames.add(index, newRowName);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		String newRowName = CommonArray.getNewMangleName(this.rowNames, rowName);
-		this.rowNames.add(index, newRowName);
 	}
 	
 	public void insertRow(int index, String rowName, DataItem[] row) {
@@ -9960,21 +9966,22 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	// ------ Setters ------
 	// ---------------------
 	public void setRowNames(ArrayList<String> rowNamesToAdd) {
-
-		if (CommonArray.anyNullValues(rowNamesToAdd)) {
-			System.out.println("Cannot have any null values in row names");
-			return;
-		}
-
-		if (this.rowNames.size() != 0) {
-			if (rowNamesToAdd.size() != this.rowNames.size()) {
-				System.out.println("Number of row names (" + rowNamesToAdd.size() + ") must equal number of rows (" + this.rowNames.size() + ")");
-				return;
+		try {
+			if (CommonArray.anyNullValues(rowNamesToAdd)) {
+				throw new RowNameException("Cannot have any null values in row names");
 			}
-		}	
-
-		String[] mangledRowNames = CommonArray.mangle(rowNamesToAdd);
-		this.rowNames = CommonArray.convertStringArrayToArrayList(mangledRowNames);
+			
+			if (this.rowNames.size() != 0) {
+				if (rowNamesToAdd.size() != this.rowNames.size()) {
+					throw new DataFrameShapeException("Number of row names (" + rowNamesToAdd.size() + ") must equal number of rows (" + this.rowNames.size() + ")");
+				}
+			}	
+			
+			String[] mangledRowNames = CommonArray.mangle(rowNamesToAdd);
+			this.rowNames = CommonArray.convertStringArrayToArrayList(mangledRowNames);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setRowNames(String[] rowNamesToAdd) {
@@ -9990,20 +9997,22 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public void setColumnNames(ArrayList<String> colNamesToAdd) {
-		if (CommonArray.anyNullValues(colNamesToAdd)) {
-			System.out.println("Cannot have any null values in row names");
-			return;
-		}
-
-		if (this.columnNames.size() != 0) {			
-			if (colNamesToAdd.size() != this.columnNames.size()) {
-				System.out.println("Number of column names must equal number of columns");
-				return;
+		try {
+			if (CommonArray.anyNullValues(colNamesToAdd)) {
+				throw new ColumnNameException("Cannot have any null values in row names");
 			}
+	
+			if (this.columnNames.size() != 0) {			
+				if (colNamesToAdd.size() != this.columnNames.size()) {
+					throw new DataFrameShapeException("Number of column names (" + colNamesToAdd.size() + ") must equal number of columns (" + this.columnNames.size() + ")");
+				}
+			}
+	
+			String[] mangledColNames = CommonArray.mangle(colNamesToAdd);
+			this.columnNames = CommonArray.convertStringArrayToArrayList(mangledColNames);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		String[] mangledColNames = CommonArray.mangle(colNamesToAdd);
-		this.columnNames = CommonArray.convertStringArrayToArrayList(mangledColNames);
 	}
 	
 
@@ -10042,52 +10051,52 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	// Fix duplication of error checks
 	public void setValue(int colNum, int rowNum, Object value, StorageType type) {
-		if (colNum >= this.columnNames.size()) {
-			System.out.println("Column number must be lower than the amount of columns");
-			return;
+		try {
+			if (colNum >= this.columnNames.size()) {
+				throw new DataFrameOutOfBoundsException("Column index must be lower than the amount of columns");
+			}
+			
+			if (rowNum >= this.rowNames.size()) {
+				throw new DataFrameOutOfBoundsException("Row index must be lower than the amount of rows");
+			}
+			
+			if (colNum < 0) {
+				throw new DataFrameOutOfBoundsException("Column index must be greater than 0");
+			}
+			
+			if (rowNum < 0) {
+				throw new DataFrameOutOfBoundsException("Row index must be greater than 0");
+			}
+			
+			this.data.get(colNum).set(rowNum, new DataItem(value, type));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		if (rowNum >= this.rowNames.size()) {
-			System.out.println("Row number must be lower than the amount of rows");
-			return;
-		}
-
-		if (colNum < 0) {
-			System.out.println("Column number must be greater than 0");
-			return;
-		}
-
-		if (rowNum < 0) {
-			System.out.println("Row number must be greater than 0");
-			return;
-		}
-
-		this.data.get(colNum).set(rowNum, new DataItem(value, type));
 
 	}
 
 	public void setValue(int colNum, int rowNum, Object value) {
-		if (colNum >= this.columnNames.size()) {
-			System.out.println("Column number must be lower than the amount of columns");
-			return;
+		try {
+			if (colNum >= this.columnNames.size()) {
+				throw new DataFrameOutOfBoundsException("Column index must be lower than the amount of columns");
+			}
+			
+			if (rowNum >= this.rowNames.size()) {
+				throw new DataFrameOutOfBoundsException("Row index must be lower than the amount of rows");
+			}
+			
+			if (colNum < 0) {
+				throw new DataFrameOutOfBoundsException("Column index must be greater than 0");
+			}
+			
+			if (rowNum < 0) {
+				throw new DataFrameOutOfBoundsException("Row index must be greater than 0");
+			}
+			
+			this.data.get(colNum).set(rowNum, new DataItem(value));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		if (rowNum >= this.rowNames.size()) {
-			System.out.println("Row number must be lower than the amount of rows");
-			return;
-		}
-
-		if (colNum < 0) {
-			System.out.println("Column number must be greater than 0");
-			return;
-		}
-
-		if (rowNum < 0) {
-			System.out.println("Row number must be greater than 0");
-			return;
-		}
-
-		this.data.get(colNum).set(rowNum, new DataItem(value));
 	}
 	
 	public void setValue(String columnName, String rowName, DataItem value) {
@@ -11162,27 +11171,28 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 
 	public DataItem getValue(int colNum, int rowNum) {
-		if (colNum >= this.columnNames.size()) {
-			System.out.println("Column number must be lower than the amount of columns");
-			return null;
+		try {			
+			if (colNum >= this.columnNames.size()) {
+				throw new DataFrameOutOfBoundsException("Column index must be lower than the amount of columns");
+			}
+			
+			if (rowNum >= this.rowNames.size()) {
+				throw new DataFrameOutOfBoundsException("Row index must be lower than the amount of rows");
+			}
+			
+			if (colNum < 0) {
+				throw new DataFrameOutOfBoundsException("Column index must be greater than 0");
+			}
+			
+			if (rowNum < 0) {
+				throw new DataFrameOutOfBoundsException("Row index must be greater than 0");
+			}
+			
+			return this.data.get(colNum).get(rowNum);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		if (rowNum >= this.rowNames.size()) {
-			System.out.println("Row number must be lower than the amount of rows");
-			return null;
-		}
-
-		if (colNum < 0) {
-			System.out.println("Column number must be greater than 0");
-			return null;
-		}
-
-		if (rowNum < 0) {
-			System.out.println("Row number must be greater than 0");
-			return null;
-		}
-
-		return this.data.get(colNum).get(rowNum);
+		return null;
 	}
 
 	public DataItem getValue(String columnName, String rowName) {

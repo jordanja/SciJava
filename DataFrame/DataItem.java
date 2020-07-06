@@ -14,6 +14,7 @@ import java.util.stream.IntStream;
 
 import thesis.Common.CommonArray;
 import thesis.Common.CommonMath;
+import thesis.Exceptions.DataItemTypeException;
 
 
 public class DataItem {
@@ -50,17 +51,15 @@ public class DataItem {
 	}
 
 	public DataItem(Object value, StorageType type) {
-		initialize(type, value);
+		initializeObjectValue(type, value);
 	}
 
 	public DataItem(Object value) {
-		
-		
 		StorageType typeOfObject = DataItem.getStorageTypeOfObject(value);
 		if (value instanceof DataItem) {
 			this.replicateProperties((DataItem)value);
 		} else {			
-			initialize(typeOfObject, value);
+			initializeObjectValue(typeOfObject, value);
 		}
 	}
 	
@@ -102,6 +101,17 @@ public class DataItem {
 
 	public DataItem(double value) {
 		this.doubleValue = value;
+		this.type = StorageType.Double;
+	}
+	
+	// Float Value
+	public DataItem(Float value) {
+		this.doubleValue = value.doubleValue();
+		this.type = StorageType.Double;
+	}
+
+	public DataItem(float value) {
+		this.doubleValue = (double) value;
 		this.type = StorageType.Double;
 	}
 	
@@ -202,32 +212,36 @@ public class DataItem {
 		}
 	}
 	
-	private void initialize(StorageType typeToUse, Object value) {
-		this.type = typeToUse;
-		if (this.type == StorageType.String) {
-			this.stringValue = value.toString();
-		} else if (this.type == StorageType.Integer) {
-			this.intValue = Integer.valueOf(value.toString());
-		} else if (this.type == StorageType.Double) {
-			this.doubleValue = Double.valueOf(value.toString());
-		} else if (this.type == StorageType.Boolean) {
-			this.booleanValue = parseBoolean(value.toString());
-		} else if (this.type == StorageType.LocalDate) {
-			this.localDateValue = LocalDate.parse(value.toString());
-		} else if (this.type == StorageType.LocalTime) {
-			this.localTimeValue = LocalTime.parse(value.toString());
-		} else if (this.type == StorageType.LocalDateTime) {
-			this.localDateTimeValue = LocalDateTime.parse(value.toString());
-		} else if (this.type == StorageType.Period) {
-			this.periodValue = Period.parse(value.toString());
-		} else if (this.type == StorageType.Duration) {
-			this.durationValue = Duration.parse(value.toString());
-		} else if (this.type == StorageType.BigDecimal) {
-			this.bigDecimalValue = new BigDecimal(value.toString());
-		} else if (this.type == StorageType.Null) {
-		
-		} else {
-			System.out.println("You have entered an incompatible type: " + value.getClass());
+	private void initializeObjectValue(StorageType typeToUse, Object value) {
+		try {			
+			this.type = typeToUse;
+			if (this.type == StorageType.String) {
+				this.stringValue = value.toString();
+			} else if (this.type == StorageType.Integer) {
+				this.intValue = Integer.valueOf(value.toString());
+			} else if (this.type == StorageType.Double) {
+				this.doubleValue = Double.valueOf(value.toString());
+			} else if (this.type == StorageType.Boolean) {
+				this.booleanValue = parseBoolean(value.toString());
+			} else if (this.type == StorageType.LocalDate) {
+				this.localDateValue = LocalDate.parse(value.toString());
+			} else if (this.type == StorageType.LocalTime) {
+				this.localTimeValue = LocalTime.parse(value.toString());
+			} else if (this.type == StorageType.LocalDateTime) {
+				this.localDateTimeValue = LocalDateTime.parse(value.toString());
+			} else if (this.type == StorageType.Period) {
+				this.periodValue = Period.parse(value.toString());
+			} else if (this.type == StorageType.Duration) {
+				this.durationValue = Duration.parse(value.toString());
+			} else if (this.type == StorageType.BigDecimal) {
+				this.bigDecimalValue = new BigDecimal(value.toString());
+			} else if (this.type == StorageType.Null) {
+				
+			} else {
+				throw new DataItemTypeException("You have entered an incompatible type: " + value.getClass());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -238,215 +252,224 @@ public class DataItem {
 			return;
 		}
 		
-		if (this.type == StorageType.String) {
-			// Current type is String
-			switch (typeToUse) {
-				case Integer:
-					// Convert String to Integer
-					this.intValue = Integer.parseInt(this.stringValue);
-					this.stringValue = null;
-					break;
-				case Double:
-					// Convert String to Double
-					this.doubleValue = Double.parseDouble(this.stringValue);
-					this.stringValue = null;
-					break;
-				case Boolean:
-					// Convert String to Boolean
-					this.booleanValue = parseBoolean(this.stringValue);
-					this.stringValue = null;
-					break;
-				case LocalDate:
-					// Convert String to LocalDate 
-					this.localDateValue = LocalDate.parse(this.stringValue);
-					this.stringValue = null;
-					break;
-				case LocalTime:
-					// Convert String to LocalTime
-					this.localTimeValue = LocalTime.parse(this.stringValue);
-					this.stringValue = null;
-					break;
-				case LocalDateTime:
-					// Convert String to LocalDateTime
-					this.localDateTimeValue = LocalDateTime.parse(this.stringValue);
-					this.stringValue = null;
-					break;
-				case Period:
-					// Convert String to Period
-					this.periodValue = Period.parse(this.stringValue);
-					this.stringValue = null;
-					break;
-				case Duration:
-					// Convert String to LocalDateTime
-					this.durationValue = Duration.parse(this.stringValue);
-					this.stringValue = null;
-				case BigDecimal:
-					// Convert String to BigDecimal
-					this.bigDecimalValue = new BigDecimal(this.stringValue);
-					this.stringValue = null;
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
+		String exceptionString = "Can't conver from " + this.type + " to " + typeToUse;
+		try {
+
+			if (this.type == StorageType.String) {
+				// Current type is String
+				switch (typeToUse) {
+					case Integer:
+						// Convert String to Integer
+						this.intValue = Integer.parseInt(this.stringValue);
+						this.stringValue = null;
+						break;
+					case Double:
+						// Convert String to Double
+						this.doubleValue = Double.parseDouble(this.stringValue);
+						this.stringValue = null;
+						break;
+					case Boolean:
+						// Convert String to Boolean
+						this.booleanValue = parseBoolean(this.stringValue);
+						this.stringValue = null;
+						break;
+					case LocalDate:
+						// Convert String to LocalDate 
+						this.localDateValue = LocalDate.parse(this.stringValue);
+						this.stringValue = null;
+						break;
+					case LocalTime:
+						// Convert String to LocalTime
+						this.localTimeValue = LocalTime.parse(this.stringValue);
+						this.stringValue = null;
+						break;
+					case LocalDateTime:
+						// Convert String to LocalDateTime
+						this.localDateTimeValue = LocalDateTime.parse(this.stringValue);
+						this.stringValue = null;
+						break;
+					case Period:
+						// Convert String to Period
+						this.periodValue = Period.parse(this.stringValue);
+						this.stringValue = null;
+						break;
+					case Duration:
+						// Convert String to LocalDateTime
+						this.durationValue = Duration.parse(this.stringValue);
+						this.stringValue = null;
+					case BigDecimal:
+						// Convert String to BigDecimal
+						this.bigDecimalValue = new BigDecimal(this.stringValue);
+						this.stringValue = null;
+						break;
+					default:
+						throw new DataItemTypeException(exceptionString);
+				}
+				
+			} else if (this.type == StorageType.Integer) {
+				// Current type is Integer
+				switch(typeToUse) {
+					case String:
+						// Convert from Integer to String
+						this.stringValue = this.intValue.toString();
+						this.intValue = null;
+						break;
+					case Double:
+						// Convert from Integer to Double
+						this.doubleValue = this.intValue.doubleValue();
+						this.intValue = null;
+						break;
+					case BigDecimal:
+						// Convert from Integer to BigDecimal
+						this.bigDecimalValue = new BigDecimal(this.intValue);
+						this.intValue = null;
+						break;
+					default:
+						throw new DataItemTypeException(exceptionString);
+				}
+			} else if (this.type == StorageType.Double) {
+				// Current type is Double
+				switch(typeToUse) {
+					case String:
+						// Convert from Double to String
+						this.stringValue = this.doubleValue.toString();
+						this.doubleValue = null;
+						break;
+					case Integer:
+						// Convert from Double to Integer
+						this.intValue = this.doubleValue.intValue();
+						this.doubleValue = null;
+					case BigDecimal:
+						// Convert from Double to BigDecimal
+						this.bigDecimalValue = new BigDecimal(this.doubleValue);
+						this.doubleValue = null;
+						break;
+					default:
+						throw new DataItemTypeException(exceptionString);
+				}
+			} else if (this.type == StorageType.Boolean) {
+				// Current type is Boolean
+				switch(typeToUse) {
+					case Integer:
+						// Convert from Boolean to Integer
+						this.intValue = this.booleanValue ? 1 : 0;
+						this.booleanValue = null;
+						break;
+					case Double:
+						// Convert from Boolean to Double
+						this.doubleValue = this.booleanValue ? 1.0 : 0.0;
+						this.booleanValue = null;
+						break;
+					case String:
+						// Convert from Boolean to String
+						this.stringValue = this.booleanValue.toString();
+						this.booleanValue = null;
+						break;
+					default:
+						throw new DataItemTypeException(exceptionString);
+				}
+			} else if (this.type == StorageType.LocalDate) {
+				// Current type is LocalDate
+				switch(typeToUse) {
+					case String:
+						// Convert LocalDate to String
+						this.stringValue = this.localDateValue.toString();
+						this.localDateValue = null;
+						break;
+					case LocalDateTime:
+						// Convert LocalDate to LocalDateTime
+						this.localDateTimeValue = this.localDateValue.atStartOfDay();
+						this.localDateValue = null;
+						break;
+					default:
+						throw new DataItemTypeException(exceptionString);
+				}
+			} else if (this.type == StorageType.LocalTime) {
+				// Current type is LocalTime
+				switch(typeToUse) {
+					case String:
+						// Convert LocalTime to String
+						this.stringValue = this.localTimeValue.toString();
+						this.localTimeValue = null;
+						break;
+					default:
+						throw new DataItemTypeException(exceptionString);
+				}
+			} else if (this.type == StorageType.LocalDateTime) {
+				// Current type is LocalDateTime
+				switch(typeToUse) {
+					case String:
+						// Convert LocalDateTime to String
+						this.stringValue = this.localDateTimeValue.toString();
+						this.localDateTimeValue = null;
+						break;
+					case LocalDate:
+						// Convert LocalDateTime to LocalDate
+						this.localDateValue = this.localDateTimeValue.toLocalDate();
+						this.localDateTimeValue = null;
+						break;
+					default:
+						throw new DataItemTypeException(exceptionString);
+				}
+			} else if (this.type == StorageType.Period) {
+				// Current type is Period
+				switch(typeToUse) {
+					case String:
+						// Convert from Period to String;
+						this.stringValue = this.periodValue.toString();
+						this.periodValue = null;
+						break;
+					default:
+						throw new DataItemTypeException(exceptionString);
+				}
+			} else if (this.type == StorageType.Duration) {
+				// Current type is Duration
+				switch(typeToUse) {
+					case String:
+						// Convert from Duration to String;
+						this.stringValue = this.durationValue.toString();
+						this.durationValue = null;
+						break;
+					default:
+						throw new DataItemTypeException(exceptionString);
+				}
+			} else if (this.type == StorageType.BigDecimal) {
+				// Current type is BigDecimal
+				switch(typeToUse) {
+					case String:
+						// Convert from BigDecimal to String
+						this.stringValue = this.bigDecimalValue.toPlainString();
+						this.bigDecimalValue = null;
+						break;
+					case Integer:
+						// Convert from BigDecimal to Integer
+						this.intValue = this.bigDecimalValue.intValue();
+						this.bigDecimalValue = null;
+						break;
+					case Double:
+						// Convert from BigDecimal to Double
+						this.doubleValue = this.bigDecimalValue.doubleValue();
+						this.bigDecimalValue = null;
+						break;
+					default:
+						throw new DataItemTypeException(exceptionString);
+				}
+			} else if (this.type == StorageType.Null) {
+				this.stringValue = null;
+				this.intValue = null;
+				this.doubleValue = null;
+				this.booleanValue = null;
+				this.localDateValue = null;
+				this.localTimeValue = null;
+				this.localDateTimeValue = null;
+				this.periodValue = null;
+				this.durationValue = null;
+				this.bigDecimalValue = null;
 			}
-			
-		} else if (this.type == StorageType.Integer) {
-			// Current type is Integer
-			switch(typeToUse) {
-				case String:
-					// Convert from Integer to String
-					this.stringValue = this.intValue.toString();
-					this.intValue = null;
-					break;
-				case Double:
-					// Convert from Integer to Double
-					this.doubleValue = this.intValue.doubleValue();
-					this.intValue = null;
-				case BigDecimal:
-					// Convert from Integer to BigDecimal
-					this.bigDecimalValue = new BigDecimal(this.intValue);
-					this.intValue = null;
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-		} else if (this.type == StorageType.Double) {
-			// Current type is Double
-			switch(typeToUse) {
-				case String:
-					// Convert from Double to String
-					this.stringValue = this.doubleValue.toString();
-					this.doubleValue = null;
-					break;
-				case Integer:
-					// Convert from Double to Integer
-					this.intValue = this.doubleValue.intValue();
-					this.doubleValue = null;
-				case BigDecimal:
-					// Convert from Double to BigDecimal
-					this.bigDecimalValue = new BigDecimal(this.doubleValue);
-					this.doubleValue = null;
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-		} else if (this.type == StorageType.Boolean) {
-			// Current type is Boolean
-			switch(typeToUse) {
-				case Integer:
-					// Convert from Boolean to Integer
-					this.intValue = this.booleanValue ? 1 : 0;
-					this.booleanValue = null;
-					break;
-				case Double:
-					// Convert from Boolean to Double
-					this.doubleValue = this.booleanValue ? 1.0 : 0.0;
-					this.booleanValue = null;
-					break;
-				case String:
-					// Convert from Boolean to String
-					this.stringValue = this.booleanValue.toString();
-					this.booleanValue = null;
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-		} else if (this.type == StorageType.LocalDate) {
-			// Current type is LocalDate
-			switch(typeToUse) {
-				case String:
-					// Convert LocalDate to String
-					this.stringValue = this.localDateValue.toString();
-					this.localDateValue = null;
-					break;
-				case LocalDateTime:
-					// Convert LocalDate to LocalDateTime
-					this.localDateTimeValue = this.localDateValue.atStartOfDay();
-					this.localDateValue = null;
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-		} else if (this.type == StorageType.LocalTime) {
-			// Current type is LocalTime
-			switch(typeToUse) {
-				case String:
-					// Convert LocalTime to String
-					this.stringValue = this.localTimeValue.toString();
-					this.localTimeValue = null;
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-		} else if (this.type == StorageType.LocalDateTime) {
-			// Current type is LocalDateTime
-			switch(typeToUse) {
-				case String:
-					// Convert LocalDateTime to String
-					this.stringValue = this.localDateTimeValue.toString();
-					this.localDateTimeValue = null;
-					break;
-				case LocalDate:
-					// Convert LocalDateTime to LocalDate
-					this.localDateValue = this.localDateTimeValue.toLocalDate();
-					this.localDateTimeValue = null;
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-		} else if (this.type == StorageType.Period) {
-			// Current type is Period
-			switch(typeToUse) {
-				case String:
-					// Convert from Period to String;
-					this.stringValue = this.periodValue.toString();
-					this.periodValue = null;
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-		} else if (this.type == StorageType.Duration) {
-			// Current type is Duration
-			switch(typeToUse) {
-				case String:
-					// Convert from Duration to String;
-					this.stringValue = this.durationValue.toString();
-					this.durationValue = null;
-					break;
-				default:
-					System.out.println("Can't conver from " + this.type + " to " + typeToUse);
-			}
-		} else if (this.type == StorageType.BigDecimal) {
-			// Current type is BigDecimal
-			switch(typeToUse) {
-				case String:
-					// Convert from BigDecimal to String
-					this.stringValue = this.bigDecimalValue.toPlainString();
-					this.bigDecimalValue = null;
-					break;
-				case Integer:
-					// Convert from BigDecimal to Integer
-					this.intValue = this.bigDecimalValue.intValue();
-					this.bigDecimalValue = null;
-					break;
-				case Double:
-					// Convert from BigDecimal to Double
-					this.doubleValue = this.bigDecimalValue.doubleValue();
-					this.bigDecimalValue = null;
-					break;
-			}
-		} else if (this.type == StorageType.Null) {
-			this.stringValue = null;
-			this.intValue = null;
-			this.doubleValue = null;
-			this.booleanValue = null;
-			this.localDateValue = null;
-			this.localTimeValue = null;
-			this.localDateTimeValue = null;
-			this.periodValue = null;
-			this.durationValue = null;
-			this.bigDecimalValue = null;
+			this.type = typeToUse;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		this.type = typeToUse;
 
 	}
 
@@ -482,7 +505,15 @@ public class DataItem {
 	}
 
 	private Boolean parseBoolean(String str) {
-		return (str.equals("True") || str.equals("true"));
+		return (str.equals("True") || 
+				str.equals("true") ||
+				str.equals("T") ||
+				str.equals("t") ||
+				str.equals("Yes") ||
+				str.equals("yes") || 
+				str.equals("Y") ||
+				str.equals("y")
+		);
 	}
 
 	public static DataItem[] convertToDataItemList(Object[] values) {
@@ -1292,14 +1323,19 @@ public class DataItem {
 	
 
 	public void squareRoot() {
-		if (this.type == StorageType.Double) {
-			this.doubleValue = Math.sqrt(this.doubleValue);
-		} else if (this.type == StorageType.Integer) {
-			this.doubleValue = Math.sqrt(this.intValue);
-			this.type = StorageType.Double;
-			this.intValue = 0;
-		} else if (this.type == StorageType.BigDecimal) {
-			System.out.println("square root unavailble.");
+		
+		try {			
+			if (this.type == StorageType.Double) {
+				this.doubleValue = Math.sqrt(this.doubleValue);
+			} else if (this.type == StorageType.Integer) {
+				this.doubleValue = Math.sqrt(this.intValue);
+				this.type = StorageType.Double;
+				this.intValue = 0;
+			} else if (this.type == StorageType.BigDecimal) {
+				throw new Exception("square root unavailble for type BigDecimal.");
+			}
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 	}
 	
