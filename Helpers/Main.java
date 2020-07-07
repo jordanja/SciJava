@@ -37,6 +37,7 @@ import thesis.Charter.Charts.PieChart;
 import thesis.Charter.Charts.PolarAreaChart;
 import thesis.Charter.Charts.RadarChart;
 import thesis.Charter.Charts.ScatterChart;
+import thesis.Charter.Charts.StackedAreaChart;
 import thesis.Charter.Charts.StackedBarChart;
 import thesis.Charter.Charts.StripChart;
 import thesis.Charter.Legend.Legend;
@@ -60,7 +61,7 @@ public class Main {
 	public static void main(String[] args) {
 //		correlationChart();
 //		histogram();
-//		stackedAreaChart();
+//		stackedBarChart();
 //		pieChart();
 //		stripCharting();
 //		boxCharting();
@@ -72,9 +73,10 @@ public class Main {
 //		radarChart();
 //		polarAreaChart();
 //		gaugeChart();
+		stackedAreaChart();
 //		scatterChartingDiamond();
 //		multiChart();
-		dfPlay();
+//		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 
@@ -112,6 +114,20 @@ public class Main {
 		System.out.println(df);
 	}
 
+	private static void stackedAreaChart() {
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("Day", StorageType.Integer);
+		columnTypes.put("Team", StorageType.String);
+		columnTypes.put("Points", StorageType.Integer);
+		
+		DataFrame df = DataFrame.readCSV("Datasets/stacked-area-chart.csv", true, false, columnTypes);
+		
+		StackedAreaChart sac = new StackedAreaChart(df, "Day", "Points", "Team");
+		sac.create();
+		sac.writeImage("Chart Images/Stacked Area Chart.png");
+
+	}
+	
 	private static void histogram() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("tree_heights", StorageType.Double);
@@ -124,7 +140,7 @@ public class Main {
 		hc.setStyle(Styles.Seaborn);
 		
 		hc.create();
-		hc.WriteFile("Chart Images/Histogram Chart.png");
+		hc.writeImage("Chart Images/Histogram Chart.png");
 		
 	}
 
@@ -146,7 +162,7 @@ public class Main {
 				Color.BLACK, new Font("Dialog", Font.PLAIN, 30), 0);
 		gc.drawArrow(200, 150, 100, 250, Color.BLACK, 2);
 		
-		gc.WriteFile("Chart Images/Gauge Chart.png");
+		gc.writeImage("Chart Images/Gauge Chart.png");
 	}
 
 	private static void polarAreaChart() {
@@ -165,7 +181,7 @@ public class Main {
 		pac.setStyle(Styles.ChartJS);
 		
 		pac.create();
-		pac.WriteFile("Chart Images/Polar Area Chart.png");
+		pac.writeImage("Chart Images/Polar Area Chart.png");
 	}
 
 	private static void radarChart() {
@@ -186,10 +202,10 @@ public class Main {
 		rc.setStyle(Styles.Nighttime);
 		
 		rc.create();
-		rc.WriteFile("Chart Images/Radar Chart.png");
+		rc.writeImage("Chart Images/Radar Chart.png");
 	}
 
-	private static void stackedAreaChart() {
+	private static void stackedBarChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("Quarter", StorageType.String);
 		columnTypes.put("Region", StorageType.String);
@@ -205,7 +221,7 @@ public class Main {
 		sbc.setStyle(Styles.Nighttime);
 		
 		sbc.create();
-		sbc.WriteFile("Chart Images/Stacked Bar Chart.png");
+		sbc.writeImage("Chart Images/Stacked Bar Chart.png");
 	}
 	
 	public static Chart getPieChart() {
@@ -233,7 +249,7 @@ public class Main {
 		Chart pc = getPieChart();
 		
 		pc.create();
-		pc.WriteFile("Chart Images/Pie Chart.png");
+		pc.writeImage("Chart Images/Pie Chart.png");
 	}
 	
 	public static Chart getStripChart() {
@@ -273,7 +289,7 @@ public class Main {
 		Chart sc = getStripChart();
 		
 		sc.create();
-		sc.WriteFile("Chart Images/Strip Chart.png");
+		sc.writeImage("Chart Images/Strip Chart.png");
 	}
 
 	private static Chart getBoxChart() {
@@ -308,7 +324,7 @@ public class Main {
 		Chart bc = getBoxChart();
 
 		bc.create();
-		bc.WriteFile("Chart Images/Box Chart.png");
+		bc.writeImage("Chart Images/Box Chart.png");
 	}
 
 	public static void dateLineCharting() {
@@ -362,7 +378,7 @@ public class Main {
 //		lc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 		Chart lc = getLineChart();
 		lc.create();
-		lc.WriteFile("Chart Images/Line Chart.png");
+		lc.writeImage("Chart Images/Line Chart.png");
 
 	}
 
@@ -415,7 +431,7 @@ public class Main {
 		bc.setStyle(Styles.Nighttime);
 
 		bc.create();
-		bc.WriteFile("Chart Images/Bar Chart.png");
+		bc.writeImage("Chart Images/Bar Chart.png");
 	}
 	
 	private static void scatterChartingDiamond() {
@@ -429,7 +445,7 @@ public class Main {
 		themeCategorical.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 		
 		themeCategorical.create();
-		themeCategorical.WriteFile("Chart Images/Scatter Chart (diamond).png");
+		themeCategorical.writeImage("Chart Images/Scatter Chart (diamond).png");
 	}
 	
 	private static void bubbleChart() {
@@ -450,7 +466,7 @@ public class Main {
 		sc.setBubbleSize("wealth");
 		
 		sc.create();
-		sc.WriteFile("Chart Images/Bubble Chart.png");
+		sc.writeImage("Chart Images/Bubble Chart.png");
 
 	}
 
@@ -538,12 +554,12 @@ public class Main {
 		Chart sc = getScatterChart();
 
 		sc.create();
-		sc.WriteFile("Chart Images/Scatter Chart.png");
+		sc.writeImage("Chart Images/Scatter Chart.png");
 
 	}
 
 	private static void dfPlay() {
-		DataFrame df = play();
+//		DataFrame df = play();
 //		DataFrame df = csvConstructor();
 //		DataFrame df = hashColsConstructor();
 //		DataFrame df = hashRowsConstructor();
@@ -555,7 +571,7 @@ public class Main {
 //		DataFrame df = rowColNameEmpltyArray();
 
 //		DataFrame df = time();
-		
+		DataFrame df = groupBy();
 		System.out.println(df);
 
 	}
@@ -632,6 +648,8 @@ public class Main {
 		df.setColumnValues(1, temperatures);
 		df.setColumnValues(2, humidity);
 
+		System.out.println(df);
+		
 		GroupBy gb = df.groupBy("city");
 		
 		DataFrame ave = gb.average();
@@ -703,7 +721,7 @@ public class Main {
 
 		DataFrame df = new DataFrame(new String[] {"one", "two", "three"}, arrs, true);
 		
-		df.setColumnType(0, StorageType.LocalDate);
+		
 		
 		return df;
 	}

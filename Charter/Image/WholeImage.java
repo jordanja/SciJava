@@ -68,11 +68,11 @@ public class WholeImage {
 		return this.chartImage.getHeight();
 	}
 	
-	public void WriteFile(String fileLoc) {
+	public void writeImage(String fileLoc) {
 		try {
 		    ImageIO.write(this.chartImage, "png", new File(fileLoc));
 		} catch (IOException e) {
-		   
+		   e.printStackTrace();
 		}
 	}
 }

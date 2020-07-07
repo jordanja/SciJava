@@ -185,5 +185,9 @@ public abstract class Plot {
 		}
 	}
 	
+	public Color[] getColorPalette() {
+		return colorPalette;
+	}
+	
 	
 }

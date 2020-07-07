@@ -17,7 +17,7 @@ import thesis.Common.CommonHashMap;
 import thesis.Common.CommonMath;
 import thesis.Helpers.Palette;
 
-public class StackedBarPlot  extends Plot{
+public class StackedBarPlot extends Plot{
 
 	
 	private double barWidthPercentage = 0.5f;

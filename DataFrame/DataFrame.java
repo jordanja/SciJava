@@ -3624,6 +3624,18 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertRows(this.rowNames.size(), numRows);
 	}
 	
+	public void dropNonNumberColumns() {
+		List<Integer> indices = new ArrayList<Integer>();
+		for (int columnIndex = 0; columnIndex < this.getNumColumns(); columnIndex++) {
+			if (!(this.getTypeOfColumn(columnIndex) == StorageType.Integer || 
+				this.getTypeOfColumn(columnIndex) == StorageType.Double ||
+				this.getTypeOfColumn(columnIndex) == StorageType.BigDecimal)) {
+				indices.add(columnIndex);
+			}
+		}
+		this.dropColumns(indices.stream().mapToInt(i -> i).toArray());
+	}
+	
 	public void dropColumn(int columnIndexToDrop) {
 		this.data.remove(columnIndexToDrop);
 		this.columnNames.remove(columnIndexToDrop);
@@ -11907,7 +11919,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	@Override
 	public Iterator<ArrayList<DataItem>> iterator() {
-
 		return new DataFrameIterator();
 	}
 
