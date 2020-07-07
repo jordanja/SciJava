@@ -28,6 +28,8 @@ public class StackedAreaChart extends XYChart {
 	private String yColumnName = "";
 	private String colorCodeColumnName = "";
 	
+	private String[] order = new String[0];
+	
 	public StackedAreaChart(DataFrame dataFrame, String xAxis, String yAxis, String colorCodeLabel) {
 		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
 
@@ -59,6 +61,7 @@ public class StackedAreaChart extends XYChart {
 		
 		GroupBy gb = this.dataFrame.groupBy(this.xColumnName);
 		
+		String[] orderToUse = CommonArray.orderArrayByOtherArray(hueValues, this.order);
 		
 		Double minX = CommonArray.minValue(xValues);
 		Double maxX = CommonArray.maxValue(xValues);
@@ -90,7 +93,7 @@ public class StackedAreaChart extends XYChart {
 		
 		this.axis.drawAxisTicks(g, this.cm);
 		
-		this.plot.drawPlot(g, this.axis, this.dataFrame, this.xColumnName, this.yColumnName, this.colorCodeColumnName, this.cm);
+		this.plot.drawPlot(g, this.axis, this.dataFrame, this.xColumnName, this.yColumnName, this.colorCodeColumnName, orderToUse, this.cm);
 	
 		this.axis.drawXAxisLabel(g, this.cm);
 		this.axis.drawYAxisLabel(g, this.cm);
@@ -107,12 +110,20 @@ public class StackedAreaChart extends XYChart {
 	public void setStyle(Styles style) {
 		Style styleToSet = StyleFactory.getStyle(style);
 		this.axis.setStyle(styleToSet);
-//		this.plot.setStyle(styleToSet);
+		this.plot.setStyle(styleToSet);
 		this.cm.setStyle(styleToSet);
 		this.legend.setStyle(styleToSet);
 		
 		this.setTitleFont(styleToSet.getTitleFont());
 		this.setTitleColor(styleToSet.getTitleColor());
 		this.setImageBackgroundColor(styleToSet.getChartBackgroundColor());
+	}
+	
+	public String[] getOrder() {
+		return order;
+	}
+
+	public void setOrder(String[] order) {
+		this.order = order;
 	}
 }

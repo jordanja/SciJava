@@ -123,6 +123,7 @@ public class Main {
 		DataFrame df = DataFrame.readCSV("Datasets/stacked-area-chart.csv", true, false, columnTypes);
 		
 		StackedAreaChart sac = new StackedAreaChart(df, "Day", "Points", "Team");
+		sac.setStyle(Styles.Nighttime);
 		sac.create();
 		sac.writeImage("Chart Images/Stacked Area Chart.png");
 

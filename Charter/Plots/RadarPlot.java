@@ -38,7 +38,6 @@ public class RadarPlot extends Plot{
 
 				int x = angleToXPos(angle, data.get(category).get(valueCategory), Double.valueOf(ticks[ticks.length - 1]).intValue(), axisRadius, cm);
 				int y = angleToYPos(angle, data.get(category).get(valueCategory), Double.valueOf(ticks[ticks.length - 1]).intValue(), axisRadius, cm);
-				PathIterator path = radar.getPathIterator(null);
 				
 				if (valueCategoryCount == 0) {
 					radar.moveTo(x, y);					
