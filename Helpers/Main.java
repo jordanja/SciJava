@@ -65,7 +65,7 @@ public class Main {
 //		pieChart();
 //		stripCharting();
 //		boxCharting();
-//		lineCharting();
+		lineCharting();
 //		dateLineCharting();
 //		barCharting();
 //		scatterCharting();
@@ -73,7 +73,7 @@ public class Main {
 //		radarChart();
 //		polarAreaChart();
 //		gaugeChart();
-		stackedAreaChart();
+//		stackedAreaChart();
 //		scatterChartingDiamond();
 //		multiChart();
 //		dfPlay();
@@ -123,7 +123,7 @@ public class Main {
 		DataFrame df = DataFrame.readCSV("Datasets/stacked-area-chart.csv", true, false, columnTypes);
 		
 		StackedAreaChart sac = new StackedAreaChart(df, "Day", "Points", "Team");
-		sac.setStyle(Styles.Nighttime);
+		sac.setStyle(Styles.InfoGram);
 		sac.create();
 		sac.writeImage("Chart Images/Stacked Area Chart.png");
 
@@ -351,7 +351,7 @@ public class Main {
 		DataFrame df = DataFrame.readCSV("Datasets/fmri.csv", true, false, columnTypes);
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
-		lc.setStyle(Styles.Seaborn);
+		lc.setStyle(Styles.InfoGram);
 		lc.colorCode("event");
 		return lc;
 	}

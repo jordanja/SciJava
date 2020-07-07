@@ -6,7 +6,8 @@ public enum Styles {
 	Excel, 
 	ChartJS, 
 	Nighttime, 
-	Kids
+	Kids,
+	InfoGram
 };
 
 	

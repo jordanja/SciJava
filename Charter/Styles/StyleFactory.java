@@ -14,6 +14,8 @@ public class StyleFactory {
 			return new NighttimeStyle();
 		} else if (style == Styles.Kids) {
 			return new KidsStyle();
+		} else if (style == Styles.InfoGram) {
+			return new InfoGramStyle();
 		}
 		return null;
 	}
