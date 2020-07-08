@@ -9678,7 +9678,7 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public int numUniqueInColumn(int columnIndex) {
-		double[] column = this.getColumnAsDoubleArray(columnIndex);
+		String[] column = this.getColumnAsStringArray(columnIndex);
 		return CommonArray.numUnique(column);
 	}
 

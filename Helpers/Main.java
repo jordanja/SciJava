@@ -65,7 +65,7 @@ public class Main {
 //		pieChart();
 //		stripCharting();
 //		boxCharting();
-		lineCharting();
+//		lineCharting();
 //		dateLineCharting();
 //		barCharting();
 //		scatterCharting();
@@ -76,7 +76,7 @@ public class Main {
 //		stackedAreaChart();
 //		scatterChartingDiamond();
 //		multiChart();
-//		dfPlay();
+		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 
@@ -649,6 +649,8 @@ public class Main {
 		df.setColumnValues(1, temperatures);
 		df.setColumnValues(2, humidity);
 
+		df.swapTwoColumns(0, 1);
+		
 		System.out.println(df);
 		
 		GroupBy gb = df.groupBy("city");
