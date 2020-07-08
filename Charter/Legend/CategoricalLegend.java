@@ -57,6 +57,10 @@ public class CategoricalLegend extends Legend {
 	private int legendOutlineWidth = 1;
 	private Color legendOutlineColor = Color.BLACK;
 	
+	private boolean drawHueValueOutline = false;
+	private Color hueValueOutlienColor = Color.black;
+	private int hueValueOutlineWidth = 1;
+	
 	public void setLegendData(LegendData legendData) {
 		this.legendData = legendData;
 	}
@@ -68,7 +72,7 @@ public class CategoricalLegend extends Legend {
 			this.hueLabelWidth = DrawString.getStringWidth(this.legendData.getColorLabel(), this.labelFont);
 			this.hueLabelHeight = DrawString.getStringHeight(this.legendData.getColorLabel(), this.labelFont);
 
-			String[] colorValues = this.legendData.getColorData().keySet().toArray(new String[0]);
+			String[] colorValues = this.legendData.getColorDataLabels();
 			this.widestHueValueWidth = DrawString.maxWidthOfStringInList(colorValues, this.valueFont, 0);
 			this.maxHueValueHeight = DrawString.maxHeightOfStringInList(colorValues, this.valueFont, 0);
 		} else {
@@ -127,7 +131,8 @@ public class CategoricalLegend extends Legend {
 					legendBottom + this.getLegendBottomToHueLabelBottomHeight());
 
 			int hueCount = 0;
-			for (String hueValue : this.legendData.getColorData().keySet()) {
+			String[] hueLabelValues = this.legendData.getColorDataLabels();
+			for (String hueValue : hueLabelValues) {
 				DrawString.setTextStyle(this.legendTextColor, this.valueFont, 0);
 				DrawString.setAlignment(xAlignment.LeftAlign, yAlignment.BottomAlign);
 				DrawString.write(g, hueValue, cm.imageLeftToLegendLeftWidth() + this.getLegendLeftToTextLeft(),
@@ -139,6 +144,11 @@ public class CategoricalLegend extends Legend {
 						- this.dataPointDiameter / 2;
 				int y = legendBottom + getLegendBottomToHueValueBottomHeight(hueCount);
 				g.fillOval(x, y, this.dataPointDiameter, this.dataPointDiameter);
+				if (this.drawHueValueOutline) {
+					g.setColor(this.hueValueOutlienColor);
+					g.setStroke(new BasicStroke(this.hueValueOutlineWidth));
+					g.drawOval(x, y, this.dataPointDiameter, this.dataPointDiameter);
+				}
 				hueCount++;
 			}
 
@@ -502,6 +512,30 @@ public class CategoricalLegend extends Legend {
 		
 		this.legendTextColor = styleToSet.getLegendTextColor();
 		this.backgroundColor = styleToSet.getLegendBackgroundColor();
+	}
+
+	public boolean getDrawHueValueOutline() {
+		return drawHueValueOutline;
+	}
+
+	public void setDrawHueValueOutline(boolean drawHueValueOutline) {
+		this.drawHueValueOutline = drawHueValueOutline;
+	}
+
+	public Color getHueValueOutlienColor() {
+		return hueValueOutlienColor;
+	}
+
+	public void setHueValueOutlienColor(Color hueValueOutlienColor) {
+		this.hueValueOutlienColor = hueValueOutlienColor;
+	}
+
+	public int getHueValueOutlineWidth() {
+		return hueValueOutlineWidth;
+	}
+
+	public void setHueValueOutlineWidth(int hueValueOutlineWidth) {
+		this.hueValueOutlineWidth = hueValueOutlineWidth;
 	}
 
 }

@@ -1,5 +1,6 @@
 package thesis.DataFrame;
 
+import java.awt.Color;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -30,7 +31,8 @@ public class DataItem {
 		LocalDateTime, 
 		Period,
 		Duration,
-		BigDecimal
+		BigDecimal,
+		Color
 	};
 	
 	private StorageType type;
@@ -45,6 +47,7 @@ public class DataItem {
 	private Period periodValue;
 	private Duration durationValue;
 	private BigDecimal bigDecimalValue;
+	private Color colorValue;
 
 	public DataItem() {
 		this.type = StorageType.Null;
@@ -186,6 +189,16 @@ public class DataItem {
 		}
 	}
 	
+	// BigDecimal Value
+	public DataItem(Color value) {
+		if (value != null) {
+			this.colorValue = value;
+			this.type = StorageType.Color;
+		} else {
+			this.type = StorageType.Null;
+		}
+	}
+	
 
 	private void replicateProperties(DataItem item) {
 		this.type = item.getType();
@@ -209,6 +222,8 @@ public class DataItem {
 			this.durationValue = item.getDurationValue();
 		} else if (this.type == StorageType.BigDecimal) {
 			this.bigDecimalValue = item.getBigDecimalValue();
+		} else if (this.type == StorageType.Color) {
+			this.colorValue = item.getColorValue();
 		}
 	}
 	
@@ -235,6 +250,8 @@ public class DataItem {
 				this.durationValue = Duration.parse(value.toString());
 			} else if (this.type == StorageType.BigDecimal) {
 				this.bigDecimalValue = new BigDecimal(value.toString());
+			} else if (this.type == StorageType.Color) {
+				this.colorValue = (Color) value;
 			} else if (this.type == StorageType.Null) {
 				
 			} else {
@@ -454,6 +471,16 @@ public class DataItem {
 					default:
 						throw new DataItemTypeException(exceptionString);
 				}
+			} else if (this.type == StorageType.Color) {
+				// Current type if Color
+				switch(typeToUse) {
+					case String:
+						// Convert from Color to String
+						this.stringValue = this.colorValue.toString();
+						break;
+					default:
+						throw new DataItemTypeException(exceptionString);
+				}
 			} else if (this.type == StorageType.Null) {
 				this.stringValue = null;
 				this.intValue = null;
@@ -465,6 +492,7 @@ public class DataItem {
 				this.periodValue = null;
 				this.durationValue = null;
 				this.bigDecimalValue = null;
+				this.colorValue = null;
 			}
 			this.type = typeToUse;
 		} catch (Exception e) {
@@ -498,6 +526,8 @@ public class DataItem {
 			return this.durationValue;
 		} else if (this.type == StorageType.BigDecimal) {
 			return this.bigDecimalValue;
+		} else if (this.type == StorageType.Color) {
+			return this.colorValue;
 		} else if (this.type == StorageType.Null) {
 			return "null";
 		}
@@ -586,6 +616,10 @@ public class DataItem {
 	
 	public BigDecimal getBigDecimalValue() {
 		return this.bigDecimalValue;
+	}
+	
+	public Color getColorValue() {
+		return this.colorValue;
 	}
 	
 	public String getValueConvertedToString() {
@@ -1146,6 +1180,13 @@ public class DataItem {
 		return false;
 	}
 	
+	public boolean equal(Color value) {
+		if (this.type == StorageType.Color) {
+			return this.colorValue.equals(value);
+		}
+		return false;
+	}
+	
 	public boolean equal(DataItem value) {
 		if (value.getType() == StorageType.Integer) {
 			return equal(value.getIntegerValue());
@@ -1153,6 +1194,8 @@ public class DataItem {
 			return equal(value.getDoubleValue());
 		} else if (value.getType() == StorageType.BigDecimal) {
 			return equal(value.getBigDecimalValue());
+		} else if (value.getType() == StorageType.Color) {
+			return equal(value.getColorValue());
 		}
 		return false;
 	}
@@ -1417,6 +1460,8 @@ public class DataItem {
 			return StorageType.Period;
 		} else if (cls == BigDecimal.class) {
 			return StorageType.BigDecimal;
+		} else if (cls == Color.class) {
+			return StorageType.Color;
 		} else {
 			return StorageType.Null;
 		}
@@ -1683,6 +1728,8 @@ public class DataItem {
 			newDataItem = new DataItem(this.durationValue);
 		} else if (this.type == StorageType.BigDecimal) {
 			newDataItem = new DataItem(this.bigDecimalValue);
+		} else if (this.type == StorageType.Color) {
+			newDataItem = new DataItem(this.colorValue);
 		} else {
 			newDataItem = new DataItem();
 		}
@@ -1714,6 +1761,8 @@ public class DataItem {
 					return this.durationValue.equals(formatted.durationValue);
 				} else if (this.getType() == StorageType.BigDecimal) {
 					return this.bigDecimalValue.equals(formatted.bigDecimalValue);
+				} else if (this.getType() == StorageType.Color) {
+					return this.colorValue.equals(formatted.colorValue);
 				} else if (this.getType() == StorageType.Null) {
 					return true;
 				}

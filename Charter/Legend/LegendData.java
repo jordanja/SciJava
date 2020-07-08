@@ -30,6 +30,7 @@ public class LegendData {
 	 */
 	private String colorLabel;
 	private HashMap<String, Color> colorData;
+	private String[] colorValueOrder;
 	
 	private String sizeLabel;
 	private HashMap<String, Integer> sizeData;
@@ -58,7 +59,12 @@ public class LegendData {
 		this.colorData = colorData;
 	}
 	
+	public String[] getColorDataLabels() {
+		return this.colorValueOrder;
+	}
+	
 	public void setColorData(String[] values, Color[] colors) {
+		this.colorValueOrder = values;
 		this.colorData = new HashMap<String, Color>();
 		for (int valueCount = 0; valueCount < values.length; valueCount++) {
 			this.colorData.put(values[valueCount], colors[valueCount % colors.length]);

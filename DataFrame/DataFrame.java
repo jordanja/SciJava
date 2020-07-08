@@ -1,5 +1,6 @@
 package thesis.DataFrame;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -3962,6 +3963,19 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public Duration[] getColumnAsDurationArray(String name) {
 		int index = this.columnNames.indexOf(name);
 		return getColumnAsDurationArray(index);
+	}
+	
+	public Color[] getColumnAsColorArray(int index) {
+		Color[] column = new Color[this.rowNames.size()];
+		for (int i = 0; i < column.length; i++) {
+			column[i] = this.data.get(index).get(i).getColorValue();
+		}
+		return column;
+	}
+	
+	public Color[] getColumnAsColorArray(String name) {
+		int index = this.columnNames.indexOf(name);
+		return getColumnAsColorArray(index);
 	}
 
 	public List<DataItem> getColumnAsDataItemList(int index) {
@@ -10104,11 +10118,18 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			if (rowNum < 0) {
 				throw new DataFrameOutOfBoundsException("Row index must be greater than 0");
 			}
-			
 			this.data.get(colNum).set(rowNum, new DataItem(value));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setValue(String columnName, int rowNum, Object value) {
+		setValue(this.columnNames.indexOf(columnName), rowNum, value);
+	}
+	
+	public void setValue(int columnNum, String rowName, Object value) {
+		setValue(columnNum, this.rowNames.indexOf(rowName), value);
 	}
 	
 	public void setValue(String columnName, String rowName, DataItem value) {
