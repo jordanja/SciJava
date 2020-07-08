@@ -3,6 +3,7 @@ package thesis.Charter.Charts;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.Legend.CategoricalLegend;
@@ -83,7 +84,13 @@ public class USAMapChart extends Chart {
 			
 			
 		} else if (this.chartType == usaMapType.Category) {
-			String[] uniqueCategories = CommonArray.removeDuplicates(this.dataFrame.getColumnAsStringArray(this.valuesColumnName));
+			legendValues = CommonArray.removeDuplicates(this.dataFrame.getColumnAsStringArray(this.valuesColumnName));
+			legendColors = Arrays.copyOf(this.plot.getColorPalette(), legendValues.length);
+			
+			String[] values = this.dataFrame.getColumnAsStringArray(this.valuesColumnName);
+			for (int rowIndex = 0; rowIndex < this.dataFrame.getNumRows(); rowIndex++) {
+				dataDF.setValue("color", rowIndex, legendColors[CommonArray.indexOf(legendValues, values[rowIndex])]);
+			}
 		}
 		
 		LegendData legendData = new LegendData();
@@ -94,6 +101,9 @@ public class USAMapChart extends Chart {
 		this.legend.setHueValueOutlienColor(Color.BLACK);
 		this.legend.setHueValueOutlineWidth(1);
 		this.legend.calculateLegend();
+		
+		this.cm.setPlotWidth(this.plot.getSquareSize() * 11);
+		this.cm.setPlotHeight(this.plot.getSquareSize() * 8);
 		
 		this.cm.calculateChartImageMetrics(this.legend, this.getTitle(), this.getTitleFont());
 		
@@ -110,7 +120,7 @@ public class USAMapChart extends Chart {
 				
 		this.plot.drawPlotOutline(g, this.cm);
 		
-		this.plot.drawPlot(g, dataDF, statesColumnName, valuesColumnName, this.cm);
+		this.plot.drawPlot(g, dataDF, statesColumnName, this.cm);
 		
 		this.legend.drawLegend(g, this.cm);
 

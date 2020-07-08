@@ -152,14 +152,22 @@ public class Main {
 	
 	private static void usaMapChart() {
 		
+//		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+//		columnTypes.put("state", StorageType.String);
+//		columnTypes.put("abbreviation", StorageType.String);
+//		columnTypes.put("cases-per-day", StorageType.Integer);
+//		DataFrame df = DataFrame.readCSV("Datasets/usa-map-fake-gradient.csv", true, false, columnTypes);
+//		USAMapChart usa = new USAMapChart(df, "abbreviation", "cases-per-day", usaMapType.Gradient);
+		
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("state", StorageType.String);
 		columnTypes.put("abbreviation", StorageType.String);
-		columnTypes.put("cases-per-day", StorageType.Integer);
-		DataFrame df = DataFrame.readCSV("Datasets/usa-map-gradient.csv", true, false, columnTypes);
+		columnTypes.put("open-carry-status", StorageType.String);
+		DataFrame df = DataFrame.readCSV("Datasets/usa-map-category.csv", true, false, columnTypes);
+		USAMapChart usa = new USAMapChart(df, "abbreviation", "open-carry-status", usaMapType.Category);
+		
 		System.out.println(df.head());
 		
-		USAMapChart usa = new USAMapChart(df, "abbreviation", "cases-per-day", usaMapType.Gradient);
 		
 		usa.setTitle("Coronavirus cases per day (7 July 2020)");
 		usa.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
