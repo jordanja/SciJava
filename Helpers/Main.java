@@ -73,10 +73,10 @@ public class Main {
 //		radarChart();
 //		polarAreaChart();
 //		gaugeChart();
-		stackedAreaChart();
+//		stackedAreaChart();
 //		scatterChartingDiamond();
 //		multiChart();
-//		dfPlay();
+		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 
@@ -123,7 +123,7 @@ public class Main {
 		DataFrame df = DataFrame.readCSV("Datasets/stacked-area-chart.csv", true, false, columnTypes);
 		
 		StackedAreaChart sac = new StackedAreaChart(df, "Day", "Points", "Team");
-		sac.setStyle(Styles.Nighttime);
+		sac.setStyle(Styles.InfoGram);
 		sac.create();
 		sac.writeImage("Chart Images/Stacked Area Chart.png");
 
@@ -351,7 +351,7 @@ public class Main {
 		DataFrame df = DataFrame.readCSV("Datasets/fmri.csv", true, false, columnTypes);
 
 		LineChart lc = new LineChart(df, "timepoint", "signal");
-		lc.setStyle(Styles.Seaborn);
+		lc.setStyle(Styles.InfoGram);
 		lc.colorCode("event");
 		return lc;
 	}
@@ -649,6 +649,8 @@ public class Main {
 		df.setColumnValues(1, temperatures);
 		df.setColumnValues(2, humidity);
 
+		df.swapTwoColumns(0, 1);
+		
 		System.out.println(df);
 		
 		GroupBy gb = df.groupBy("city");

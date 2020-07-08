@@ -37,7 +37,6 @@ public class GroupBy {
 		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
 		for (String key: groups.keySet()) {
 			DataFrame newDF = groups.get(key).clone();
-			newDF.dropColumn(0);
 			newDF.dropNonNumberColumns();
 			avgs.put(key, newDF.averageInColumns());
 		}
@@ -49,7 +48,6 @@ public class GroupBy {
 		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
 		for (String key: groups.keySet()) {
 			DataFrame newDF = groups.get(key).clone();
-			newDF.dropColumn(0);
 			newDF.dropNonNumberColumns();
 			System.out.println(newDF);
 			avgs.put(key, newDF.maxInColumns());
@@ -62,7 +60,6 @@ public class GroupBy {
 		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
 		for (String key: groups.keySet()) {
 			DataFrame newDF = groups.get(key).clone();
-			newDF.dropColumn(0);
 			newDF.dropNonNumberColumns();
 			avgs.put(key, newDF.minInColumns());
 		}
@@ -74,7 +71,6 @@ public class GroupBy {
 		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
 		for (String key: groups.keySet()) {
 			DataFrame newDF = groups.get(key).clone();
-			newDF.dropColumn(0);
 			newDF.dropNonNumberColumns();
 			avgs.put(key, newDF.mediunInColumns());
 		}
@@ -86,7 +82,6 @@ public class GroupBy {
 		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
 		for (String key: groups.keySet()) {
 			DataFrame newDF = groups.get(key).clone();
-			newDF.dropColumn(0);
 			newDF.dropNonNumberColumns();
 			avgs.put(key, newDF.sumInColumns());
 		}
@@ -98,7 +93,6 @@ public class GroupBy {
 		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
 		for (String key: groups.keySet()) {
 			DataFrame newDF = groups.get(key).clone();
-			newDF.dropColumn(0);
 			newDF.dropNonNumberColumns();
 			avgs.put(key, newDF.productInColumns());
 		}
@@ -110,7 +104,7 @@ public class GroupBy {
 		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
 		for (String key: groups.keySet()) {
 			DataFrame newDF = groups.get(key).clone();
-			newDF.dropColumn(0);
+			newDF.dropColumn(this.columnNameToSplitOn);
 			avgs.put(key, newDF.numUniqueInColumns());
 		}
 		
@@ -121,7 +115,6 @@ public class GroupBy {
 		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
 		for (String key: groups.keySet()) {
 			DataFrame newDF = groups.get(key).clone();
-			newDF.dropColumn(0);
 			newDF.dropNonNumberColumns();
 			avgs.put(key, newDF.varianceInColumns(dof));
 		}
@@ -134,7 +127,6 @@ public class GroupBy {
 		HashMap<String, DataFrame> avgs = new HashMap<String, DataFrame>();
 		for (String key: groups.keySet()) {
 			DataFrame newDF = groups.get(key).clone();
-			newDF.dropColumn(0);
 			newDF.dropNonNumberColumns();
 			avgs.put(key, newDF.standardDeviationInColumns(dof));
 		}

@@ -46,6 +46,20 @@ public class Palette {
 		new Color(241, 131, 17),
 	};
 	
+	public final static Color[] InfoGram = new Color[] {
+		new Color(80, 148, 208),
+		new Color(234, 102, 161),
+		new Color(245, 148, 55),
+		new Color(85, 179, 89),
+		new Color(161, 97, 162),
+		new Color(135, 135, 135),
+		new Color(36, 97, 155),
+		new Color(180, 119, 59),
+		new Color(176, 106, 139),
+		new Color(38, 144, 101),
+		new Color(88, 86, 86),
+		};
+	
 	public static Color[] generateUniqueColors(int numColors) {
 		Color[] colors = new Color[numColors];
 		
