@@ -10104,7 +10104,6 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			if (rowNum < 0) {
 				throw new DataFrameOutOfBoundsException("Row index must be greater than 0");
 			}
-			
 			this.data.get(colNum).set(rowNum, new DataItem(value));
 		} catch (Exception e) {
 			e.printStackTrace();

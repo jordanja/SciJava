@@ -1460,6 +1460,8 @@ public class DataItem {
 			return StorageType.Period;
 		} else if (cls == BigDecimal.class) {
 			return StorageType.BigDecimal;
+		} else if (cls == Color.class) {
+			return StorageType.Color;
 		} else {
 			return StorageType.Null;
 		}

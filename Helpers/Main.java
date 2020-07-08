@@ -151,6 +151,7 @@ public class Main {
 	}
 	
 	private static void usaMapChart() {
+		
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("state", StorageType.String);
 		columnTypes.put("abbreviation", StorageType.String);
@@ -160,8 +161,12 @@ public class Main {
 		
 		USAMapChart usa = new USAMapChart(df, "abbreviation", "cases-per-day", usaMapType.Gradient);
 		
+		usa.setTitle("Coronavirus cases per day (7 July 2020)");
+		usa.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+		
 		usa.create();
 		usa.writeImage("Chart Images/USA Map Chart.png");
+		
 		
 	}
 
