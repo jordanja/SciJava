@@ -10111,6 +10111,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		}
 	}
 	
+	public void setValue(String columnName, int rowNum, Object value) {
+		setValue(this.columnNames.indexOf(columnName), rowNum, value);
+	}
+	
+	public void setValue(int columnNum, String rowName, Object value) {
+		setValue(columnNum, this.rowNames.indexOf(rowName), value);
+	}
+	
 	public void setValue(String columnName, String rowName, DataItem value) {
 		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
 	}
