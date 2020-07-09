@@ -14,10 +14,11 @@ import thesis.Charter.Styles.Style;
 import thesis.Charter.Styles.StyleFactory;
 import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
+import thesis.Common.CommonChartMap;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
 
-public class USAMapChart extends Chart {
+public class MapChart extends Chart {
 
 	private NoAxisChartMeasurements cm;
 	
@@ -27,17 +28,21 @@ public class USAMapChart extends Chart {
 	private String legendLabel = "";
 	
 	private DataFrame dataFrame;
-	private String statesColumnName; 
+	private String localitiesColumnName; 
 	private String valuesColumnName;
 	
-	public enum usaMapType {Gradient, Category};
-	private usaMapType chartType;
+	public enum ChartType {Gradient, Category};
+	private ChartType chartType;
 	
-	public USAMapChart(DataFrame dataFrame, String statesColumnName, String valuesColumnName, usaMapType charttType) {
+	public enum MapType {USAStates, WorldCountries};
+	private MapType mapType;
+	
+	public MapChart(DataFrame dataFrame, String localitiesColumnName, String valuesColumnName, MapType mapType, ChartType chartType) {
 		this.dataFrame = dataFrame;
-		this.statesColumnName = statesColumnName;
+		this.localitiesColumnName = localitiesColumnName;
 		this.valuesColumnName = valuesColumnName;
-		this.chartType = charttType;
+		this.mapType = mapType;
+		this.chartType = chartType;
 		
 		this.cm = new NoAxisChartMeasurements();
 		this.plot = new USAMapPlot();
@@ -55,7 +60,7 @@ public class USAMapChart extends Chart {
 		String[] legendValues = new String[0];
 		Color[] legendColors = new Color[0];
 		
-		if (this.chartType == usaMapType.Gradient) {
+		if (this.chartType == ChartType.Gradient) {
 			double maxValue = this.dataFrame.maxInColumn(this.valuesColumnName);
 			double minValue = this.dataFrame.minInColumn(this.valuesColumnName);
 			
@@ -83,7 +88,7 @@ public class USAMapChart extends Chart {
 			}
 			
 			
-		} else if (this.chartType == usaMapType.Category) {
+		} else if (this.chartType == ChartType.Category) {
 			legendValues = CommonArray.removeDuplicates(this.dataFrame.getColumnAsStringArray(this.valuesColumnName));
 			legendColors = Arrays.copyOf(this.plot.getColorPalette(), legendValues.length);
 			
@@ -101,6 +106,13 @@ public class USAMapChart extends Chart {
 		this.legend.setHueValueOutlienColor(Color.BLACK);
 		this.legend.setHueValueOutlineWidth(1);
 		this.legend.calculateLegend();
+		
+		String[][] map = new String[0][0];
+		if (this.mapType == MapType.USAStates) {
+			map = CommonChartMap.USAStatesMap;
+		} else if (this.mapType == MapType.WorldCountries) {
+			
+		}
 		
 		this.cm.setPlotWidth(this.plot.getSquareSize() * 11);
 		this.cm.setPlotHeight(this.plot.getSquareSize() * 8);
@@ -120,7 +132,7 @@ public class USAMapChart extends Chart {
 				
 		this.plot.drawPlotOutline(g, this.cm);
 		
-		this.plot.drawPlot(g, dataDF, statesColumnName, this.cm);
+		this.plot.drawPlot(g, dataDF, localitiesColumnName, this.cm);
 		
 		this.legend.drawLegend(g, this.cm);
 

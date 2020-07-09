@@ -40,8 +40,8 @@ import thesis.Charter.Charts.ScatterChart;
 import thesis.Charter.Charts.StackedAreaChart;
 import thesis.Charter.Charts.StackedBarChart;
 import thesis.Charter.Charts.StripChart;
-import thesis.Charter.Charts.USAMapChart;
-import thesis.Charter.Charts.USAMapChart.usaMapType;
+import thesis.Charter.Charts.MapChart;
+import thesis.Charter.Charts.MapChart.ChartType;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Plots.BarPlot;
 import thesis.Charter.Plots.BoxPlot;
@@ -164,7 +164,7 @@ public class Main {
 		columnTypes.put("abbreviation", StorageType.String);
 		columnTypes.put("open-carry-status", StorageType.String);
 		DataFrame df = DataFrame.readCSV("Datasets/usa-map-category.csv", true, false, columnTypes);
-		USAMapChart usa = new USAMapChart(df, "abbreviation", "open-carry-status", usaMapType.Category);
+		MapChart usa = new MapChart(df, "abbreviation", "open-carry-status", ChartType.Category);
 		
 		System.out.println(df.head());
 		

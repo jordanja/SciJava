@@ -12,16 +12,7 @@ import thesis.DataFrame.DataFrame;
 
 public class USAMapPlot extends Plot {
 
-	private String[][] statesMap = new String[][] {
-		{"AK", "", "", "", "", "", "", "", "", "", "ME"},
-		{"", "", "", "", "", "WI", "", "", "", "VT", "NH"},
-		{"WA", "ID", "MT", "ND", "MN", "IL", "MI", "", "NY", "MA", ""},
-		{"OR", "NV", "WY", "SD", "IA", "IN", "OH", "PA", "NJ", "CT", "RI"},
-		{"CA", "UT", "CO", "NE", "MO", "KY", "WV", "VA", "MD", "DE", ""},
-		{"", "AZ", "NM", "KS", "AR", "TN", "NC", "SC", "DC", "", ""},
-		{"", "", "", "OK", "LA", "MS", "AL", "GA", "", "", ""},
-		{"HI", "", "", "TX", "", "", "", "", "FL", "", ""},
-	};
+	
 	
 	private int squareSize = 40;
 	private int insetPixels = 3;
