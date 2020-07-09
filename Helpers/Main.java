@@ -42,6 +42,7 @@ import thesis.Charter.Charts.StackedBarChart;
 import thesis.Charter.Charts.StripChart;
 import thesis.Charter.Charts.MapChart;
 import thesis.Charter.Charts.MapChart.ChartType;
+import thesis.Charter.Charts.MapChart.MapType;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Plots.BarPlot;
 import thesis.Charter.Plots.BoxPlot;
@@ -76,7 +77,8 @@ public class Main {
 //		polarAreaChart();
 //		gaugeChart();
 //		stackedAreaChart();
-		usaMapChart();
+//		usaMapChart();
+		worldMapChart();
 //		scatterChartingDiamond();
 //		multiChart();
 //		dfPlay();
@@ -164,7 +166,7 @@ public class Main {
 		columnTypes.put("abbreviation", StorageType.String);
 		columnTypes.put("open-carry-status", StorageType.String);
 		DataFrame df = DataFrame.readCSV("Datasets/usa-map-category.csv", true, false, columnTypes);
-		MapChart usa = new MapChart(df, "abbreviation", "open-carry-status", ChartType.Category);
+		MapChart usa = new MapChart(df, "abbreviation", "open-carry-status", MapType.USAStates, ChartType.Category);
 		
 		System.out.println(df.head());
 		
@@ -176,6 +178,23 @@ public class Main {
 		usa.writeImage("Chart Images/USA Map Chart.png");
 		
 		
+	}
+	
+	private static void worldMapChart() {
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("country", StorageType.String);
+		columnTypes.put("abbreviation", StorageType.String);
+		columnTypes.put("happiness", StorageType.Integer);
+		DataFrame df = DataFrame.readCSV("Datasets/world-map-gradient.csv", true, false, columnTypes);
+		MapChart world = new MapChart(df, "abbreviation", "happiness", MapType.WorldCountries, ChartType.Gradient);
+		
+		System.out.println(df.head());
+		
+		world.setTitle("Countries by Happiness Level");
+		world.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+		
+		world.create();
+		world.writeImage("Chart Images/USA Map Chart.png");
 	}
 
 	private static void gaugeChart() {

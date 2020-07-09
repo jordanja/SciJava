@@ -10,7 +10,7 @@ import thesis.Charter.StringDrawer.DrawString;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 
-public class USAMapPlot extends Plot {
+public class MapPlot extends Plot {
 
 	
 	
@@ -25,17 +25,17 @@ public class USAMapPlot extends Plot {
 	private Font stateNameFont = new Font("Dialog", Font.PLAIN, 20);
 	private Color stateNameColor = Color.BLACK;
 	
-	public void drawPlot(Graphics2D g, DataFrame dataDF, String statesColumnName, NoAxisChartMeasurements cm) {
+	public void drawPlot(Graphics2D g, DataFrame dataDF, String statesColumnName, String[][] map,  NoAxisChartMeasurements cm) {
 		String[] states = dataDF.getColumnAsStringArray(statesColumnName);
 		Color[] colors = dataDF.getColumnAsColorArray("color");
 		
-		for (int rowIndex = 0; rowIndex < this.statesMap.length; rowIndex++) {
-			for (int columnIndex = 0; columnIndex < statesMap[rowIndex].length; columnIndex++) {
+		for (int rowIndex = 0; rowIndex < map.length; rowIndex++) {
+			for (int columnIndex = 0; columnIndex < map[rowIndex].length; columnIndex++) {
 				int x = cm.getImageLeftToPlotLeftWidth() + columnIndex * this.squareSize + insetPixels;
 				int y = cm.imageBottomToPlotTopHeight() - (rowIndex + 1) * this.squareSize + insetPixels;
 				int width = this.squareSize - insetPixels;
 				int height = this.squareSize - insetPixels;
-				String currentState = this.statesMap[rowIndex][columnIndex];
+				String currentState = map[rowIndex][columnIndex];
 				int index = CommonArray.indexOf(states, currentState);
 				
 				if (index >= 0) {
@@ -68,14 +68,6 @@ public class USAMapPlot extends Plot {
 
 	public void setSquareSize(int squareSize) {
 		this.squareSize = squareSize;
-	}
-
-	public String[][] getStatesMap() {
-		return statesMap;
-	}
-
-	public void setStatesMap(String[][] statesMap) {
-		this.statesMap = statesMap;
 	}
 
 	public int getInsetPixels() {

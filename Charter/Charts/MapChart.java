@@ -8,7 +8,7 @@ import java.util.Arrays;
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.LegendData;
-import thesis.Charter.Plots.USAMapPlot;
+import thesis.Charter.Plots.MapPlot;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.Styles.Style;
 import thesis.Charter.Styles.StyleFactory;
@@ -22,7 +22,7 @@ public class MapChart extends Chart {
 
 	private NoAxisChartMeasurements cm;
 	
-	private USAMapPlot plot;
+	private MapPlot plot;
 	private CategoricalLegend legend;
 	
 	private String legendLabel = "";
@@ -45,7 +45,7 @@ public class MapChart extends Chart {
 		this.chartType = chartType;
 		
 		this.cm = new NoAxisChartMeasurements();
-		this.plot = new USAMapPlot();
+		this.plot = new MapPlot();
 		
 		this.legend = new CategoricalLegend();
 		this.legendLabel = valuesColumnName;
@@ -111,11 +111,11 @@ public class MapChart extends Chart {
 		if (this.mapType == MapType.USAStates) {
 			map = CommonChartMap.USAStatesMap;
 		} else if (this.mapType == MapType.WorldCountries) {
-			
+			map = CommonChartMap.worldCountriesMap;
 		}
 		
-		this.cm.setPlotWidth(this.plot.getSquareSize() * 11);
-		this.cm.setPlotHeight(this.plot.getSquareSize() * 8);
+		this.cm.setPlotWidth(this.plot.getSquareSize() * map[0].length);
+		this.cm.setPlotHeight(this.plot.getSquareSize() * map.length);
 		
 		this.cm.calculateChartImageMetrics(this.legend, this.getTitle(), this.getTitleFont());
 		
@@ -132,7 +132,7 @@ public class MapChart extends Chart {
 				
 		this.plot.drawPlotOutline(g, this.cm);
 		
-		this.plot.drawPlot(g, dataDF, localitiesColumnName, this.cm);
+		this.plot.drawPlot(g, dataDF, this.localitiesColumnName, map, this.cm);
 		
 		this.legend.drawLegend(g, this.cm);
 
