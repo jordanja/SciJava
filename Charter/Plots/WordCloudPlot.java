@@ -1,6 +1,6 @@
 package thesis.Charter.Plots;
 
-public class WordCloudPlot {
+public class WordCloudPlot extends Plot {
 
     
 }

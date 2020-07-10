@@ -40,6 +40,7 @@ import thesis.Charter.Charts.ScatterChart;
 import thesis.Charter.Charts.StackedAreaChart;
 import thesis.Charter.Charts.StackedBarChart;
 import thesis.Charter.Charts.StripChart;
+import thesis.Charter.Charts.WordCloudChart;
 import thesis.Charter.Charts.GridCartogramChart;
 import thesis.Charter.Charts.GridCartogramChart.ChartType;
 import thesis.Charter.Charts.GridCartogramChart.MapType;
@@ -55,6 +56,7 @@ import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
+import thesis.Common.CommonSampleText;
 import thesis.DataFrame.*;
 import thesis.DataFrame.DataItem.StorageType;
 
@@ -78,7 +80,8 @@ public class Main {
 		// gaugeChart();
 		// stackedAreaChart();
 		// usaMapChart();
-		worldMapChart();
+		// worldMapChart();
+		wordCloudChart();
 		// scatterChartingDiamond();
 		// multiChart();
 		// dfPlay();
@@ -145,6 +148,12 @@ public class Main {
 		hc.create();
 		hc.writeImage("Chart Images/Histogram Chart.png");
 
+	}
+
+	private static void wordCloudChart() {
+		String message = CommonSampleText.getStringMessage(20);
+		
+		WordCloudChart wcc = new WordCloudChart(message);
 	}
 
 	private static void usaMapChart() {
