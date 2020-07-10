@@ -40,9 +40,9 @@ import thesis.Charter.Charts.ScatterChart;
 import thesis.Charter.Charts.StackedAreaChart;
 import thesis.Charter.Charts.StackedBarChart;
 import thesis.Charter.Charts.StripChart;
-import thesis.Charter.Charts.MapChart;
-import thesis.Charter.Charts.MapChart.ChartType;
-import thesis.Charter.Charts.MapChart.MapType;
+import thesis.Charter.Charts.GridCartogramChart;
+import thesis.Charter.Charts.GridCartogramChart.ChartType;
+import thesis.Charter.Charts.GridCartogramChart.MapType;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Plots.BarPlot;
 import thesis.Charter.Plots.BoxPlot;
@@ -166,7 +166,7 @@ public class Main {
 		columnTypes.put("abbreviation", StorageType.String);
 		columnTypes.put("open-carry-status", StorageType.String);
 		DataFrame df = DataFrame.readCSV("Datasets/usa-map-category.csv", true, false, columnTypes);
-		MapChart usa = new MapChart(df, "abbreviation", "open-carry-status", MapType.USAStates, ChartType.Category);
+		GridCartogramChart usa = new GridCartogramChart(df, "abbreviation", "open-carry-status", MapType.USAStates, ChartType.Category);
 		
 		System.out.println(df.head());
 		
@@ -186,7 +186,7 @@ public class Main {
 		columnTypes.put("abbreviation", StorageType.String);
 		columnTypes.put("happiness", StorageType.Integer);
 		DataFrame df = DataFrame.readCSV("Datasets/world-map-gradient.csv", true, false, columnTypes);
-		MapChart world = new MapChart(df, "abbreviation", "happiness", MapType.WorldCountries, ChartType.Gradient);
+		GridCartogramChart world = new GridCartogramChart(df, "abbreviation", "happiness", MapType.WorldCountries, ChartType.Gradient);
 		
 		System.out.println(df.head());
 		

@@ -1,6 +1,6 @@
 package thesis.Common;
 
-public class CommonChartMap {
+public class CommonGridCartograms {
 	public static String[][] USAStatesMap = new String[][] {
 		{"AK", "", "", "", "", "", "", "", "", "", "ME"},
 		{"", "", "", "", "", "WI", "", "", "", "VT", "NH"},

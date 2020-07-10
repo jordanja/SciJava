@@ -8,21 +8,21 @@ import java.util.Arrays;
 import thesis.Charter.ChartMeasurements.NoAxisChartMeasurements;
 import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.LegendData;
-import thesis.Charter.Plots.MapPlot;
+import thesis.Charter.Plots.GridCartogramPlot;
 import thesis.Charter.StringDrawer.DrawString;
 import thesis.Charter.Styles.Style;
 import thesis.Charter.Styles.StyleFactory;
 import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
-import thesis.Common.CommonChartMap;
+import thesis.Common.CommonGridCartograms;
 import thesis.DataFrame.DataFrame;
 import thesis.DataFrame.DataItem;
 
-public class MapChart extends Chart {
+public class GridCartogramChart extends Chart {
 
 	private NoAxisChartMeasurements cm;
 	
-	private MapPlot plot;
+	private GridCartogramPlot plot;
 	private CategoricalLegend legend;
 	
 	private String legendLabel = "";
@@ -37,7 +37,7 @@ public class MapChart extends Chart {
 	public enum MapType {USAStates, WorldCountries};
 	private MapType mapType;
 	
-	public MapChart(DataFrame dataFrame, String localitiesColumnName, String valuesColumnName, MapType mapType, ChartType chartType) {
+	public GridCartogramChart(DataFrame dataFrame, String localitiesColumnName, String valuesColumnName, MapType mapType, ChartType chartType) {
 		this.dataFrame = dataFrame;
 		this.localitiesColumnName = localitiesColumnName;
 		this.valuesColumnName = valuesColumnName;
@@ -45,7 +45,7 @@ public class MapChart extends Chart {
 		this.chartType = chartType;
 		
 		this.cm = new NoAxisChartMeasurements();
-		this.plot = new MapPlot();
+		this.plot = new GridCartogramPlot();
 		
 		this.legend = new CategoricalLegend();
 		this.legendLabel = valuesColumnName;
@@ -109,9 +109,9 @@ public class MapChart extends Chart {
 		
 		String[][] map = new String[0][0];
 		if (this.mapType == MapType.USAStates) {
-			map = CommonChartMap.USAStatesMap;
+			map = CommonGridCartograms.USAStatesMap;
 		} else if (this.mapType == MapType.WorldCountries) {
-			map = CommonChartMap.worldCountriesMap;
+			map = CommonGridCartograms.worldCountriesMap;
 		}
 		
 		this.cm.setPlotWidth(this.plot.getSquareSize() * map[0].length);

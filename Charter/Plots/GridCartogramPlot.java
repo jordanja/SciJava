@@ -10,7 +10,7 @@ import thesis.Charter.StringDrawer.DrawString;
 import thesis.Common.CommonArray;
 import thesis.DataFrame.DataFrame;
 
-public class MapPlot extends Plot {
+public class GridCartogramPlot extends Plot {
 
 	
 	
