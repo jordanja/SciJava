@@ -53,9 +53,13 @@ public class WordCloudChart extends Chart {
 		uniqueArr = Arrays.copyOf(uniqueArr, this.numStringsToShow);
 		wordCountArr = Arrays.copyOf(wordCountArr, this.numStringsToShow);
 
-		for (int i = 0; i < uniqueArr.length; i++) {
-			System.out.println(uniqueArr[i] + " occurs " + wordCountArr[i] + " times.");
-		}
+		this.plot.placeWords(uniqueArr, wordCountArr);
+
+		int plotWidth = this.plot.getCalculatedWidth();
+		int plotHeight = this.plot.getCalculatedHeight();
+
+		this.cm.setPlotWidth(plotWidth);
+		this.cm.setPlotHeight(plotHeight);
 
 		this.cm.calculateChartImageMetrics(this.getTitle(), this.getTitleFont());
 		this.instantiateChart(this.cm);
@@ -70,7 +74,7 @@ public class WordCloudChart extends Chart {
 		
 		this.plot.drawPlotOutline(g, this.cm);
 	
-		// this.plot.drawPlot(g, this.value, this.axis, this.cm);
+		this.plot.drawPlot(g, this.cm);
 		
 		this.drawTitle(g, this.cm);
 	

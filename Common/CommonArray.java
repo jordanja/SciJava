@@ -188,6 +188,15 @@ public class CommonArray {
 		return min;
 	}
 	
+	public static Integer minValue(int[] arr) {
+		Integer min = Integer.MAX_VALUE;
+		
+		for (Integer value : arr) {
+			min = Integer.min(min, value);
+		}
+		return min;
+	}
+
 	public static Double maxValue(Double[] arr) {
 		Double max = Double.MIN_VALUE;
 		
