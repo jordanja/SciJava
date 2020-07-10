@@ -151,9 +151,14 @@ public class Main {
 	}
 
 	private static void wordCloudChart() {
-		String message = CommonSampleText.getStringMessage(20);
+		String message = CommonSampleText.getStringMessage(200);
 		
-		WordCloudChart wcc = new WordCloudChart(message);
+		WordCloudChart wcc = new WordCloudChart(message, 20);
+
+		wcc.setTitle("Word Cloud Chart");
+
+		wcc.create();
+		wcc.writeImage("Chart Images/Word Cloud Chart.png");
 	}
 
 	private static void usaMapChart() {

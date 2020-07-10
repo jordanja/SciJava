@@ -1197,4 +1197,44 @@ public class CommonArray {
 		}
 		return indexMatches.stream().mapToInt(i -> i).toArray();
 	}
+
+	public static String[] splitStringOnSpaces(String str) {
+		String[] arr = str.split(" ");
+
+		List<String> list = new ArrayList<String>();
+		for (String value: arr) {
+			if (value.length() > 0) {
+				list.add(value);
+			}
+		}
+
+		return list.toArray(new String[0]);
+
+	}
+
+	public static String[] lowerCase(String[] wordsArr) {
+		String[] lowerCaseArr = new String[wordsArr.length];
+		for (int wordCount = 0; wordCount < wordsArr.length; wordCount++) {
+			lowerCaseArr[wordCount] = wordsArr[wordCount].toLowerCase();
+		}
+		return lowerCaseArr;
+	}
+
+	public static String[] removeNonLettersAndNumbers(String[] wordsArr) {
+		String[] plainText = new String[wordsArr.length];
+		for (int wordCount = 0; wordCount < wordsArr.length; wordCount++) {
+			plainText[wordCount] = wordsArr[wordCount].replaceAll("[^a-zA-Z0-9]", "");
+		}
+		return plainText;
+	}
+
+	public static int countOccurences(String[] words, String string) {
+		int count = 0;
+		for (int wordCount = 0; wordCount < words.length; wordCount++) {
+			if (string.equals(words[wordCount])) count++;
+		}
+		return count;
+	}
+
+	
 }
