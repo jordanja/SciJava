@@ -40,6 +40,7 @@ import thesis.Charter.Charts.ScatterChart;
 import thesis.Charter.Charts.StackedAreaChart;
 import thesis.Charter.Charts.StackedBarChart;
 import thesis.Charter.Charts.StripChart;
+import thesis.Charter.Charts.WordCloudChart;
 import thesis.Charter.Charts.GridCartogramChart;
 import thesis.Charter.Charts.GridCartogramChart.ChartType;
 import thesis.Charter.Charts.GridCartogramChart.MapType;
@@ -55,6 +56,7 @@ import thesis.Charter.StringDrawer.DrawString.xAlignment;
 import thesis.Charter.StringDrawer.DrawString.yAlignment;
 import thesis.Charter.Styles.Styles;
 import thesis.Common.CommonArray;
+import thesis.Common.CommonSampleText;
 import thesis.DataFrame.*;
 import thesis.DataFrame.DataItem.StorageType;
 
@@ -62,62 +64,58 @@ import thesis.DataFrame.DataItem.StorageType;
 public class Main {
 
 	public static void main(String[] args) {
-//		correlationChart();
-//		histogram();
-//		stackedBarChart();
-//		pieChart();
-//		stripCharting();
-//		boxCharting();
-//		lineCharting();
-//		dateLineCharting();
-//		barCharting();
-//		scatterCharting();
-//		bubbleChart();
-//		radarChart();
-//		polarAreaChart();
-//		gaugeChart();
-//		stackedAreaChart();
-//		usaMapChart();
-		worldMapChart();
-//		scatterChartingDiamond();
-//		multiChart();
-//		dfPlay();
+		// correlationChart();
+		// histogram();
+		// stackedBarChart();
+		// pieChart();
+		// stripCharting();
+		// boxCharting();
+		// lineCharting();
+		// dateLineCharting();
+		// barCharting();
+		// scatterCharting();
+		// bubbleChart();
+		// radarChart();
+		// polarAreaChart();
+		// gaugeChart();
+		// stackedAreaChart();
+		// usaMapChart();
+		// worldMapChart();
+		wordCloudChart();
+		// scatterChartingDiamond();
+		// multiChart();
+		// dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 
-
-
 	private static void multiChart() {
 		DataFrame dfPie = new DataFrame("Datasets/own.csv", true, false);
-	
-	
-		
+
 		LineChart chart1 = getLineChart();
 		LineChart chart2 = getLineChart();
-//		Chart chart3 = getScatterChart();
-//		Chart chart4 = getBoxChart();
-		
+		// Chart chart3 = getScatterChart();
+		// Chart chart4 = getBoxChart();
+
 		chart1.getLegend().setIncludeLegend(false);
-		
+
 		MultiChart mc = new MultiChart(2, 1);
 		mc.setChart(0, 0, chart1);
 		mc.setChart(1, 0, chart2);
-//		mc.setChart(0, 1, getLineChart());
-//		mc.setChart(1, 1, getLineChart());
-		
+		// mc.setChart(0, 1, getLineChart());
+		// mc.setChart(1, 1, getLineChart());
+
 		mc.setTitle("This is a Multi-Chart");
 		mc.setTitleFont(new Font("Dialog", Font.PLAIN, 24));
-		
+
 		mc.create();
 		mc.WriteFile("Chart Images/Multi-Chart.png");
-		
+
 	}
 
 	private static void correlationChart() {
-//		DataFrame df = new DataFrame("Datasets/correlation.csv", true, true);
+		// DataFrame df = new DataFrame("Datasets/correlation.csv", true, true);
 		DataFrame df = new DataFrame("Datasets/duplColNames.csv", true, false);
-		
-		
+
 		System.out.println(df);
 	}
 
@@ -126,113 +124,127 @@ public class Main {
 		columnTypes.put("Day", StorageType.Integer);
 		columnTypes.put("Team", StorageType.String);
 		columnTypes.put("Points", StorageType.Integer);
-		
+
 		DataFrame df = DataFrame.readCSV("Datasets/stacked-area-chart.csv", true, false, columnTypes);
-		
+
 		StackedAreaChart sac = new StackedAreaChart(df, "Day", "Points", "Team");
 		sac.setStyle(Styles.InfoGram);
 		sac.create();
 		sac.writeImage("Chart Images/Stacked Area Chart.png");
 
 	}
-	
+
 	private static void histogram() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("tree_heights", StorageType.Double);
-		
+
 		DataFrame df = DataFrame.readCSV("Datasets/histogram.csv", true, false, columnTypes);
 		HistogramChart hc = new HistogramChart(df, "tree_heights");
-		
+
 		hc.getXYChartMeasurements().setPlotWidth(1000);
-		
+
 		hc.setStyle(Styles.Seaborn);
-		
+
 		hc.create();
 		hc.writeImage("Chart Images/Histogram Chart.png");
-		
+
 	}
-	
+
+	private static void wordCloudChart() {
+		String message = CommonSampleText.getStringMessage(800);
+		
+		WordCloudChart wcc = new WordCloudChart(message, 20);
+		wcc.setNumStringsToShow(50);
+		wcc.getPlot().setXOffset(-240);
+		wcc.getPlot().setYOffset(30);
+
+		wcc.setTitle("Word Cloud Chart");
+		wcc.setTitleFont(new Font("Dialog", Font.PLAIN, 30));
+		wcc.create();
+		wcc.writeImage("Chart Images/Word Cloud Chart.png");
+	}
+
 	private static void usaMapChart() {
-		
-//		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
-//		columnTypes.put("state", StorageType.String);
-//		columnTypes.put("abbreviation", StorageType.String);
-//		columnTypes.put("cases-per-day", StorageType.Integer);
-//		DataFrame df = DataFrame.readCSV("Datasets/usa-map-fake-gradient.csv", true, false, columnTypes);
-//		USAMapChart usa = new USAMapChart(df, "abbreviation", "cases-per-day", usaMapType.Gradient);
-		
+
+		// Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		// columnTypes.put("state", StorageType.String);
+		// columnTypes.put("abbreviation", StorageType.String);
+		// columnTypes.put("cases-per-day", StorageType.Integer);
+		// DataFrame df = DataFrame.readCSV("Datasets/usa-map-fake-gradient.csv", true,
+		// false, columnTypes);
+		// USAMapChart usa = new USAMapChart(df, "abbreviation", "cases-per-day",
+		// usaMapType.Gradient);
+
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("state", StorageType.String);
 		columnTypes.put("abbreviation", StorageType.String);
 		columnTypes.put("open-carry-status", StorageType.String);
 		DataFrame df = DataFrame.readCSV("Datasets/usa-map-category.csv", true, false, columnTypes);
-		GridCartogramChart usa = new GridCartogramChart(df, "abbreviation", "open-carry-status", MapType.USAStates, ChartType.Category);
-		
+		GridCartogramChart usa = new GridCartogramChart(df, "abbreviation", "open-carry-status", MapType.USAStates,
+				ChartType.Category);
+
 		System.out.println(df.head());
-		
-		
+
 		usa.setTitle("Coronavirus cases per day (7 July 2020)");
 		usa.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-		
+
 		usa.create();
 		usa.writeImage("Chart Images/USA Map Chart.png");
-		
-		
+
 	}
-	
+
 	private static void worldMapChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("country", StorageType.String);
 		columnTypes.put("abbreviation", StorageType.String);
 		columnTypes.put("happiness", StorageType.Integer);
 		DataFrame df = DataFrame.readCSV("Datasets/world-map-gradient.csv", true, false, columnTypes);
-		GridCartogramChart world = new GridCartogramChart(df, "abbreviation", "happiness", MapType.WorldCountries, ChartType.Gradient);
-		
+		GridCartogramChart world = new GridCartogramChart(df, "abbreviation", "happiness", MapType.WorldCountries,
+				ChartType.Gradient);
+
 		System.out.println(df.head());
-		
+
 		world.setTitle("Countries by Happiness Level");
 		world.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-		
+
 		world.create();
 		world.writeImage("Chart Images/USA Map Chart.png");
 	}
 
 	private static void gaugeChart() {
 		GaugeChart gc = new GaugeChart(0.3);
-		
+
 		gc.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
 		gc.setTitle("Gauge Chart");
-		
-		gc.getPlot().setArcColors(new Color[] {Color.RED, Color.ORANGE, 
-				Color.GREEN});
-		
+
+		gc.getPlot().setArcColors(new Color[] { Color.RED, Color.ORANGE, Color.GREEN });
+
 		gc.getPlot().setInnerRadiusDifference(100);
-		
+
 		gc.create();
-		
-		gc.write("Danger Zone", 210, 150, 
-				xAlignment.LeftAlign, yAlignment.MiddleAlign, 
-				Color.BLACK, new Font("Dialog", Font.PLAIN, 30), 0);
+
+		gc.write("Danger Zone", 210, 150, xAlignment.LeftAlign, yAlignment.MiddleAlign, Color.BLACK,
+				new Font("Dialog", Font.PLAIN, 30), 0);
 		gc.drawArrow(200, 150, 100, 250, Color.BLACK, 2);
-		
+
 		gc.writeImage("Chart Images/Gauge Chart.png");
 	}
 
 	private static void polarAreaChart() {
-		
+
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("Fruit", StorageType.String);
 		columnTypes.put("Quantity", StorageType.Double);
 		DataFrame df = DataFrame.readCSV("Datasets/own.csv", true, false, columnTypes);
 		PolarAreaChart pac = new PolarAreaChart(df, "Fruit", "Quantity");
-		
+
 		pac.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
 		pac.setTitle("Polar Area Chart");
-		
-//		pac.getPlot().setOutlineWidth(10);
-		
+
+		// pac.getPlot().setOutlineWidth(10);
+
 		pac.setStyle(Styles.ChartJS);
-		
+
 		pac.create();
 		pac.writeImage("Chart Images/Polar Area Chart.png");
 	}
@@ -243,17 +255,17 @@ public class Main {
 		columnTypes.put("Supermarket", StorageType.String);
 		columnTypes.put("Quantity", StorageType.Double);
 		DataFrame df = DataFrame.readCSV("Datasets/radarchart.csv", true, false, columnTypes);
-		
+
 		RadarChart rc = new RadarChart(df, "Fruit", "Supermarket", "Quantity");
-		
+
 		rc.setTitleFont(new Font("Dialog", Font.PLAIN, 40));
 		rc.setTitle("Supermarket Quantities of Fruit");
-		
+
 		rc.getChartMeasurements().setPlotWidth(600);
 		rc.getChartMeasurements().setPlotHeight(600);
-		
+
 		rc.setStyle(Styles.Nighttime);
-		
+
 		rc.create();
 		rc.writeImage("Chart Images/Radar Chart.png");
 	}
@@ -263,20 +275,20 @@ public class Main {
 		columnTypes.put("Quarter", StorageType.String);
 		columnTypes.put("Region", StorageType.String);
 		columnTypes.put("Sales", StorageType.Double);
-		
+
 		DataFrame df = DataFrame.readCSV("Datasets/stacked.csv", true, false, columnTypes);
 		System.out.println(df);
-		
+
 		StackedBarChart sbc = new StackedBarChart(df, "Quarter", "Sales", "Region");
 		StackedBarPlot plot = sbc.getPlot();
 		plot.setDrawValuesOnBar(true);
-		
+
 		sbc.setStyle(Styles.Nighttime);
-		
+
 		sbc.create();
 		sbc.writeImage("Chart Images/Stacked Bar Chart.png");
 	}
-	
+
 	public static Chart getPieChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("Fruit", StorageType.String);
@@ -284,27 +296,27 @@ public class Main {
 		DataFrame df = DataFrame.readCSV("Datasets/own.csv", true, false, columnTypes);
 		PieChart pc = new PieChart(df, "Fruit", "Quantity");
 		PiePlot plot = pc.getPlot();
-		
+
 		pc.setTitleFont(new Font("Dialog", Font.PLAIN, 50));
 		pc.setTitle("Quantity of Fruit");
-		
-		plot.setShatter(new double[] {0.1, 0, 0, 0.3, 0});
-		
+
+		plot.setShatter(new double[] { 0.1, 0, 0, 0.3, 0 });
+
 		plot.setIncludeProportionsOnPie(true);
 		plot.setProportionsColor(Color.WHITE);
-		
+
 		pc.setStyle(Styles.ChartJS);
-		
+
 		return pc;
 	}
 
 	public static void pieChart() {
 		Chart pc = getPieChart();
-		
+
 		pc.create();
 		pc.writeImage("Chart Images/Pie Chart.png");
 	}
-	
+
 	public static Chart getStripChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("total_bill", StorageType.Double);
@@ -316,31 +328,31 @@ public class Main {
 		columnTypes.put("size", StorageType.Integer);
 		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
 
-//		StripChart sc = new StripChart(df,  "total_bill");
+		// StripChart sc = new StripChart(df, "total_bill");
 		StripChart sc = new StripChart(df, "day", "total_bill");
 		sc.colorCode("smoker");
 
-//		StripChart sc = new StripChart(df, "sex", "total_bill");
-//		sc.colorCode("day");
+		// StripChart sc = new StripChart(df, "sex", "total_bill");
+		// sc.colorCode("day");
 
-		sc.setOrder(new String[] {"Thur", "Fri", "Sat", "Sun"});
-		
+		sc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
+
 		BaseAxis axis = sc.getAxis();
 		axis.setXAxisFont(new Font("Dialog", Font.PLAIN, 80));
 
 		StripPlot plot = sc.getPlot();
-		
+
 		XYChartMeasurements cm = sc.getXYChartMeasurements();
 		cm.setPlotWidth(900);
-		
+
 		sc.setStyle(Styles.ChartJS);
-		
+
 		return sc;
 	}
-	
+
 	public static void stripCharting() {
 		Chart sc = getStripChart();
-		
+
 		sc.create();
 		sc.writeImage("Chart Images/Strip Chart.png");
 	}
@@ -355,10 +367,10 @@ public class Main {
 		columnTypes.put("time", StorageType.String);
 		columnTypes.put("size", StorageType.Integer);
 		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
-//		BoxChart bc = new BoxChart(df,  "total_bill");
+		// BoxChart bc = new BoxChart(df, "total_bill");
 		BoxChart bc = new BoxChart(df, "day", "total_bill");
 
-		bc.colorCode("smoker"); 
+		bc.colorCode("smoker");
 
 		bc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
 
@@ -367,12 +379,12 @@ public class Main {
 		cm.setPlotWidth(800);
 
 		bc.setStyle(Styles.Nighttime);
-		
+
 		BoxPlot plot = bc.getPlot();
-//		plot.setColorPalette(Palette.generateUniqueColors(10));
+		// plot.setColorPalette(Palette.generateUniqueColors(10));
 		return bc;
 	}
-	
+
 	public static void boxCharting() {
 		Chart bc = getBoxChart();
 
@@ -384,15 +396,15 @@ public class Main {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("date", StorageType.LocalDate);
 		columnTypes.put("value", StorageType.Integer);
-		
+
 		DataFrame df = DataFrame.readCSV("Datasets/date_line.csv", true, false, columnTypes);
 		LineChart lc = new LineChart(df, "date", "value");
-		
+
 		lc.create();
-		
+
 		System.out.println(df);
 	}
-	
+
 	public static LineChart getLineChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("subject", StorageType.String);
@@ -407,28 +419,28 @@ public class Main {
 		lc.colorCode("subject");
 		return lc;
 	}
-	
-	public static void lineCharting() {
-		
-//		BaseAxis axis =  lc.getAxis();
-//		LinePlot plot = lc.getPlot();
-//
-// 		plot.setShadeUnderLine(true);
-//		
-//		plot.setLineColor(Color.RED);
-//		plot.setLineThickness(2);
-//		plot.setMarkerDotColor(Color.WHITE);
-////		plot.setMarkerDotOutlineColor(Color.BLACK);
-//
-//		plot.setColorPalette(Palette.generateUniqueColors(14));
-//
-////		lc.colorCode("subject");
-//
-//		axis.setXAxisLabel("sepal_length");
-//		axis.setYAxisLabel("sepal_width");
 
-//		lc.setTitle("sepal_length vs sepal_width");
-//		lc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+	public static void lineCharting() {
+
+		// BaseAxis axis = lc.getAxis();
+		// LinePlot plot = lc.getPlot();
+		//
+		// plot.setShadeUnderLine(true);
+		//
+		// plot.setLineColor(Color.RED);
+		// plot.setLineThickness(2);
+		// plot.setMarkerDotColor(Color.WHITE);
+		//// plot.setMarkerDotOutlineColor(Color.BLACK);
+		//
+		// plot.setColorPalette(Palette.generateUniqueColors(14));
+		//
+		//// lc.colorCode("subject");
+		//
+		// axis.setXAxisLabel("sepal_length");
+		// axis.setYAxisLabel("sepal_width");
+
+		// lc.setTitle("sepal_length vs sepal_width");
+		// lc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 		Chart lc = getLineChart();
 		lc.create();
 		lc.writeImage("Chart Images/Line Chart.png");
@@ -449,44 +461,44 @@ public class Main {
 
 		BarChart bc = new BarChart(df, "day", "total_bill");
 
-//		BarChartAxis axis = (BarChartAxis) bc.getAxis();
-//		BarPlot plot = bc.getPlot();
-//		XYChartMeasurements cm = bc.getXYChartMeasurements();
-//
-//		axis.setIncludeBottomXAxisTicks(true, true);
-//		axis.setIncludeTopXAxisTicks(true, true);
-//		axis.setIncludeLeftYAxisTicks(true, true);
-//		axis.setIncludeRightYAxisTicks(true, true);
-//
-//		bc.setTitle("sepal_length vs sepal_width");
-//		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-//
-//		bc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
+		// BarChartAxis axis = (BarChartAxis) bc.getAxis();
+		// BarPlot plot = bc.getPlot();
+		// XYChartMeasurements cm = bc.getXYChartMeasurements();
+		//
+		// axis.setIncludeBottomXAxisTicks(true, true);
+		// axis.setIncludeTopXAxisTicks(true, true);
+		// axis.setIncludeLeftYAxisTicks(true, true);
+		// axis.setIncludeRightYAxisTicks(true, true);
+		//
+		// bc.setTitle("sepal_length vs sepal_width");
+		// bc.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
+		//
+		// bc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
 		bc.colorCode("sex");
-//
-//		axis.setXAxisLabel("sepal_length");
-//		axis.setYAxisLabel("sepal_width");
-//
-//		axis.setXAxisFont(new Font("Dialog", Font.PLAIN, 80));
-//		axis.setYAxisFont(new Font("Dialog", Font.PLAIN, 80));
-//
-//		plot.setDrawBarOutline(true);
-//		plot.setBarOutlineColour(Color.BLUE);
-//		plot.setBarOutlineWidth(2);
-//		plot.setBarWidthPercentage(0.8f);
-//
-//		plot.setColorPalette(Palette.Contrast);
-//
-//		cm.setPlotWidth(1200);
-		
-//		axis.setOrientation("h");
-		
+		//
+		// axis.setXAxisLabel("sepal_length");
+		// axis.setYAxisLabel("sepal_width");
+		//
+		// axis.setXAxisFont(new Font("Dialog", Font.PLAIN, 80));
+		// axis.setYAxisFont(new Font("Dialog", Font.PLAIN, 80));
+		//
+		// plot.setDrawBarOutline(true);
+		// plot.setBarOutlineColour(Color.BLUE);
+		// plot.setBarOutlineWidth(2);
+		// plot.setBarWidthPercentage(0.8f);
+		//
+		// plot.setColorPalette(Palette.Contrast);
+		//
+		// cm.setPlotWidth(1200);
+
+		// axis.setOrientation("h");
+
 		bc.setStyle(Styles.Nighttime);
 
 		bc.create();
 		bc.writeImage("Chart Images/Bar Chart.png");
 	}
-	
+
 	private static void scatterChartingDiamond() {
 		DataFrame dfDiamonds = new DataFrame("Datasets/diamonds.csv", true, false);
 
@@ -496,11 +508,11 @@ public class Main {
 
 		themeCategorical.setTitle("Diamon Analysis by clarity");
 		themeCategorical.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
-		
+
 		themeCategorical.create();
 		themeCategorical.writeImage("Chart Images/Scatter Chart (diamond).png");
 	}
-	
+
 	private static void bubbleChart() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("age", StorageType.Double);
@@ -514,10 +526,10 @@ public class Main {
 		NumericAxis axis = sc.getAxis();
 		ScatterPlot plot = sc.getPlot();
 		Legend legend = sc.getLegend();
-		
+
 		sc.colorCode("gender");
 		sc.setBubbleSize("wealth");
-		
+
 		sc.create();
 		sc.writeImage("Chart Images/Bubble Chart.png");
 
@@ -532,18 +544,18 @@ public class Main {
 		columnTypes.put("day", StorageType.String);
 		columnTypes.put("time", StorageType.String);
 		columnTypes.put("size", StorageType.Integer);
-		
-		DataFrame df =  DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
-		
+
+		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
+
 		ScatterChart sc = new ScatterChart(df, "total_bill", "tip");
 		sc.setStyle(Styles.ChartJS);
 
 		sc.colorCode("sex");
-//		sc.setBubbleSize("smodayker");
-		
+		// sc.setBubbleSize("smodayker");
+
 		return sc;
 	}
-	
+
 	private static void scatterCharting() {
 
 		Chart sc = getScatterChart();
@@ -554,26 +566,26 @@ public class Main {
 	}
 
 	private static void dfPlay() {
-//		DataFrame df = play();
-//		DataFrame df = csvConstructor();
-//		DataFrame df = hashColsConstructor();
-//		DataFrame df = hashRowsConstructor();
-//		DataFrame df = existingDataFrame();
-//		DataFrame df = oneColumn();
-//		DataFrame df = multipleColumns();
-//		DataFrame df = arrays();
-//		DataFrame df = rowColNameEmplty();
-//		DataFrame df = rowColNameEmpltyArray();
+		// DataFrame df = play();
+		// DataFrame df = csvConstructor();
+		// DataFrame df = hashColsConstructor();
+		// DataFrame df = hashRowsConstructor();
+		// DataFrame df = existingDataFrame();
+		// DataFrame df = oneColumn();
+		// DataFrame df = multipleColumns();
+		// DataFrame df = arrays();
+		// DataFrame df = rowColNameEmplty();
+		// DataFrame df = rowColNameEmpltyArray();
 
-//		DataFrame df = time();
+		// DataFrame df = time();
 		DataFrame df = groupBy();
 		System.out.println(df);
 
 	}
 
 	private static DataFrame rowColNameEmpltyArray() {
-		String[] rowNames = new String[] {"a", "a", "a", "a", "b", "b"};
-		String[] colNames = new String[] {"q", "q", "q", "w", "w", "w"};
+		String[] rowNames = new String[] { "a", "a", "a", "a", "b", "b" };
+		String[] colNames = new String[] { "q", "q", "q", "w", "w", "w" };
 		DataFrame df = new DataFrame(colNames, rowNames);
 
 		return df;
@@ -587,7 +599,7 @@ public class Main {
 		rowNames.add("b");
 		rowNames.add("b");
 		rowNames.add("b");
-		
+
 		ArrayList<String> colNames = new ArrayList<>();
 		colNames.add("r");
 		colNames.add("r");
@@ -595,10 +607,10 @@ public class Main {
 		colNames.add("g");
 		colNames.add("g");
 		colNames.add("g");
-		
+
 		DataFrame df = new DataFrame(colNames, rowNames);
 		df.resetRowNames();
-		
+
 		rowNames = new ArrayList<>();
 		rowNames.add("a");
 		rowNames.add("a");
@@ -607,7 +619,7 @@ public class Main {
 		rowNames.add("b");
 		rowNames.add("b");
 		df.setRowNames(rowNames);
-		
+
 		return df;
 	}
 
@@ -617,109 +629,98 @@ public class Main {
 		df.setColumnType(1, DataItem.StorageType.Integer);
 		System.out.println(df.getValue(0, 0).getType());
 		System.out.println(df.getValue(1, 0).getType());
-		
+
 		return df;
 	}
-	
+
 	public static DataFrame groupBy() {
 		DataFrame df = new DataFrame(3, 12, null);
-		String[] cities = new String[] {
-				"new york", "new york", "new york", "new york", 
-				"mumbai", "mumbai", "mumbai", "mumbai", 
-				"paris", "paris", "paris", "paris"};
-		int[] temperatures = new int[] {
-				32, 36, 28, 33,
-				90, 85, 87, 92,
-				45, 50, 54, 42};
-		
-		int[] humidity = new int[] {
-				12, 43, 25, 74,
-				52, 23, 75, 45,
-				98, 34, 52, 15};
-		
-		df.setColumnNames(new String[] {"city", "temperature", "humitidy"});
-		
+		String[] cities = new String[] { "new york", "new york", "new york", "new york", "mumbai", "mumbai", "mumbai",
+				"mumbai", "paris", "paris", "paris", "paris" };
+		int[] temperatures = new int[] { 32, 36, 28, 33, 90, 85, 87, 92, 45, 50, 54, 42 };
+
+		int[] humidity = new int[] { 12, 43, 25, 74, 52, 23, 75, 45, 98, 34, 52, 15 };
+
+		df.setColumnNames(new String[] { "city", "temperature", "humitidy" });
+
 		df.setColumnValues(0, cities);
 		df.setColumnValues(1, temperatures);
 		df.setColumnValues(2, humidity);
 
 		df.swapTwoColumns(0, 1);
-		
+
 		System.out.println(df);
-		
+
 		GroupBy gb = df.groupBy("city");
-		
+
 		DataFrame ave = gb.average();
 		System.out.println("average:");
 		System.out.println(ave);
-		
+
 		DataFrame max = gb.max();
 		System.out.println("max:");
 		System.out.println(max);
-		
+
 		DataFrame min = gb.min();
 		System.out.println("min:");
 		System.out.println(min);
-		
+
 		DataFrame mediun = gb.mediun();
 		System.out.println("mediun:");
 		System.out.println(mediun);
-		
+
 		DataFrame sum = gb.sum();
 		System.out.println("sum:");
 		System.out.println(sum);
-		
+
 		DataFrame product = gb.product();
 		System.out.println("product:");
 		System.out.println(product);
-		
+
 		DataFrame numUnique = gb.numUnique();
 		System.out.println("numUnique:");
 		System.out.println(numUnique);
-		
+
 		DataFrame variance = gb.variance(1);
 		System.out.println("variance:");
 		System.out.println(variance);
-		
+
 		DataFrame std = gb.standardDeviation(1);
 		System.out.println("standardDeviation:");
 		System.out.println(std);
 		return df;
 	}
-	
+
 	public static DataFrame play() {
-		
-		
+
 		ArrayList<String> columnNames = new ArrayList<String>();
 		columnNames.add("col_n");
 		columnNames.add("col_f");
 		columnNames.add("col_z");
-//		columnNames.add("col_r");
-//		columnNames.add("col_w");
-//		columnNames.add("col_A");
-//		columnNames.add("col_S");
-//		columnNames.add("col_m");
-//		columnNames.add("col_l");
-//		columnNames.add("col_t");
-		
+		// columnNames.add("col_r");
+		// columnNames.add("col_w");
+		// columnNames.add("col_A");
+		// columnNames.add("col_S");
+		// columnNames.add("col_m");
+		// columnNames.add("col_l");
+		// columnNames.add("col_t");
+
 		ArrayList<String> rowNames = new ArrayList<String>();
 		rowNames.add("row_one");
 		rowNames.add("row_two");
 		rowNames.add("row_three");
 		rowNames.add("row_four");
 		rowNames.add("row_five");
-//		rowNames.add("row_six");
-//		rowNames.add("row_seven");
-//		rowNames.add("row_eight");
-//		rowNames.add("row_nine");
-//		rowNames.add("row_ten");
-		
-		int[][] arrs = new int[][] {{1, 2}, {3, 4}, {5, 6}};
+		// rowNames.add("row_six");
+		// rowNames.add("row_seven");
+		// rowNames.add("row_eight");
+		// rowNames.add("row_nine");
+		// rowNames.add("row_ten");
 
-		DataFrame df = new DataFrame(new String[] {"one", "two", "three"}, arrs, true);
-		
-		
-		
+		int[][] arrs = new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } };
+
+		DataFrame df = new DataFrame(new String[] { "one", "two", "three" }, arrs, true);
+
 		return df;
 	}
 
@@ -809,7 +810,6 @@ public class Main {
 		names.add("one");
 		names.add("two");
 		names.add("three");
-		
 
 		DataFrame df = new DataFrame(names, combined, true);
 
@@ -827,7 +827,7 @@ public class Main {
 	}
 
 	private static void numJaPlay() {
-//		NumJa numJa = new NumJa();
+		// NumJa numJa = new NumJa();
 
 	}
 
