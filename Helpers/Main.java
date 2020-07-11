@@ -151,12 +151,15 @@ public class Main {
 	}
 
 	private static void wordCloudChart() {
-		String message = CommonSampleText.getStringMessage(200);
+		String message = CommonSampleText.getStringMessage(800);
 		
 		WordCloudChart wcc = new WordCloudChart(message, 20);
+		wcc.setNumStringsToShow(50);
+		wcc.getPlot().setXOffset(-240);
+		wcc.getPlot().setYOffset(30);
 
 		wcc.setTitle("Word Cloud Chart");
-
+		wcc.setTitleFont(new Font("Dialog", Font.PLAIN, 30));
 		wcc.create();
 		wcc.writeImage("Chart Images/Word Cloud Chart.png");
 	}

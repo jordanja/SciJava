@@ -75,6 +75,8 @@ public class WordCloudChart extends Chart {
 		this.plot.drawPlotOutline(g, this.cm);
 	
 		this.plot.drawPlot(g, this.cm);
+		g.setColor(Color.BLACK);
+		// g.drawRect(cm.imageLeftToPlotLeftWidth(), cm.imageBottomToPlotBottomHeight(), cm.getPlotWidth(), cm.getPlotHeight());
 		
 		this.drawTitle(g, this.cm);
 	
@@ -82,4 +84,27 @@ public class WordCloudChart extends Chart {
 
 
 	
+	public int getNumStringsToShow() {
+		return this.numStringsToShow;
+	}
+
+	public void setNumStringsToShow(int numStringsToShow) {
+		this.numStringsToShow = numStringsToShow;
+	}
+
+	public WordCloudPlot getPlot() {
+		return plot;
+	}
+
+	public void setPlot(WordCloudPlot plot) {
+		this.plot = plot;
+	}
+
+	public OnlyPlotChartMeasurements getChartMeasurements() {
+		return cm;
+	}
+
+	public void setChartMeasurements(OnlyPlotChartMeasurements cm) {
+		this.cm = cm;
+	}
 }
