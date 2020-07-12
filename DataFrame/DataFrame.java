@@ -10627,6 +10627,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void setValue(String columnName, String rowName, Duration value) {
 		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
 	}
+
+	public void setValue(String columnName, String rowName, BigDecimal value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
+	}
+
+	public void setValue(String columnName, String rowName, Color value) {
+		setValue(this.columnNames.indexOf(columnName), this.rowNames.indexOf(rowName), value);
+	}
 	
 	public void setValue(int columnIndex, int rowIndex, DataItem value) {
 		this.data.get(columnIndex).set(rowIndex, value);
@@ -10665,6 +10673,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void setValue(int columnIndex, int rowIndex, Duration value) {
+		this.data.get(columnIndex).set(rowIndex, new DataItem(value));
+	}
+
+	public void setValue(int columnIndex, int rowIndex, BigDecimal value) {
+		this.data.get(columnIndex).set(rowIndex, new DataItem(value));
+	}
+
+	public void setValue(int columnIndex, int rowIndex, Color value) {
 		this.data.get(columnIndex).set(rowIndex, new DataItem(value));
 	}
 
@@ -10765,6 +10781,20 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 			this.setColumnValues(colCount, column);
 		}
 	}
+
+	public void copySerializedColumnsIntoDataFrame(BigDecimal[] values) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
+			BigDecimal[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
+
+	public void copySerializedColumnsIntoDataFrame(Color[] values) {
+		for (int colCount = 0; colCount < this.getNumColumns(); colCount++) {
+			Color[] column = Arrays.copyOfRange(values, colCount * this.getNumRows(), (colCount + 1) * this.getNumRows());
+			this.setColumnValues(colCount, column);
+		}
+	}
 	
 
 	
@@ -10819,6 +10849,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void setColumnValues(int columnIndex, Period[] column) {
 		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
 	}
+
+	public void setColumnValues(int columnIndex, BigDecimal[] column) {
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
+	}
+
+	public void setColumnValues(int columnIndex, Color[] column) {
+		IntStream.range(0, column.length).forEach(i -> setValue(columnIndex, i, column[i]));
+	}
 	
 	
 	public void setColumnValues(String columnName, DataItem[] column) {
@@ -10870,6 +10908,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void setColumnValues(String columnName, Period[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+
+	public void setColumnValues(String columnName, BigDecimal[] column) {
+		this.setColumnValues(this.columnNames.indexOf(columnName), column);
+	}
+
+	public void setColumnValues(String columnName, Color[] column) {
 		this.setColumnValues(this.columnNames.indexOf(columnName), column);
 	}
 	
@@ -10926,6 +10972,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void setColumnValues(int columnIndex, Duration value) {
 		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
 	}
+
+	public void setColumnValues(int columnIndex, BigDecimal value) {
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
+	}
+
+	public void setColumnValues(int columnIndex, Color value) {
+		IntStream.range(0, this.getNumRows()).forEach(i -> setValue(columnIndex, i, value));
+	}
 	
 	public void setColumnsValues(int[] columnIndices, DataItem value) {
 		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
@@ -10976,6 +11030,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void setColumnsValues(int[] columnIndices, Duration value) {
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
+	}
+
+	public void setColumnsValues(int[] columnIndices, BigDecimal value) {
+		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
+	}
+
+	public void setColumnsValues(int[] columnIndices, Color value) {
 		IntStream.range(0, columnIndices.length).forEach(i -> setColumnValues(i, value));
 	}
 
@@ -11043,6 +11105,16 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int columnIndex = this.columnNames.indexOf(columnName);
 		setColumnValues(columnIndex, value);
 	}
+
+	public void setColumnValues(String columnName, BigDecimal value) {
+		int columnIndex = this.columnNames.indexOf(columnName);
+		setColumnValues(columnIndex, value);
+	}
+
+	public void setColumnValues(String columnName, Color value) {
+		int columnIndex = this.columnNames.indexOf(columnName);
+		setColumnValues(columnIndex, value);
+	}
 	
 	public void setColumnsValues(String[] columnNames, DataItem value) {
 		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
@@ -11095,7 +11167,15 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void setColumnsValues(String[] columnNames, Duration value) {
 		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
 	}
+
+	public void setColumnsValues(String[] columnNames, BigDecimal value) {
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
+	}
 	
+	public void setColumnsValues(String[] columnNames, Color value) {
+		IntStream.range(0, columnNames.length).forEach(i -> setColumnValues(columnNames[i], value));
+	}
+
 	public void setColumnsValues(ArrayList<String> columnNames, DataItem value) {
 		setColumnsValues(columnNames.toArray(new String[0]), value);
 	}
@@ -11145,6 +11225,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void setColumnsValues(ArrayList<String> columnNames, Duration value) {
+		setColumnsValues(columnNames.toArray(new String[0]), value);
+	}
+
+	public void setColumnsValues(ArrayList<String> columnNames, BigDecimal value) {
+		setColumnsValues(columnNames.toArray(new String[0]), value);
+	}
+
+	public void setColumnsValues(ArrayList<String> columnNames, Color value) {
 		setColumnsValues(columnNames.toArray(new String[0]), value);
 	}
 
@@ -11212,6 +11300,16 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
 		setColumnsValues(indicesToGet, value);
 	}
+
+	public void setColumnsValues(int lowestIndex, int highestIndex, BigDecimal value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setColumnsValues(indicesToGet, value);
+	}
+
+	public void setColumnsValues(int lowestIndex, int highestIndex, Color value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setColumnsValues(indicesToGet, value);
+	}
 	
 	public void setRowValues(int rowIndex, DataItem[] row) {
 		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
@@ -11262,6 +11360,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void setRowValues(int rowIndex, Duration[] row) {
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
+	}
+
+	public void setRowValues(int rowIndex, BigDecimal[] row) {
+		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
+	}
+
+	public void setRowValues(int rowIndex, Color[] row) {
 		IntStream.range(0, row.length).forEach(i -> setValue(i, rowIndex, row[i]));
 	}
 	
@@ -11317,6 +11423,13 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		setRowValues(this.rowNames.indexOf(rowName), column);
 	}
 	
+	public void setRowValues(String rowName, BigDecimal[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
+
+	public void setRowValues(String rowName, Color[] column) {
+		setRowValues(this.rowNames.indexOf(rowName), column);
+	}
 
 
 	public void setRowValues(int rowIndex, DataItem value) {
@@ -11371,6 +11484,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
 	}
 
+	public void setRowValues(int rowIndex, BigDecimal value) {
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
+	}
+
+	public void setRowValues(int rowIndex, Color value) {
+		IntStream.range(0, this.getNumColumns()).forEach(i -> setValue(i, rowIndex, value));
+	}
+
 	public void setRowsValues(int[] rowIndices, DataItem value) {
 		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
 	}
@@ -11420,6 +11541,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 
 	public void setRowsValues(int[] rowIndices, Duration value) {
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
+	}
+
+	public void setRowsValues(int[] rowIndices, BigDecimal value) {
+		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
+	}
+
+	public void setRowsValues(int[] rowIndices, Color value) {
 		IntStream.range(0, rowIndices.length).forEach(i -> setRowValues(i, value));
 	}
 	
@@ -11487,6 +11616,16 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int rowIndex = this.rowNames.indexOf(rowName);
 		setRowValues(rowIndex, value);
 	}
+
+	public void setRowValues(String rowName, BigDecimal value) {
+		int rowIndex = this.rowNames.indexOf(rowName);
+		setRowValues(rowIndex, value);
+	}
+
+	public void setRowValues(String rowName, Color value) {
+		int rowIndex = this.rowNames.indexOf(rowName);
+		setRowValues(rowIndex, value);
+	}
 	
 	public void setRowsValues(String[] rowNames, DataItem value) {
 		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
@@ -11541,6 +11680,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
 	}
 
+	public void setRowsValues(String[] rowNames, BigDecimal value) {
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
+	}
+
+	public void setRowsValues(String[] rowNames, Color value) {
+		IntStream.range(0, rowNames.length).forEach(i -> setRowValues(rowNames[i], value));
+	}
+
 	public void setRowsValues(ArrayList<String> rowNames, DataItem value) {
 		setRowsValues(rowNames.toArray(new String[0]), value);
 	}
@@ -11590,6 +11737,14 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void setRowsValues(ArrayList<String> rowNames, Duration value) {
+		setRowsValues(rowNames.toArray(new String[0]), value);
+	}
+
+	public void setRowsValues(ArrayList<String> rowNames, BigDecimal value) {
+		setRowsValues(rowNames.toArray(new String[0]), value);
+	}
+
+	public void setRowsValues(ArrayList<String> rowNames, Color value) {
 		setRowsValues(rowNames.toArray(new String[0]), value);
 	}
 
@@ -11658,6 +11813,15 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		setRowsValues(indicesToGet, value);
 	}
 
+	public void setRowsValues(int lowestIndex, int highestIndex, BigDecimal value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setRowsValues(indicesToGet, value);
+	}
+
+	public void setRowsValues(int lowestIndex, int highestIndex, Color value) {
+		int[] indicesToGet = IntStream.rangeClosed(lowestIndex, highestIndex).toArray();
+		setRowsValues(indicesToGet, value);
+	}
 
 	public DataItem getValue(int colNum, int rowNum) {
 		try {			
