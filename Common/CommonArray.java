@@ -1,5 +1,6 @@
 package thesis.Common;
 
+import java.awt.Color;
 import java.util.List;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
@@ -511,6 +512,14 @@ public class CommonArray {
 		}
 		return arr;
 	}
+	public static Color[] initializeColorArrayWithValues(int length, Color value) {
+		Color[] arr = new Color[length];
+		for (int i = 0; i < length; i++) {
+			arr[i] = value;
+		}
+		return arr;
+	}
+	
 	
 	public static Object[] initializeObjectArrayWithValues(int length, Object value) {
 		Object[] arr = new Object[length];

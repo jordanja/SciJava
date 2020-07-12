@@ -189,7 +189,7 @@ public class DataItem {
 		}
 	}
 	
-	// BigDecimal Value
+	// Color Value
 	public DataItem(Color value) {
 		if (value != null) {
 			this.colorValue = value;

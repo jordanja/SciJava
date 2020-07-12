@@ -81,10 +81,10 @@ public class Main {
 		// stackedAreaChart();
 		// usaMapChart();
 		// worldMapChart();
-		wordCloudChart();
+		// wordCloudChart();
 		// scatterChartingDiamond();
 		// multiChart();
-		// dfPlay();
+		dfPlay();
 		System.out.println("\n\nFINISHED EXECUTION");
 	}
 
@@ -566,7 +566,7 @@ public class Main {
 	}
 
 	private static void dfPlay() {
-		// DataFrame df = play();
+		DataFrame df = play();
 		// DataFrame df = csvConstructor();
 		// DataFrame df = hashColsConstructor();
 		// DataFrame df = hashRowsConstructor();
@@ -578,7 +578,7 @@ public class Main {
 		// DataFrame df = rowColNameEmpltyArray();
 
 		// DataFrame df = time();
-		DataFrame df = groupBy();
+		// DataFrame df = groupBy();
 		System.out.println(df);
 
 	}
@@ -720,6 +720,8 @@ public class Main {
 		int[][] arrs = new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } };
 
 		DataFrame df = new DataFrame(new String[] { "one", "two", "three" }, arrs, true);
+
+		df.insertColumn(1, "ewufweiuf", Color.RED);
 
 		return df;
 	}
