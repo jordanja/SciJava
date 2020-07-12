@@ -1717,6 +1717,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(index, columnName, Arrays.asList(column));
 	}
 
+	public void insertColumn(int index, String columnName, Color[] column) {
+		insertColumn(index, columnName, Arrays.asList(column));
+	}
+
 	public <T> void insertColumn(int index, String columnName, T value) {
 		T[] column = CommonArray.initializeGenericArrayWithValues(this.getNumRows(), value);
 		insertColumn(index, columnName, column);
@@ -1785,6 +1789,12 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public void insertColumn(int index, String columnName, BigDecimal value) {
 		BigDecimal[] column = new BigDecimal[this.getNumRows()];
+		Arrays.setAll(column, i -> value);
+		insertColumn(index, columnName, column);
+	}
+
+	public void insertColumn(int index, String columnName, Color value) {
+		Color[] column = new Color[this.getNumRows()];
 		Arrays.setAll(column, i -> value);
 		insertColumn(index, columnName, column);
 	}
@@ -1862,6 +1872,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		String columnName = generateUnusedColumnName();
 		insertColumn(index, columnName, column);
 	}
+
+	public void insertColumn(int index, Color[] column) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, column);
+	}
 	
 	public void insertColumn(int index, DataItem value) {
 		String columnName = generateUnusedColumnName();
@@ -1919,6 +1934,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void insertColumn(int index, BigDecimal value) {
+		String columnName = generateUnusedColumnName();
+		insertColumn(index, columnName, value);
+	}
+
+	public void insertColumn(int index, Color value) {
 		String columnName = generateUnusedColumnName();
 		insertColumn(index, columnName, value);
 	}
@@ -2018,6 +2038,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
 	}
 	
+	public void insertColumns(int index, String[] columnNames, Color[][] columns) {
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], columns[i]));
+	}
+
 	public void insertColumns(int index, String[] columnNames, DataItem value) {
 		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
@@ -2067,6 +2091,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void insertColumns(int index, String[] columnNames, BigDecimal value) {
+		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
+	}
+
+	public void insertColumns(int index, String[] columnNames, Color value) {
 		IntStream.range(0, columnNames.length).forEachOrdered(i -> insertColumn(index + i, columnNames[i], value));
 	}
 	
@@ -2129,6 +2157,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void insertColumns(int index, BigDecimal[][] columns) {
 		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
 	}
+
+	public void insertColumns(int index, Color[][] columns) {
+		IntStream.range(0, columns.length).forEachOrdered(i -> insertColumn(index + i, columns[i]));
+	}
 	
 	public void insertColumns(int index, int numColumns, DataItem value) {
 		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
@@ -2175,6 +2207,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void insertColumns(int index, int numColumns, BigDecimal value) {
+		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
+	}
+
+	public void insertColumns(int index, int numColumns, Color value) {
 		IntStream.range(0, numColumns).forEachOrdered(i -> insertColumn(index + i, value));
 	}
 	
@@ -2239,6 +2275,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(this.columnNames.size(), columnName, column);
 	}
 	
+	public void appendColumn(String columnName, Color[] column) {
+		insertColumn(this.columnNames.size(), columnName, column);
+	}
+
 	public void appendColumn(String columnName, DataItem value) {
 		insertColumn(this.columnNames.size(), columnName, value);
 	}
@@ -2288,6 +2328,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void appendColumn(String columnName, BigDecimal value) {
+		insertColumn(this.columnNames.size(), columnName, value);
+	}
+
+	public void appendColumn(String columnName, Color value) {
 		insertColumn(this.columnNames.size(), columnName, value);
 	}
 	
@@ -2351,6 +2395,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumn(this.columnNames.size(), column);
 	}
 	
+	public void appendColumn(Color[] column) {
+		insertColumn(this.columnNames.size(), column);
+	}
+	
 	public void appendColumn(DataItem value) {
 		insertColumn(this.columnNames.size(), value);
 	}
@@ -2396,6 +2444,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void appendColumn(BigDecimal value) {
+		insertColumn(this.columnNames.size(), value);
+	}
+
+	public void appendColumn(Color value) {
 		insertColumn(this.columnNames.size(), value);
 	}
 	
@@ -2471,6 +2523,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumns(this.columnNames.size(), columnNames, columns);
 	}
 
+	public void appendColumns(String[] columnNames, Color[][] columns) {
+		insertColumns(this.columnNames.size(), columnNames, columns);
+	}
+
 	public void appendColumns(String[] columnNames, DataItem value) {
 		insertColumns(this.columnNames.size(), columnNames, value);
 	}
@@ -2523,6 +2579,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		insertColumns(this.columnNames.size(), columnNames, value);
 	}
 	
+	public void appendColumns(String[] columnNames, Color value) {
+		insertColumns(this.columnNames.size(), columnNames, value);
+	}
+
 	public void appendColumns(String[] columnNames) {
 		insertColumns(this.columnNames.size(), columnNames);
 	}
@@ -2582,6 +2642,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void appendColumns(BigDecimal[][] columns) {
 		insertColumns(this.getColumnNames().size(), columns);
 	}
+
+	public void appendColumns(Color[][] columns) {
+		insertColumns(this.getColumnNames().size(), columns);
+	}
 	
 	public void appendColumns(int numColumns, DataItem value) {
 		insertColumns(this.getColumnNames().size(), numColumns, value);
@@ -2628,6 +2692,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void appendColumns(int numColumns, BigDecimal value) {
+		insertColumns(this.getColumnNames().size(), numColumns, value);
+	}
+
+	public void appendColumns(int numColumns, Color value) {
 		insertColumns(this.getColumnNames().size(), numColumns, value);
 	}
 	
@@ -2713,6 +2781,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void insertRow(int index, String rowName, BigDecimal[] row) {
 		insertRow(index, rowName, Arrays.asList(row));
 	}
+
+	public void insertRow(int index, String rowName, Color[] row) {
+		insertRow(index, rowName, Arrays.asList(row));
+	}
 	
 	public void insertRow(int index, String rowName, DataItem value) {
 		DataItem[] row = CommonArray.initializeDataItemArrayWithValues(this.getNumColumns(), value);
@@ -2776,6 +2848,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public void insertRow(int index, String rowName, BigDecimal value) {
 		BigDecimal[] row = CommonArray.initializeBigDecimalArrayWithValues(this.getNumColumns(), value);
+		insertRow(index, rowName, row);
+	}
+
+	public void insertRow(int index, String rowName, Color value) {
+		Color[] row = CommonArray.initializeColorArrayWithValues(this.getNumColumns(), value);
 		insertRow(index, rowName, row);
 	}
 	
@@ -2852,6 +2929,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		String rowName = generateUnusedRowName();
 		insertRow(index, rowName, row);
 	}
+
+	public void insertRow(int index, Color[] row) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, row);
+	}
 	
 	public void insertRow(int index, DataItem value) {
 		String rowName = generateUnusedRowName();
@@ -2909,6 +2991,11 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void insertRow(int index, BigDecimal value) {
+		String rowName = generateUnusedRowName();
+		insertRow(index, rowName, value);
+	}
+
+	public void insertRow(int index, Color value) {
 		String rowName = generateUnusedRowName();
 		insertRow(index, rowName, value);
 	}
@@ -3006,6 +3093,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void insertRows(int index, String[] rowNames, BigDecimal[][] rows) {
 		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
 	}
+
+	public void insertRows(int index, String[] rowNames, Color[][] rows) {
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], rows[i]));
+	}
 	
 	public void insertRows(int index, String[] rowNames, DataItem value) {
 		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
@@ -3056,6 +3147,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void insertRows(int index, String[] rowNames, BigDecimal value) {
+		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
+	}
+
+	public void insertRows(int index, String[] rowNames, Color value) {
 		IntStream.range(0, rowNames.length).forEachOrdered(i -> insertRow(index + i, rowNames[i], value));
 	}
 	
@@ -3118,6 +3213,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void insertRows(int index, BigDecimal[][] rows) {
 		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
 	}
+
+	public void insertRows(int index, Color[][] rows) {
+		IntStream.range(0, rows.length).forEachOrdered(i -> insertRow(index + i, rows[i]));
+	}
 	
 	public void insertRows(int index, int numRows, DataItem value) {
 		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
@@ -3164,6 +3263,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void insertRows(int index, int numRows, BigDecimal value) {
+		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
+	}
+
+	public void insertRows(int index, int numRows, Color value) {
 		IntStream.range(0, numRows).forEachOrdered(i -> insertRow(index + i, value));
 	}
 	
@@ -3227,6 +3330,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void appendRow(String rowName, BigDecimal[] row) {
 		insertRow(this.rowNames.size(), rowName, row);
 	}
+
+	public void appendRow(String rowName, Color[] row) {
+		insertRow(this.rowNames.size(), rowName, row);
+	}
 	
 	public void appendRow(String rowName, DataItem value) {
 		insertRow(this.rowNames.size(), rowName, value);
@@ -3277,6 +3384,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void appendRow(String rowName, BigDecimal value) {
+		insertRow(this.rowNames.size(), rowName, value);
+	}
+
+	public void appendRow(String rowName, Color value) {
 		insertRow(this.rowNames.size(), rowName, value);
 	}
 	
@@ -3339,6 +3450,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void appendRow(BigDecimal[] row) {
 		insertRow(this.rowNames.size(), row);
 	}
+
+	public void appendRow(Color[] row) {
+		insertRow(this.rowNames.size(), row);
+	}
 	
 	public void appendRow(DataItem value) {
 		insertRow(this.rowNames.size(), value);
@@ -3385,6 +3500,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void appendRow(BigDecimal value) {
+		insertRow(this.rowNames.size(), value);
+	}
+
+	public void appendRow(Color value) {
 		insertRow(this.rowNames.size(), value);
 	}
 	
@@ -3463,6 +3582,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void appendRows(String[] rowNames, BigDecimal[][] rows) {
 		insertRows(this.rowNames.size(), rowNames, rows);
 	}
+
+	public void appendRows(String[] rowNames, Color[][] rows) {
+		insertRows(this.rowNames.size(), rowNames, rows);
+	}
 	
 	public void appendRows(String[] rowNames, DataItem value) {
 		insertRows(this.rowNames.size(), rowNames, value);
@@ -3513,6 +3636,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void appendRows(String[] rowNames, BigDecimal value) {
+		insertRows(this.rowNames.size(), rowNames, value);
+	}
+
+	public void appendRows(String[] rowNames, Color value) {
 		insertRows(this.rowNames.size(), rowNames, value);
 	}
 	
@@ -3572,6 +3699,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public void appendRows(BigDecimal[][] rows) {
 		insertRows(this.rowNames.size(), rows);
 	}
+
+	public void appendRows(Color[][] rows) {
+		insertRows(this.rowNames.size(), rows);
+	}
 	
 	public void appendRows(int numRows, DataItem value) {
 		insertRows(this.rowNames.size(), numRows, value);
@@ -3618,6 +3749,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	}
 	
 	public void appendRows(int numRows, BigDecimal value) {
+		insertRows(this.rowNames.size(), numRows, value);
+	}
+
+	public void appendRows(int numRows, Color value) {
 		insertRows(this.rowNames.size(), numRows, value);
 	}
 	
