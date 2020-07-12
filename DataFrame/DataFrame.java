@@ -3890,6 +3890,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getColumnsAs2DDurationList(0, this.getNumColumns() - 1);
 	}
 	
+	public  List<List<BigDecimal>> getDataAs2DBigDecimalList() {
+		return getColumnsAs2DBigDecimalList(0, this.getNumColumns() - 1);
+	}
+
 	public DataItem[][] getDataAs2DDataItemArray() {
 		return getColumnsAs2DDataItemArray(0, this.getNumColumns() - 1);
 	}
@@ -3936,6 +3940,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	
 	public Duration[][] getDataAs2DDurationArray() {
 		return getColumnsAs2DDurationArray(0, this.getNumColumns() - 1);
+	}
+
+	public BigDecimal[][] getDataAs2DBigDecimalArray() {
+		return getColumnsAs2DBigDecimalArray(0, this.getNumColumns() - 1);
 	}
 	
 	
@@ -4099,6 +4107,20 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int index = this.columnNames.indexOf(name);
 		return getColumnAsDurationArray(index);
 	}
+
+	public BigDecimal[] getColumnAsBigDecimalArray(int index) {
+		BigDecimal[] column = new BigDecimal[this.rowNames.size()];
+		for (int i = 0; i < column.length; i++) {
+			column[i] = this.data.get(index).get(i).getBigDecimalValue();
+		}
+		return column;
+	}
+	
+	
+	public BigDecimal[] getColumnAsBigDecimalArray(String name) {
+		int index = this.columnNames.indexOf(name);
+		return getColumnAsBigDecimalArray(index);
+	}
 	
 	public Color[] getColumnAsColorArray(int index) {
 		Color[] column = new Color[this.rowNames.size()];
@@ -4219,6 +4241,24 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public List<Duration> getColumnAsDurationList(String name) {
 		int index = this.columnNames.indexOf(name);
 		return this.getColumnAsDurationList(index);
+	}
+
+	public List<BigDecimal> getColumnAsBigDecimalList(int index) {
+		return Arrays.asList(this.getColumnAsBigDecimalArray(index));
+	}
+
+	public List<BigDecimal> getColumnAsBigDecimalList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsBigDecimalList(index);
+	}
+
+	public List<Color> getColumnAsColorList(int index) {
+		return Arrays.asList(this.getColumnAsColorArray(index));
+	}
+
+	public List<Color> getColumnAsColorList(String name) {
+		int index = this.columnNames.indexOf(name);
+		return this.getColumnAsColorList(index);
 	}
 
 	public DataItem[][] getColumnsAs2DDataItemArray(int[] indices) {
@@ -4616,7 +4656,74 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
 		return this.getColumnsAs2DDurationArray(indices);
 	}
+
+
+
+	public BigDecimal[][] getColumnsAs2DBigDecimalArray(int[] indices) {
+		BigDecimal[][] columns = new BigDecimal[indices.length][this.rowNames.size()];
+		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
+			columns[columnCount] = getColumnAsBigDecimalArray(indices[columnCount]);
+		}
+		
+		return columns;
+	}
 	
+	public BigDecimal[][] getColumnsAs2DBigDecimalArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return getColumnsAs2DBigDecimalArray(indices);
+	}
+	
+	public BigDecimal[][] getColumnsAs2DBigDecimalArray(ArrayList<String> names) {
+		return getColumnsAs2DBigDecimalArray(names.toArray(new String[0]));
+	}
+	
+	public BigDecimal[][] getColumnsAs2DBigDecimalArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DBigDecimalArray(indicesToGet);
+	}
+	
+	public BigDecimal[][] getColumnsAs2DBigDecimalArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DBigDecimalArray(columnIndices);
+	}
+	
+	public BigDecimal[][] getColumnsAs2DBigDecimalArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DBigDecimalArray(indices);
+	}
+
+	public Color[][] getColumnsAs2DColorArray(int[] indices) {
+		Color[][] columns = new Color[indices.length][this.rowNames.size()];
+		for (int columnCount = 0; columnCount < indices.length; columnCount++) {
+			columns[columnCount] = getColumnAsColorArray(indices[columnCount]);
+		}
+		
+		return columns;
+	}
+	
+	public Color[][] getColumnsAs2DColorArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.columnNames, names);
+		return getColumnsAs2DColorArray(indices);
+	}
+	
+	public Color[][] getColumnsAs2DColorArray(ArrayList<String> names) {
+		return getColumnsAs2DColorArray(names.toArray(new String[0]));
+	}
+	
+	public Color[][] getColumnsAs2DColorArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getColumnsAs2DColorArray(indicesToGet);
+	}
+	
+	public Color[][] getColumnsAs2DColorArray(boolean[] getColumn) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getColumn);
+		return this.getColumnsAs2DColorArray(columnIndices);
+	}
+	
+	public Color[][] getColumnsAs2DColorArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.columnNames, regex);
+		return this.getColumnsAs2DColorArray(indices);
+	}	
 	
 	public List<List<DataItem>> getColumnsAs2DDataItemList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDataItemArray(indices));
@@ -4905,6 +5012,55 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public List<List<Duration>> getColumnsAs2DDurationList(Pattern regex) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DDurationArray(regex));
 	}
+
+	public List<List<BigDecimal>> getColumnsAs2DBigDecimalList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBigDecimalArray(indices));
+	}
+
+	public List<List<BigDecimal>> getColumnsAs2DBigDecimalList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBigDecimalArray(names));
+	}
+
+	public List<List<BigDecimal>> getColumnsAs2DBigDecimalList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBigDecimalArray(names));
+	}
+
+	public List<List<BigDecimal>> getColumnsAs2DBigDecimalList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBigDecimalArray(lowerBound, upperBound));
+	}
+
+	public List<List<BigDecimal>> getColumnsAs2DBigDecimalList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBigDecimalArray(getColumn));
+	}
+	
+	public List<List<BigDecimal>> getColumnsAs2DBigDecimalList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DBigDecimalArray(regex));
+	}
+
+	public List<List<Color>> getColumnsAs2DColorList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DColorArray(indices));
+	}
+
+	public List<List<Color>> getColumnsAs2DColorList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DColorArray(names));
+	}
+
+	public List<List<Color>> getColumnsAs2DColorList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DColorArray(names));
+	}
+
+	public List<List<Color>> getColumnsAs2DColorList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DColorArray(lowerBound, upperBound));
+	}
+
+	public List<List<Color>> getColumnsAs2DColorList(boolean[] getColumn) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DColorArray(getColumn));
+	}
+	
+	public List<List<Color>> getColumnsAs2DColorList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getColumnsAs2DColorArray(regex));
+	}
+
 	
 	public DataFrame getColumnAsDataFrame(String name) {
 		return getColumnsAsDataFrame(new String[] { name });
@@ -5022,6 +5178,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 
 	public DataFrame getBigDecimalColumnsAsDataFrame() {
 		return this.getColumnsOfTypeAsDataFrame(StorageType.BigDecimal);
+	}
+
+	public DataFrame getColorColumnsAsDataFrame() {
+		return this.getColumnsOfTypeAsDataFrame(StorageType.Color);
 	}
 
 	
@@ -5187,6 +5347,32 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		return getRowAsDurationArray(index);
 	}
 
+	public BigDecimal[] getRowAsBigDecimalArray(int index) {
+		BigDecimal[] row = new BigDecimal[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getBigDecimalValue();
+		}
+		return row;
+	}
+
+	public BigDecimal[] getRowAsBigDecimalArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsBigDecimalArray(index);
+	}
+
+	public Color[] getRowAsColorArray(int index) {
+		Color[] row = new Color[this.columnNames.size()];
+		for (int i = 0; i < row.length; i++) {
+			row[i] = this.data.get(i).get(index).getColorValue();
+		}
+		return row;
+	}
+
+	public Color[] getRowAsColorArray(String name) {
+		int index = this.rowNames.indexOf(name);
+		return getRowAsColorArray(index);
+	}
+
 	public List<DataItem> getRowAsDataItemList(int index) {
 		return Arrays.asList(this.getRowAsDataItemArray(index));
 	}
@@ -5294,7 +5480,24 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int index = this.rowNames.indexOf(name);
 		return this.getRowAsDurationList(index);
 	}
+
+	public List<BigDecimal> getRowAsBigDecimalList(int index) {
+		return Arrays.asList(this.getRowAsBigDecimalArray(index));
+	}
+
+	public List<BigDecimal> getRowAsBigDecimalList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsBigDecimalList(index);
+	}
 	
+	public List<Color> getRowAsColorList(int index) {
+		return Arrays.asList(this.getRowAsColorArray(index));
+	}
+
+	public List<Color> getRowAsColorList(String name) {
+		int index = this.rowNames.indexOf(name);
+		return this.getRowAsColorList(index);
+	}
 	
 	public DataItem[][] getRowsAs2DDataItemArray(int[] indices) {
 		DataItem[][] rows = new DataItem[indices.length][this.columnNames.size()];
@@ -5692,6 +5895,73 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
 		return this.getRowsAs2DDurationArray(indices);
 	}
+
+	public BigDecimal[][] getRowsAs2DBigDecimalArray(int[] indices) {
+		BigDecimal[][] rows = new BigDecimal[indices.length][this.columnNames.size()];
+		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
+			rows[rowCount] = getRowAsBigDecimalArray(indices[rowCount]);
+		}
+		
+		return rows;
+	}
+
+	public BigDecimal[][] getRowsAs2DBigDecimalArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return getRowsAs2DBigDecimalArray(indices);
+	}
+
+	public BigDecimal[][] getRowsAs2DBigDecimalArray(ArrayList<String> names) {
+		return getRowsAs2DBigDecimalArray(names.toArray(new String[0]));
+	}
+
+	public BigDecimal[][] getRowsAs2DBigDecimalArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getRowsAs2DBigDecimalArray(indicesToGet);
+	}
+
+	public BigDecimal[][] getRowsAs2DBigDecimalArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DBigDecimalArray(columnIndices);
+	}
+
+	public BigDecimal[][] getRowsAs2DBigDecimalArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DBigDecimalArray(indices);
+	}
+
+	public Color[][] getRowsAs2DColorArray(int[] indices) {
+		Color[][] rows = new Color[indices.length][this.columnNames.size()];
+		for (int rowCount = 0; rowCount < indices.length; rowCount++) {
+			rows[rowCount] = getRowAsColorArray(indices[rowCount]);
+		}
+		
+		return rows;
+	}
+
+	public Color[][] getRowsAs2DColorArray(String[] names) {
+		int[] indices = CommonArray.getIndicesOfStringsInArray(this.rowNames, names);
+		return getRowsAs2DColorArray(indices);
+	}
+
+	public Color[][] getRowsAs2DColorArray(ArrayList<String> names) {
+		return getRowsAs2DColorArray(names.toArray(new String[0]));
+	}
+
+	public Color[][] getRowsAs2DColorArray(int lowerBound, int upperBound) {
+		int[] indicesToGet = IntStream.rangeClosed(lowerBound, upperBound).toArray();
+		return getRowsAs2DColorArray(indicesToGet);
+	}
+
+	public Color[][] getRowsAs2DColorArray(boolean[] getRow) {
+		int[] columnIndices = CommonArray.elementsOfTrues(getRow);
+		return this.getRowsAs2DColorArray(columnIndices);
+	}
+
+	public Color[][] getRowsAs2DColorArray(Pattern regex) {
+		int[] indices = CommonArray.getIndicesOfListThatMatchRegex(this.rowNames, regex);
+		return this.getRowsAs2DColorArray(indices);
+	}
+
 	
 	public List<List<DataItem>> getRowsAs2DDataItemList(int[] indices) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDataItemArray(indices));
@@ -5980,6 +6250,54 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public List<List<Duration>> getRowsAs2DDurationList(Pattern regex) {
 		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DDurationArray(regex));
 	}
+
+	public List<List<BigDecimal>> getRowsAs2DBigDecimalList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBigDecimalArray(indices));
+	}
+
+	public List<List<BigDecimal>> getRowsAs2DBigDecimalList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBigDecimalArray(names));
+	}
+
+	public List<List<BigDecimal>> getRowsAs2DBigDecimalList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBigDecimalArray(names));
+	}
+
+	public List<List<BigDecimal>> getRowsAs2DBigDecimalList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBigDecimalArray(lowerBound, upperBound));
+	}
+
+	public List<List<BigDecimal>> getRowsAs2DBigDecimalList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBigDecimalArray(getRow));
+	}
+	
+	public List<List<BigDecimal>> getRowsAs2DBigDecimalList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DBigDecimalArray(regex));
+	}
+
+	public List<List<Color>> getRowsAs2DColorList(int[] indices) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DColorArray(indices));
+	}
+
+	public List<List<Color>> getRowsAs2DColorList(String[] names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DColorArray(names));
+	}
+
+	public List<List<Color>> getRowsAs2DColorList(ArrayList<String> names) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DColorArray(names));
+	}
+
+	public List<List<Color>> getRowsAs2DColorList(int lowerBound, int upperBound) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DColorArray(lowerBound, upperBound));
+	}
+
+	public List<List<Color>> getRowsAs2DColorList(boolean[] getRow) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DColorArray(getRow));
+	}
+	
+	public List<List<Color>> getRowsAs2DColorList(Pattern regex) {
+		return CommonArray.convert2DArrayTo2DArrayList(this.getRowsAs2DColorArray(regex));
+	}
 	
 	public DataFrame getRowAsDataFrame(String name) {
 		return getRowsAsDataFrame(new String[] { name });
@@ -6094,7 +6412,10 @@ public class DataFrame implements Iterable<ArrayList<DataItem>> {
 	public DataFrame getBigDecimalRowsAsDataFrame() {
 		return this.getRowsOfTypeAsDataFrame(StorageType.BigDecimal);
 	}
-	
+
+	public DataFrame getColorRowsAsDataFrame() {
+		return this.getRowsOfTypeAsDataFrame(StorageType.Color);
+	}
 	
 	public DataFrame first() {
 		return head(1);
