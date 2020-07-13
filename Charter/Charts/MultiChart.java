@@ -55,7 +55,9 @@ public class MultiChart {
 		// 'create' each chart
 		for (List<Chart> chartRow: charts) {
 			for (Chart chart: chartRow) {
-				chart.create();
+				if (chart != null) {
+					chart.create();
+				}
 			}
 		}
 		// Calculate chart metrics (size of each chart etc)
@@ -81,20 +83,22 @@ public class MultiChart {
 		// Insert each chart image onto the multi-chart
 		for (int rowCount = 0; rowCount < this.charts.size(); rowCount++) {
 			for (int columnCount = 0; columnCount < this.charts.get(rowCount).size(); columnCount++) {
-				BufferedImage img = this.charts.get(rowCount).get(columnCount).getImage();
-				
-				// Not sure why I need this
-				AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
-				tx.translate(0, -img.getHeight(null));
-				AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-				img = op.filter(img, null);
-				
-				g.drawImage(img, this.cm.imageLeftToChartLeftWidth(columnCount, rowCount), this.cm.imageBottomToChartBottomHeight(columnCount, rowCount), null);
-				
-				if (this.drawChartOutline) {
-					g.setColor(this.chartOutlineColor);
-					g.setStroke(new BasicStroke(this.chartOutlineWidth));
-					g.drawRect(this.cm.imageLeftToChartLeftWidth(columnCount, rowCount), this.cm.imageBottomToChartBottomHeight(columnCount, rowCount), this.cm.getChartWidth(columnCount, rowCount), this.cm.getChartHeight(columnCount, rowCount));
+				if (this.charts.get(rowCount).get(columnCount) != null) {
+					BufferedImage img = this.charts.get(rowCount).get(columnCount).getImage();
+					
+					// Not sure why I need this
+					AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
+					tx.translate(0, -img.getHeight(null));
+					AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+					img = op.filter(img, null);
+					
+					g.drawImage(img, this.cm.imageLeftToChartLeftWidth(columnCount, rowCount), this.cm.imageBottomToChartBottomHeight(columnCount, rowCount), null);
+					
+					if (this.drawChartOutline) {
+						g.setColor(this.chartOutlineColor);
+						g.setStroke(new BasicStroke(this.chartOutlineWidth));
+						g.drawRect(this.cm.imageLeftToChartLeftWidth(columnCount, rowCount), this.cm.imageBottomToChartBottomHeight(columnCount, rowCount), this.cm.getChartWidth(columnCount, rowCount), this.cm.getChartHeight(columnCount, rowCount));
+					}
 				}
 			}
 		}
@@ -146,7 +150,7 @@ public class MultiChart {
 	}
 	
 	public void setChart(int columnIndex, int rowIndex, Chart chart) {
-		this.charts.get(rowIndex).set(columnIndex, chart);
+		this.charts.get(columnIndex).set(rowIndex, chart);
 	}
 
 	public void WriteFile(String fileLoc) {

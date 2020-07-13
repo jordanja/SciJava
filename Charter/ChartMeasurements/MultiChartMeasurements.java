@@ -185,8 +185,13 @@ public class MultiChartMeasurements {
 		this.chartHeights = new int[charts.length][charts[0].length];
 		for (int rowCount = 0; rowCount < charts.length; rowCount++) {
 			for (int columnCount = 0; columnCount < charts[0].length; columnCount++) {
-				this.chartWidths[rowCount][columnCount] = charts[rowCount][columnCount].getImageWidth();
-				this.chartHeights[rowCount][columnCount] = charts[rowCount][columnCount].getImageHeight();
+				if (charts[rowCount][columnCount] != null) {
+					this.chartWidths[rowCount][columnCount] = charts[rowCount][columnCount].getImageWidth();
+					this.chartHeights[rowCount][columnCount] = charts[rowCount][columnCount].getImageHeight();
+				} else {
+					this.chartWidths[rowCount][columnCount] = 0;
+					this.chartHeights[rowCount][columnCount] = 0;
+				}
 			}	
 		}
 		

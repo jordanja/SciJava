@@ -13,12 +13,6 @@ import thesis.Charter.Legend.CategoricalLegend;
 import thesis.Charter.Legend.Legend;
 import thesis.Charter.Legend.LegendData;
 import thesis.Charter.Plots.LinePlot;
-import thesis.Charter.Styles.ChartJSStyle;
-import thesis.Charter.Styles.ExcelStyle;
-import thesis.Charter.Styles.KidsStyle;
-import thesis.Charter.Styles.MatplotlibStyle;
-import thesis.Charter.Styles.NighttimeStyle;
-import thesis.Charter.Styles.SeabornStyle;
 import thesis.Charter.Styles.Style;
 import thesis.Charter.Styles.StyleFactory;
 import thesis.Charter.Styles.Styles;
@@ -219,7 +213,7 @@ public class LineChart extends XYChart {
 		this.setImageBackgroundColor(styleToSet.getChartBackgroundColor());
 	}
 
-	public BaseAxis getAxis() {
+	public NumericAxis getAxis() {
 		return this.axis;
 	}
 

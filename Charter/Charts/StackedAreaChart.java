@@ -126,4 +126,8 @@ public class StackedAreaChart extends XYChart {
 	public void setOrder(String[] order) {
 		this.order = order;
 	}
+
+	public NumericAxis getAxis() {
+		return this.axis;
+	}
 }

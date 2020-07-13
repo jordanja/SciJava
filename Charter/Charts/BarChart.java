@@ -34,7 +34,6 @@ public class BarChart extends XYChart{
 	
 	private String[] order = new String[0];
 	
-	private String orient = "v";
 
 	public BarChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
@@ -212,7 +211,7 @@ public class BarChart extends XYChart{
 	}
 
 
-	public BaseAxis getAxis() {
+	public BarChartAxis getAxis() {
 		return this.axis;
 	}
 
@@ -238,13 +237,7 @@ public class BarChart extends XYChart{
 		this.order = order;
 	}
 	
-	public String getOrient() {
-		return orient;
-	}
-	public void setOrient(String orient) {
-		
-		this.orient = orient;
-	}
+	
 
 	public void setStyle(Styles style) {
 		Style styleToSet = StyleFactory.getStyle(style);
