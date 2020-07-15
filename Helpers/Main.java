@@ -72,7 +72,7 @@ public class Main {
 		// boxCharting();
 		// lineCharting();
 		// dateLineCharting();
-		// barCharting();
+		barCharting();
 		// scatterCharting();
 		// bubbleChart();
 		// radarChart();
@@ -191,36 +191,26 @@ public class Main {
 		columnTypes.put("Day", StorageType.Integer);
 		columnTypes.put("Team", StorageType.String);
 		columnTypes.put("Points", StorageType.Integer);
-
 		DataFrame df = DataFrame.readCSV("Datasets/stacked-area-chart.csv", true, false, columnTypes);
-
 		StackedAreaChart sac = new StackedAreaChart(df, "Day", "Points", "Team");
 		sac.setStyle(Styles.InfoGram);
-
 		sac.setTitle("NBA points per game");
 		sac.setTitleFont(new Font("Dialog", Font.PLAIN, 30));
-
 		sac.getAxis().setXAxisLabel("Game Number");
 
 		sac.create();
 		sac.writeImage("Chart Images/Stacked Area Chart.png");
-
 	}
 
 	private static void histogram() {
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("tree_heights", StorageType.Double);
-
 		DataFrame df = DataFrame.readCSV("Datasets/histogram.csv", true, false, columnTypes);
 		HistogramChart hc = new HistogramChart(df, "tree_heights");
-
 		hc.getXYChartMeasurements().setPlotWidth(1200);
-
 		hc.setStyle(Styles.Seaborn);
-
 		hc.create();
 		hc.writeImage("Chart Images/Histogram Chart.png");
-
 	}
 
 	private static void wordCloudChart() {
@@ -245,24 +235,17 @@ public class Main {
 		columnTypes.put("cases-per-day", StorageType.Integer);
 		DataFrame df = DataFrame.readCSV("Datasets/usa-map-fake-gradient.csv", true,
 		false, columnTypes);
-		GridCartogramChart usa = new GridCartogramChart(df, "abbreviation", "cases-per-day", MapType.USAStates, ChartType.Gradient);
-
-		// Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
-		// columnTypes.put("state", StorageType.String);
-		// columnTypes.put("abbreviation", StorageType.String);
-		// columnTypes.put("open-carry-status", StorageType.String);
-		// DataFrame df = DataFrame.readCSV("Datasets/usa-map-category.csv", true, false, columnTypes);
-		// GridCartogramChart usa = new GridCartogramChart(df, "abbreviation", "open-carry-status", MapType.USAStates,
-		// 		ChartType.Category);
-
-		// System.out.println(df.head());
-
+		GridCartogramChart usa = new GridCartogramChart(df, 
+			"abbreviation", 
+			"cases-per-day", 
+			MapType.USAStates, 
+			ChartType.Gradient
+		);
 		usa.setTitle("Coronavirus cases per day (7 July 2020)");
 		usa.setTitleFont(new Font("Dialog", Font.PLAIN, 20));
 
 		usa.create();
 		usa.writeImage("Chart Images/USA Map Chart.png");
-
 	}
 
 	private static void worldMapChart() {
@@ -289,21 +272,18 @@ public class Main {
 		gc.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
 		gc.setTitle("Gauge Chart");
 
-		gc.getPlot().setArcColors(new Color[] { Color.RED, Color.ORANGE, Color.GREEN });
-
+		gc.getPlot().setArcColors(new Color[] { 
+			Color.RED,
+			Color.ORANGE, 
+			Color.GREEN 
+		});
 		gc.getPlot().setInnerRadiusDifference(100);
 
 		gc.create();
-
-		// gc.write("Danger Zone", 210, 150, xAlignment.LeftAlign, yAlignment.MiddleAlign, Color.BLACK,
-		// 		new Font("Dialog", Font.PLAIN, 30), 0);
-		// gc.drawArrow(200, 150, 100, 250, Color.BLACK, 2);
-
 		gc.writeImage("Chart Images/Gauge Chart.png");
 	}
 
 	private static void polarAreaChart() {
-
 		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
 		columnTypes.put("Fruit", StorageType.String);
 		columnTypes.put("Quantity", StorageType.Double);
@@ -312,9 +292,6 @@ public class Main {
 
 		pac.setTitleFont(new Font("Dialog", Font.PLAIN, 60));
 		pac.setTitle("Polar Area Chart");
-
-		// pac.getPlot().setOutlineWidth(10);
-
 		pac.setStyle(Styles.ChartJS);
 
 		pac.create();
@@ -330,7 +307,6 @@ public class Main {
 
 		RadarChart rc = new RadarChart(df, "Fruit", "Supermarket", "Quantity");
 
-		rc.setTitleFont(new Font("Dialog", Font.PLAIN, 40));
 		rc.setTitle("Supermarket Quantities of Fruit");
 
 		rc.getChartMeasurements().setPlotWidth(600);
@@ -435,7 +411,26 @@ public class Main {
 	}
 
 	public static void stripCharting() {
-		Chart sc = getStripChart();
+		Map<String, StorageType> columnTypes = new HashMap<String, StorageType>();
+		columnTypes.put("total_bill", StorageType.Double);
+		columnTypes.put("tip", StorageType.Double);
+		columnTypes.put("sex", StorageType.String);
+		columnTypes.put("smoker", StorageType.String);
+		columnTypes.put("day", StorageType.String);
+		columnTypes.put("time", StorageType.String);
+		columnTypes.put("size", StorageType.Integer);
+		DataFrame df = DataFrame.readCSV("Datasets/tips.csv", true, false, columnTypes);
+		StripChart sc = new StripChart(df, "day", "total_bill");
+		sc.colorCode("smoker");
+		sc.setOrder(new String[] { "Thur", "Fri", "Sat", "Sun" });
+		BaseAxis axis = sc.getAxis();
+		axis.setXAxisFont(new Font("Dialog", Font.PLAIN, 80));
+		StripPlot plot = sc.getPlot();
+		plot.setDodge(false);
+		XYChartMeasurements cm = sc.getXYChartMeasurements();
+		cm.setPlotWidth(900);
+		cm.setPlotHeight(250);
+		sc.setStyle(Styles.ChartJS);
 
 		sc.create();
 		sc.writeImage("Chart Images/Strip Chart.png");
@@ -547,14 +542,11 @@ public class Main {
 		columnTypes.put("size", StorageType.Integer);
 		columnTypes.put("category", StorageType.String);
 		DataFrame df = DataFrame.readCSV("Datasets/tips_mod.csv", true, false, columnTypes);
-
 		BarChart bc = new BarChart(df, "day", "total_bill");
 
 		bc.setTitle("Size of tip by day & gender");
 		
-		
 		bc.colorCode("sex");
-		
 		
 		bc.setStyle(Styles.Nighttime);
 		bc.setTitleFont(new Font("Dialog", Font.PLAIN, 30));
@@ -585,16 +577,12 @@ public class Main {
 		columnTypes.put("gender", StorageType.String);
 		columnTypes.put("wealth", StorageType.Double);
 		DataFrame df = DataFrame.readCSV("Datasets/bubble.csv", true, false, columnTypes);
-
 		ScatterChart sc = new ScatterChart(df, "age", "height");
-
 		NumericAxis axis = sc.getAxis();
 		ScatterPlot plot = sc.getPlot();
 		Legend legend = sc.getLegend();
-
 		sc.colorCode("gender");
 		sc.setBubbleSize("wealth");
-
 		sc.setStyle(Styles.ChartJS);
 
 		sc.create();
