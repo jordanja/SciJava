@@ -189,5 +189,7 @@ public abstract class Plot {
 		return colorPalette;
 	}
 	
-	
+	public void setColorPalette(Color[] palette) {
+		this.colorPalette = palette;
+	}
 }

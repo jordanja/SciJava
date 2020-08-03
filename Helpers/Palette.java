@@ -31,7 +31,6 @@ public class Palette {
 		new Color(45, 142, 229),
 		new Color(254, 196, 69),
 		new Color(64, 181, 178),
-		new Color(45, 142, 229),
 		new Color(134, 71, 254),
 		new Color(189, 191, 196)
 	};

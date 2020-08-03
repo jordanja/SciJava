@@ -149,5 +149,29 @@ public class WordCloudPlot extends Plot {
         }
 	}
 
+    public String getFontFamilty() {
+        return fontFamilty;
+    }
+
+    public void setFontFamilty(String fontFamilty) {
+        this.fontFamilty = fontFamilty;
+    }
+
+    public int getSmallestFontSize() {
+        return smallestFontSize;
+    }
+
+    public void setSmallestFontSize(int smallestFontSize) {
+        this.smallestFontSize = smallestFontSize;
+    }
+
+    public int getLargestFontSize() {
+        return largestFontSize;
+    }
+
+    public void setLargestFontSize(int largestFontSize) {
+        this.largestFontSize = largestFontSize;
+    }
+
     
 }

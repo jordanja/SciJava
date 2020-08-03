@@ -115,6 +115,9 @@ public class RadarChart extends Chart{
 		this.plot = plot;
 	}
 
+	public RadarChartAxis getAxis() {
+		return this.axis;
+	}
 
 	public Legend getLegend() {
 		return legend;

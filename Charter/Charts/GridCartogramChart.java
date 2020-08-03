@@ -150,5 +150,37 @@ public class GridCartogramChart extends Chart {
 		this.setTitleColor(styleToSet.getTitleColor());
 		this.setImageBackgroundColor(styleToSet.getChartBackgroundColor());
 	}
+
+	public NoAxisChartMeasurements getCm() {
+		return cm;
+	}
+
+	public void setCm(NoAxisChartMeasurements cm) {
+		this.cm = cm;
+	}
+
+	public GridCartogramPlot getPlot() {
+		return plot;
+	}
+
+	public void setPlot(GridCartogramPlot plot) {
+		this.plot = plot;
+	}
+
+	public CategoricalLegend getLegend() {
+		return legend;
+	}
+
+	public void setLegend(CategoricalLegend legend) {
+		this.legend = legend;
+	}
+
+	public String getLegendLabel() {
+		return legendLabel;
+	}
+
+	public void setLegendLabel(String legendLabel) {
+		this.legendLabel = legendLabel;
+	}
 	
 }

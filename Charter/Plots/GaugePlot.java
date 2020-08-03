@@ -20,7 +20,7 @@ public class GaugePlot extends Plot {
 	private Color needleColor = Color.BLUE;
 	
 	private Color valueColor = Color.BLACK;
-	private Font valueFont = new Font("Dialog", Font.PLAIN, 24);
+	private Font valueFont = new Font("Dialog", Font.PLAIN, 50);
 	private boolean writeValue = true;
 
 	public void drawPlot(Graphics2D g, double value, GaugeAxis axis, OnlyPlotChartMeasurements cm) {

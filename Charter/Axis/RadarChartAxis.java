@@ -179,5 +179,37 @@ public class RadarChartAxis {
 		this.axisTextColor = styleToSet.getXAxisColor();
 		this.axisTextBackgroundColor = styleToSet.getPlotBackgroundColor();
 	}
+
+	public Color getAxisSpikeColor() {
+		return axisSpikeColor;
+	}
+
+	public void setAxisSpikeColor(Color axisSpikeColor) {
+		this.axisSpikeColor = axisSpikeColor;
+	}
+
+	public Color getAxisOutlineColor() {
+		return axisOutlineColor;
+	}
+
+	public void setAxisOutlineColor(Color axisOutlineColor) {
+		this.axisOutlineColor = axisOutlineColor;
+	}
+
+	public Color getAxisTextColor() {
+		return axisTextColor;
+	}
+
+	public void setAxisTextColor(Color axisTextColor) {
+		this.axisTextColor = axisTextColor;
+	}
+
+	public Color getAxisTextBackgroundColor() {
+		return axisTextBackgroundColor;
+	}
+
+	public void setAxisTextBackgroundColor(Color axisTextBackgroundColor) {
+		this.axisTextBackgroundColor = axisTextBackgroundColor;
+	}
 	
 }

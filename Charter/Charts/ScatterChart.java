@@ -38,8 +38,7 @@ public class ScatterChart extends XYChart {
 
 	public ScatterChart(DataFrame dataFrame, String xAxis, String yAxis) {
 		super(dataFrame, dataFrame.getColumnAsDataItemArray(xAxis), dataFrame.getColumnAsDataItemArray(yAxis));
-		System.out.println(dataFrame.getValue(0, 0).getType());
-		System.out.println(dataFrame.head());
+		
 		this.axis = new NumericAxis();
 		this.plot = new ScatterPlot();
 		this.legend = new CategoricalLegend();

@@ -135,5 +135,29 @@ public class HistogramChart extends XYChart {
 	 * 
 	 * }
 	 */
+
+	public NumericAxis getAxis() {
+		return axis;
+	}
+
+	public void setAxis(NumericAxis axis) {
+		this.axis = axis;
+	}
+
+	public HistogramPlot getPlot() {
+		return plot;
+	}
+
+	public void setPlot(HistogramPlot plot) {
+		this.plot = plot;
+	}
+
+	public int getNumBins() {
+		return numBins;
+	}
+
+	public void setNumBins(int numBins) {
+		this.numBins = numBins;
+	}
 	
 }

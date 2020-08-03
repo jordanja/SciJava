@@ -130,4 +130,24 @@ public class StackedAreaChart extends XYChart {
 	public NumericAxis getAxis() {
 		return this.axis;
 	}
+
+	public void setAxis(NumericAxis axis) {
+		this.axis = axis;
+	}
+
+	public StackedAreaPlot getPlot() {
+		return plot;
+	}
+
+	public void setPlot(StackedAreaPlot plot) {
+		this.plot = plot;
+	}
+
+	public CategoricalLegend getLegend() {
+		return legend;
+	}
+
+	public void setLegend(CategoricalLegend legend) {
+		this.legend = legend;
+	}
 }

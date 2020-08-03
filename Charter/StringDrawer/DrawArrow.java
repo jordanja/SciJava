@@ -30,7 +30,6 @@ public class DrawArrow {
 		int point2X = x2 + (int) (arrowPointLength * Math.cos(pointAngle2));
 		int point2Y = y2 + (int) (arrowPointLength * Math.sin(pointAngle2));
 
-		
 		g.setColor(DrawArrow.color);
 		g.setStroke(new BasicStroke(DrawArrow.lineWeight));
 		g.drawLine(x1, y1, x2, y2);

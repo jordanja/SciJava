@@ -20,7 +20,7 @@ public class BoxPlot extends Plot {
 
 
 	private Color outlineColor = Color.black;
-	private int barOutlineWidth = 3;
+	private int barOutlineWidth = 1;
 
 	private Color barColor = colorPalette[0];
 
@@ -218,6 +218,7 @@ public class BoxPlot extends Plot {
 
 	private void drawHorizontalBox(Graphics2D g, int xBoxStart, int yBoxStart, int boxWidth, int boxHeight,
 			int yCenterOfBox, int xMin, int xMax, int xMedian, Color fillColor, Color outlineColor) {
+		g.setStroke(new BasicStroke(this.barOutlineWidth));
 		g.setColor(fillColor);
 		g.fillRect(xBoxStart, yBoxStart, boxWidth, boxHeight);
 		
@@ -241,6 +242,7 @@ public class BoxPlot extends Plot {
 
 	private void drawVerticleBox(Graphics2D g, int xBoxStart, int yBoxStart, int boxWidth, int boxHeight,
 			int xCenterOfBox, int yMin, int yMax, int yMedian, Color fillColor, Color outlineColor) {
+		g.setStroke(new BasicStroke(this.barOutlineWidth));
 		g.setColor(fillColor);
 		g.fillRect(xBoxStart, yBoxStart, boxWidth, boxHeight);
 
